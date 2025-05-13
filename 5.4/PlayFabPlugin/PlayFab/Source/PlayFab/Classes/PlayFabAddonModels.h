@@ -318,6 +318,38 @@ public:
 };
 
 USTRUCT(BlueprintType)
+struct PLAYFAB_API FAddonCreateOrUpdateToxModRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Account ID obtained after creating your ToxMod developer account. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Addon | Addon Models")
+        FString AccountId;
+    /** Account Key obtained after creating your ToxMod developer account. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Addon | Addon Models")
+        FString AccountKey;
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Addon | Addon Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /** Whether ToxMod Addon is Enabled by Title. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Addon | Addon Models")
+        bool Enabled = false;
+    /** The optional entity to perform this action on. Defaults to the currently logged in entity. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Addon | Addon Models")
+        UPlayFabJsonObject* Entity = nullptr;
+    /** If an error should be returned if the addon already exists. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Addon | Addon Models")
+        bool ErrorIfExists = false;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FAddonCreateOrUpdateToxModResponse : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+};
+
+USTRUCT(BlueprintType)
 struct PLAYFAB_API FAddonCreateOrUpdateTwitchRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
@@ -501,6 +533,26 @@ public:
 
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FAddonDeleteSteamResponse : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FAddonDeleteToxModRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Addon | Addon Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /** The optional entity to perform this action on. Defaults to the currently logged in entity. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Addon | Addon Models")
+        UPlayFabJsonObject* Entity = nullptr;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FAddonDeleteToxModResponse : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -769,6 +821,38 @@ public:
     /** Use Steam Payments sandbox endpoint for test transactions. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Addon | Addon Models")
         bool UseSandbox = false;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FAddonGetToxModRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Addon | Addon Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /** The optional entity to perform this action on. Defaults to the currently logged in entity. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Addon | Addon Models")
+        UPlayFabJsonObject* Entity = nullptr;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FAddonGetToxModResponse : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Account ID obtained after creating your Twitch developer account. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Addon | Addon Models")
+        FString AccountId;
+    /** Account Key obtained after creating your Twitch developer account. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Addon | Addon Models")
+        FString AccountKey;
+    /** Addon status. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Addon | Addon Models")
+        bool Created = false;
+    /** Whether the ToxMod Addon is enabled by the title. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Addon | Addon Models")
+        bool Enabled = false;
 };
 
 USTRUCT(BlueprintType)

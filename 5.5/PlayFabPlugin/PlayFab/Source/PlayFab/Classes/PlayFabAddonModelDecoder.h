@@ -68,6 +68,10 @@ public:
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Addon | Addon Models")
         static FAddonCreateOrUpdateSteamResponse decodeCreateOrUpdateSteamResponseResponse(UPlayFabJsonObject* response);
 
+    /** Decode the CreateOrUpdateToxModResponse response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Addon | Addon Models")
+        static FAddonCreateOrUpdateToxModResponse decodeCreateOrUpdateToxModResponseResponse(UPlayFabJsonObject* response);
+
     /** Decode the CreateOrUpdateTwitchResponse response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Addon | Addon Models")
         static FAddonCreateOrUpdateTwitchResponse decodeCreateOrUpdateTwitchResponseResponse(UPlayFabJsonObject* response);
@@ -104,6 +108,10 @@ public:
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Addon | Addon Models")
         static FAddonDeleteSteamResponse decodeDeleteSteamResponseResponse(UPlayFabJsonObject* response);
 
+    /** Decode the DeleteToxModResponse response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Addon | Addon Models")
+        static FAddonDeleteToxModResponse decodeDeleteToxModResponseResponse(UPlayFabJsonObject* response);
+
     /** Decode the DeleteTwitchResponse response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Addon | Addon Models")
         static FAddonDeleteTwitchResponse decodeDeleteTwitchResponseResponse(UPlayFabJsonObject* response);
@@ -139,6 +147,10 @@ public:
     /** Decode the GetSteamResponse response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Addon | Addon Models")
         static FAddonGetSteamResponse decodeGetSteamResponseResponse(UPlayFabJsonObject* response);
+
+    /** Decode the GetToxModResponse response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Addon | Addon Models")
+        static FAddonGetToxModResponse decodeGetToxModResponseResponse(UPlayFabJsonObject* response);
 
     /** Decode the GetTwitchResponse response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Addon | Addon Models")

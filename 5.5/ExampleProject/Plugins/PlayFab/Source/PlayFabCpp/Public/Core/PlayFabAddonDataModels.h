@@ -592,6 +592,67 @@ namespace AddonModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FCreateOrUpdateToxModRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // Account ID obtained after creating your ToxMod developer account.
+        FString AccountId;
+
+        // Account Key obtained after creating your ToxMod developer account.
+        FString AccountKey;
+
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // Whether ToxMod Addon is Enabled by Title.
+        bool Enabled;
+
+        // [optional] The optional entity to perform this action on. Defaults to the currently logged in entity.
+        TSharedPtr<FEntityKey> Entity;
+
+        // [optional] If an error should be returned if the addon already exists.
+        Boxed<bool> ErrorIfExists;
+
+        FCreateOrUpdateToxModRequest() :
+            FPlayFabCppRequestCommon(),
+            AccountId(),
+            AccountKey(),
+            CustomTags(),
+            Enabled(false),
+            Entity(nullptr),
+            ErrorIfExists()
+            {}
+
+        FCreateOrUpdateToxModRequest(const FCreateOrUpdateToxModRequest& src) = default;
+
+        FCreateOrUpdateToxModRequest(const TSharedPtr<FJsonObject>& obj) : FCreateOrUpdateToxModRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FCreateOrUpdateToxModRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FCreateOrUpdateToxModResponse : public PlayFab::FPlayFabCppResultCommon
+    {
+        FCreateOrUpdateToxModResponse() :
+            FPlayFabCppResultCommon()
+            {}
+
+        FCreateOrUpdateToxModResponse(const FCreateOrUpdateToxModResponse& src) = default;
+
+        FCreateOrUpdateToxModResponse(const TSharedPtr<FJsonObject>& obj) : FCreateOrUpdateToxModResponse()
+        {
+            readFromValue(obj);
+        }
+
+        ~FCreateOrUpdateToxModResponse();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FCreateOrUpdateTwitchRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] Client ID obtained after creating your Twitch developer account.
@@ -1004,6 +1065,51 @@ namespace AddonModels
         }
 
         ~FDeleteSteamResponse();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FDeleteToxModRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // [optional] The optional entity to perform this action on. Defaults to the currently logged in entity.
+        TSharedPtr<FEntityKey> Entity;
+
+        FDeleteToxModRequest() :
+            FPlayFabCppRequestCommon(),
+            CustomTags(),
+            Entity(nullptr)
+            {}
+
+        FDeleteToxModRequest(const FDeleteToxModRequest& src) = default;
+
+        FDeleteToxModRequest(const TSharedPtr<FJsonObject>& obj) : FDeleteToxModRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FDeleteToxModRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FDeleteToxModResponse : public PlayFab::FPlayFabCppResultCommon
+    {
+        FDeleteToxModResponse() :
+            FPlayFabCppResultCommon()
+            {}
+
+        FDeleteToxModResponse(const FDeleteToxModResponse& src) = default;
+
+        FDeleteToxModResponse(const TSharedPtr<FJsonObject>& obj) : FDeleteToxModResponse()
+        {
+            readFromValue(obj);
+        }
+
+        ~FDeleteToxModResponse();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -1517,6 +1623,67 @@ namespace AddonModels
         }
 
         ~FGetSteamResponse();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FGetToxModRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // [optional] The optional entity to perform this action on. Defaults to the currently logged in entity.
+        TSharedPtr<FEntityKey> Entity;
+
+        FGetToxModRequest() :
+            FPlayFabCppRequestCommon(),
+            CustomTags(),
+            Entity(nullptr)
+            {}
+
+        FGetToxModRequest(const FGetToxModRequest& src) = default;
+
+        FGetToxModRequest(const TSharedPtr<FJsonObject>& obj) : FGetToxModRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetToxModRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FGetToxModResponse : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] Account ID obtained after creating your Twitch developer account.
+        FString AccountId;
+
+        // [optional] Account Key obtained after creating your Twitch developer account.
+        FString AccountKey;
+
+        // Addon status.
+        bool Created;
+
+        // Whether the ToxMod Addon is enabled by the title.
+        bool Enabled;
+
+        FGetToxModResponse() :
+            FPlayFabCppResultCommon(),
+            AccountId(),
+            AccountKey(),
+            Created(false),
+            Enabled(false)
+            {}
+
+        FGetToxModResponse(const FGetToxModResponse& src) = default;
+
+        FGetToxModResponse(const TSharedPtr<FJsonObject>& obj) : FGetToxModResponse()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetToxModResponse();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;

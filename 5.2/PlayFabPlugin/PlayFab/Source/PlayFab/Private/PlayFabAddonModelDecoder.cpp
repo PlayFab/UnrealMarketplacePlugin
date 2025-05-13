@@ -93,6 +93,15 @@ FAddonCreateOrUpdateSteamResponse UPlayFabAddonModelDecoder::decodeCreateOrUpdat
     return tempStruct;
 }
 
+FAddonCreateOrUpdateToxModResponse UPlayFabAddonModelDecoder::decodeCreateOrUpdateToxModResponseResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FAddonCreateOrUpdateToxModResponse tempStruct;
+
+
+    return tempStruct;
+}
+
 FAddonCreateOrUpdateTwitchResponse UPlayFabAddonModelDecoder::decodeCreateOrUpdateTwitchResponseResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct
@@ -169,6 +178,15 @@ FAddonDeleteSteamResponse UPlayFabAddonModelDecoder::decodeDeleteSteamResponseRe
 {
     // Temp ustruct
     FAddonDeleteSteamResponse tempStruct;
+
+
+    return tempStruct;
+}
+
+FAddonDeleteToxModResponse UPlayFabAddonModelDecoder::decodeDeleteToxModResponseResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FAddonDeleteToxModResponse tempStruct;
 
 
     return tempStruct;
@@ -283,6 +301,20 @@ FAddonGetSteamResponse UPlayFabAddonModelDecoder::decodeGetSteamResponseResponse
     tempStruct.Created = !(dataObj->HasField("Created")) ? false : dataObj->GetBoolField("Created");
     tempStruct.EnforceServiceSpecificTickets = !(dataObj->HasField("EnforceServiceSpecificTickets")) ? false : dataObj->GetBoolField("EnforceServiceSpecificTickets");
     tempStruct.UseSandbox = !(dataObj->HasField("UseSandbox")) ? false : dataObj->GetBoolField("UseSandbox");
+
+    return tempStruct;
+}
+
+FAddonGetToxModResponse UPlayFabAddonModelDecoder::decodeGetToxModResponseResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FAddonGetToxModResponse tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.AccountId = !(dataObj->HasField("AccountId")) ? TEXT("") : dataObj->GetStringField("AccountId");
+    tempStruct.AccountKey = !(dataObj->HasField("AccountKey")) ? TEXT("") : dataObj->GetStringField("AccountKey");
+    tempStruct.Created = !(dataObj->HasField("Created")) ? false : dataObj->GetBoolField("Created");
+    tempStruct.Enabled = !(dataObj->HasField("Enabled")) ? false : dataObj->GetBoolField("Enabled");
 
     return tempStruct;
 }

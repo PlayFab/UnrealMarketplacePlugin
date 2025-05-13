@@ -216,6 +216,12 @@ namespace ProgressionModels
 
     struct PLAYFABCPP_API FCreateStatisticDefinitionRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        /**
+         * [optional] [In Preview]: The list of statistic definition names whose scores must be aggregated towards this stat. If
+         * AggregationSource is specified, the entityType of this definition MUST be Title (making it a CommunityStat). Currently,
+         * only one aggregation source can be specified.
+         */
+        TArray<FString> AggregationSources;
         // [optional] The columns for the statistic defining the aggregation method for each column.
         TArray<FStatisticColumn> Columns;
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
@@ -231,6 +237,7 @@ namespace ProgressionModels
 
         FCreateStatisticDefinitionRequest() :
             FPlayFabCppRequestCommon(),
+            AggregationSources(),
             Columns(),
             CustomTags(),
             EntityType(),
@@ -873,6 +880,14 @@ namespace ProgressionModels
 
     struct PLAYFABCPP_API FGetStatisticDefinitionResponse : public PlayFab::FPlayFabCppResultCommon
     {
+        // [optional] The list of statistic definitions names this definition aggregates to.
+        TArray<FString> AggregationDestinations;
+        /**
+         * [optional] The list of statistic definitions names whose values must be aggregated towards this stat. If AggregationSource is
+         * specified, the entityType of this definition MUST be Title (making it a CommunityStat). Currently, only one aggregation
+         * source can be specified.
+         */
+        TArray<FString> AggregationSources;
         // [optional] The columns for the statistic defining the aggregation method for each column.
         TArray<FStatisticColumn> Columns;
         // Created time, in UTC
@@ -897,6 +912,8 @@ namespace ProgressionModels
 
         FGetStatisticDefinitionResponse() :
             FPlayFabCppResultCommon(),
+            AggregationDestinations(),
+            AggregationSources(),
             Columns(),
             Created(0),
             EntityType(),
@@ -1302,6 +1319,14 @@ namespace ProgressionModels
 
     struct PLAYFABCPP_API FStatisticDefinition : public PlayFab::FPlayFabCppBaseModel
     {
+        // [optional] The list of statistic definitions names this definition aggregates to.
+        TArray<FString> AggregationDestinations;
+        /**
+         * [optional] The list of statistic definitions names whose values must be aggregated towards this stat. If AggregationSource is
+         * specified, the entityType of this definition MUST be Title (making it a CommunityStat). Currently, only one aggregation
+         * source can be specified.
+         */
+        TArray<FString> AggregationSources;
         // [optional] The columns for the statistic defining the aggregation method for each column.
         TArray<FStatisticColumn> Columns;
         // Created time, in UTC
@@ -1326,6 +1351,8 @@ namespace ProgressionModels
 
         FStatisticDefinition() :
             FPlayFabCppBaseModel(),
+            AggregationDestinations(),
+            AggregationSources(),
             Columns(),
             Created(0),
             EntityType(),

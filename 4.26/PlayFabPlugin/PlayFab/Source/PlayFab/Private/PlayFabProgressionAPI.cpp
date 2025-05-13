@@ -852,6 +852,14 @@ UPlayFabProgressionAPI* UPlayFabProgressionAPI::CreateStatisticDefinition(FProgr
 
 
     // Serialize all the request properties to json
+    // Check to see if string is empty
+    if (request.AggregationSources.IsEmpty() || request.AggregationSources == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("AggregationSources"));
+    } else {
+        TArray<FString> AggregationSourcesArray;
+        FString(request.AggregationSources).ParseIntoArray(AggregationSourcesArray, TEXT(","), false);
+        OutRestJsonObj->SetStringArrayField(TEXT("AggregationSources"), AggregationSourcesArray);
+    }
     if (request.Columns.Num() == 0) {
         OutRestJsonObj->SetFieldNull(TEXT("Columns"));
     } else {

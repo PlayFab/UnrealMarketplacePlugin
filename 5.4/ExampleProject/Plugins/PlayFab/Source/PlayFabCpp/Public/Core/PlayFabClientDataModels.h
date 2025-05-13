@@ -3451,6 +3451,33 @@ namespace ClientModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FUserBattleNetInfo : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Battle.net identifier
+        FString BattleNetAccountId;
+
+        // [optional] Battle.net display name
+        FString BattleNetBattleTag;
+
+        FUserBattleNetInfo() :
+            FPlayFabCppBaseModel(),
+            BattleNetAccountId(),
+            BattleNetBattleTag()
+            {}
+
+        FUserBattleNetInfo(const FUserBattleNetInfo& src) = default;
+
+        FUserBattleNetInfo(const TSharedPtr<FJsonObject>& obj) : FUserBattleNetInfo()
+        {
+            readFromValue(obj);
+        }
+
+        ~FUserBattleNetInfo();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FUserCustomIdInfo : public PlayFab::FPlayFabCppBaseModel
     {
         // [optional] Custom ID
@@ -3867,6 +3894,9 @@ namespace ClientModels
         // [optional] Sign in with Apple account information, if an Apple account has been linked
         TSharedPtr<FUserAppleIdInfo> AppleAccountInfo;
 
+        // [optional] Battle.net account information, if a Battle.net account has been linked
+        TSharedPtr<FUserBattleNetInfo> BattleNetAccountInfo;
+
         // Timestamp indicating when the user account was created
         FDateTime Created;
 
@@ -3933,6 +3963,7 @@ namespace ClientModels
             FPlayFabCppBaseModel(),
             AndroidDeviceInfo(nullptr),
             AppleAccountInfo(nullptr),
+            BattleNetAccountInfo(nullptr),
             Created(0),
             CustomIdInfo(nullptr),
             FacebookInfo(nullptr),

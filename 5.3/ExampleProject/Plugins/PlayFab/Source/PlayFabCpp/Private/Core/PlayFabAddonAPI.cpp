@@ -267,6 +267,36 @@ void UPlayFabAddonAPI::OnCreateOrUpdateSteamResult(FHttpRequestPtr HttpRequest, 
     }
 }
 
+bool UPlayFabAddonAPI::CreateOrUpdateToxMod(
+    AddonModels::FCreateOrUpdateToxModRequest& request,
+    const FCreateOrUpdateToxModDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    FString entityToken = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetEntityToken() : PlayFabSettings::GetEntityToken();
+    if (entityToken.Len() == 0) {
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
+    }
+
+
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Addon/CreateOrUpdateToxMod"), request.toJSONString(), TEXT("X-EntityToken"), entityToken);
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAddonAPI::OnCreateOrUpdateToxModResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabAddonAPI::OnCreateOrUpdateToxModResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateOrUpdateToxModDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    AddonModels::FCreateOrUpdateToxModResponse outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
 bool UPlayFabAddonAPI::CreateOrUpdateTwitch(
     AddonModels::FCreateOrUpdateTwitchRequest& request,
     const FCreateOrUpdateTwitchDelegate& SuccessDelegate,
@@ -537,6 +567,36 @@ void UPlayFabAddonAPI::OnDeleteSteamResult(FHttpRequestPtr HttpRequest, FHttpRes
     }
 }
 
+bool UPlayFabAddonAPI::DeleteToxMod(
+    AddonModels::FDeleteToxModRequest& request,
+    const FDeleteToxModDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    FString entityToken = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetEntityToken() : PlayFabSettings::GetEntityToken();
+    if (entityToken.Len() == 0) {
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
+    }
+
+
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Addon/DeleteToxMod"), request.toJSONString(), TEXT("X-EntityToken"), entityToken);
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAddonAPI::OnDeleteToxModResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabAddonAPI::OnDeleteToxModResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteToxModDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    AddonModels::FDeleteToxModResponse outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
 bool UPlayFabAddonAPI::DeleteTwitch(
     AddonModels::FDeleteTwitchRequest& request,
     const FDeleteTwitchDelegate& SuccessDelegate,
@@ -796,6 +856,36 @@ bool UPlayFabAddonAPI::GetSteam(
 void UPlayFabAddonAPI::OnGetSteamResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetSteamDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
 {
     AddonModels::FGetSteamResponse outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
+bool UPlayFabAddonAPI::GetToxMod(
+    AddonModels::FGetToxModRequest& request,
+    const FGetToxModDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    FString entityToken = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetEntityToken() : PlayFabSettings::GetEntityToken();
+    if (entityToken.Len() == 0) {
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
+    }
+
+
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Addon/GetToxMod"), request.toJSONString(), TEXT("X-EntityToken"), entityToken);
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAddonAPI::OnGetToxModResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabAddonAPI::OnGetToxModResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetToxModDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    AddonModels::FGetToxModResponse outResult;
     FPlayFabCppError errorResult;
     if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
     {

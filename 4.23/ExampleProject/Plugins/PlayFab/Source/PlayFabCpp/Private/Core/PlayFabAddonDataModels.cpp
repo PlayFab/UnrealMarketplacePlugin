@@ -1168,6 +1168,134 @@ bool PlayFab::AddonModels::FCreateOrUpdateSteamResponse::readFromValue(const TSh
     return HasSucceeded;
 }
 
+PlayFab::AddonModels::FCreateOrUpdateToxModRequest::~FCreateOrUpdateToxModRequest()
+{
+    //if (Entity != nullptr) delete Entity;
+
+}
+
+void PlayFab::AddonModels::FCreateOrUpdateToxModRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (!AccountId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: CreateOrUpdateToxModRequest::AccountId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("AccountId"));
+        writer->WriteValue(AccountId);
+    }
+
+    if (!AccountKey.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: CreateOrUpdateToxModRequest::AccountKey, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("AccountKey"));
+        writer->WriteValue(AccountKey);
+    }
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    writer->WriteIdentifierPrefix(TEXT("Enabled"));
+    writer->WriteValue(Enabled);
+
+    if (Entity.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Entity"));
+        Entity->writeJSON(writer);
+    }
+
+    if (ErrorIfExists.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ErrorIfExists"));
+        writer->WriteValue(ErrorIfExists);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AddonModels::FCreateOrUpdateToxModRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> AccountIdValue = obj->TryGetField(TEXT("AccountId"));
+    if (AccountIdValue.IsValid() && !AccountIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (AccountIdValue->TryGetString(TmpValue)) { AccountId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> AccountKeyValue = obj->TryGetField(TEXT("AccountKey"));
+    if (AccountKeyValue.IsValid() && !AccountKeyValue->IsNull())
+    {
+        FString TmpValue;
+        if (AccountKeyValue->TryGetString(TmpValue)) { AccountKey = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    const TSharedPtr<FJsonValue> EnabledValue = obj->TryGetField(TEXT("Enabled"));
+    if (EnabledValue.IsValid() && !EnabledValue->IsNull())
+    {
+        bool TmpValue;
+        if (EnabledValue->TryGetBool(TmpValue)) { Enabled = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
+    if (EntityValue.IsValid() && !EntityValue->IsNull())
+    {
+        Entity = MakeShareable(new FEntityKey(EntityValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> ErrorIfExistsValue = obj->TryGetField(TEXT("ErrorIfExists"));
+    if (ErrorIfExistsValue.IsValid() && !ErrorIfExistsValue->IsNull())
+    {
+        bool TmpValue;
+        if (ErrorIfExistsValue->TryGetBool(TmpValue)) { ErrorIfExists = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::AddonModels::FCreateOrUpdateToxModResponse::~FCreateOrUpdateToxModResponse()
+{
+
+}
+
+void PlayFab::AddonModels::FCreateOrUpdateToxModResponse::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AddonModels::FCreateOrUpdateToxModResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    return HasSucceeded;
+}
+
 PlayFab::AddonModels::FCreateOrUpdateTwitchRequest::~FCreateOrUpdateTwitchRequest()
 {
     //if (Entity != nullptr) delete Entity;
@@ -1840,6 +1968,77 @@ void PlayFab::AddonModels::FDeleteSteamResponse::writeJSON(JsonWriter& writer) c
 }
 
 bool PlayFab::AddonModels::FDeleteSteamResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    return HasSucceeded;
+}
+
+PlayFab::AddonModels::FDeleteToxModRequest::~FDeleteToxModRequest()
+{
+    //if (Entity != nullptr) delete Entity;
+
+}
+
+void PlayFab::AddonModels::FDeleteToxModRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    if (Entity.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Entity"));
+        Entity->writeJSON(writer);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AddonModels::FDeleteToxModRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
+    if (EntityValue.IsValid() && !EntityValue->IsNull())
+    {
+        Entity = MakeShareable(new FEntityKey(EntityValue->AsObject()));
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::AddonModels::FDeleteToxModResponse::~FDeleteToxModResponse()
+{
+
+}
+
+void PlayFab::AddonModels::FDeleteToxModResponse::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AddonModels::FDeleteToxModResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
 
@@ -2772,6 +2971,123 @@ bool PlayFab::AddonModels::FGetSteamResponse::readFromValue(const TSharedPtr<FJs
     {
         bool TmpValue;
         if (UseSandboxValue->TryGetBool(TmpValue)) { UseSandbox = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::AddonModels::FGetToxModRequest::~FGetToxModRequest()
+{
+    //if (Entity != nullptr) delete Entity;
+
+}
+
+void PlayFab::AddonModels::FGetToxModRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    if (Entity.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Entity"));
+        Entity->writeJSON(writer);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AddonModels::FGetToxModRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
+    if (EntityValue.IsValid() && !EntityValue->IsNull())
+    {
+        Entity = MakeShareable(new FEntityKey(EntityValue->AsObject()));
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::AddonModels::FGetToxModResponse::~FGetToxModResponse()
+{
+
+}
+
+void PlayFab::AddonModels::FGetToxModResponse::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (AccountId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("AccountId"));
+        writer->WriteValue(AccountId);
+    }
+
+    if (AccountKey.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("AccountKey"));
+        writer->WriteValue(AccountKey);
+    }
+
+    writer->WriteIdentifierPrefix(TEXT("Created"));
+    writer->WriteValue(Created);
+
+    writer->WriteIdentifierPrefix(TEXT("Enabled"));
+    writer->WriteValue(Enabled);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AddonModels::FGetToxModResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> AccountIdValue = obj->TryGetField(TEXT("AccountId"));
+    if (AccountIdValue.IsValid() && !AccountIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (AccountIdValue->TryGetString(TmpValue)) { AccountId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> AccountKeyValue = obj->TryGetField(TEXT("AccountKey"));
+    if (AccountKeyValue.IsValid() && !AccountKeyValue->IsNull())
+    {
+        FString TmpValue;
+        if (AccountKeyValue->TryGetString(TmpValue)) { AccountKey = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> CreatedValue = obj->TryGetField(TEXT("Created"));
+    if (CreatedValue.IsValid() && !CreatedValue->IsNull())
+    {
+        bool TmpValue;
+        if (CreatedValue->TryGetBool(TmpValue)) { Created = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> EnabledValue = obj->TryGetField(TEXT("Enabled"));
+    if (EnabledValue.IsValid() && !EnabledValue->IsNull())
+    {
+        bool TmpValue;
+        if (EnabledValue->TryGetBool(TmpValue)) { Enabled = TmpValue; }
     }
 
     return HasSucceeded;

@@ -163,6 +163,19 @@ public:
         void HelperCreateOrUpdateSteam(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessCreateOrUpdateToxMod, FAddonCreateOrUpdateToxModResponse, result, UObject*, customData);
+
+    /** Creates the ToxMod addon on a title, or updates it if it already exists. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Addon | Addon ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabAddonAPI* CreateOrUpdateToxMod(FAddonCreateOrUpdateToxModRequest request,
+            FDelegateOnSuccessCreateOrUpdateToxMod onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabAddonRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Addon | Addon ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperCreateOrUpdateToxMod(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessCreateOrUpdateTwitch, FAddonCreateOrUpdateTwitchResponse, result, UObject*, customData);
 
     /** Creates the Twitch addon on a title, or updates it if it already exists. */
@@ -278,6 +291,19 @@ public:
     // Implements FOnPlayFabAddonRequestCompleted
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Addon | Addon ", meta = (BlueprintInternalUseOnly = "true"))
         void HelperDeleteSteam(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessDeleteToxMod, FAddonDeleteToxModResponse, result, UObject*, customData);
+
+    /** Deletes the ToxMod addon on a title. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Addon | Addon ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabAddonAPI* DeleteToxMod(FAddonDeleteToxModRequest request,
+            FDelegateOnSuccessDeleteToxMod onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabAddonRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Addon | Addon ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperDeleteToxMod(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessDeleteTwitch, FAddonDeleteTwitchResponse, result, UObject*, customData);
@@ -397,6 +423,19 @@ public:
         void HelperGetSteam(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetToxMod, FAddonGetToxModResponse, result, UObject*, customData);
+
+    /** Gets information of the ToxMod addon on a title, omits secrets. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Addon | Addon ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabAddonAPI* GetToxMod(FAddonGetToxModRequest request,
+            FDelegateOnSuccessGetToxMod onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabAddonRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Addon | Addon ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperGetToxMod(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetTwitch, FAddonGetTwitchResponse, result, UObject*, customData);
 
     /** Gets information of the Twitch addon on a title, omits secrets. */
@@ -435,6 +474,7 @@ public:
     FDelegateOnSuccessCreateOrUpdateNintendo OnSuccessCreateOrUpdateNintendo;
     FDelegateOnSuccessCreateOrUpdatePSN OnSuccessCreateOrUpdatePSN;
     FDelegateOnSuccessCreateOrUpdateSteam OnSuccessCreateOrUpdateSteam;
+    FDelegateOnSuccessCreateOrUpdateToxMod OnSuccessCreateOrUpdateToxMod;
     FDelegateOnSuccessCreateOrUpdateTwitch OnSuccessCreateOrUpdateTwitch;
     FDelegateOnSuccessDeleteApple OnSuccessDeleteApple;
     FDelegateOnSuccessDeleteFacebook OnSuccessDeleteFacebook;
@@ -444,6 +484,7 @@ public:
     FDelegateOnSuccessDeleteNintendo OnSuccessDeleteNintendo;
     FDelegateOnSuccessDeletePSN OnSuccessDeletePSN;
     FDelegateOnSuccessDeleteSteam OnSuccessDeleteSteam;
+    FDelegateOnSuccessDeleteToxMod OnSuccessDeleteToxMod;
     FDelegateOnSuccessDeleteTwitch OnSuccessDeleteTwitch;
     FDelegateOnSuccessGetApple OnSuccessGetApple;
     FDelegateOnSuccessGetFacebook OnSuccessGetFacebook;
@@ -453,6 +494,7 @@ public:
     FDelegateOnSuccessGetNintendo OnSuccessGetNintendo;
     FDelegateOnSuccessGetPSN OnSuccessGetPSN;
     FDelegateOnSuccessGetSteam OnSuccessGetSteam;
+    FDelegateOnSuccessGetToxMod OnSuccessGetToxMod;
     FDelegateOnSuccessGetTwitch OnSuccessGetTwitch;
 
 private:

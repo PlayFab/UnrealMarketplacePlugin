@@ -30,6 +30,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FCreateOrUpdateNintendoDelegate, const AddonModels::FCreateOrUpdateNintendoResponse&);
         DECLARE_DELEGATE_OneParam(FCreateOrUpdatePSNDelegate, const AddonModels::FCreateOrUpdatePSNResponse&);
         DECLARE_DELEGATE_OneParam(FCreateOrUpdateSteamDelegate, const AddonModels::FCreateOrUpdateSteamResponse&);
+        DECLARE_DELEGATE_OneParam(FCreateOrUpdateToxModDelegate, const AddonModels::FCreateOrUpdateToxModResponse&);
         DECLARE_DELEGATE_OneParam(FCreateOrUpdateTwitchDelegate, const AddonModels::FCreateOrUpdateTwitchResponse&);
         DECLARE_DELEGATE_OneParam(FDeleteAppleDelegate, const AddonModels::FDeleteAppleResponse&);
         DECLARE_DELEGATE_OneParam(FDeleteFacebookDelegate, const AddonModels::FDeleteFacebookResponse&);
@@ -39,6 +40,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FDeleteNintendoDelegate, const AddonModels::FDeleteNintendoResponse&);
         DECLARE_DELEGATE_OneParam(FDeletePSNDelegate, const AddonModels::FDeletePSNResponse&);
         DECLARE_DELEGATE_OneParam(FDeleteSteamDelegate, const AddonModels::FDeleteSteamResponse&);
+        DECLARE_DELEGATE_OneParam(FDeleteToxModDelegate, const AddonModels::FDeleteToxModResponse&);
         DECLARE_DELEGATE_OneParam(FDeleteTwitchDelegate, const AddonModels::FDeleteTwitchResponse&);
         DECLARE_DELEGATE_OneParam(FGetAppleDelegate, const AddonModels::FGetAppleResponse&);
         DECLARE_DELEGATE_OneParam(FGetFacebookDelegate, const AddonModels::FGetFacebookResponse&);
@@ -48,6 +50,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FGetNintendoDelegate, const AddonModels::FGetNintendoResponse&);
         DECLARE_DELEGATE_OneParam(FGetPSNDelegate, const AddonModels::FGetPSNResponse&);
         DECLARE_DELEGATE_OneParam(FGetSteamDelegate, const AddonModels::FGetSteamResponse&);
+        DECLARE_DELEGATE_OneParam(FGetToxModDelegate, const AddonModels::FGetToxModResponse&);
         DECLARE_DELEGATE_OneParam(FGetTwitchDelegate, const AddonModels::FGetTwitchResponse&);
 
 
@@ -96,6 +99,8 @@ namespace PlayFab
         bool CreateOrUpdatePSN(AddonModels::FCreateOrUpdatePSNRequest& request, const FCreateOrUpdatePSNDelegate& SuccessDelegate = FCreateOrUpdatePSNDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Creates the Steam addon on a title, or updates it if it already exists.
         bool CreateOrUpdateSteam(AddonModels::FCreateOrUpdateSteamRequest& request, const FCreateOrUpdateSteamDelegate& SuccessDelegate = FCreateOrUpdateSteamDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        // Creates the ToxMod addon on a title, or updates it if it already exists.
+        bool CreateOrUpdateToxMod(AddonModels::FCreateOrUpdateToxModRequest& request, const FCreateOrUpdateToxModDelegate& SuccessDelegate = FCreateOrUpdateToxModDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Creates the Twitch addon on a title, or updates it if it already exists.
         bool CreateOrUpdateTwitch(AddonModels::FCreateOrUpdateTwitchRequest& request, const FCreateOrUpdateTwitchDelegate& SuccessDelegate = FCreateOrUpdateTwitchDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Deletes the Apple addon on a title.
@@ -114,6 +119,8 @@ namespace PlayFab
         bool DeletePSN(AddonModels::FDeletePSNRequest& request, const FDeletePSNDelegate& SuccessDelegate = FDeletePSNDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Deletes the Steam addon on a title.
         bool DeleteSteam(AddonModels::FDeleteSteamRequest& request, const FDeleteSteamDelegate& SuccessDelegate = FDeleteSteamDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        // Deletes the ToxMod addon on a title.
+        bool DeleteToxMod(AddonModels::FDeleteToxModRequest& request, const FDeleteToxModDelegate& SuccessDelegate = FDeleteToxModDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Deletes the Twitch addon on a title.
         bool DeleteTwitch(AddonModels::FDeleteTwitchRequest& request, const FDeleteTwitchDelegate& SuccessDelegate = FDeleteTwitchDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Gets information of the Apple addon on a title, omits secrets.
@@ -132,6 +139,8 @@ namespace PlayFab
         bool GetPSN(AddonModels::FGetPSNRequest& request, const FGetPSNDelegate& SuccessDelegate = FGetPSNDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Gets information of the Steam addon on a title, omits secrets.
         bool GetSteam(AddonModels::FGetSteamRequest& request, const FGetSteamDelegate& SuccessDelegate = FGetSteamDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        // Gets information of the ToxMod addon on a title, omits secrets.
+        bool GetToxMod(AddonModels::FGetToxModRequest& request, const FGetToxModDelegate& SuccessDelegate = FGetToxModDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Gets information of the Twitch addon on a title, omits secrets.
         bool GetTwitch(AddonModels::FGetTwitchRequest& request, const FGetTwitchDelegate& SuccessDelegate = FGetTwitchDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
 
@@ -145,6 +154,7 @@ namespace PlayFab
         void OnCreateOrUpdateNintendoResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateOrUpdateNintendoDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnCreateOrUpdatePSNResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateOrUpdatePSNDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnCreateOrUpdateSteamResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateOrUpdateSteamDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnCreateOrUpdateToxModResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateOrUpdateToxModDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnCreateOrUpdateTwitchResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateOrUpdateTwitchDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnDeleteAppleResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteAppleDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnDeleteFacebookResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteFacebookDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
@@ -154,6 +164,7 @@ namespace PlayFab
         void OnDeleteNintendoResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteNintendoDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnDeletePSNResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeletePSNDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnDeleteSteamResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteSteamDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnDeleteToxModResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteToxModDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnDeleteTwitchResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteTwitchDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetAppleResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetAppleDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetFacebookResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetFacebookDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
@@ -163,6 +174,7 @@ namespace PlayFab
         void OnGetNintendoResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetNintendoDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetPSNResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPSNDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetSteamResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetSteamDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnGetToxModResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetToxModDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetTwitchResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetTwitchDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
 
     };

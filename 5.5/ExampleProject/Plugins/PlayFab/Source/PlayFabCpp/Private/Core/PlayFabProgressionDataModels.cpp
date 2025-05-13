@@ -427,6 +427,15 @@ void PlayFab::ProgressionModels::FCreateStatisticDefinitionRequest::writeJSON(Js
 {
     writer->WriteObjectStart();
 
+    if (AggregationSources.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("AggregationSources"));
+        for (const FString& item : AggregationSources)
+            writer->WriteValue(item);
+        writer->WriteArrayEnd();
+    }
+
+
     if (Columns.Num() != 0)
     {
         writer->WriteArrayStart(TEXT("Columns"));
@@ -475,6 +484,8 @@ void PlayFab::ProgressionModels::FCreateStatisticDefinitionRequest::writeJSON(Js
 bool PlayFab::ProgressionModels::FCreateStatisticDefinitionRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    obj->TryGetStringArrayField(TEXT("AggregationSources"), AggregationSources);
 
     const TArray<TSharedPtr<FJsonValue>>&ColumnsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Columns"));
     for (int32 Idx = 0; Idx < ColumnsArray.Num(); Idx++)
@@ -1828,6 +1839,24 @@ void PlayFab::ProgressionModels::FGetStatisticDefinitionResponse::writeJSON(Json
 {
     writer->WriteObjectStart();
 
+    if (AggregationDestinations.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("AggregationDestinations"));
+        for (const FString& item : AggregationDestinations)
+            writer->WriteValue(item);
+        writer->WriteArrayEnd();
+    }
+
+
+    if (AggregationSources.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("AggregationSources"));
+        for (const FString& item : AggregationSources)
+            writer->WriteValue(item);
+        writer->WriteArrayEnd();
+    }
+
+
     if (Columns.Num() != 0)
     {
         writer->WriteArrayStart(TEXT("Columns"));
@@ -1882,6 +1911,10 @@ void PlayFab::ProgressionModels::FGetStatisticDefinitionResponse::writeJSON(Json
 bool PlayFab::ProgressionModels::FGetStatisticDefinitionResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    obj->TryGetStringArrayField(TEXT("AggregationDestinations"), AggregationDestinations);
+
+    obj->TryGetStringArrayField(TEXT("AggregationSources"), AggregationSources);
 
     const TArray<TSharedPtr<FJsonValue>>&ColumnsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Columns"));
     for (int32 Idx = 0; Idx < ColumnsArray.Num(); Idx++)
@@ -2671,6 +2704,24 @@ void PlayFab::ProgressionModels::FStatisticDefinition::writeJSON(JsonWriter& wri
 {
     writer->WriteObjectStart();
 
+    if (AggregationDestinations.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("AggregationDestinations"));
+        for (const FString& item : AggregationDestinations)
+            writer->WriteValue(item);
+        writer->WriteArrayEnd();
+    }
+
+
+    if (AggregationSources.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("AggregationSources"));
+        for (const FString& item : AggregationSources)
+            writer->WriteValue(item);
+        writer->WriteArrayEnd();
+    }
+
+
     if (Columns.Num() != 0)
     {
         writer->WriteArrayStart(TEXT("Columns"));
@@ -2725,6 +2776,10 @@ void PlayFab::ProgressionModels::FStatisticDefinition::writeJSON(JsonWriter& wri
 bool PlayFab::ProgressionModels::FStatisticDefinition::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    obj->TryGetStringArrayField(TEXT("AggregationDestinations"), AggregationDestinations);
+
+    obj->TryGetStringArrayField(TEXT("AggregationSources"), AggregationSources);
 
     const TArray<TSharedPtr<FJsonValue>>&ColumnsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Columns"));
     for (int32 Idx = 0; Idx < ColumnsArray.Num(); Idx++)

@@ -46,17 +46,37 @@ public:
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Events | PlayStream Events Models")
         static FEventsCreateTelemetryKeyResponse decodeCreateTelemetryKeyResponseResponse(UPlayFabJsonObject* response);
 
+    /** Decode the DeleteDataConnectionResponse response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Events | PlayStream Events Models")
+        static FEventsDeleteDataConnectionResponse decodeDeleteDataConnectionResponseResponse(UPlayFabJsonObject* response);
+
     /** Decode the DeleteTelemetryKeyResponse response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Events | PlayStream Events Models")
         static FEventsDeleteTelemetryKeyResponse decodeDeleteTelemetryKeyResponseResponse(UPlayFabJsonObject* response);
+
+    /** Decode the GetDataConnectionResponse response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Events | PlayStream Events Models")
+        static FEventsGetDataConnectionResponse decodeGetDataConnectionResponseResponse(UPlayFabJsonObject* response);
 
     /** Decode the GetTelemetryKeyResponse response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Events | PlayStream Events Models")
         static FEventsGetTelemetryKeyResponse decodeGetTelemetryKeyResponseResponse(UPlayFabJsonObject* response);
 
+    /** Decode the ListDataConnectionsResponse response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Events | PlayStream Events Models")
+        static FEventsListDataConnectionsResponse decodeListDataConnectionsResponseResponse(UPlayFabJsonObject* response);
+
     /** Decode the ListTelemetryKeysResponse response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Events | PlayStream Events Models")
         static FEventsListTelemetryKeysResponse decodeListTelemetryKeysResponseResponse(UPlayFabJsonObject* response);
+
+    /** Decode the SetDataConnectionResponse response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Events | PlayStream Events Models")
+        static FEventsSetDataConnectionResponse decodeSetDataConnectionResponseResponse(UPlayFabJsonObject* response);
+
+    /** Decode the SetDataConnectionActiveResponse response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Events | PlayStream Events Models")
+        static FEventsSetDataConnectionActiveResponse decodeSetDataConnectionActiveResponseResponse(UPlayFabJsonObject* response);
 
     /** Decode the SetTelemetryKeyActiveResponse response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Events | PlayStream Events Models")

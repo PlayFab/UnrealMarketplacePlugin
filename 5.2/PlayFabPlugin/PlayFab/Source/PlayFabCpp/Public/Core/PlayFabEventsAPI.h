@@ -19,9 +19,14 @@ namespace PlayFab
     {
     public:
         DECLARE_DELEGATE_OneParam(FCreateTelemetryKeyDelegate, const EventsModels::FCreateTelemetryKeyResponse&);
+        DECLARE_DELEGATE_OneParam(FDeleteDataConnectionDelegate, const EventsModels::FDeleteDataConnectionResponse&);
         DECLARE_DELEGATE_OneParam(FDeleteTelemetryKeyDelegate, const EventsModels::FDeleteTelemetryKeyResponse&);
+        DECLARE_DELEGATE_OneParam(FGetDataConnectionDelegate, const EventsModels::FGetDataConnectionResponse&);
         DECLARE_DELEGATE_OneParam(FGetTelemetryKeyDelegate, const EventsModels::FGetTelemetryKeyResponse&);
+        DECLARE_DELEGATE_OneParam(FListDataConnectionsDelegate, const EventsModels::FListDataConnectionsResponse&);
         DECLARE_DELEGATE_OneParam(FListTelemetryKeysDelegate, const EventsModels::FListTelemetryKeysResponse&);
+        DECLARE_DELEGATE_OneParam(FSetDataConnectionDelegate, const EventsModels::FSetDataConnectionResponse&);
+        DECLARE_DELEGATE_OneParam(FSetDataConnectionActiveDelegate, const EventsModels::FSetDataConnectionActiveResponse&);
         DECLARE_DELEGATE_OneParam(FSetTelemetryKeyActiveDelegate, const EventsModels::FSetTelemetryKeyActiveResponse&);
         DECLARE_DELEGATE_OneParam(FWriteEventsDelegate, const EventsModels::FWriteEventsResponse&);
         DECLARE_DELEGATE_OneParam(FWriteTelemetryEventsDelegate, const EventsModels::FWriteEventsResponse&);
@@ -36,14 +41,29 @@ namespace PlayFab
         // Creates a new telemetry key for the title.
         bool CreateTelemetryKey(EventsModels::FCreateTelemetryKeyRequest& request, const FCreateTelemetryKeyDelegate& SuccessDelegate = FCreateTelemetryKeyDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
  
+        // Deletes a Data Connection from a title.
+        bool DeleteDataConnection(EventsModels::FDeleteDataConnectionRequest& request, const FDeleteDataConnectionDelegate& SuccessDelegate = FDeleteDataConnectionDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+ 
         // Deletes a telemetry key configured for the title.
         bool DeleteTelemetryKey(EventsModels::FDeleteTelemetryKeyRequest& request, const FDeleteTelemetryKeyDelegate& SuccessDelegate = FDeleteTelemetryKeyDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+ 
+        // Retrieves a single Data Connection associated with a title.
+        bool GetDataConnection(EventsModels::FGetDataConnectionRequest& request, const FGetDataConnectionDelegate& SuccessDelegate = FGetDataConnectionDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
  
         // Gets information about a telemetry key configured for the title.
         bool GetTelemetryKey(EventsModels::FGetTelemetryKeyRequest& request, const FGetTelemetryKeyDelegate& SuccessDelegate = FGetTelemetryKeyDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
  
+        // Retrieves the list of Data Connections associated with a title.
+        bool ListDataConnections(EventsModels::FListDataConnectionsRequest& request, const FListDataConnectionsDelegate& SuccessDelegate = FListDataConnectionsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+ 
         // Lists all telemetry keys configured for the title.
         bool ListTelemetryKeys(EventsModels::FListTelemetryKeysRequest& request, const FListTelemetryKeysDelegate& SuccessDelegate = FListTelemetryKeysDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+ 
+        // Creates or updates a Data Connection on a title.
+        bool SetDataConnection(EventsModels::FSetDataConnectionRequest& request, const FSetDataConnectionDelegate& SuccessDelegate = FSetDataConnectionDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+ 
+        // Sets a Data Connection for the title to either the active or deactivated state.
+        bool SetDataConnectionActive(EventsModels::FSetDataConnectionActiveRequest& request, const FSetDataConnectionActiveDelegate& SuccessDelegate = FSetDataConnectionActiveDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
  
         // Sets a telemetry key to the active or deactivated state.
         bool SetTelemetryKeyActive(EventsModels::FSetTelemetryKeyActiveRequest& request, const FSetTelemetryKeyActiveDelegate& SuccessDelegate = FSetTelemetryKeyActiveDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
@@ -67,9 +87,14 @@ namespace PlayFab
     private:
         // ------------ Generated result handlers
         void OnCreateTelemetryKeyResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateTelemetryKeyDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnDeleteDataConnectionResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteDataConnectionDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnDeleteTelemetryKeyResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteTelemetryKeyDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnGetDataConnectionResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetDataConnectionDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetTelemetryKeyResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetTelemetryKeyDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnListDataConnectionsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListDataConnectionsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnListTelemetryKeysResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListTelemetryKeysDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnSetDataConnectionResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSetDataConnectionDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnSetDataConnectionActiveResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSetDataConnectionActiveDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnSetTelemetryKeyActiveResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSetTelemetryKeyActiveDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnWriteEventsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FWriteEventsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnWriteTelemetryEventsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FWriteTelemetryEventsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);

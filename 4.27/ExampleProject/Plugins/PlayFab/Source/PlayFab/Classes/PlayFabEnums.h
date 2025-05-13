@@ -1444,6 +1444,25 @@ enum class EPublishResult : uint8
     pfenum_Canceled = 4 UMETA(DisplayName = "Canceled"),
 };
 
+/** DataConnectionErrorState */
+
+UENUM(BlueprintType)
+enum class EDataConnectionErrorState : uint8
+{
+    pfenum_OK = 0 UMETA(DisplayName = "OK"),
+    pfenum_Error = 1 UMETA(DisplayName = "Error"),
+};
+
+/** DataConnectionType */
+
+UENUM(BlueprintType)
+enum class EDataConnectionType : uint8
+{
+    pfenum_AzureBlobStorage = 0 UMETA(DisplayName = "AzureBlobStorage"),
+    pfenum_AzureDataExplorer = 1 UMETA(DisplayName = "AzureDataExplorer"),
+    pfenum_FabricKQL = 2 UMETA(DisplayName = "FabricKQL"),
+};
+
 /** AnalysisTaskState */
 
 UENUM(BlueprintType)

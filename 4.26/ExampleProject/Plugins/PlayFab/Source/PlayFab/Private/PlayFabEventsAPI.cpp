@@ -133,6 +133,59 @@ void UPlayFabEventsAPI::HelperCreateTelemetryKey(FPlayFabBaseModel response, UOb
     this->RemoveFromRoot();
 }
 
+/** Deletes a Data Connection from a title. */
+UPlayFabEventsAPI* UPlayFabEventsAPI::DeleteDataConnection(FEventsDeleteDataConnectionRequest request,
+    FDelegateOnSuccessDeleteDataConnection onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabEventsAPI* manager = NewObject<UPlayFabEventsAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessDeleteDataConnection = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabEventsAPI::HelperDeleteDataConnection);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Event/DeleteDataConnection";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.Name.IsEmpty() || request.Name == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("Name"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("Name"), request.Name);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabEventsRequestCompleted
+void UPlayFabEventsAPI::HelperDeleteDataConnection(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessDeleteDataConnection.IsBound())
+    {
+        FEventsDeleteDataConnectionResponse ResultStruct = UPlayFabEventsModelDecoder::decodeDeleteDataConnectionResponseResponse(response.responseData);
+        OnSuccessDeleteDataConnection.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 /** Deletes a telemetry key configured for the title. */
 UPlayFabEventsAPI* UPlayFabEventsAPI::DeleteTelemetryKey(FEventsDeleteTelemetryKeyRequest request,
     FDelegateOnSuccessDeleteTelemetryKey onSuccess,
@@ -183,6 +236,59 @@ void UPlayFabEventsAPI::HelperDeleteTelemetryKey(FPlayFabBaseModel response, UOb
     {
         FEventsDeleteTelemetryKeyResponse ResultStruct = UPlayFabEventsModelDecoder::decodeDeleteTelemetryKeyResponseResponse(response.responseData);
         OnSuccessDeleteTelemetryKey.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Retrieves a single Data Connection associated with a title. */
+UPlayFabEventsAPI* UPlayFabEventsAPI::GetDataConnection(FEventsGetDataConnectionRequest request,
+    FDelegateOnSuccessGetDataConnection onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabEventsAPI* manager = NewObject<UPlayFabEventsAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessGetDataConnection = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabEventsAPI::HelperGetDataConnection);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Event/GetDataConnection";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.Name.IsEmpty() || request.Name == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("Name"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("Name"), request.Name);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabEventsRequestCompleted
+void UPlayFabEventsAPI::HelperGetDataConnection(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessGetDataConnection.IsBound())
+    {
+        FEventsGetDataConnectionResponse ResultStruct = UPlayFabEventsModelDecoder::decodeGetDataConnectionResponseResponse(response.responseData);
+        OnSuccessGetDataConnection.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -241,6 +347,54 @@ void UPlayFabEventsAPI::HelperGetTelemetryKey(FPlayFabBaseModel response, UObjec
     this->RemoveFromRoot();
 }
 
+/** Retrieves the list of Data Connections associated with a title. */
+UPlayFabEventsAPI* UPlayFabEventsAPI::ListDataConnections(FEventsListDataConnectionsRequest request,
+    FDelegateOnSuccessListDataConnections onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabEventsAPI* manager = NewObject<UPlayFabEventsAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessListDataConnections = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabEventsAPI::HelperListDataConnections);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Event/ListDataConnections";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabEventsRequestCompleted
+void UPlayFabEventsAPI::HelperListDataConnections(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessListDataConnections.IsBound())
+    {
+        FEventsListDataConnectionsResponse ResultStruct = UPlayFabEventsModelDecoder::decodeListDataConnectionsResponseResponse(response.responseData);
+        OnSuccessListDataConnections.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 /** Lists all telemetry keys configured for the title. */
 UPlayFabEventsAPI* UPlayFabEventsAPI::ListTelemetryKeys(FEventsListTelemetryKeysRequest request,
     FDelegateOnSuccessListTelemetryKeys onSuccess,
@@ -286,6 +440,118 @@ void UPlayFabEventsAPI::HelperListTelemetryKeys(FPlayFabBaseModel response, UObj
     {
         FEventsListTelemetryKeysResponse ResultStruct = UPlayFabEventsModelDecoder::decodeListTelemetryKeysResponseResponse(response.responseData);
         OnSuccessListTelemetryKeys.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Creates or updates a Data Connection on a title. */
+UPlayFabEventsAPI* UPlayFabEventsAPI::SetDataConnection(FEventsSetDataConnectionRequest request,
+    FDelegateOnSuccessSetDataConnection onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabEventsAPI* manager = NewObject<UPlayFabEventsAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessSetDataConnection = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabEventsAPI::HelperSetDataConnection);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Event/SetDataConnection";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    if (request.ConnectionSettings != nullptr) OutRestJsonObj->SetObjectField(TEXT("ConnectionSettings"), request.ConnectionSettings);
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    OutRestJsonObj->SetBoolField(TEXT("IsActive"), request.IsActive);
+    if (request.Name.IsEmpty() || request.Name == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("Name"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("Name"), request.Name);
+    }
+    FString temp_Type;
+    if (GetEnumValueToString<EDataConnectionType>(TEXT("EDataConnectionType"), request.Type, temp_Type))
+        OutRestJsonObj->SetStringField(TEXT("Type"), temp_Type);
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabEventsRequestCompleted
+void UPlayFabEventsAPI::HelperSetDataConnection(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessSetDataConnection.IsBound())
+    {
+        FEventsSetDataConnectionResponse ResultStruct = UPlayFabEventsModelDecoder::decodeSetDataConnectionResponseResponse(response.responseData);
+        OnSuccessSetDataConnection.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Sets a Data Connection for the title to either the active or deactivated state. */
+UPlayFabEventsAPI* UPlayFabEventsAPI::SetDataConnectionActive(FEventsSetDataConnectionActiveRequest request,
+    FDelegateOnSuccessSetDataConnectionActive onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabEventsAPI* manager = NewObject<UPlayFabEventsAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessSetDataConnectionActive = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabEventsAPI::HelperSetDataConnectionActive);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Event/SetDataConnectionActive";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    OutRestJsonObj->SetBoolField(TEXT("Active"), request.Active);
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.Name.IsEmpty() || request.Name == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("Name"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("Name"), request.Name);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabEventsRequestCompleted
+void UPlayFabEventsAPI::HelperSetDataConnectionActive(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessSetDataConnectionActive.IsBound())
+    {
+        FEventsSetDataConnectionActiveResponse ResultStruct = UPlayFabEventsModelDecoder::decodeSetDataConnectionActiveResponseResponse(response.responseData);
+        OnSuccessSetDataConnectionActive.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }

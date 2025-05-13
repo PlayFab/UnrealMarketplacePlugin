@@ -38,6 +38,17 @@ FEventsCreateTelemetryKeyResponse UPlayFabEventsModelDecoder::decodeCreateTeleme
     return tempStruct;
 }
 
+FEventsDeleteDataConnectionResponse UPlayFabEventsModelDecoder::decodeDeleteDataConnectionResponseResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FEventsDeleteDataConnectionResponse tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.WasDeleted = !(dataObj->HasField("WasDeleted")) ? false : dataObj->GetBoolField("WasDeleted");
+
+    return tempStruct;
+}
+
 FEventsDeleteTelemetryKeyResponse UPlayFabEventsModelDecoder::decodeDeleteTelemetryKeyResponseResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct
@@ -45,6 +56,17 @@ FEventsDeleteTelemetryKeyResponse UPlayFabEventsModelDecoder::decodeDeleteTeleme
     UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
 
     tempStruct.WasKeyDeleted = !(dataObj->HasField("WasKeyDeleted")) ? false : dataObj->GetBoolField("WasKeyDeleted");
+
+    return tempStruct;
+}
+
+FEventsGetDataConnectionResponse UPlayFabEventsModelDecoder::decodeGetDataConnectionResponseResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FEventsGetDataConnectionResponse tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.DataConnection = !(dataObj->HasField("DataConnection")) ? nullptr : dataObj->GetObjectField("DataConnection");
 
     return tempStruct;
 }
@@ -60,6 +82,17 @@ FEventsGetTelemetryKeyResponse UPlayFabEventsModelDecoder::decodeGetTelemetryKey
     return tempStruct;
 }
 
+FEventsListDataConnectionsResponse UPlayFabEventsModelDecoder::decodeListDataConnectionsResponseResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FEventsListDataConnectionsResponse tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.DataConnections = !(dataObj->HasField("DataConnections")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("DataConnections");
+
+    return tempStruct;
+}
+
 FEventsListTelemetryKeysResponse UPlayFabEventsModelDecoder::decodeListTelemetryKeysResponseResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct
@@ -67,6 +100,29 @@ FEventsListTelemetryKeysResponse UPlayFabEventsModelDecoder::decodeListTelemetry
     UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
 
     tempStruct.KeyDetails = !(dataObj->HasField("KeyDetails")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("KeyDetails");
+
+    return tempStruct;
+}
+
+FEventsSetDataConnectionResponse UPlayFabEventsModelDecoder::decodeSetDataConnectionResponseResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FEventsSetDataConnectionResponse tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.DataConnection = !(dataObj->HasField("DataConnection")) ? nullptr : dataObj->GetObjectField("DataConnection");
+
+    return tempStruct;
+}
+
+FEventsSetDataConnectionActiveResponse UPlayFabEventsModelDecoder::decodeSetDataConnectionActiveResponseResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FEventsSetDataConnectionActiveResponse tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.DataConnection = !(dataObj->HasField("DataConnection")) ? nullptr : dataObj->GetObjectField("DataConnection");
+    tempStruct.WasUpdated = !(dataObj->HasField("WasUpdated")) ? false : dataObj->GetBoolField("WasUpdated");
 
     return tempStruct;
 }

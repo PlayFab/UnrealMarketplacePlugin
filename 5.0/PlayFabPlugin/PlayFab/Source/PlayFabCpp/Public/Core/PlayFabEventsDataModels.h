@@ -133,6 +133,274 @@ namespace EventsModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FDataConnectionAzureBlobSettings : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Name of the storage account.
+        FString AccountName;
+
+        // [optional] Name of the container.
+        FString ContainerName;
+
+        // [optional] Azure Entra Tenant Id.
+        FString TenantId;
+
+        FDataConnectionAzureBlobSettings() :
+            FPlayFabCppBaseModel(),
+            AccountName(),
+            ContainerName(),
+            TenantId()
+            {}
+
+        FDataConnectionAzureBlobSettings(const FDataConnectionAzureBlobSettings& src) = default;
+
+        FDataConnectionAzureBlobSettings(const TSharedPtr<FJsonObject>& obj) : FDataConnectionAzureBlobSettings()
+        {
+            readFromValue(obj);
+        }
+
+        ~FDataConnectionAzureBlobSettings();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FDataConnectionAzureDataExplorerSettings : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] The URI of the ADX cluster.
+        FString ClusterUri;
+
+        // [optional] The database to write to.
+        FString Database;
+
+        // [optional] The table to write to.
+        FString Table;
+
+        FDataConnectionAzureDataExplorerSettings() :
+            FPlayFabCppBaseModel(),
+            ClusterUri(),
+            Database(),
+            Table()
+            {}
+
+        FDataConnectionAzureDataExplorerSettings(const FDataConnectionAzureDataExplorerSettings& src) = default;
+
+        FDataConnectionAzureDataExplorerSettings(const TSharedPtr<FJsonObject>& obj) : FDataConnectionAzureDataExplorerSettings()
+        {
+            readFromValue(obj);
+        }
+
+        ~FDataConnectionAzureDataExplorerSettings();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FDataConnectionFabricKQLSettings : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] The URI of the Fabric cluster.
+        FString ClusterUri;
+
+        // [optional] The database to write to.
+        FString Database;
+
+        // [optional] The table to write to.
+        FString Table;
+
+        FDataConnectionFabricKQLSettings() :
+            FPlayFabCppBaseModel(),
+            ClusterUri(),
+            Database(),
+            Table()
+            {}
+
+        FDataConnectionFabricKQLSettings(const FDataConnectionFabricKQLSettings& src) = default;
+
+        FDataConnectionFabricKQLSettings(const TSharedPtr<FJsonObject>& obj) : FDataConnectionFabricKQLSettings()
+        {
+            readFromValue(obj);
+        }
+
+        ~FDataConnectionFabricKQLSettings();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FDataConnectionSettings : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Settings if the type of connection is AzureBlobStorage.
+        TSharedPtr<FDataConnectionAzureBlobSettings> AzureBlobSettings;
+
+        // [optional] Settings if the type of connection is AzureDataExplorer.
+        TSharedPtr<FDataConnectionAzureDataExplorerSettings> AzureDataExplorerSettings;
+
+        // [optional] Settings if the type of connection is FabricKQL.
+        TSharedPtr<FDataConnectionFabricKQLSettings> AzureFabricKQLSettings;
+
+        FDataConnectionSettings() :
+            FPlayFabCppBaseModel(),
+            AzureBlobSettings(nullptr),
+            AzureDataExplorerSettings(nullptr),
+            AzureFabricKQLSettings(nullptr)
+            {}
+
+        FDataConnectionSettings(const FDataConnectionSettings& src) = default;
+
+        FDataConnectionSettings(const TSharedPtr<FJsonObject>& obj) : FDataConnectionSettings()
+        {
+            readFromValue(obj);
+        }
+
+        ~FDataConnectionSettings();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    enum DataConnectionErrorState
+    {
+        DataConnectionErrorStateOK,
+        DataConnectionErrorStateError
+    };
+
+    PLAYFABCPP_API void writeDataConnectionErrorStateEnumJSON(DataConnectionErrorState enumVal, JsonWriter& writer);
+    PLAYFABCPP_API DataConnectionErrorState readDataConnectionErrorStateFromValue(const TSharedPtr<FJsonValue>& value);
+    PLAYFABCPP_API DataConnectionErrorState readDataConnectionErrorStateFromValue(const FString& value);
+
+    struct PLAYFABCPP_API FDataConnectionStatusDetails : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] The name of the error affecting the data connection, if any.
+        FString Error;
+
+        // [optional] A description of the error affecting the data connection, if any. This may be empty for some errors.
+        FString ErrorMessage;
+
+        // [optional] The most recent time of the error affecting the data connection, if any.
+        Boxed<FDateTime> MostRecentErrorTime;
+
+        // [optional] Indicates if the connection is in a normal state or error state.
+        Boxed<DataConnectionErrorState> State;
+
+        FDataConnectionStatusDetails() :
+            FPlayFabCppBaseModel(),
+            Error(),
+            ErrorMessage(),
+            MostRecentErrorTime(),
+            State()
+            {}
+
+        FDataConnectionStatusDetails(const FDataConnectionStatusDetails& src) = default;
+
+        FDataConnectionStatusDetails(const TSharedPtr<FJsonObject>& obj) : FDataConnectionStatusDetails()
+        {
+            readFromValue(obj);
+        }
+
+        ~FDataConnectionStatusDetails();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    enum DataConnectionType
+    {
+        DataConnectionTypeAzureBlobStorage,
+        DataConnectionTypeAzureDataExplorer,
+        DataConnectionTypeFabricKQL
+    };
+
+    PLAYFABCPP_API void writeDataConnectionTypeEnumJSON(DataConnectionType enumVal, JsonWriter& writer);
+    PLAYFABCPP_API DataConnectionType readDataConnectionTypeFromValue(const TSharedPtr<FJsonValue>& value);
+    PLAYFABCPP_API DataConnectionType readDataConnectionTypeFromValue(const FString& value);
+
+    struct PLAYFABCPP_API FDataConnectionDetails : public PlayFab::FPlayFabCppBaseModel
+    {
+        // Settings of the data connection.
+        FDataConnectionSettings ConnectionSettings;
+
+        // Whether or not the connection is currently active.
+        bool IsActive;
+
+        // The name of the data connection.
+        FString Name;
+
+        // [optional] Current status of the data connection, if any.
+        TSharedPtr<FDataConnectionStatusDetails> Status;
+
+        // The type of data connection.
+        DataConnectionType Type;
+
+        FDataConnectionDetails() :
+            FPlayFabCppBaseModel(),
+            ConnectionSettings(),
+            IsActive(false),
+            Name(),
+            Status(nullptr),
+            Type()
+            {}
+
+        FDataConnectionDetails(const FDataConnectionDetails& src) = default;
+
+        FDataConnectionDetails(const TSharedPtr<FJsonObject>& obj) : FDataConnectionDetails()
+        {
+            readFromValue(obj);
+        }
+
+        ~FDataConnectionDetails();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FDeleteDataConnectionRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // The name of the data connection to delete.
+        FString Name;
+
+        FDeleteDataConnectionRequest() :
+            FPlayFabCppRequestCommon(),
+            CustomTags(),
+            Name()
+            {}
+
+        FDeleteDataConnectionRequest(const FDeleteDataConnectionRequest& src) = default;
+
+        FDeleteDataConnectionRequest(const TSharedPtr<FJsonObject>& obj) : FDeleteDataConnectionRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FDeleteDataConnectionRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FDeleteDataConnectionResponse : public PlayFab::FPlayFabCppResultCommon
+    {
+        // Indicates whether or not the connection was deleted as part of the request.
+        bool WasDeleted;
+
+        FDeleteDataConnectionResponse() :
+            FPlayFabCppResultCommon(),
+            WasDeleted(false)
+            {}
+
+        FDeleteDataConnectionResponse(const FDeleteDataConnectionResponse& src) = default;
+
+        FDeleteDataConnectionResponse(const TSharedPtr<FJsonObject>& obj) : FDeleteDataConnectionResponse()
+        {
+            readFromValue(obj);
+        }
+
+        ~FDeleteDataConnectionResponse();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FDeleteTelemetryKeyRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
@@ -249,6 +517,55 @@ namespace EventsModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FGetDataConnectionRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // The name of the data connection to retrieve.
+        FString Name;
+
+        FGetDataConnectionRequest() :
+            FPlayFabCppRequestCommon(),
+            CustomTags(),
+            Name()
+            {}
+
+        FGetDataConnectionRequest(const FGetDataConnectionRequest& src) = default;
+
+        FGetDataConnectionRequest(const TSharedPtr<FJsonObject>& obj) : FGetDataConnectionRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetDataConnectionRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FGetDataConnectionResponse : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] The details of the queried Data Connection.
+        TSharedPtr<FDataConnectionDetails> DataConnection;
+
+        FGetDataConnectionResponse() :
+            FPlayFabCppResultCommon(),
+            DataConnection(nullptr)
+            {}
+
+        FGetDataConnectionResponse(const FGetDataConnectionResponse& src) = default;
+
+        FGetDataConnectionResponse(const TSharedPtr<FJsonObject>& obj) : FGetDataConnectionResponse()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetDataConnectionResponse();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FGetTelemetryKeyRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
@@ -302,6 +619,50 @@ namespace EventsModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FListDataConnectionsRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        FListDataConnectionsRequest() :
+            FPlayFabCppRequestCommon(),
+            CustomTags()
+            {}
+
+        FListDataConnectionsRequest(const FListDataConnectionsRequest& src) = default;
+
+        FListDataConnectionsRequest(const TSharedPtr<FJsonObject>& obj) : FListDataConnectionsRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FListDataConnectionsRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FListDataConnectionsResponse : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] The list of existing Data Connections.
+        TArray<FDataConnectionDetails> DataConnections;
+        FListDataConnectionsResponse() :
+            FPlayFabCppResultCommon(),
+            DataConnections()
+            {}
+
+        FListDataConnectionsResponse(const FListDataConnectionsResponse& src) = default;
+
+        FListDataConnectionsResponse(const TSharedPtr<FJsonObject>& obj) : FListDataConnectionsResponse()
+        {
+            readFromValue(obj);
+        }
+
+        ~FListDataConnectionsResponse();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FListTelemetryKeysRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
@@ -345,6 +706,127 @@ namespace EventsModels
         }
 
         ~FListTelemetryKeysResponse();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FSetDataConnectionActiveRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // Whether to set the data connection to active (true) or deactivated (false).
+        bool Active;
+
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // The name of the data connection to update.
+        FString Name;
+
+        FSetDataConnectionActiveRequest() :
+            FPlayFabCppRequestCommon(),
+            Active(false),
+            CustomTags(),
+            Name()
+            {}
+
+        FSetDataConnectionActiveRequest(const FSetDataConnectionActiveRequest& src) = default;
+
+        FSetDataConnectionActiveRequest(const TSharedPtr<FJsonObject>& obj) : FSetDataConnectionActiveRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FSetDataConnectionActiveRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FSetDataConnectionActiveResponse : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] The most current details about the data connection that was to be updated.
+        TSharedPtr<FDataConnectionDetails> DataConnection;
+
+        /**
+         * Indicates whether or not the data connection was updated. If false, the data connection was already in the desired
+         * state.
+         */
+        bool WasUpdated;
+
+        FSetDataConnectionActiveResponse() :
+            FPlayFabCppResultCommon(),
+            DataConnection(nullptr),
+            WasUpdated(false)
+            {}
+
+        FSetDataConnectionActiveResponse(const FSetDataConnectionActiveResponse& src) = default;
+
+        FSetDataConnectionActiveResponse(const TSharedPtr<FJsonObject>& obj) : FSetDataConnectionActiveResponse()
+        {
+            readFromValue(obj);
+        }
+
+        ~FSetDataConnectionActiveResponse();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FSetDataConnectionRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // Settings of the data connection.
+        FDataConnectionSettings ConnectionSettings;
+
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // Whether or not the connection is currently active.
+        bool IsActive;
+
+        // The name of the data connection to update or create.
+        FString Name;
+
+        // The type of data connection.
+        DataConnectionType Type;
+
+        FSetDataConnectionRequest() :
+            FPlayFabCppRequestCommon(),
+            ConnectionSettings(),
+            CustomTags(),
+            IsActive(false),
+            Name(),
+            Type()
+            {}
+
+        FSetDataConnectionRequest(const FSetDataConnectionRequest& src) = default;
+
+        FSetDataConnectionRequest(const TSharedPtr<FJsonObject>& obj) : FSetDataConnectionRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FSetDataConnectionRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FSetDataConnectionResponse : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] The details of the Data Connection to be created or updated.
+        TSharedPtr<FDataConnectionDetails> DataConnection;
+
+        FSetDataConnectionResponse() :
+            FPlayFabCppResultCommon(),
+            DataConnection(nullptr)
+            {}
+
+        FSetDataConnectionResponse(const FSetDataConnectionResponse& src) = default;
+
+        FSetDataConnectionResponse(const TSharedPtr<FJsonObject>& obj) : FSetDataConnectionResponse()
+        {
+            readFromValue(obj);
+        }
+
+        ~FSetDataConnectionResponse();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;

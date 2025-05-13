@@ -108,6 +108,8 @@ FProgressionGetStatisticDefinitionResponse UPlayFabProgressionModelDecoder::deco
     FProgressionGetStatisticDefinitionResponse tempStruct;
     UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
 
+    tempStruct.AggregationDestinations = !(dataObj->HasField("AggregationDestinations")) ? TEXT("") : FString::Join(dataObj->GetStringArrayField("AggregationDestinations"), TEXT(","));
+    tempStruct.AggregationSources = !(dataObj->HasField("AggregationSources")) ? TEXT("") : FString::Join(dataObj->GetStringArrayField("AggregationSources"), TEXT(","));
     tempStruct.Columns = !(dataObj->HasField("Columns")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Columns");
     tempStruct.Created = !(dataObj->HasField("Created")) ? TEXT("") : dataObj->GetStringField("Created");
     tempStruct.EntityType = !(dataObj->HasField("EntityType")) ? TEXT("") : dataObj->GetStringField("EntityType");

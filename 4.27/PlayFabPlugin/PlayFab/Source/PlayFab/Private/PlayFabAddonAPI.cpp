@@ -589,6 +589,67 @@ void UPlayFabAddonAPI::HelperCreateOrUpdateSteam(FPlayFabBaseModel response, UOb
     this->RemoveFromRoot();
 }
 
+/** Creates the ToxMod addon on a title, or updates it if it already exists. */
+UPlayFabAddonAPI* UPlayFabAddonAPI::CreateOrUpdateToxMod(FAddonCreateOrUpdateToxModRequest request,
+    FDelegateOnSuccessCreateOrUpdateToxMod onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabAddonAPI* manager = NewObject<UPlayFabAddonAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessCreateOrUpdateToxMod = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAddonAPI::HelperCreateOrUpdateToxMod);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Addon/CreateOrUpdateToxMod";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    if (request.AccountId.IsEmpty() || request.AccountId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("AccountId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("AccountId"), request.AccountId);
+    }
+    if (request.AccountKey.IsEmpty() || request.AccountKey == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("AccountKey"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("AccountKey"), request.AccountKey);
+    }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    OutRestJsonObj->SetBoolField(TEXT("Enabled"), request.Enabled);
+    if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
+    OutRestJsonObj->SetBoolField(TEXT("ErrorIfExists"), request.ErrorIfExists);
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabAddonRequestCompleted
+void UPlayFabAddonAPI::HelperCreateOrUpdateToxMod(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessCreateOrUpdateToxMod.IsBound())
+    {
+        FAddonCreateOrUpdateToxModResponse ResultStruct = UPlayFabAddonModelDecoder::decodeCreateOrUpdateToxModResponseResponse(response.responseData);
+        OnSuccessCreateOrUpdateToxMod.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 /** Creates the Twitch addon on a title, or updates it if it already exists. */
 UPlayFabAddonAPI* UPlayFabAddonAPI::CreateOrUpdateTwitch(FAddonCreateOrUpdateTwitchRequest request,
     FDelegateOnSuccessCreateOrUpdateTwitch onSuccess,
@@ -1041,6 +1102,55 @@ void UPlayFabAddonAPI::HelperDeleteSteam(FPlayFabBaseModel response, UObject* cu
     this->RemoveFromRoot();
 }
 
+/** Deletes the ToxMod addon on a title. */
+UPlayFabAddonAPI* UPlayFabAddonAPI::DeleteToxMod(FAddonDeleteToxModRequest request,
+    FDelegateOnSuccessDeleteToxMod onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabAddonAPI* manager = NewObject<UPlayFabAddonAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessDeleteToxMod = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAddonAPI::HelperDeleteToxMod);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Addon/DeleteToxMod";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabAddonRequestCompleted
+void UPlayFabAddonAPI::HelperDeleteToxMod(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessDeleteToxMod.IsBound())
+    {
+        FAddonDeleteToxModResponse ResultStruct = UPlayFabAddonModelDecoder::decodeDeleteToxModResponseResponse(response.responseData);
+        OnSuccessDeleteToxMod.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 /** Deletes the Twitch addon on a title. */
 UPlayFabAddonAPI* UPlayFabAddonAPI::DeleteTwitch(FAddonDeleteTwitchRequest request,
     FDelegateOnSuccessDeleteTwitch onSuccess,
@@ -1478,6 +1588,55 @@ void UPlayFabAddonAPI::HelperGetSteam(FPlayFabBaseModel response, UObject* custo
     {
         FAddonGetSteamResponse ResultStruct = UPlayFabAddonModelDecoder::decodeGetSteamResponseResponse(response.responseData);
         OnSuccessGetSteam.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Gets information of the ToxMod addon on a title, omits secrets. */
+UPlayFabAddonAPI* UPlayFabAddonAPI::GetToxMod(FAddonGetToxModRequest request,
+    FDelegateOnSuccessGetToxMod onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabAddonAPI* manager = NewObject<UPlayFabAddonAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessGetToxMod = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAddonAPI::HelperGetToxMod);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Addon/GetToxMod";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabAddonRequestCompleted
+void UPlayFabAddonAPI::HelperGetToxMod(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessGetToxMod.IsBound())
+    {
+        FAddonGetToxModResponse ResultStruct = UPlayFabAddonModelDecoder::decodeGetToxModResponseResponse(response.responseData);
+        OnSuccessGetToxMod.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }

@@ -368,6 +368,13 @@ struct PLAYFAB_API FProgressionCreateStatisticDefinitionRequest : public FPlayFa
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /**
+     * [In Preview]: The list of statistic definition names whose scores must be aggregated towards this stat. If
+     * AggregationSource is specified, the entityType of this definition MUST be Title (making it a CommunityStat). Currently,
+     * only one aggregation source can be specified.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
+        FString AggregationSources;
     /** The columns for the statistic defining the aggregation method for each column. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
         TArray<UPlayFabJsonObject*> Columns;
@@ -442,6 +449,16 @@ struct PLAYFAB_API FProgressionGetStatisticDefinitionResponse : public FPlayFabR
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The list of statistic definitions names this definition aggregates to. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
+        FString AggregationDestinations;
+    /**
+     * The list of statistic definitions names whose values must be aggregated towards this stat. If AggregationSource is
+     * specified, the entityType of this definition MUST be Title (making it a CommunityStat). Currently, only one aggregation
+     * source can be specified.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
+        FString AggregationSources;
     /** The columns for the statistic defining the aggregation method for each column. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
         TArray<UPlayFabJsonObject*> Columns;

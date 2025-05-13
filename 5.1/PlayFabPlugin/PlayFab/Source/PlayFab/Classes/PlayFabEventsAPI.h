@@ -77,6 +77,20 @@ public:
         void HelperCreateTelemetryKey(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessDeleteDataConnection, FEventsDeleteDataConnectionResponse, result, UObject*, customData);
+
+    /** Deletes a Data Connection from a title. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Events | PlayStream Events ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabEventsAPI* DeleteDataConnection(FEventsDeleteDataConnectionRequest request,
+            FDelegateOnSuccessDeleteDataConnection onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+
+    // Implements FOnPlayFabEventsRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Events | PlayStream Events ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperDeleteDataConnection(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessDeleteTelemetryKey, FEventsDeleteTelemetryKeyResponse, result, UObject*, customData);
 
     /** Deletes a telemetry key configured for the title. */
@@ -89,6 +103,20 @@ public:
     // Implements FOnPlayFabEventsRequestCompleted
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Events | PlayStream Events ", meta = (BlueprintInternalUseOnly = "true"))
         void HelperDeleteTelemetryKey(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetDataConnection, FEventsGetDataConnectionResponse, result, UObject*, customData);
+
+    /** Retrieves a single Data Connection associated with a title. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Events | PlayStream Events ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabEventsAPI* GetDataConnection(FEventsGetDataConnectionRequest request,
+            FDelegateOnSuccessGetDataConnection onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+
+    // Implements FOnPlayFabEventsRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Events | PlayStream Events ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperGetDataConnection(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetTelemetryKey, FEventsGetTelemetryKeyResponse, result, UObject*, customData);
@@ -105,6 +133,20 @@ public:
         void HelperGetTelemetryKey(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessListDataConnections, FEventsListDataConnectionsResponse, result, UObject*, customData);
+
+    /** Retrieves the list of Data Connections associated with a title. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Events | PlayStream Events ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabEventsAPI* ListDataConnections(FEventsListDataConnectionsRequest request,
+            FDelegateOnSuccessListDataConnections onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+
+    // Implements FOnPlayFabEventsRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Events | PlayStream Events ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperListDataConnections(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessListTelemetryKeys, FEventsListTelemetryKeysResponse, result, UObject*, customData);
 
     /** Lists all telemetry keys configured for the title. */
@@ -117,6 +159,34 @@ public:
     // Implements FOnPlayFabEventsRequestCompleted
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Events | PlayStream Events ", meta = (BlueprintInternalUseOnly = "true"))
         void HelperListTelemetryKeys(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessSetDataConnection, FEventsSetDataConnectionResponse, result, UObject*, customData);
+
+    /** Creates or updates a Data Connection on a title. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Events | PlayStream Events ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabEventsAPI* SetDataConnection(FEventsSetDataConnectionRequest request,
+            FDelegateOnSuccessSetDataConnection onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+
+    // Implements FOnPlayFabEventsRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Events | PlayStream Events ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperSetDataConnection(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessSetDataConnectionActive, FEventsSetDataConnectionActiveResponse, result, UObject*, customData);
+
+    /** Sets a Data Connection for the title to either the active or deactivated state. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Events | PlayStream Events ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabEventsAPI* SetDataConnectionActive(FEventsSetDataConnectionActiveRequest request,
+            FDelegateOnSuccessSetDataConnectionActive onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+
+    // Implements FOnPlayFabEventsRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Events | PlayStream Events ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperSetDataConnectionActive(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessSetTelemetryKeyActive, FEventsSetTelemetryKeyActiveResponse, result, UObject*, customData);
@@ -192,9 +262,14 @@ public:
 
     FDelegateOnFailurePlayFabError OnFailure;
     FDelegateOnSuccessCreateTelemetryKey OnSuccessCreateTelemetryKey;
+    FDelegateOnSuccessDeleteDataConnection OnSuccessDeleteDataConnection;
     FDelegateOnSuccessDeleteTelemetryKey OnSuccessDeleteTelemetryKey;
+    FDelegateOnSuccessGetDataConnection OnSuccessGetDataConnection;
     FDelegateOnSuccessGetTelemetryKey OnSuccessGetTelemetryKey;
+    FDelegateOnSuccessListDataConnections OnSuccessListDataConnections;
     FDelegateOnSuccessListTelemetryKeys OnSuccessListTelemetryKeys;
+    FDelegateOnSuccessSetDataConnection OnSuccessSetDataConnection;
+    FDelegateOnSuccessSetDataConnectionActive OnSuccessSetDataConnectionActive;
     FDelegateOnSuccessSetTelemetryKeyActive OnSuccessSetTelemetryKeyActive;
     FDelegateOnSuccessWriteEvents OnSuccessWriteEvents;
     FDelegateOnSuccessWriteTelemetryEvents OnSuccessWriteTelemetryEvents;

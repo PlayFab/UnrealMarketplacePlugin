@@ -16928,6 +16928,51 @@ bool PlayFab::AdminModels::FUserAppleIdInfo::readFromValue(const TSharedPtr<FJso
     return HasSucceeded;
 }
 
+PlayFab::AdminModels::FUserBattleNetInfo::~FUserBattleNetInfo()
+{
+
+}
+
+void PlayFab::AdminModels::FUserBattleNetInfo::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (BattleNetAccountId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("BattleNetAccountId"));
+        writer->WriteValue(BattleNetAccountId);
+    }
+
+    if (BattleNetBattleTag.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("BattleNetBattleTag"));
+        writer->WriteValue(BattleNetBattleTag);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FUserBattleNetInfo::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> BattleNetAccountIdValue = obj->TryGetField(TEXT("BattleNetAccountId"));
+    if (BattleNetAccountIdValue.IsValid() && !BattleNetAccountIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (BattleNetAccountIdValue->TryGetString(TmpValue)) { BattleNetAccountId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> BattleNetBattleTagValue = obj->TryGetField(TEXT("BattleNetBattleTag"));
+    if (BattleNetBattleTagValue.IsValid() && !BattleNetBattleTagValue->IsNull())
+    {
+        FString TmpValue;
+        if (BattleNetBattleTagValue->TryGetString(TmpValue)) { BattleNetBattleTag = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
 PlayFab::AdminModels::FUserCustomIdInfo::~FUserCustomIdInfo()
 {
 
@@ -17924,6 +17969,7 @@ PlayFab::AdminModels::FUserAccountInfo::~FUserAccountInfo()
 {
     //if (AndroidDeviceInfo != nullptr) delete AndroidDeviceInfo;
     //if (AppleAccountInfo != nullptr) delete AppleAccountInfo;
+    //if (BattleNetAccountInfo != nullptr) delete BattleNetAccountInfo;
     //if (CustomIdInfo != nullptr) delete CustomIdInfo;
     //if (FacebookInfo != nullptr) delete FacebookInfo;
     //if (FacebookInstantGamesIdInfo != nullptr) delete FacebookInstantGamesIdInfo;
@@ -17958,6 +18004,12 @@ void PlayFab::AdminModels::FUserAccountInfo::writeJSON(JsonWriter& writer) const
     {
         writer->WriteIdentifierPrefix(TEXT("AppleAccountInfo"));
         AppleAccountInfo->writeJSON(writer);
+    }
+
+    if (BattleNetAccountInfo.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("BattleNetAccountInfo"));
+        BattleNetAccountInfo->writeJSON(writer);
     }
 
     writer->WriteIdentifierPrefix(TEXT("Created"));
@@ -18103,6 +18155,12 @@ bool PlayFab::AdminModels::FUserAccountInfo::readFromValue(const TSharedPtr<FJso
     if (AppleAccountInfoValue.IsValid() && !AppleAccountInfoValue->IsNull())
     {
         AppleAccountInfo = MakeShareable(new FUserAppleIdInfo(AppleAccountInfoValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> BattleNetAccountInfoValue = obj->TryGetField(TEXT("BattleNetAccountInfo"));
+    if (BattleNetAccountInfoValue.IsValid() && !BattleNetAccountInfoValue->IsNull())
+    {
+        BattleNetAccountInfo = MakeShareable(new FUserBattleNetInfo(BattleNetAccountInfoValue->AsObject()));
     }
 
     const TSharedPtr<FJsonValue> CreatedValue = obj->TryGetField(TEXT("Created"));

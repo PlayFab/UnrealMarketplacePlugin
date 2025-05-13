@@ -57,6 +57,36 @@ void UPlayFabEventsAPI::OnCreateTelemetryKeyResult(FHttpRequestPtr HttpRequest, 
     }
 }
 
+bool UPlayFabEventsAPI::DeleteDataConnection(
+    EventsModels::FDeleteDataConnectionRequest& request,
+    const FDeleteDataConnectionDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    FString entityToken = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetEntityToken() : PlayFabSettings::GetEntityToken();
+    if (entityToken.Len() == 0) {
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
+    }
+
+
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Event/DeleteDataConnection"), request.toJSONString(), TEXT("X-EntityToken"), entityToken);
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabEventsAPI::OnDeleteDataConnectionResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabEventsAPI::OnDeleteDataConnectionResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteDataConnectionDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    EventsModels::FDeleteDataConnectionResponse outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
 bool UPlayFabEventsAPI::DeleteTelemetryKey(
     EventsModels::FDeleteTelemetryKeyRequest& request,
     const FDeleteTelemetryKeyDelegate& SuccessDelegate,
@@ -76,6 +106,36 @@ bool UPlayFabEventsAPI::DeleteTelemetryKey(
 void UPlayFabEventsAPI::OnDeleteTelemetryKeyResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteTelemetryKeyDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
 {
     EventsModels::FDeleteTelemetryKeyResponse outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
+bool UPlayFabEventsAPI::GetDataConnection(
+    EventsModels::FGetDataConnectionRequest& request,
+    const FGetDataConnectionDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    FString entityToken = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetEntityToken() : PlayFabSettings::GetEntityToken();
+    if (entityToken.Len() == 0) {
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
+    }
+
+
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Event/GetDataConnection"), request.toJSONString(), TEXT("X-EntityToken"), entityToken);
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabEventsAPI::OnGetDataConnectionResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabEventsAPI::OnGetDataConnectionResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetDataConnectionDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    EventsModels::FGetDataConnectionResponse outResult;
     FPlayFabCppError errorResult;
     if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
     {
@@ -117,6 +177,36 @@ void UPlayFabEventsAPI::OnGetTelemetryKeyResult(FHttpRequestPtr HttpRequest, FHt
     }
 }
 
+bool UPlayFabEventsAPI::ListDataConnections(
+    EventsModels::FListDataConnectionsRequest& request,
+    const FListDataConnectionsDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    FString entityToken = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetEntityToken() : PlayFabSettings::GetEntityToken();
+    if (entityToken.Len() == 0) {
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
+    }
+
+
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Event/ListDataConnections"), request.toJSONString(), TEXT("X-EntityToken"), entityToken);
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabEventsAPI::OnListDataConnectionsResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabEventsAPI::OnListDataConnectionsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListDataConnectionsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    EventsModels::FListDataConnectionsResponse outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
 bool UPlayFabEventsAPI::ListTelemetryKeys(
     EventsModels::FListTelemetryKeysRequest& request,
     const FListTelemetryKeysDelegate& SuccessDelegate,
@@ -136,6 +226,66 @@ bool UPlayFabEventsAPI::ListTelemetryKeys(
 void UPlayFabEventsAPI::OnListTelemetryKeysResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListTelemetryKeysDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
 {
     EventsModels::FListTelemetryKeysResponse outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
+bool UPlayFabEventsAPI::SetDataConnection(
+    EventsModels::FSetDataConnectionRequest& request,
+    const FSetDataConnectionDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    FString entityToken = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetEntityToken() : PlayFabSettings::GetEntityToken();
+    if (entityToken.Len() == 0) {
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
+    }
+
+
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Event/SetDataConnection"), request.toJSONString(), TEXT("X-EntityToken"), entityToken);
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabEventsAPI::OnSetDataConnectionResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabEventsAPI::OnSetDataConnectionResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSetDataConnectionDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    EventsModels::FSetDataConnectionResponse outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
+bool UPlayFabEventsAPI::SetDataConnectionActive(
+    EventsModels::FSetDataConnectionActiveRequest& request,
+    const FSetDataConnectionActiveDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    FString entityToken = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetEntityToken() : PlayFabSettings::GetEntityToken();
+    if (entityToken.Len() == 0) {
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
+    }
+
+
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Event/SetDataConnectionActive"), request.toJSONString(), TEXT("X-EntityToken"), entityToken);
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabEventsAPI::OnSetDataConnectionActiveResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabEventsAPI::OnSetDataConnectionActiveResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSetDataConnectionActiveDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    EventsModels::FSetDataConnectionActiveResponse outResult;
     FPlayFabCppError errorResult;
     if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
     {

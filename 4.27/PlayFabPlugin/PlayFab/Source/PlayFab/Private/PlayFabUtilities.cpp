@@ -636,6 +636,7 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 1604: returnText = "DataNotAvailable"; break;
     case 1605: returnText = "InvalidReportName"; break;
     case 1606: returnText = "ResourceNotModified"; break;
+    case 1607: returnText = "StudioCreationLimitExceeded"; break;
     case 2001: returnText = "MatchmakingEntityInvalid"; break;
     case 2002: returnText = "MatchmakingPlayerAttributesInvalid"; break;
     case 2016: returnText = "MatchmakingQueueNotFound"; break;
@@ -940,6 +941,8 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 20321: returnText = "GameSaveManifestDescriptionUpdateNotAllowed"; break;
     case 20322: returnText = "GameSaveTitleConfigNotFound"; break;
     case 20323: returnText = "GameSaveTitleAlreadyOnboarded"; break;
+    case 20324: returnText = "GameSaveServiceNotEnabledForTitle"; break;
+    case 20325: returnText = "GameSaveServiceOnboardingPending"; break;
     case 21000: returnText = "StateShareForbidden"; break;
     case 21001: returnText = "StateShareTitleNotInFlight"; break;
     case 21002: returnText = "StateShareStateNotFound"; break;
@@ -950,6 +953,14 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 21007: returnText = "StateShareIdMissingOrMalformed"; break;
     case 22000: returnText = "PlayerCreationDisabled"; break;
     case 22001: returnText = "AccountAlreadyExists"; break;
+    case 23000: returnText = "TagInvalid"; break;
+    case 23001: returnText = "TagTooLong"; break;
+    case 23002: returnText = "StatisticColumnAggregationMismatch"; break;
+    case 23003: returnText = "StatisticResetIntervalMismatch"; break;
+    case 23004: returnText = "VersionConfigurationCannotBeSpecifiedForLinkedStat"; break;
+    case 23005: returnText = "VersionConfigurationIsRequired"; break;
+    case 23006: returnText = "InvalidEntityTypeForAggregation"; break;
+    case 23007: returnText = "MultiLevelAggregationNotAllowed"; break;
     }
 
     // Return the text

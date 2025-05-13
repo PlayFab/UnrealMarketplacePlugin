@@ -232,6 +232,534 @@ bool PlayFab::EventsModels::FCreateTelemetryKeyResponse::readFromValue(const TSh
     return HasSucceeded;
 }
 
+PlayFab::EventsModels::FDataConnectionAzureBlobSettings::~FDataConnectionAzureBlobSettings()
+{
+
+}
+
+void PlayFab::EventsModels::FDataConnectionAzureBlobSettings::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (AccountName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("AccountName"));
+        writer->WriteValue(AccountName);
+    }
+
+    if (ContainerName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ContainerName"));
+        writer->WriteValue(ContainerName);
+    }
+
+    if (TenantId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("TenantId"));
+        writer->WriteValue(TenantId);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::EventsModels::FDataConnectionAzureBlobSettings::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> AccountNameValue = obj->TryGetField(TEXT("AccountName"));
+    if (AccountNameValue.IsValid() && !AccountNameValue->IsNull())
+    {
+        FString TmpValue;
+        if (AccountNameValue->TryGetString(TmpValue)) { AccountName = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> ContainerNameValue = obj->TryGetField(TEXT("ContainerName"));
+    if (ContainerNameValue.IsValid() && !ContainerNameValue->IsNull())
+    {
+        FString TmpValue;
+        if (ContainerNameValue->TryGetString(TmpValue)) { ContainerName = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> TenantIdValue = obj->TryGetField(TEXT("TenantId"));
+    if (TenantIdValue.IsValid() && !TenantIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (TenantIdValue->TryGetString(TmpValue)) { TenantId = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::EventsModels::FDataConnectionAzureDataExplorerSettings::~FDataConnectionAzureDataExplorerSettings()
+{
+
+}
+
+void PlayFab::EventsModels::FDataConnectionAzureDataExplorerSettings::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (ClusterUri.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ClusterUri"));
+        writer->WriteValue(ClusterUri);
+    }
+
+    if (Database.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Database"));
+        writer->WriteValue(Database);
+    }
+
+    if (Table.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Table"));
+        writer->WriteValue(Table);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::EventsModels::FDataConnectionAzureDataExplorerSettings::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> ClusterUriValue = obj->TryGetField(TEXT("ClusterUri"));
+    if (ClusterUriValue.IsValid() && !ClusterUriValue->IsNull())
+    {
+        FString TmpValue;
+        if (ClusterUriValue->TryGetString(TmpValue)) { ClusterUri = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> DatabaseValue = obj->TryGetField(TEXT("Database"));
+    if (DatabaseValue.IsValid() && !DatabaseValue->IsNull())
+    {
+        FString TmpValue;
+        if (DatabaseValue->TryGetString(TmpValue)) { Database = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> TableValue = obj->TryGetField(TEXT("Table"));
+    if (TableValue.IsValid() && !TableValue->IsNull())
+    {
+        FString TmpValue;
+        if (TableValue->TryGetString(TmpValue)) { Table = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::EventsModels::FDataConnectionFabricKQLSettings::~FDataConnectionFabricKQLSettings()
+{
+
+}
+
+void PlayFab::EventsModels::FDataConnectionFabricKQLSettings::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (ClusterUri.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ClusterUri"));
+        writer->WriteValue(ClusterUri);
+    }
+
+    if (Database.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Database"));
+        writer->WriteValue(Database);
+    }
+
+    if (Table.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Table"));
+        writer->WriteValue(Table);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::EventsModels::FDataConnectionFabricKQLSettings::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> ClusterUriValue = obj->TryGetField(TEXT("ClusterUri"));
+    if (ClusterUriValue.IsValid() && !ClusterUriValue->IsNull())
+    {
+        FString TmpValue;
+        if (ClusterUriValue->TryGetString(TmpValue)) { ClusterUri = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> DatabaseValue = obj->TryGetField(TEXT("Database"));
+    if (DatabaseValue.IsValid() && !DatabaseValue->IsNull())
+    {
+        FString TmpValue;
+        if (DatabaseValue->TryGetString(TmpValue)) { Database = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> TableValue = obj->TryGetField(TEXT("Table"));
+    if (TableValue.IsValid() && !TableValue->IsNull())
+    {
+        FString TmpValue;
+        if (TableValue->TryGetString(TmpValue)) { Table = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::EventsModels::FDataConnectionSettings::~FDataConnectionSettings()
+{
+    //if (AzureBlobSettings != nullptr) delete AzureBlobSettings;
+    //if (AzureDataExplorerSettings != nullptr) delete AzureDataExplorerSettings;
+    //if (AzureFabricKQLSettings != nullptr) delete AzureFabricKQLSettings;
+
+}
+
+void PlayFab::EventsModels::FDataConnectionSettings::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (AzureBlobSettings.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("AzureBlobSettings"));
+        AzureBlobSettings->writeJSON(writer);
+    }
+
+    if (AzureDataExplorerSettings.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("AzureDataExplorerSettings"));
+        AzureDataExplorerSettings->writeJSON(writer);
+    }
+
+    if (AzureFabricKQLSettings.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("AzureFabricKQLSettings"));
+        AzureFabricKQLSettings->writeJSON(writer);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::EventsModels::FDataConnectionSettings::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> AzureBlobSettingsValue = obj->TryGetField(TEXT("AzureBlobSettings"));
+    if (AzureBlobSettingsValue.IsValid() && !AzureBlobSettingsValue->IsNull())
+    {
+        AzureBlobSettings = MakeShareable(new FDataConnectionAzureBlobSettings(AzureBlobSettingsValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> AzureDataExplorerSettingsValue = obj->TryGetField(TEXT("AzureDataExplorerSettings"));
+    if (AzureDataExplorerSettingsValue.IsValid() && !AzureDataExplorerSettingsValue->IsNull())
+    {
+        AzureDataExplorerSettings = MakeShareable(new FDataConnectionAzureDataExplorerSettings(AzureDataExplorerSettingsValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> AzureFabricKQLSettingsValue = obj->TryGetField(TEXT("AzureFabricKQLSettings"));
+    if (AzureFabricKQLSettingsValue.IsValid() && !AzureFabricKQLSettingsValue->IsNull())
+    {
+        AzureFabricKQLSettings = MakeShareable(new FDataConnectionFabricKQLSettings(AzureFabricKQLSettingsValue->AsObject()));
+    }
+
+    return HasSucceeded;
+}
+
+void PlayFab::EventsModels::writeDataConnectionErrorStateEnumJSON(DataConnectionErrorState enumVal, JsonWriter& writer)
+{
+    switch (enumVal)
+    {
+
+    case DataConnectionErrorStateOK: writer->WriteValue(TEXT("OK")); break;
+    case DataConnectionErrorStateError: writer->WriteValue(TEXT("Error")); break;
+    }
+}
+
+EventsModels::DataConnectionErrorState PlayFab::EventsModels::readDataConnectionErrorStateFromValue(const TSharedPtr<FJsonValue>& value)
+{
+    return readDataConnectionErrorStateFromValue(value.IsValid() ? value->AsString() : "");
+}
+
+EventsModels::DataConnectionErrorState PlayFab::EventsModels::readDataConnectionErrorStateFromValue(const FString& value)
+{
+    static TMap<FString, DataConnectionErrorState> _DataConnectionErrorStateMap;
+    if (_DataConnectionErrorStateMap.Num() == 0)
+    {
+        // Auto-generate the map on the first use
+        _DataConnectionErrorStateMap.Add(TEXT("OK"), DataConnectionErrorStateOK);
+        _DataConnectionErrorStateMap.Add(TEXT("Error"), DataConnectionErrorStateError);
+
+    }
+
+    if (!value.IsEmpty())
+    {
+        auto output = _DataConnectionErrorStateMap.Find(value);
+        if (output != nullptr)
+            return *output;
+    }
+
+    return DataConnectionErrorStateOK; // Basically critical fail
+}
+
+PlayFab::EventsModels::FDataConnectionStatusDetails::~FDataConnectionStatusDetails()
+{
+
+}
+
+void PlayFab::EventsModels::FDataConnectionStatusDetails::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (Error.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Error"));
+        writer->WriteValue(Error);
+    }
+
+    if (ErrorMessage.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ErrorMessage"));
+        writer->WriteValue(ErrorMessage);
+    }
+
+    if (MostRecentErrorTime.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("MostRecentErrorTime"));
+        writeDatetime(MostRecentErrorTime, writer);
+    }
+
+    if (State.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("State"));
+        writeDataConnectionErrorStateEnumJSON(State, writer);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::EventsModels::FDataConnectionStatusDetails::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> ErrorValue = obj->TryGetField(TEXT("Error"));
+    if (ErrorValue.IsValid() && !ErrorValue->IsNull())
+    {
+        FString TmpValue;
+        if (ErrorValue->TryGetString(TmpValue)) { Error = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> ErrorMessageValue = obj->TryGetField(TEXT("ErrorMessage"));
+    if (ErrorMessageValue.IsValid() && !ErrorMessageValue->IsNull())
+    {
+        FString TmpValue;
+        if (ErrorMessageValue->TryGetString(TmpValue)) { ErrorMessage = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> MostRecentErrorTimeValue = obj->TryGetField(TEXT("MostRecentErrorTime"));
+    if (MostRecentErrorTimeValue.IsValid())
+        MostRecentErrorTime = readDatetime(MostRecentErrorTimeValue);
+
+
+    State = readDataConnectionErrorStateFromValue(obj->TryGetField(TEXT("State")));
+
+    return HasSucceeded;
+}
+
+void PlayFab::EventsModels::writeDataConnectionTypeEnumJSON(DataConnectionType enumVal, JsonWriter& writer)
+{
+    switch (enumVal)
+    {
+
+    case DataConnectionTypeAzureBlobStorage: writer->WriteValue(TEXT("AzureBlobStorage")); break;
+    case DataConnectionTypeAzureDataExplorer: writer->WriteValue(TEXT("AzureDataExplorer")); break;
+    case DataConnectionTypeFabricKQL: writer->WriteValue(TEXT("FabricKQL")); break;
+    }
+}
+
+EventsModels::DataConnectionType PlayFab::EventsModels::readDataConnectionTypeFromValue(const TSharedPtr<FJsonValue>& value)
+{
+    return readDataConnectionTypeFromValue(value.IsValid() ? value->AsString() : "");
+}
+
+EventsModels::DataConnectionType PlayFab::EventsModels::readDataConnectionTypeFromValue(const FString& value)
+{
+    static TMap<FString, DataConnectionType> _DataConnectionTypeMap;
+    if (_DataConnectionTypeMap.Num() == 0)
+    {
+        // Auto-generate the map on the first use
+        _DataConnectionTypeMap.Add(TEXT("AzureBlobStorage"), DataConnectionTypeAzureBlobStorage);
+        _DataConnectionTypeMap.Add(TEXT("AzureDataExplorer"), DataConnectionTypeAzureDataExplorer);
+        _DataConnectionTypeMap.Add(TEXT("FabricKQL"), DataConnectionTypeFabricKQL);
+
+    }
+
+    if (!value.IsEmpty())
+    {
+        auto output = _DataConnectionTypeMap.Find(value);
+        if (output != nullptr)
+            return *output;
+    }
+
+    return DataConnectionTypeAzureBlobStorage; // Basically critical fail
+}
+
+PlayFab::EventsModels::FDataConnectionDetails::~FDataConnectionDetails()
+{
+    //if (Status != nullptr) delete Status;
+
+}
+
+void PlayFab::EventsModels::FDataConnectionDetails::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteIdentifierPrefix(TEXT("ConnectionSettings"));
+    ConnectionSettings.writeJSON(writer);
+
+    writer->WriteIdentifierPrefix(TEXT("IsActive"));
+    writer->WriteValue(IsActive);
+
+    if (!Name.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: DataConnectionDetails::Name, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("Name"));
+        writer->WriteValue(Name);
+    }
+
+    if (Status.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Status"));
+        Status->writeJSON(writer);
+    }
+
+    writer->WriteIdentifierPrefix(TEXT("Type"));
+    writeDataConnectionTypeEnumJSON(Type, writer);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::EventsModels::FDataConnectionDetails::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> ConnectionSettingsValue = obj->TryGetField(TEXT("ConnectionSettings"));
+    if (ConnectionSettingsValue.IsValid() && !ConnectionSettingsValue->IsNull())
+    {
+        ConnectionSettings = FDataConnectionSettings(ConnectionSettingsValue->AsObject());
+    }
+
+    const TSharedPtr<FJsonValue> IsActiveValue = obj->TryGetField(TEXT("IsActive"));
+    if (IsActiveValue.IsValid() && !IsActiveValue->IsNull())
+    {
+        bool TmpValue;
+        if (IsActiveValue->TryGetBool(TmpValue)) { IsActive = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> NameValue = obj->TryGetField(TEXT("Name"));
+    if (NameValue.IsValid() && !NameValue->IsNull())
+    {
+        FString TmpValue;
+        if (NameValue->TryGetString(TmpValue)) { Name = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> StatusValue = obj->TryGetField(TEXT("Status"));
+    if (StatusValue.IsValid() && !StatusValue->IsNull())
+    {
+        Status = MakeShareable(new FDataConnectionStatusDetails(StatusValue->AsObject()));
+    }
+
+    Type = readDataConnectionTypeFromValue(obj->TryGetField(TEXT("Type")));
+
+    return HasSucceeded;
+}
+
+PlayFab::EventsModels::FDeleteDataConnectionRequest::~FDeleteDataConnectionRequest()
+{
+
+}
+
+void PlayFab::EventsModels::FDeleteDataConnectionRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    if (!Name.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: DeleteDataConnectionRequest::Name, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("Name"));
+        writer->WriteValue(Name);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::EventsModels::FDeleteDataConnectionRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    const TSharedPtr<FJsonValue> NameValue = obj->TryGetField(TEXT("Name"));
+    if (NameValue.IsValid() && !NameValue->IsNull())
+    {
+        FString TmpValue;
+        if (NameValue->TryGetString(TmpValue)) { Name = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::EventsModels::FDeleteDataConnectionResponse::~FDeleteDataConnectionResponse()
+{
+
+}
+
+void PlayFab::EventsModels::FDeleteDataConnectionResponse::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteIdentifierPrefix(TEXT("WasDeleted"));
+    writer->WriteValue(WasDeleted);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::EventsModels::FDeleteDataConnectionResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> WasDeletedValue = obj->TryGetField(TEXT("WasDeleted"));
+    if (WasDeletedValue.IsValid() && !WasDeletedValue->IsNull())
+    {
+        bool TmpValue;
+        if (WasDeletedValue->TryGetBool(TmpValue)) { WasDeleted = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
 PlayFab::EventsModels::FDeleteTelemetryKeyRequest::~FDeleteTelemetryKeyRequest()
 {
     //if (Entity != nullptr) delete Entity;
@@ -465,6 +993,94 @@ bool PlayFab::EventsModels::FEventContents::readFromValue(const TSharedPtr<FJson
     return HasSucceeded;
 }
 
+PlayFab::EventsModels::FGetDataConnectionRequest::~FGetDataConnectionRequest()
+{
+
+}
+
+void PlayFab::EventsModels::FGetDataConnectionRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    if (!Name.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: GetDataConnectionRequest::Name, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("Name"));
+        writer->WriteValue(Name);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::EventsModels::FGetDataConnectionRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    const TSharedPtr<FJsonValue> NameValue = obj->TryGetField(TEXT("Name"));
+    if (NameValue.IsValid() && !NameValue->IsNull())
+    {
+        FString TmpValue;
+        if (NameValue->TryGetString(TmpValue)) { Name = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::EventsModels::FGetDataConnectionResponse::~FGetDataConnectionResponse()
+{
+    //if (DataConnection != nullptr) delete DataConnection;
+
+}
+
+void PlayFab::EventsModels::FGetDataConnectionResponse::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (DataConnection.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("DataConnection"));
+        DataConnection->writeJSON(writer);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::EventsModels::FGetDataConnectionResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> DataConnectionValue = obj->TryGetField(TEXT("DataConnection"));
+    if (DataConnectionValue.IsValid() && !DataConnectionValue->IsNull())
+    {
+        DataConnection = MakeShareable(new FDataConnectionDetails(DataConnectionValue->AsObject()));
+    }
+
+    return HasSucceeded;
+}
+
 PlayFab::EventsModels::FGetTelemetryKeyRequest::~FGetTelemetryKeyRequest()
 {
     //if (Entity != nullptr) delete Entity;
@@ -566,6 +1182,81 @@ bool PlayFab::EventsModels::FGetTelemetryKeyResponse::readFromValue(const TShare
     return HasSucceeded;
 }
 
+PlayFab::EventsModels::FListDataConnectionsRequest::~FListDataConnectionsRequest()
+{
+
+}
+
+void PlayFab::EventsModels::FListDataConnectionsRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::EventsModels::FListDataConnectionsRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::EventsModels::FListDataConnectionsResponse::~FListDataConnectionsResponse()
+{
+
+}
+
+void PlayFab::EventsModels::FListDataConnectionsResponse::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (DataConnections.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("DataConnections"));
+        for (const FDataConnectionDetails& item : DataConnections)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::EventsModels::FListDataConnectionsResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TArray<TSharedPtr<FJsonValue>>&DataConnectionsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("DataConnections"));
+    for (int32 Idx = 0; Idx < DataConnectionsArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = DataConnectionsArray[Idx];
+        DataConnections.Add(FDataConnectionDetails(CurrentItem->AsObject()));
+    }
+
+
+    return HasSucceeded;
+}
+
 PlayFab::EventsModels::FListTelemetryKeysRequest::~FListTelemetryKeysRequest()
 {
     //if (Entity != nullptr) delete Entity;
@@ -650,6 +1341,226 @@ bool PlayFab::EventsModels::FListTelemetryKeysResponse::readFromValue(const TSha
         KeyDetails.Add(FTelemetryKeyDetails(CurrentItem->AsObject()));
     }
 
+
+    return HasSucceeded;
+}
+
+PlayFab::EventsModels::FSetDataConnectionActiveRequest::~FSetDataConnectionActiveRequest()
+{
+
+}
+
+void PlayFab::EventsModels::FSetDataConnectionActiveRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteIdentifierPrefix(TEXT("Active"));
+    writer->WriteValue(Active);
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    if (!Name.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: SetDataConnectionActiveRequest::Name, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("Name"));
+        writer->WriteValue(Name);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::EventsModels::FSetDataConnectionActiveRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> ActiveValue = obj->TryGetField(TEXT("Active"));
+    if (ActiveValue.IsValid() && !ActiveValue->IsNull())
+    {
+        bool TmpValue;
+        if (ActiveValue->TryGetBool(TmpValue)) { Active = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    const TSharedPtr<FJsonValue> NameValue = obj->TryGetField(TEXT("Name"));
+    if (NameValue.IsValid() && !NameValue->IsNull())
+    {
+        FString TmpValue;
+        if (NameValue->TryGetString(TmpValue)) { Name = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::EventsModels::FSetDataConnectionActiveResponse::~FSetDataConnectionActiveResponse()
+{
+    //if (DataConnection != nullptr) delete DataConnection;
+
+}
+
+void PlayFab::EventsModels::FSetDataConnectionActiveResponse::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (DataConnection.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("DataConnection"));
+        DataConnection->writeJSON(writer);
+    }
+
+    writer->WriteIdentifierPrefix(TEXT("WasUpdated"));
+    writer->WriteValue(WasUpdated);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::EventsModels::FSetDataConnectionActiveResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> DataConnectionValue = obj->TryGetField(TEXT("DataConnection"));
+    if (DataConnectionValue.IsValid() && !DataConnectionValue->IsNull())
+    {
+        DataConnection = MakeShareable(new FDataConnectionDetails(DataConnectionValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> WasUpdatedValue = obj->TryGetField(TEXT("WasUpdated"));
+    if (WasUpdatedValue.IsValid() && !WasUpdatedValue->IsNull())
+    {
+        bool TmpValue;
+        if (WasUpdatedValue->TryGetBool(TmpValue)) { WasUpdated = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::EventsModels::FSetDataConnectionRequest::~FSetDataConnectionRequest()
+{
+
+}
+
+void PlayFab::EventsModels::FSetDataConnectionRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteIdentifierPrefix(TEXT("ConnectionSettings"));
+    ConnectionSettings.writeJSON(writer);
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    writer->WriteIdentifierPrefix(TEXT("IsActive"));
+    writer->WriteValue(IsActive);
+
+    if (!Name.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: SetDataConnectionRequest::Name, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("Name"));
+        writer->WriteValue(Name);
+    }
+
+    writer->WriteIdentifierPrefix(TEXT("Type"));
+    writeDataConnectionTypeEnumJSON(Type, writer);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::EventsModels::FSetDataConnectionRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> ConnectionSettingsValue = obj->TryGetField(TEXT("ConnectionSettings"));
+    if (ConnectionSettingsValue.IsValid() && !ConnectionSettingsValue->IsNull())
+    {
+        ConnectionSettings = FDataConnectionSettings(ConnectionSettingsValue->AsObject());
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    const TSharedPtr<FJsonValue> IsActiveValue = obj->TryGetField(TEXT("IsActive"));
+    if (IsActiveValue.IsValid() && !IsActiveValue->IsNull())
+    {
+        bool TmpValue;
+        if (IsActiveValue->TryGetBool(TmpValue)) { IsActive = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> NameValue = obj->TryGetField(TEXT("Name"));
+    if (NameValue.IsValid() && !NameValue->IsNull())
+    {
+        FString TmpValue;
+        if (NameValue->TryGetString(TmpValue)) { Name = TmpValue; }
+    }
+
+    Type = readDataConnectionTypeFromValue(obj->TryGetField(TEXT("Type")));
+
+    return HasSucceeded;
+}
+
+PlayFab::EventsModels::FSetDataConnectionResponse::~FSetDataConnectionResponse()
+{
+    //if (DataConnection != nullptr) delete DataConnection;
+
+}
+
+void PlayFab::EventsModels::FSetDataConnectionResponse::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (DataConnection.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("DataConnection"));
+        DataConnection->writeJSON(writer);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::EventsModels::FSetDataConnectionResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> DataConnectionValue = obj->TryGetField(TEXT("DataConnection"));
+    if (DataConnectionValue.IsValid() && !DataConnectionValue->IsNull())
+    {
+        DataConnection = MakeShareable(new FDataConnectionDetails(DataConnectionValue->AsObject()));
+    }
 
     return HasSucceeded;
 }

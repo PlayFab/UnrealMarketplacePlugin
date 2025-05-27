@@ -943,6 +943,7 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 20323: returnText = "GameSaveTitleAlreadyOnboarded"; break;
     case 20324: returnText = "GameSaveServiceNotEnabledForTitle"; break;
     case 20325: returnText = "GameSaveServiceOnboardingPending"; break;
+    case 20326: returnText = "GameSaveManifestNotEligibleAsConflictingVersion"; break;
     case 21000: returnText = "StateShareForbidden"; break;
     case 21001: returnText = "StateShareTitleNotInFlight"; break;
     case 21002: returnText = "StateShareStateNotFound"; break;

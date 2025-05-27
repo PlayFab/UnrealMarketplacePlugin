@@ -7899,7 +7899,7 @@ namespace ClientModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FLinkBattleNetRequest : public PlayFab::FPlayFabCppRequestCommon
+    struct PLAYFABCPP_API FLinkBattleNetAccountRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
@@ -7909,21 +7909,21 @@ namespace ClientModels
         // The JSON Web Token (JWT) returned by Battle.net after login
         FString IdentityToken;
 
-        FLinkBattleNetRequest() :
+        FLinkBattleNetAccountRequest() :
             FPlayFabCppRequestCommon(),
             CustomTags(),
             ForceLink(),
             IdentityToken()
             {}
 
-        FLinkBattleNetRequest(const FLinkBattleNetRequest& src) = default;
+        FLinkBattleNetAccountRequest(const FLinkBattleNetAccountRequest& src) = default;
 
-        FLinkBattleNetRequest(const TSharedPtr<FJsonObject>& obj) : FLinkBattleNetRequest()
+        FLinkBattleNetAccountRequest(const TSharedPtr<FJsonObject>& obj) : FLinkBattleNetAccountRequest()
         {
             readFromValue(obj);
         }
 
-        ~FLinkBattleNetRequest();
+        ~FLinkBattleNetAccountRequest();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -11327,23 +11327,23 @@ namespace ClientModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FUnlinkBattleNetRequest : public PlayFab::FPlayFabCppRequestCommon
+    struct PLAYFABCPP_API FUnlinkBattleNetAccountRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
-        FUnlinkBattleNetRequest() :
+        FUnlinkBattleNetAccountRequest() :
             FPlayFabCppRequestCommon(),
             CustomTags()
             {}
 
-        FUnlinkBattleNetRequest(const FUnlinkBattleNetRequest& src) = default;
+        FUnlinkBattleNetAccountRequest(const FUnlinkBattleNetAccountRequest& src) = default;
 
-        FUnlinkBattleNetRequest(const TSharedPtr<FJsonObject>& obj) : FUnlinkBattleNetRequest()
+        FUnlinkBattleNetAccountRequest(const TSharedPtr<FJsonObject>& obj) : FUnlinkBattleNetAccountRequest()
         {
             readFromValue(obj);
         }
 
-        ~FUnlinkBattleNetRequest();
+        ~FUnlinkBattleNetAccountRequest();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;

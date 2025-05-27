@@ -337,6 +337,19 @@ public:
         void HelperGetUserBans(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessLinkBattleNetAccount, FServerEmptyResult, result, UObject*, customData);
+
+    /** Links the Battle.net account associated with the token to the user's PlayFab account. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabServerAPI* LinkBattleNetAccount(FServerLinkBattleNetAccountRequest request,
+            FDelegateOnSuccessLinkBattleNetAccount onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabServerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperLinkBattleNetAccount(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessLinkNintendoServiceAccount, FServerEmptyResult, result, UObject*, customData);
 
     /** Links the Nintendo account associated with the token to the user's PlayFab account */
@@ -554,6 +567,19 @@ public:
         void HelperSendPushNotificationFromTemplate(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessUnlinkBattleNetAccount, FServerEmptyResponse, result, UObject*, customData);
+
+    /** Unlinks the related Battle.net account from the user's PlayFab account. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabServerAPI* UnlinkBattleNetAccount(FServerUnlinkBattleNetAccountRequest request,
+            FDelegateOnSuccessUnlinkBattleNetAccount onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabServerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperUnlinkBattleNetAccount(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessUnlinkNintendoServiceAccount, FServerEmptyResponse, result, UObject*, customData);
 
     /** Unlinks the related Nintendo account from the user's PlayFab account */
@@ -732,6 +758,19 @@ public:
     // Implements FOnPlayFabServerRequestCompleted
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Authentication ", meta = (BlueprintInternalUseOnly = "true"))
         void HelperLoginWithAndroidDeviceID(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessLoginWithBattleNet, FServerServerLoginResult, result, UObject*, customData);
+
+    /** Sign in the user with a Battle.net identity token */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Authentication ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabServerAPI* LoginWithBattleNet(FServerLoginWithBattleNetRequest request,
+            FDelegateOnSuccessLoginWithBattleNet onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabServerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Authentication ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperLoginWithBattleNet(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessLoginWithCustomID, FServerServerLoginResult, result, UObject*, customData);
@@ -2258,6 +2297,7 @@ public:
     FDelegateOnSuccessGetServerCustomIDsFromPlayFabIDs OnSuccessGetServerCustomIDsFromPlayFabIDs;
     FDelegateOnSuccessGetUserAccountInfo OnSuccessGetUserAccountInfo;
     FDelegateOnSuccessGetUserBans OnSuccessGetUserBans;
+    FDelegateOnSuccessLinkBattleNetAccount OnSuccessLinkBattleNetAccount;
     FDelegateOnSuccessLinkNintendoServiceAccount OnSuccessLinkNintendoServiceAccount;
     FDelegateOnSuccessLinkNintendoServiceAccountSubject OnSuccessLinkNintendoServiceAccountSubject;
     FDelegateOnSuccessLinkNintendoSwitchDeviceId OnSuccessLinkNintendoSwitchDeviceId;
@@ -2274,6 +2314,7 @@ public:
     FDelegateOnSuccessSendEmailFromTemplate OnSuccessSendEmailFromTemplate;
     FDelegateOnSuccessSendPushNotification OnSuccessSendPushNotification;
     FDelegateOnSuccessSendPushNotificationFromTemplate OnSuccessSendPushNotificationFromTemplate;
+    FDelegateOnSuccessUnlinkBattleNetAccount OnSuccessUnlinkBattleNetAccount;
     FDelegateOnSuccessUnlinkNintendoServiceAccount OnSuccessUnlinkNintendoServiceAccount;
     FDelegateOnSuccessUnlinkNintendoSwitchDeviceId OnSuccessUnlinkNintendoSwitchDeviceId;
     FDelegateOnSuccessUnlinkPSNAccount OnSuccessUnlinkPSNAccount;
@@ -2287,6 +2328,7 @@ public:
     FDelegateOnSuccessWriteTitleEvent OnSuccessWriteTitleEvent;
     FDelegateOnSuccessAuthenticateSessionTicket OnSuccessAuthenticateSessionTicket;
     FDelegateOnSuccessLoginWithAndroidDeviceID OnSuccessLoginWithAndroidDeviceID;
+    FDelegateOnSuccessLoginWithBattleNet OnSuccessLoginWithBattleNet;
     FDelegateOnSuccessLoginWithCustomID OnSuccessLoginWithCustomID;
     FDelegateOnSuccessLoginWithIOSDeviceID OnSuccessLoginWithIOSDeviceID;
     FDelegateOnSuccessLoginWithPSN OnSuccessLoginWithPSN;

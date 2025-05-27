@@ -917,6 +917,7 @@ namespace PlayFab
         PlayFabErrorGameSaveTitleAlreadyOnboarded = 20323,
         PlayFabErrorGameSaveServiceNotEnabledForTitle = 20324,
         PlayFabErrorGameSaveServiceOnboardingPending = 20325,
+        PlayFabErrorGameSaveManifestNotEligibleAsConflictingVersion = 20326,
         PlayFabErrorStateShareForbidden = 21000,
         PlayFabErrorStateShareTitleNotInFlight = 21001,
         PlayFabErrorStateShareStateNotFound = 21002,

@@ -530,6 +530,25 @@ public:
 };
 
 USTRUCT(BlueprintType)
+struct PLAYFAB_API FServerLinkBattleNetAccountRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /** If another user is already linked to a specific Battle.net account, unlink the other user and re-link. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        bool ForceLink = false;
+    /** The JSON Web Token (JWT) returned by Battle.net after login */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        FString IdentityToken;
+    /** Unique PlayFab assigned ID of the user on whom the operation will be performed. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        FString PlayFabId;
+};
+
+USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerLinkNintendoServiceAccountRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
@@ -953,6 +972,19 @@ public:
 };
 
 USTRUCT(BlueprintType)
+struct PLAYFAB_API FServerUnlinkBattleNetAccountRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /** Unique PlayFab assigned ID of the user on whom the operation will be performed. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        FString PlayFabId;
+};
+
+USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerUnlinkNintendoServiceAccountRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
@@ -1318,6 +1350,25 @@ public:
     /** The experimentation treatments for this user at the time of login. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Authentication Models")
         UPlayFabJsonObject* TreatmentAssignment = nullptr;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FServerLoginWithBattleNetRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Automatically create a PlayFab account if one is not currently linked to this ID. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Authentication Models")
+        bool CreateAccount = false;
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Authentication Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /** The JSON Web Token (JWT) returned by Battle.net after login */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Authentication Models")
+        FString IdentityToken;
+    /** Flags for which pieces of info to return for the user. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Authentication Models")
+        UPlayFabJsonObject* InfoRequestParameters = nullptr;
 };
 
 /**

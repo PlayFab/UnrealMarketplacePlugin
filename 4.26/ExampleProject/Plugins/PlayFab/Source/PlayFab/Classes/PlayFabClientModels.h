@@ -680,7 +680,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientLinkBattleNetRequest : public FPlayFabRequestCommon
+struct PLAYFAB_API FClientLinkBattleNetAccountRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1240,7 +1240,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientUnlinkBattleNetRequest : public FPlayFabRequestCommon
+struct PLAYFAB_API FClientUnlinkBattleNetAccountRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:

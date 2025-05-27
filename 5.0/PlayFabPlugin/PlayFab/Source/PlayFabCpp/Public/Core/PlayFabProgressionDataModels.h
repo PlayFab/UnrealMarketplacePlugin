@@ -133,7 +133,10 @@ namespace ProgressionModels
 
     struct PLAYFABCPP_API FCreateLeaderboardDefinitionRequest : public PlayFab::FPlayFabCppRequestCommon
     {
-        // Leaderboard columns describing the sort directions, cannot be changed after creation.
+        /**
+         * Leaderboard columns describing the sort directions, cannot be changed after creation. A maximum of 5 columns are
+         * allowed.
+         */
         TArray<FLeaderboardColumn> Columns;
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
@@ -222,7 +225,7 @@ namespace ProgressionModels
          * only one aggregation source can be specified.
          */
         TArray<FString> AggregationSources;
-        // [optional] The columns for the statistic defining the aggregation method for each column.
+        // [optional] The columns for the statistic defining the aggregation method for each column. A maximum of 5 columns are allowed.
         TArray<FStatisticColumn> Columns;
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;

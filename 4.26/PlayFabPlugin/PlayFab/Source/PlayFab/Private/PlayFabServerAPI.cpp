@@ -1162,6 +1162,66 @@ void UPlayFabServerAPI::HelperGetUserBans(FPlayFabBaseModel response, UObject* c
     this->RemoveFromRoot();
 }
 
+/** Links the Battle.net account associated with the token to the user's PlayFab account. */
+UPlayFabServerAPI* UPlayFabServerAPI::LinkBattleNetAccount(FServerLinkBattleNetAccountRequest request,
+    FDelegateOnSuccessLinkBattleNetAccount onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabServerAPI* manager = NewObject<UPlayFabServerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessLinkBattleNetAccount = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperLinkBattleNetAccount);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Server/LinkBattleNetAccount";
+    manager->useSecretKey = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    OutRestJsonObj->SetBoolField(TEXT("ForceLink"), request.ForceLink);
+    if (request.IdentityToken.IsEmpty() || request.IdentityToken == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("IdentityToken"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("IdentityToken"), request.IdentityToken);
+    }
+    if (request.PlayFabId.IsEmpty() || request.PlayFabId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("PlayFabId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("PlayFabId"), request.PlayFabId);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabServerRequestCompleted
+void UPlayFabServerAPI::HelperLinkBattleNetAccount(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessLinkBattleNetAccount.IsBound())
+    {
+        FServerEmptyResult ResultStruct = UPlayFabServerModelDecoder::decodeEmptyResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessLinkBattleNetAccount.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 /** Links the Nintendo account associated with the token to the user's PlayFab account */
 UPlayFabServerAPI* UPlayFabServerAPI::LinkNintendoServiceAccount(FServerLinkNintendoServiceAccountRequest request,
     FDelegateOnSuccessLinkNintendoServiceAccount onSuccess,
@@ -2129,6 +2189,59 @@ void UPlayFabServerAPI::HelperSendPushNotificationFromTemplate(FPlayFabBaseModel
     this->RemoveFromRoot();
 }
 
+/** Unlinks the related Battle.net account from the user's PlayFab account. */
+UPlayFabServerAPI* UPlayFabServerAPI::UnlinkBattleNetAccount(FServerUnlinkBattleNetAccountRequest request,
+    FDelegateOnSuccessUnlinkBattleNetAccount onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabServerAPI* manager = NewObject<UPlayFabServerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessUnlinkBattleNetAccount = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperUnlinkBattleNetAccount);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Server/UnlinkBattleNetAccount";
+    manager->useSecretKey = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.PlayFabId.IsEmpty() || request.PlayFabId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("PlayFabId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("PlayFabId"), request.PlayFabId);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabServerRequestCompleted
+void UPlayFabServerAPI::HelperUnlinkBattleNetAccount(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessUnlinkBattleNetAccount.IsBound())
+    {
+        FServerEmptyResponse ResultStruct = UPlayFabServerModelDecoder::decodeEmptyResponseResponse(response.responseData);
+        OnSuccessUnlinkBattleNetAccount.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 /** Unlinks the related Nintendo account from the user's PlayFab account */
 UPlayFabServerAPI* UPlayFabServerAPI::UnlinkNintendoServiceAccount(FServerUnlinkNintendoServiceAccountRequest request,
     FDelegateOnSuccessUnlinkNintendoServiceAccount onSuccess,
@@ -2177,6 +2290,7 @@ void UPlayFabServerAPI::HelperUnlinkNintendoServiceAccount(FPlayFabBaseModel res
     else if (!error.hasError && OnSuccessUnlinkNintendoServiceAccount.IsBound())
     {
         FServerEmptyResponse ResultStruct = UPlayFabServerModelDecoder::decodeEmptyResponseResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
         OnSuccessUnlinkNintendoServiceAccount.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
@@ -2882,6 +2996,62 @@ void UPlayFabServerAPI::HelperLoginWithAndroidDeviceID(FPlayFabBaseModel respons
     {
         FServerServerLoginResult ResultStruct = UPlayFabServerModelDecoder::decodeServerLoginResultResponse(response.responseData);
         OnSuccessLoginWithAndroidDeviceID.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Sign in the user with a Battle.net identity token */
+UPlayFabServerAPI* UPlayFabServerAPI::LoginWithBattleNet(FServerLoginWithBattleNetRequest request,
+    FDelegateOnSuccessLoginWithBattleNet onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabServerAPI* manager = NewObject<UPlayFabServerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessLoginWithBattleNet = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperLoginWithBattleNet);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Server/LoginWithBattleNet";
+    manager->useSecretKey = true;
+
+
+    // Serialize all the request properties to json
+    OutRestJsonObj->SetBoolField(TEXT("CreateAccount"), request.CreateAccount);
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.IdentityToken.IsEmpty() || request.IdentityToken == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("IdentityToken"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("IdentityToken"), request.IdentityToken);
+    }
+    if (request.InfoRequestParameters != nullptr) OutRestJsonObj->SetObjectField(TEXT("InfoRequestParameters"), request.InfoRequestParameters);
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabServerRequestCompleted
+void UPlayFabServerAPI::HelperLoginWithBattleNet(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessLoginWithBattleNet.IsBound())
+    {
+        FServerServerLoginResult ResultStruct = UPlayFabServerModelDecoder::decodeServerLoginResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessLoginWithBattleNet.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }

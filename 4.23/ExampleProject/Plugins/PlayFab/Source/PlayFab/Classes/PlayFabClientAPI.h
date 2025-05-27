@@ -406,17 +406,17 @@ public:
         void HelperLinkApple(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
-    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessLinkBattleNet, FClientEmptyResponse, result, UObject*, customData);
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessLinkBattleNetAccount, FClientEmptyResponse, result, UObject*, customData);
 
     /** Links the Battle.net account associated with the token to the user's PlayFab account. */
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
-        static UPlayFabClientAPI* LinkBattleNet(FClientLinkBattleNetRequest request,
-            FDelegateOnSuccessLinkBattleNet onSuccess,
+        static UPlayFabClientAPI* LinkBattleNetAccount(FClientLinkBattleNetAccountRequest request,
+            FDelegateOnSuccessLinkBattleNetAccount onSuccess,
             FDelegateOnFailurePlayFabError onFailure, UObject* customData);
 
     // Implements FOnPlayFabClientRequestCompleted
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
-        void HelperLinkBattleNet(FPlayFabBaseModel response, UObject* customData, bool successful);
+        void HelperLinkBattleNetAccount(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessLinkCustomID, FClientLinkCustomIDResult, result, UObject*, customData);
@@ -710,17 +710,17 @@ public:
         void HelperUnlinkApple(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
-    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessUnlinkBattleNet, FClientEmptyResponse, result, UObject*, customData);
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessUnlinkBattleNetAccount, FClientEmptyResponse, result, UObject*, customData);
 
     /** Unlinks the related Battle.net account from the user's PlayFab account. */
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
-        static UPlayFabClientAPI* UnlinkBattleNet(FClientUnlinkBattleNetRequest request,
-            FDelegateOnSuccessUnlinkBattleNet onSuccess,
+        static UPlayFabClientAPI* UnlinkBattleNetAccount(FClientUnlinkBattleNetAccountRequest request,
+            FDelegateOnSuccessUnlinkBattleNetAccount onSuccess,
             FDelegateOnFailurePlayFabError onFailure, UObject* customData);
 
     // Implements FOnPlayFabClientRequestCompleted
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
-        void HelperUnlinkBattleNet(FPlayFabBaseModel response, UObject* customData, bool successful);
+        void HelperUnlinkBattleNetAccount(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessUnlinkCustomID, FClientUnlinkCustomIDResult, result, UObject*, customData);
@@ -2687,7 +2687,7 @@ public:
     FDelegateOnSuccessGetPlayFabIDsFromXboxLiveIDs OnSuccessGetPlayFabIDsFromXboxLiveIDs;
     FDelegateOnSuccessLinkAndroidDeviceID OnSuccessLinkAndroidDeviceID;
     FDelegateOnSuccessLinkApple OnSuccessLinkApple;
-    FDelegateOnSuccessLinkBattleNet OnSuccessLinkBattleNet;
+    FDelegateOnSuccessLinkBattleNetAccount OnSuccessLinkBattleNetAccount;
     FDelegateOnSuccessLinkCustomID OnSuccessLinkCustomID;
     FDelegateOnSuccessLinkFacebookAccount OnSuccessLinkFacebookAccount;
     FDelegateOnSuccessLinkFacebookInstantGamesId OnSuccessLinkFacebookInstantGamesId;
@@ -2709,7 +2709,7 @@ public:
     FDelegateOnSuccessSendAccountRecoveryEmail OnSuccessSendAccountRecoveryEmail;
     FDelegateOnSuccessUnlinkAndroidDeviceID OnSuccessUnlinkAndroidDeviceID;
     FDelegateOnSuccessUnlinkApple OnSuccessUnlinkApple;
-    FDelegateOnSuccessUnlinkBattleNet OnSuccessUnlinkBattleNet;
+    FDelegateOnSuccessUnlinkBattleNetAccount OnSuccessUnlinkBattleNetAccount;
     FDelegateOnSuccessUnlinkCustomID OnSuccessUnlinkCustomID;
     FDelegateOnSuccessUnlinkFacebookAccount OnSuccessUnlinkFacebookAccount;
     FDelegateOnSuccessUnlinkFacebookInstantGamesId OnSuccessUnlinkFacebookInstantGamesId;

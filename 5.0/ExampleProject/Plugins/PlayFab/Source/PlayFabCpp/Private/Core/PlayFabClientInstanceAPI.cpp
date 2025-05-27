@@ -2543,9 +2543,9 @@ void UPlayFabClientInstanceAPI::OnLinkAppleResult(FHttpRequestPtr HttpRequest, F
     }
 }
 
-bool UPlayFabClientInstanceAPI::LinkBattleNet(
-    ClientModels::FLinkBattleNetRequest& request,
-    const FLinkBattleNetDelegate& SuccessDelegate,
+bool UPlayFabClientInstanceAPI::LinkBattleNetAccount(
+    ClientModels::FLinkBattleNetAccountRequest& request,
+    const FLinkBattleNetAccountDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
@@ -2555,12 +2555,12 @@ bool UPlayFabClientInstanceAPI::LinkBattleNet(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/LinkBattleNet"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
-    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnLinkBattleNetResult, SuccessDelegate, ErrorDelegate);
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/LinkBattleNetAccount"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnLinkBattleNetAccountResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
 
-void UPlayFabClientInstanceAPI::OnLinkBattleNetResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLinkBattleNetDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+void UPlayFabClientInstanceAPI::OnLinkBattleNetAccountResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLinkBattleNetAccountDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
 {
     ClientModels::FEmptyResponse outResult;
     FPlayFabCppError errorResult;
@@ -4680,9 +4680,9 @@ void UPlayFabClientInstanceAPI::OnUnlinkAppleResult(FHttpRequestPtr HttpRequest,
     }
 }
 
-bool UPlayFabClientInstanceAPI::UnlinkBattleNet(
-    ClientModels::FUnlinkBattleNetRequest& request,
-    const FUnlinkBattleNetDelegate& SuccessDelegate,
+bool UPlayFabClientInstanceAPI::UnlinkBattleNetAccount(
+    ClientModels::FUnlinkBattleNetAccountRequest& request,
+    const FUnlinkBattleNetAccountDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
@@ -4692,12 +4692,12 @@ bool UPlayFabClientInstanceAPI::UnlinkBattleNet(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/UnlinkBattleNet"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
-    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnUnlinkBattleNetResult, SuccessDelegate, ErrorDelegate);
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/UnlinkBattleNetAccount"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnUnlinkBattleNetAccountResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
 
-void UPlayFabClientInstanceAPI::OnUnlinkBattleNetResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnlinkBattleNetDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+void UPlayFabClientInstanceAPI::OnUnlinkBattleNetAccountResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnlinkBattleNetAccountDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
 {
     ClientModels::FEmptyResponse outResult;
     FPlayFabCppError errorResult;

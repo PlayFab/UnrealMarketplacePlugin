@@ -14914,12 +14914,12 @@ bool PlayFab::ClientModels::FLinkAppleRequest::readFromValue(const TSharedPtr<FJ
     return HasSucceeded;
 }
 
-PlayFab::ClientModels::FLinkBattleNetRequest::~FLinkBattleNetRequest()
+PlayFab::ClientModels::FLinkBattleNetAccountRequest::~FLinkBattleNetAccountRequest()
 {
 
 }
 
-void PlayFab::ClientModels::FLinkBattleNetRequest::writeJSON(JsonWriter& writer) const
+void PlayFab::ClientModels::FLinkBattleNetAccountRequest::writeJSON(JsonWriter& writer) const
 {
     writer->WriteObjectStart();
 
@@ -14942,7 +14942,7 @@ void PlayFab::ClientModels::FLinkBattleNetRequest::writeJSON(JsonWriter& writer)
 
     if (!IdentityToken.IsEmpty() == false)
     {
-        UE_LOG(LogTemp, Error, TEXT("This field is required: LinkBattleNetRequest::IdentityToken, PlayFab calls may not work if it remains empty."));
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LinkBattleNetAccountRequest::IdentityToken, PlayFab calls may not work if it remains empty."));
     }
     else
     {
@@ -14953,7 +14953,7 @@ void PlayFab::ClientModels::FLinkBattleNetRequest::writeJSON(JsonWriter& writer)
     writer->WriteObjectEnd();
 }
 
-bool PlayFab::ClientModels::FLinkBattleNetRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+bool PlayFab::ClientModels::FLinkBattleNetAccountRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
 
@@ -22037,12 +22037,12 @@ bool PlayFab::ClientModels::FUnlinkAppleRequest::readFromValue(const TSharedPtr<
     return HasSucceeded;
 }
 
-PlayFab::ClientModels::FUnlinkBattleNetRequest::~FUnlinkBattleNetRequest()
+PlayFab::ClientModels::FUnlinkBattleNetAccountRequest::~FUnlinkBattleNetAccountRequest()
 {
 
 }
 
-void PlayFab::ClientModels::FUnlinkBattleNetRequest::writeJSON(JsonWriter& writer) const
+void PlayFab::ClientModels::FUnlinkBattleNetAccountRequest::writeJSON(JsonWriter& writer) const
 {
     writer->WriteObjectStart();
 
@@ -22060,7 +22060,7 @@ void PlayFab::ClientModels::FUnlinkBattleNetRequest::writeJSON(JsonWriter& write
     writer->WriteObjectEnd();
 }
 
-bool PlayFab::ClientModels::FUnlinkBattleNetRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+bool PlayFab::ClientModels::FUnlinkBattleNetAccountRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
 

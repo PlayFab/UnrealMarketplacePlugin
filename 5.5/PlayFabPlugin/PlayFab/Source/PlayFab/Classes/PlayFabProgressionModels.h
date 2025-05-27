@@ -35,7 +35,10 @@ struct PLAYFAB_API FProgressionCreateLeaderboardDefinitionRequest : public FPlay
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** Leaderboard columns describing the sort directions, cannot be changed after creation. */
+    /**
+     * Leaderboard columns describing the sort directions, cannot be changed after creation. A maximum of 5 columns are
+     * allowed.
+     */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Leaderboards Models")
         TArray<UPlayFabJsonObject*> Columns;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
@@ -375,7 +378,7 @@ public:
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
         FString AggregationSources;
-    /** The columns for the statistic defining the aggregation method for each column. */
+    /** The columns for the statistic defining the aggregation method for each column. A maximum of 5 columns are allowed. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
         TArray<UPlayFabJsonObject*> Columns;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */

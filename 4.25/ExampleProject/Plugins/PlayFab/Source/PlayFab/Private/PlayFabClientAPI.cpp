@@ -1417,8 +1417,8 @@ void UPlayFabClientAPI::HelperLinkApple(FPlayFabBaseModel response, UObject* cus
 }
 
 /** Links the Battle.net account associated with the token to the user's PlayFab account. */
-UPlayFabClientAPI* UPlayFabClientAPI::LinkBattleNet(FClientLinkBattleNetRequest request,
-    FDelegateOnSuccessLinkBattleNet onSuccess,
+UPlayFabClientAPI* UPlayFabClientAPI::LinkBattleNetAccount(FClientLinkBattleNetAccountRequest request,
+    FDelegateOnSuccessLinkBattleNetAccount onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
     UObject* customData)
 {
@@ -1429,13 +1429,13 @@ UPlayFabClientAPI* UPlayFabClientAPI::LinkBattleNet(FClientLinkBattleNetRequest 
     manager->mCustomData = customData;
 
     // Assign delegates
-    manager->OnSuccessLinkBattleNet = onSuccess;
+    manager->OnSuccessLinkBattleNetAccount = onSuccess;
     manager->OnFailure = onFailure;
-    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperLinkBattleNet);
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperLinkBattleNetAccount);
 
     // Setup the request
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
-    manager->PlayFabRequestURL = "/Client/LinkBattleNet";
+    manager->PlayFabRequestURL = "/Client/LinkBattleNetAccount";
     manager->useSessionTicket = true;
 
 
@@ -1455,17 +1455,17 @@ UPlayFabClientAPI* UPlayFabClientAPI::LinkBattleNet(FClientLinkBattleNetRequest 
 }
 
 // Implements FOnPlayFabClientRequestCompleted
-void UPlayFabClientAPI::HelperLinkBattleNet(FPlayFabBaseModel response, UObject* customData, bool successful)
+void UPlayFabClientAPI::HelperLinkBattleNetAccount(FPlayFabBaseModel response, UObject* customData, bool successful)
 {
     FPlayFabError error = response.responseError;
     if (error.hasError && OnFailure.IsBound())
     {
         OnFailure.Execute(error, customData);
     }
-    else if (!error.hasError && OnSuccessLinkBattleNet.IsBound())
+    else if (!error.hasError && OnSuccessLinkBattleNetAccount.IsBound())
     {
         FClientEmptyResponse ResultStruct = UPlayFabClientModelDecoder::decodeEmptyResponseResponse(response.responseData);
-        OnSuccessLinkBattleNet.Execute(ResultStruct, mCustomData);
+        OnSuccessLinkBattleNetAccount.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -2644,8 +2644,8 @@ void UPlayFabClientAPI::HelperUnlinkApple(FPlayFabBaseModel response, UObject* c
 }
 
 /** Unlinks the related Battle.net account from the user's PlayFab account. */
-UPlayFabClientAPI* UPlayFabClientAPI::UnlinkBattleNet(FClientUnlinkBattleNetRequest request,
-    FDelegateOnSuccessUnlinkBattleNet onSuccess,
+UPlayFabClientAPI* UPlayFabClientAPI::UnlinkBattleNetAccount(FClientUnlinkBattleNetAccountRequest request,
+    FDelegateOnSuccessUnlinkBattleNetAccount onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
     UObject* customData)
 {
@@ -2656,13 +2656,13 @@ UPlayFabClientAPI* UPlayFabClientAPI::UnlinkBattleNet(FClientUnlinkBattleNetRequ
     manager->mCustomData = customData;
 
     // Assign delegates
-    manager->OnSuccessUnlinkBattleNet = onSuccess;
+    manager->OnSuccessUnlinkBattleNetAccount = onSuccess;
     manager->OnFailure = onFailure;
-    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperUnlinkBattleNet);
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperUnlinkBattleNetAccount);
 
     // Setup the request
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
-    manager->PlayFabRequestURL = "/Client/UnlinkBattleNet";
+    manager->PlayFabRequestURL = "/Client/UnlinkBattleNetAccount";
     manager->useSessionTicket = true;
 
 
@@ -2676,18 +2676,18 @@ UPlayFabClientAPI* UPlayFabClientAPI::UnlinkBattleNet(FClientUnlinkBattleNetRequ
 }
 
 // Implements FOnPlayFabClientRequestCompleted
-void UPlayFabClientAPI::HelperUnlinkBattleNet(FPlayFabBaseModel response, UObject* customData, bool successful)
+void UPlayFabClientAPI::HelperUnlinkBattleNetAccount(FPlayFabBaseModel response, UObject* customData, bool successful)
 {
     FPlayFabError error = response.responseError;
     if (error.hasError && OnFailure.IsBound())
     {
         OnFailure.Execute(error, customData);
     }
-    else if (!error.hasError && OnSuccessUnlinkBattleNet.IsBound())
+    else if (!error.hasError && OnSuccessUnlinkBattleNetAccount.IsBound())
     {
         FClientEmptyResponse ResultStruct = UPlayFabClientModelDecoder::decodeEmptyResponseResponse(response.responseData);
         ResultStruct.Request = RequestJsonObj;
-        OnSuccessUnlinkBattleNet.Execute(ResultStruct, mCustomData);
+        OnSuccessUnlinkBattleNetAccount.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }

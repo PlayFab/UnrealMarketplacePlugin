@@ -3522,6 +3522,29 @@ namespace EconomyModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FTransactionClawbackDetails : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] The id of the clawed back operation.
+        FString TransactionIdClawedback;
+
+        FTransactionClawbackDetails() :
+            FPlayFabCppBaseModel(),
+            TransactionIdClawedback()
+            {}
+
+        FTransactionClawbackDetails(const FTransactionClawbackDetails& src) = default;
+
+        FTransactionClawbackDetails(const TSharedPtr<FJsonObject>& obj) : FTransactionClawbackDetails()
+        {
+            readFromValue(obj);
+        }
+
+        ~FTransactionClawbackDetails();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FTransactionOperation : public PlayFab::FPlayFabCppBaseModel
     {
         // [optional] The amount of items in this transaction.
@@ -3671,6 +3694,9 @@ namespace EconomyModels
         // [optional] The API call that caused this transaction.
         FString ApiName;
 
+        // [optional] Additional details about the transaction. Null if it was not a clawback operation.
+        TSharedPtr<FTransactionClawbackDetails> ClawbackDetails;
+
         // [optional] The type of item that the the operation occurred on.
         FString ItemType;
 
@@ -3697,6 +3723,7 @@ namespace EconomyModels
         FTransaction() :
             FPlayFabCppBaseModel(),
             ApiName(),
+            ClawbackDetails(nullptr),
             ItemType(),
             Operations(),
             OperationType(),

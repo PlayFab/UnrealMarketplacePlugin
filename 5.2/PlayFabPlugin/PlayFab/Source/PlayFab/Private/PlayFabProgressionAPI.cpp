@@ -1088,6 +1088,14 @@ UPlayFabProgressionAPI* UPlayFabProgressionAPI::GetStatistics(FProgressionGetSta
     // Serialize all the request properties to json
     if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
+    // Check to see if string is empty
+    if (request.StatisticNames.IsEmpty() || request.StatisticNames == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("StatisticNames"));
+    } else {
+        TArray<FString> StatisticNamesArray;
+        FString(request.StatisticNames).ParseIntoArray(StatisticNamesArray, TEXT(","), false);
+        OutRestJsonObj->SetStringArrayField(TEXT("StatisticNames"), StatisticNamesArray);
+    }
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -1140,6 +1148,14 @@ UPlayFabProgressionAPI* UPlayFabProgressionAPI::GetStatisticsForEntities(FProgre
         OutRestJsonObj->SetFieldNull(TEXT("Entities"));
     } else {
         OutRestJsonObj->SetObjectArrayField(TEXT("Entities"), request.Entities);
+    }
+    // Check to see if string is empty
+    if (request.StatisticNames.IsEmpty() || request.StatisticNames == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("StatisticNames"));
+    } else {
+        TArray<FString> StatisticNamesArray;
+        FString(request.StatisticNames).ParseIntoArray(StatisticNamesArray, TEXT(","), false);
+        OutRestJsonObj->SetStringArrayField(TEXT("StatisticNames"), StatisticNamesArray);
     }
 
     // Add Request to manager

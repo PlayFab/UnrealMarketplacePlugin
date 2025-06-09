@@ -6971,6 +6971,38 @@ bool PlayFab::EconomyModels::FGetTransactionHistoryRequest::readFromValue(const 
     return HasSucceeded;
 }
 
+PlayFab::EconomyModels::FTransactionClawbackDetails::~FTransactionClawbackDetails()
+{
+
+}
+
+void PlayFab::EconomyModels::FTransactionClawbackDetails::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (TransactionIdClawedback.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("TransactionIdClawedback"));
+        writer->WriteValue(TransactionIdClawedback);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::EconomyModels::FTransactionClawbackDetails::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> TransactionIdClawedbackValue = obj->TryGetField(TEXT("TransactionIdClawedback"));
+    if (TransactionIdClawedbackValue.IsValid() && !TransactionIdClawedbackValue->IsNull())
+    {
+        FString TmpValue;
+        if (TransactionIdClawedbackValue->TryGetString(TmpValue)) { TransactionIdClawedback = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
 PlayFab::EconomyModels::FTransactionOperation::~FTransactionOperation()
 {
 
@@ -7270,6 +7302,7 @@ bool PlayFab::EconomyModels::FTransactionTransferDetails::readFromValue(const TS
 
 PlayFab::EconomyModels::FTransaction::~FTransaction()
 {
+    //if (ClawbackDetails != nullptr) delete ClawbackDetails;
     //if (PurchaseDetails != nullptr) delete PurchaseDetails;
     //if (RedeemDetails != nullptr) delete RedeemDetails;
     //if (TransferDetails != nullptr) delete TransferDetails;
@@ -7284,6 +7317,12 @@ void PlayFab::EconomyModels::FTransaction::writeJSON(JsonWriter& writer) const
     {
         writer->WriteIdentifierPrefix(TEXT("ApiName"));
         writer->WriteValue(ApiName);
+    }
+
+    if (ClawbackDetails.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ClawbackDetails"));
+        ClawbackDetails->writeJSON(writer);
     }
 
     if (ItemType.IsEmpty() == false)
@@ -7346,6 +7385,12 @@ bool PlayFab::EconomyModels::FTransaction::readFromValue(const TSharedPtr<FJsonO
     {
         FString TmpValue;
         if (ApiNameValue->TryGetString(TmpValue)) { ApiName = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> ClawbackDetailsValue = obj->TryGetField(TEXT("ClawbackDetails"));
+    if (ClawbackDetailsValue.IsValid() && !ClawbackDetailsValue->IsNull())
+    {
+        ClawbackDetails = MakeShareable(new FTransactionClawbackDetails(ClawbackDetailsValue->AsObject()));
     }
 
     const TSharedPtr<FJsonValue> ItemTypeValue = obj->TryGetField(TEXT("ItemType"));

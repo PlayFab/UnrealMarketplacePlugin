@@ -15080,14 +15080,16 @@ void PlayFab::ClientModels::FLinkFacebookAccountRequest::writeJSON(JsonWriter& w
 {
     writer->WriteObjectStart();
 
-    if (!AccessToken.IsEmpty() == false)
-    {
-        UE_LOG(LogTemp, Error, TEXT("This field is required: LinkFacebookAccountRequest::AccessToken, PlayFab calls may not work if it remains empty."));
-    }
-    else
+    if (AccessToken.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("AccessToken"));
         writer->WriteValue(AccessToken);
+    }
+
+    if (AuthenticationToken.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("AuthenticationToken"));
+        writer->WriteValue(AuthenticationToken);
     }
 
     if (CustomTags.Num() != 0)
@@ -15119,6 +15121,13 @@ bool PlayFab::ClientModels::FLinkFacebookAccountRequest::readFromValue(const TSh
     {
         FString TmpValue;
         if (AccessTokenValue->TryGetString(TmpValue)) { AccessToken = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> AuthenticationTokenValue = obj->TryGetField(TEXT("AuthenticationToken"));
+    if (AuthenticationTokenValue.IsValid() && !AuthenticationTokenValue->IsNull())
+    {
+        FString TmpValue;
+        if (AuthenticationTokenValue->TryGetString(TmpValue)) { AuthenticationToken = TmpValue; }
     }
 
     const TSharedPtr<FJsonObject>* CustomTagsObject;

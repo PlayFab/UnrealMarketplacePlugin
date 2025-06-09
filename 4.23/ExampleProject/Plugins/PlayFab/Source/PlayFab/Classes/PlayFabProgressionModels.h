@@ -499,6 +499,9 @@ public:
     /** The optional entity to perform this action on. Defaults to the currently logged in entity. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
         UPlayFabJsonObject* Entity = nullptr;
+    /** The list of statistics to return for the user. If set to null, the current version of all statistics are returned. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
+        FString StatisticNames;
 };
 
 USTRUCT(BlueprintType)
@@ -528,6 +531,9 @@ public:
     /** Collection of Entity IDs to retrieve statistics for. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
         TArray<UPlayFabJsonObject*> Entities;
+    /** The list of statistics to return for the user. If set to null, the current version of all statistics are returned. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
+        FString StatisticNames;
 };
 
 USTRUCT(BlueprintType)

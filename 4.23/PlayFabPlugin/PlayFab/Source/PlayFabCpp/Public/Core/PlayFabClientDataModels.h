@@ -7980,8 +7980,11 @@ namespace ClientModels
 
     struct PLAYFABCPP_API FLinkFacebookAccountRequest : public PlayFab::FPlayFabCppRequestCommon
     {
-        // Unique identifier from Facebook for the user.
+        // [optional] Unique identifier from Facebook for the user.
         FString AccessToken;
+
+        // [optional] Token used for limited login authentication.
+        FString AuthenticationToken;
 
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
@@ -7991,6 +7994,7 @@ namespace ClientModels
         FLinkFacebookAccountRequest() :
             FPlayFabCppRequestCommon(),
             AccessToken(),
+            AuthenticationToken(),
             CustomTags(),
             ForceLink()
             {}

@@ -541,10 +541,10 @@ namespace ProgressionModels
 
     struct PLAYFABCPP_API FEntityStatistics : public PlayFab::FPlayFabCppBaseModel
     {
-        // [optional] Entity key
+        // [optional] The entity for which the statistics are returned.
         TSharedPtr<FEntityKey> pfEntityKey;
 
-        // [optional] All statistics for the given entitykey
+        // [optional] The statistics for the given entity key.
         TArray<FEntityStatisticValue> Statistics;
         FEntityStatistics() :
             FPlayFabCppBaseModel(),
@@ -946,10 +946,13 @@ namespace ProgressionModels
         TMap<FString, FString> CustomTags;
         // Collection of Entity IDs to retrieve statistics for.
         TArray<FEntityKey> Entities;
+        // [optional] The list of statistics to return for the user. If set to null, the current version of all statistics are returned.
+        TArray<FString> StatisticNames;
         FGetStatisticsForEntitiesRequest() :
             FPlayFabCppRequestCommon(),
             CustomTags(),
-            Entities()
+            Entities(),
+            StatisticNames()
             {}
 
         FGetStatisticsForEntitiesRequest(const FGetStatisticsForEntitiesRequest& src) = default;
@@ -1019,10 +1022,13 @@ namespace ProgressionModels
         // [optional] The optional entity to perform this action on. Defaults to the currently logged in entity.
         TSharedPtr<FEntityKey> Entity;
 
+        // [optional] The list of statistics to return for the user. If set to null, the current version of all statistics are returned.
+        TArray<FString> StatisticNames;
         FGetStatisticsRequest() :
             FPlayFabCppRequestCommon(),
             CustomTags(),
-            Entity(nullptr)
+            Entity(nullptr),
+            StatisticNames()
             {}
 
         FGetStatisticsRequest(const FGetStatisticsRequest& src) = default;

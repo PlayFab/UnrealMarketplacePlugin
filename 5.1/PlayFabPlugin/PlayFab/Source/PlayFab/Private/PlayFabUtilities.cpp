@@ -944,6 +944,9 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 20324: returnText = "GameSaveServiceNotEnabledForTitle"; break;
     case 20325: returnText = "GameSaveServiceOnboardingPending"; break;
     case 20326: returnText = "GameSaveManifestNotEligibleAsConflictingVersion"; break;
+    case 20327: returnText = "GameSaveServiceUnavailable"; break;
+    case 20328: returnText = "GameSaveConflict"; break;
+    case 20329: returnText = "GameSaveManifestNotEligibleForRollback"; break;
     case 21000: returnText = "StateShareForbidden"; break;
     case 21001: returnText = "StateShareTitleNotInFlight"; break;
     case 21002: returnText = "StateShareStateNotFound"; break;
@@ -962,6 +965,7 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 23005: returnText = "VersionConfigurationIsRequired"; break;
     case 23006: returnText = "InvalidEntityTypeForAggregation"; break;
     case 23007: returnText = "MultiLevelAggregationNotAllowed"; break;
+    case 23008: returnText = "AggregationTypeNotAllowedForLinkedStat"; break;
     }
 
     // Return the text

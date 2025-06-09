@@ -1553,6 +1553,11 @@ UPlayFabClientAPI* UPlayFabClientAPI::LinkFacebookAccount(FClientLinkFacebookAcc
     } else {
         OutRestJsonObj->SetStringField(TEXT("AccessToken"), request.AccessToken);
     }
+    if (request.AuthenticationToken.IsEmpty() || request.AuthenticationToken == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("AuthenticationToken"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("AuthenticationToken"), request.AuthenticationToken);
+    }
     if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     OutRestJsonObj->SetBoolField(TEXT("ForceLink"), request.ForceLink);
 

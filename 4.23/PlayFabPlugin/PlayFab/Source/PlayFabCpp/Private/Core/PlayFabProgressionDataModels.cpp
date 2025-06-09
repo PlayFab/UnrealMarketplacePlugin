@@ -1992,6 +1992,15 @@ void PlayFab::ProgressionModels::FGetStatisticsForEntitiesRequest::writeJSON(Jso
     writer->WriteArrayEnd();
 
 
+    if (StatisticNames.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("StatisticNames"));
+        for (const FString& item : StatisticNames)
+            writer->WriteValue(item);
+        writer->WriteArrayEnd();
+    }
+
+
     writer->WriteObjectEnd();
 }
 
@@ -2015,6 +2024,8 @@ bool PlayFab::ProgressionModels::FGetStatisticsForEntitiesRequest::readFromValue
         Entities.Add(FEntityKey(CurrentItem->AsObject()));
     }
 
+
+    obj->TryGetStringArrayField(TEXT("StatisticNames"), StatisticNames);
 
     return HasSucceeded;
 }
@@ -2138,6 +2149,15 @@ void PlayFab::ProgressionModels::FGetStatisticsRequest::writeJSON(JsonWriter& wr
         Entity->writeJSON(writer);
     }
 
+    if (StatisticNames.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("StatisticNames"));
+        for (const FString& item : StatisticNames)
+            writer->WriteValue(item);
+        writer->WriteArrayEnd();
+    }
+
+
     writer->WriteObjectEnd();
 }
 
@@ -2159,6 +2179,8 @@ bool PlayFab::ProgressionModels::FGetStatisticsRequest::readFromValue(const TSha
     {
         Entity = MakeShareable(new FEntityKey(EntityValue->AsObject()));
     }
+
+    obj->TryGetStringArrayField(TEXT("StatisticNames"), StatisticNames);
 
     return HasSucceeded;
 }

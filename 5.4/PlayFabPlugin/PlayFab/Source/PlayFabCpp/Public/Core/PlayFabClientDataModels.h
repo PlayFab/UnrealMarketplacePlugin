@@ -9384,6 +9384,9 @@ namespace ClientModels
          */
         FString TitleId;
 
+        // access_token issued by Google OAuth
+        FString AccessToken;
+
         FLoginWithGoogleAccountRequest() :
             FPlayFabCppRequestCommon(),
             CreateAccount(),
@@ -9393,7 +9396,8 @@ namespace ClientModels
             PlayerSecret(),
             ServerAuthCode(),
             SetEmail(),
-            TitleId()
+            TitleId(),
+            AccessToken()
             {}
 
         FLoginWithGoogleAccountRequest(const FLoginWithGoogleAccountRequest& src) = default;

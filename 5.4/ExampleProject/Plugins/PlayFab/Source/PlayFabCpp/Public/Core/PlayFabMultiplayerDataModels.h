@@ -6237,8 +6237,8 @@ namespace MultiplayerModels
          */
         TArray<FString> PreferredRegions;
         /**
-         * [optional] Data encoded as a string that is passed to the game server when requested. This can be used to to communicate
-         * information such as game mode or map through the request flow.
+         * [optional] Data encoded as a string that is passed to the game server when requested. This can be used to communicate information
+         * such as game mode or map through the request flow. Maximum size is 8KB
          */
         FString SessionCookie;
 

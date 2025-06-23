@@ -2808,8 +2808,8 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString PreferredRegions;
     /**
-     * Data encoded as a string that is passed to the game server when requested. This can be used to to communicate
-     * information such as game mode or map through the request flow.
+     * Data encoded as a string that is passed to the game server when requested. This can be used to communicate information
+     * such as game mode or map through the request flow. Maximum size is 8KB
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString SessionCookie;

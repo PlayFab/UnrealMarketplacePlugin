@@ -414,6 +414,12 @@ UPlayFabEconomyAPI* UPlayFabEconomyAPI::GetDraftItems(FEconomyGetDraftItemsReque
     } else {
         OutRestJsonObj->SetObjectArrayField(TEXT("AlternateIds"), request.AlternateIds);
     }
+    if (request.ContinuationToken.IsEmpty() || request.ContinuationToken == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("ContinuationToken"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("ContinuationToken"), request.ContinuationToken);
+    }
+    OutRestJsonObj->SetNumberField(TEXT("Count"), request.Count);
     if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
     // Check to see if string is empty

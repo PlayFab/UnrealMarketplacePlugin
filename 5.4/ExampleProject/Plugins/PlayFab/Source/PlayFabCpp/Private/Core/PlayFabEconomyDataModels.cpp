@@ -4948,6 +4948,18 @@ void PlayFab::EconomyModels::FGetDraftItemsRequest::writeJSON(JsonWriter& writer
     }
 
 
+    if (ContinuationToken.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ContinuationToken"));
+        writer->WriteValue(ContinuationToken);
+    }
+
+    if (Count.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Count"));
+        writer->WriteValue(Count);
+    }
+
     if (CustomTags.Num() != 0)
     {
         writer->WriteObjectStart(TEXT("CustomTags"));
@@ -4988,6 +5000,20 @@ bool PlayFab::EconomyModels::FGetDraftItemsRequest::readFromValue(const TSharedP
         AlternateIds.Add(FCatalogAlternateId(CurrentItem->AsObject()));
     }
 
+
+    const TSharedPtr<FJsonValue> ContinuationTokenValue = obj->TryGetField(TEXT("ContinuationToken"));
+    if (ContinuationTokenValue.IsValid() && !ContinuationTokenValue->IsNull())
+    {
+        FString TmpValue;
+        if (ContinuationTokenValue->TryGetString(TmpValue)) { ContinuationToken = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> CountValue = obj->TryGetField(TEXT("Count"));
+    if (CountValue.IsValid() && !CountValue->IsNull())
+    {
+        int32 TmpValue;
+        if (CountValue->TryGetNumber(TmpValue)) { Count = TmpValue; }
+    }
 
     const TSharedPtr<FJsonObject>* CustomTagsObject;
     if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))

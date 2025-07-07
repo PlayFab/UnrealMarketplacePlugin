@@ -2525,6 +2525,15 @@ namespace EconomyModels
     {
         // [optional] List of item alternate IDs.
         TArray<FCatalogAlternateId> AlternateIds;
+        /**
+         * [optional] An opaque token used to retrieve the next page of items created by the caller, if any are available. Should be null on
+         * initial request.
+         */
+        FString ContinuationToken;
+
+        // [optional] Number of items to retrieve. This value is optional. Default value is 10.
+        Boxed<int32> Count;
+
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
         // [optional] The entity to perform this action on.
@@ -2535,6 +2544,8 @@ namespace EconomyModels
         FGetDraftItemsRequest() :
             FPlayFabCppRequestCommon(),
             AlternateIds(),
+            ContinuationToken(),
+            Count(),
             CustomTags(),
             Entity(nullptr),
             Ids()

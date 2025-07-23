@@ -3708,6 +3708,8 @@ namespace EconomyModels
         // [optional] Additional details about the transaction. Null if it was not a clawback operation.
         TSharedPtr<FTransactionClawbackDetails> ClawbackDetails;
 
+        // [optional] The custom tags associated with this transactions.
+        TMap<FString, FString> CustomTags;
         // [optional] The type of item that the the operation occurred on.
         FString ItemType;
 
@@ -3735,6 +3737,7 @@ namespace EconomyModels
             FPlayFabCppBaseModel(),
             ApiName(),
             ClawbackDetails(nullptr),
+            CustomTags(),
             ItemType(),
             Operations(),
             OperationType(),

@@ -232,6 +232,7 @@ bool PlayFab::ProgressionModels::FVersionConfiguration::readFromValue(const TSha
 
 PlayFab::ProgressionModels::FCreateLeaderboardDefinitionRequest::~FCreateLeaderboardDefinitionRequest()
 {
+    //if (VersionConfiguration != nullptr) delete VersionConfiguration;
 
 }
 
@@ -279,8 +280,11 @@ void PlayFab::ProgressionModels::FCreateLeaderboardDefinitionRequest::writeJSON(
     writer->WriteIdentifierPrefix(TEXT("SizeLimit"));
     writer->WriteValue(SizeLimit);
 
-    writer->WriteIdentifierPrefix(TEXT("VersionConfiguration"));
-    pfVersionConfiguration.writeJSON(writer);
+    if (pfVersionConfiguration.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("VersionConfiguration"));
+        pfVersionConfiguration->writeJSON(writer);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -330,7 +334,7 @@ bool PlayFab::ProgressionModels::FCreateLeaderboardDefinitionRequest::readFromVa
     const TSharedPtr<FJsonValue> VersionConfigurationValue = obj->TryGetField(TEXT("VersionConfiguration"));
     if (VersionConfigurationValue.IsValid() && !VersionConfigurationValue->IsNull())
     {
-        pfVersionConfiguration = FVersionConfiguration(VersionConfigurationValue->AsObject());
+        pfVersionConfiguration = MakeShareable(new FVersionConfiguration(VersionConfigurationValue->AsObject()));
     }
 
     return HasSucceeded;

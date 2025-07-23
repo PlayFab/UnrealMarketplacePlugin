@@ -732,6 +732,9 @@ namespace CloudScriptModels
         // [optional] The object returned from the function, if any
         FJsonKeeper FunctionResult;
 
+        // [optional] The size in bytes of the object returned from the function, if any
+        Boxed<int32> FunctionResultSize;
+
         // [optional] Flag indicating if the FunctionResult was too large and was subsequently dropped from this event.
         Boxed<bool> FunctionResultTooLarge;
 
@@ -741,6 +744,7 @@ namespace CloudScriptModels
             ExecutionTimeMilliseconds(0),
             FunctionName(),
             FunctionResult(),
+            FunctionResultSize(),
             FunctionResultTooLarge()
             {}
 

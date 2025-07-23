@@ -53,6 +53,7 @@ FCloudScriptExecuteFunctionResult UPlayFabCloudScriptModelDecoder::decodeExecute
     tempStruct.ExecutionTimeMilliseconds = !(dataObj->HasField("ExecutionTimeMilliseconds")) ? 0 : int(dataObj->GetNumberField("ExecutionTimeMilliseconds"));
     tempStruct.FunctionName = !(dataObj->HasField("FunctionName")) ? TEXT("") : dataObj->GetStringField("FunctionName");
     tempStruct.FunctionResult = !(dataObj->HasField("FunctionResult")) ? nullptr : dataObj->GetObjectField("FunctionResult");
+    tempStruct.FunctionResultSize = !(dataObj->HasField("FunctionResultSize")) ? 0 : int(dataObj->GetNumberField("FunctionResultSize"));
     tempStruct.FunctionResultTooLarge = !(dataObj->HasField("FunctionResultTooLarge")) ? false : dataObj->GetBoolField("FunctionResultTooLarge");
 
     return tempStruct;

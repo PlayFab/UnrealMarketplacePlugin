@@ -1472,6 +1472,12 @@ void PlayFab::CloudScriptModels::FExecuteFunctionResult::writeJSON(JsonWriter& w
         FunctionResult.writeJSON(writer);
     }
 
+    if (FunctionResultSize.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("FunctionResultSize"));
+        writer->WriteValue(FunctionResultSize);
+    }
+
     if (FunctionResultTooLarge.notNull())
     {
         writer->WriteIdentifierPrefix(TEXT("FunctionResultTooLarge"));
@@ -1509,6 +1515,13 @@ bool PlayFab::CloudScriptModels::FExecuteFunctionResult::readFromValue(const TSh
     if (FunctionResultValue.IsValid() && !FunctionResultValue->IsNull())
     {
         FunctionResult = FJsonKeeper(FunctionResultValue);
+    }
+
+    const TSharedPtr<FJsonValue> FunctionResultSizeValue = obj->TryGetField(TEXT("FunctionResultSize"));
+    if (FunctionResultSizeValue.IsValid() && !FunctionResultSizeValue->IsNull())
+    {
+        int32 TmpValue;
+        if (FunctionResultSizeValue->TryGetNumber(TmpValue)) { FunctionResultSize = TmpValue; }
     }
 
     const TSharedPtr<FJsonValue> FunctionResultTooLargeValue = obj->TryGetField(TEXT("FunctionResultTooLarge"));

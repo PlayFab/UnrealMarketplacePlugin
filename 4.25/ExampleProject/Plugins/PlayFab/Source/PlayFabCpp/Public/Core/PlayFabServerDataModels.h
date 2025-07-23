@@ -5737,8 +5737,8 @@ namespace ServerModels
     struct PLAYFABCPP_API FGetPlayFabIDsFromFacebookIDsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         /**
-         * Array of unique Facebook identifiers for which the title needs to get PlayFab identifiers. The array cannot exceed 2,000
-         * in length.
+         * Array of unique Facebook identifiers for which the title needs to get PlayFab identifiers. The array cannot exceed 25 in
+         * length.
          */
         TArray<FString> FacebookIDs;
         FGetPlayFabIDsFromFacebookIDsRequest() :
@@ -5879,7 +5879,7 @@ namespace ServerModels
     {
         /**
          * Array of unique Nintendo Switch Account identifiers for which the title needs to get PlayFab identifiers. The array
-         * cannot exceed 2,000 in length.
+         * cannot exceed 25 in length.
          */
         TArray<FString> NintendoAccountIds;
         FGetPlayFabIDsFromNintendoServiceAccountIdsRequest() :
@@ -5956,7 +5956,7 @@ namespace ServerModels
     {
         /**
          * Array of unique Nintendo Switch Device identifiers for which the title needs to get PlayFab identifiers. The array
-         * cannot exceed 2,000 in length.
+         * cannot exceed 25 in length.
          */
         TArray<FString> NintendoSwitchDeviceIds;
         FGetPlayFabIDsFromNintendoSwitchDeviceIdsRequest() :
@@ -6033,7 +6033,7 @@ namespace ServerModels
 
         /**
          * Array of unique PlayStation :tm: Network identifiers for which the title needs to get PlayFab identifiers. The array
-         * cannot exceed 2,000 in length.
+         * cannot exceed 25 in length.
          */
         TArray<FString> PSNAccountIDs;
         FGetPlayFabIDsFromPSNAccountIDsRequest() :
@@ -6114,7 +6114,7 @@ namespace ServerModels
 
         /**
          * Array of unique PlayStation :tm: Network identifiers for which the title needs to get PlayFab identifiers. The array
-         * cannot exceed 2,000 in length.
+         * cannot exceed 25 in length.
          */
         TArray<FString> PSNOnlineIDs;
         FGetPlayFabIDsFromPSNOnlineIDsRequest() :
@@ -6192,7 +6192,7 @@ namespace ServerModels
     {
         /**
          * [optional] Array of unique Steam identifiers (Steam profile IDs) for which the title needs to get PlayFab identifiers. The array
-         * cannot exceed 2,000 in length.
+         * cannot exceed 25 in length.
          */
         TArray<FString> SteamStringIDs;
         FGetPlayFabIDsFromSteamIDsRequest() :
@@ -6265,7 +6265,7 @@ namespace ServerModels
     struct PLAYFABCPP_API FGetPlayFabIDsFromSteamNamesRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         /**
-         * Array of unique Steam identifiers for which the title needs to get PlayFab identifiers. The array cannot exceed 2,000 in
+         * Array of unique Steam identifiers for which the title needs to get PlayFab identifiers. The array cannot exceed 25 in
          * length.
          */
         TArray<FString> SteamNames;
@@ -6340,7 +6340,7 @@ namespace ServerModels
     {
         /**
          * Array of unique Twitch identifiers (Twitch's _id) for which the title needs to get PlayFab identifiers. The array cannot
-         * exceed 2,000 in length.
+         * exceed 25 in length.
          */
         TArray<FString> TwitchIds;
         FGetPlayFabIDsFromTwitchIDsRequest() :
@@ -6417,7 +6417,7 @@ namespace ServerModels
 
         /**
          * Array of unique Xbox Live account identifiers for which the title needs to get PlayFab identifiers. The array cannot
-         * exceed 2,000 in length.
+         * exceed 25 in length.
          */
         TArray<FString> XboxLiveAccountIDs;
         FGetPlayFabIDsFromXboxLiveIDsRequest() :

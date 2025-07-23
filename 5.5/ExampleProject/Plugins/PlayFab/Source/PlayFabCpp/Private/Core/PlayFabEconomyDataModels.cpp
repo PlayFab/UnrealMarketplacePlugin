@@ -7351,6 +7351,17 @@ void PlayFab::EconomyModels::FTransaction::writeJSON(JsonWriter& writer) const
         ClawbackDetails->writeJSON(writer);
     }
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (ItemType.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("ItemType"));
@@ -7417,6 +7428,15 @@ bool PlayFab::EconomyModels::FTransaction::readFromValue(const TSharedPtr<FJsonO
     if (ClawbackDetailsValue.IsValid() && !ClawbackDetailsValue->IsNull())
     {
         ClawbackDetails = MakeShareable(new FTransactionClawbackDetails(ClawbackDetailsValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
     }
 
     const TSharedPtr<FJsonValue> ItemTypeValue = obj->TryGetField(TEXT("ItemType"));

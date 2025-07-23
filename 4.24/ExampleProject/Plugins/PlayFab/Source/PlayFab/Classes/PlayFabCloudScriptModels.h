@@ -162,6 +162,9 @@ public:
     /** The object returned from the function, if any */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
         UPlayFabJsonObject* FunctionResult = nullptr;
+    /** The size in bytes of the object returned from the function, if any */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
+        int32 FunctionResultSize = 0;
     /** Flag indicating if the FunctionResult was too large and was subsequently dropped from this event. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
         bool FunctionResultTooLarge = false;

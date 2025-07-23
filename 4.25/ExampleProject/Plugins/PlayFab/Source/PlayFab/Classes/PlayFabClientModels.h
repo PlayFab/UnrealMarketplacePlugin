@@ -251,8 +251,8 @@ struct PLAYFAB_API FClientGetPlayFabIDsFromFacebookIDsRequest : public FPlayFabR
     GENERATED_USTRUCT_BODY()
 public:
     /**
-     * Array of unique Facebook identifiers for which the title needs to get PlayFab identifiers. The array cannot exceed 2,000
-     * in length.
+     * Array of unique Facebook identifiers for which the title needs to get PlayFab identifiers. The array cannot exceed 25 in
+     * length.
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         FString FacebookIDs;
@@ -300,7 +300,7 @@ struct PLAYFAB_API FClientGetPlayFabIDsFromGameCenterIDsRequest : public FPlayFa
 public:
     /**
      * Array of unique Game Center identifiers (the Player Identifier) for which the title needs to get PlayFab identifiers.
-     * The array cannot exceed 2,000 in length.
+     * The array cannot exceed 25 in length.
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         FString GameCenterIDs;
@@ -348,7 +348,7 @@ struct PLAYFAB_API FClientGetPlayFabIDsFromGoogleIDsRequest : public FPlayFabReq
 public:
     /**
      * Array of unique Google identifiers (Google+ user IDs) for which the title needs to get PlayFab identifiers. The array
-     * cannot exceed 2,000 in length.
+     * cannot exceed 25 in length.
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         FString GoogleIDs;
@@ -372,7 +372,7 @@ struct PLAYFAB_API FClientGetPlayFabIDsFromGooglePlayGamesPlayerIDsRequest : pub
 public:
     /**
      * Array of unique Google Play Games identifiers (Google+ user IDs) for which the title needs to get PlayFab identifiers.
-     * The array cannot exceed 2,000 in length.
+     * The array cannot exceed 25 in length.
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         FString GooglePlayGamesPlayerIDs;
@@ -396,7 +396,7 @@ struct PLAYFAB_API FClientGetPlayFabIDsFromKongregateIDsRequest : public FPlayFa
 public:
     /**
      * Array of unique Kongregate identifiers (Kongregate's user_id) for which the title needs to get PlayFab identifiers. The
-     * array cannot exceed 2,000 in length.
+     * array cannot exceed 25 in length.
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         FString KongregateIDs;
@@ -420,7 +420,7 @@ struct PLAYFAB_API FClientGetPlayFabIDsFromNintendoServiceAccountIdsRequest : pu
 public:
     /**
      * Array of unique Nintendo Switch Account identifiers for which the title needs to get PlayFab identifiers. The array
-     * cannot exceed 2,000 in length.
+     * cannot exceed 25 in length.
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         FString NintendoAccountIds;
@@ -444,7 +444,7 @@ struct PLAYFAB_API FClientGetPlayFabIDsFromNintendoSwitchDeviceIdsRequest : publ
 public:
     /**
      * Array of unique Nintendo Switch Device identifiers for which the title needs to get PlayFab identifiers. The array
-     * cannot exceed 2,000 in length.
+     * cannot exceed 25 in length.
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         FString NintendoSwitchDeviceIds;
@@ -471,7 +471,7 @@ public:
         int32 IssuerId = 0;
     /**
      * Array of unique PlayStation :tm: Network identifiers for which the title needs to get PlayFab identifiers. The array
-     * cannot exceed 2,000 in length.
+     * cannot exceed 25 in length.
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         FString PSNAccountIDs;
@@ -498,7 +498,7 @@ public:
         int32 IssuerId = 0;
     /**
      * Array of unique PlayStation :tm: Network identifiers for which the title needs to get PlayFab identifiers. The array
-     * cannot exceed 2,000 in length.
+     * cannot exceed 25 in length.
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         FString PSNOnlineIDs;
@@ -522,7 +522,7 @@ struct PLAYFAB_API FClientGetPlayFabIDsFromSteamIDsRequest : public FPlayFabRequ
 public:
     /**
      * Array of unique Steam identifiers (Steam profile IDs) for which the title needs to get PlayFab identifiers. The array
-     * cannot exceed 2,000 in length.
+     * cannot exceed 25 in length.
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         FString SteamStringIDs;
@@ -545,7 +545,7 @@ struct PLAYFAB_API FClientGetPlayFabIDsFromSteamNamesRequest : public FPlayFabRe
     GENERATED_USTRUCT_BODY()
 public:
     /**
-     * Array of unique Steam identifiers for which the title needs to get PlayFab identifiers. The array cannot exceed 2,000 in
+     * Array of unique Steam identifiers for which the title needs to get PlayFab identifiers. The array cannot exceed 25 in
      * length.
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
@@ -573,7 +573,7 @@ struct PLAYFAB_API FClientGetPlayFabIDsFromTwitchIDsRequest : public FPlayFabReq
 public:
     /**
      * Array of unique Twitch identifiers (Twitch's _id) for which the title needs to get PlayFab identifiers. The array cannot
-     * exceed 2,000 in length.
+     * exceed 25 in length.
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         FString TwitchIds;
@@ -600,7 +600,7 @@ public:
         FString Sandbox;
     /**
      * Array of unique Xbox Live account identifiers for which the title needs to get PlayFab identifiers. The array cannot
-     * exceed 2,000 in length.
+     * exceed 25 in length.
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         FString XboxLiveAccountIDs;

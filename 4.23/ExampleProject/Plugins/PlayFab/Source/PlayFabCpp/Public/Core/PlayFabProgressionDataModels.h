@@ -152,8 +152,8 @@ namespace ProgressionModels
         // Maximum number of entries on this leaderboard
         int32 SizeLimit;
 
-        // The version reset configuration for the leaderboard definition.
-        FVersionConfiguration pfVersionConfiguration;
+        // [optional] The version reset configuration for the leaderboard definition.
+        TSharedPtr<FVersionConfiguration> pfVersionConfiguration;
 
         FCreateLeaderboardDefinitionRequest() :
             FPlayFabCppRequestCommon(),
@@ -162,7 +162,7 @@ namespace ProgressionModels
             EntityType(),
             Name(),
             SizeLimit(0),
-            pfVersionConfiguration()
+            pfVersionConfiguration(nullptr)
             {}
 
         FCreateLeaderboardDefinitionRequest(const FCreateLeaderboardDefinitionRequest& src) = default;

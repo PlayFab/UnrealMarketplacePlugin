@@ -611,6 +611,7 @@ namespace PlayFab
         PlayFabErrorInvalidReportName = 1605,
         PlayFabErrorResourceNotModified = 1606,
         PlayFabErrorStudioCreationLimitExceeded = 1607,
+        PlayFabErrorStudioDeletionInitiated = 1608,
         PlayFabErrorMatchmakingEntityInvalid = 2001,
         PlayFabErrorMatchmakingPlayerAttributesInvalid = 2002,
         PlayFabErrorMatchmakingQueueNotFound = 2016,
@@ -939,7 +940,8 @@ namespace PlayFab
         PlayFabErrorVersionConfigurationIsRequired = 23005,
         PlayFabErrorInvalidEntityTypeForAggregation = 23006,
         PlayFabErrorMultiLevelAggregationNotAllowed = 23007,
-        PlayFabErrorAggregationTypeNotAllowedForLinkedStat = 23008
+        PlayFabErrorAggregationTypeNotAllowedForLinkedStat = 23008,
+        PlayFabErrorStoreMetricsRequestInvalidInput = 23501
     };
 
     struct PLAYFABCPP_API FPlayFabCppError

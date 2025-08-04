@@ -637,6 +637,7 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 1605: returnText = "InvalidReportName"; break;
     case 1606: returnText = "ResourceNotModified"; break;
     case 1607: returnText = "StudioCreationLimitExceeded"; break;
+    case 1608: returnText = "StudioDeletionInitiated"; break;
     case 2001: returnText = "MatchmakingEntityInvalid"; break;
     case 2002: returnText = "MatchmakingPlayerAttributesInvalid"; break;
     case 2016: returnText = "MatchmakingQueueNotFound"; break;
@@ -966,6 +967,7 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 23006: returnText = "InvalidEntityTypeForAggregation"; break;
     case 23007: returnText = "MultiLevelAggregationNotAllowed"; break;
     case 23008: returnText = "AggregationTypeNotAllowedForLinkedStat"; break;
+    case 23501: returnText = "StoreMetricsRequestInvalidInput"; break;
     }
 
     // Return the text

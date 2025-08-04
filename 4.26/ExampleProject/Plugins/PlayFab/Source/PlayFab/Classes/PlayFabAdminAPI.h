@@ -1761,6 +1761,10 @@ public:
         void HelperUpdateStoreItems(FPlayFabBaseModel response, UObject* customData, bool successful);
 
 
+    ///////////////////////////////////////////////////////
+    // Xbox Store
+    //////////////////////////////////////////////////////
+
 
     /** PlayFab Request Info */
     FString PlayFabRequestURL;

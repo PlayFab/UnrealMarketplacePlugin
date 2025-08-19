@@ -50,6 +50,9 @@ public:
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Leaderboards Models")
         FString EntityType;
+    /** [In Preview]: The configuration for the events emitted by this leaderboard. If not specified, no events will be emitted. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Leaderboards Models")
+        UPlayFabJsonObject* EventEmissionConfig = nullptr;
     /** A name for the leaderboard, unique per title. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Leaderboards Models")
         FString Name;
@@ -230,6 +233,9 @@ public:
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Leaderboards Models")
         FString EntityType;
+    /** [In Preview]: The configuration for the events emitted by this leaderboard. If not specified, no events will be emitted. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Leaderboards Models")
+        UPlayFabJsonObject* EventEmissionConfig = nullptr;
     /** Last time, in UTC, leaderboard version was incremented. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Leaderboards Models")
         FString LastResetTime;
@@ -334,6 +340,9 @@ public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Leaderboards Models")
         UPlayFabJsonObject* CustomTags = nullptr;
+    /** [In Preview]: The configuration for the events emitted by this leaderboard. If not specified, no events will be emitted. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Leaderboards Models")
+        UPlayFabJsonObject* EventEmissionConfig = nullptr;
     /** The name of the leaderboard to update the definition for. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Leaderboards Models")
         FString Name;
@@ -387,6 +396,9 @@ public:
     /** The entity type allowed to have score(s) for this statistic. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
         FString EntityType;
+    /** [In Preview]: Configurations for different Statistics events that can be emitted by the service. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
+        UPlayFabJsonObject* EventEmissionConfig = nullptr;
     /** Name of the statistic. Must be less than 150 characters. Restricted to a-Z, 0-9, '(', ')', '_', '-' and '.'. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
         FString Name;
@@ -471,6 +483,9 @@ public:
     /** The entity type that can have this statistic. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
         FString EntityType;
+    /** [In Preview]: Configurations for different Statistics events that can be emitted by the service. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
+        UPlayFabJsonObject* EventEmissionConfig = nullptr;
     /** Last time, in UTC, statistic version was incremented. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
         FString LastResetTime;
@@ -603,6 +618,9 @@ public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
         UPlayFabJsonObject* CustomTags = nullptr;
+    /** [In Preview]: Configurations for different Statistics events that can be emitted by the service. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
+        UPlayFabJsonObject* EventEmissionConfig = nullptr;
     /** Name of the statistic. Must be less than 150 characters. Restricted to a-Z, 0-9, '(', ')', '_', '-' and '.'. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
         FString Name;

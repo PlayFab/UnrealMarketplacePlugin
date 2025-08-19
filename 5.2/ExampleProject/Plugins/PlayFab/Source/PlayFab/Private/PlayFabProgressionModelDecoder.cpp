@@ -54,6 +54,7 @@ FProgressionGetLeaderboardDefinitionResponse UPlayFabProgressionModelDecoder::de
     tempStruct.Columns = !(dataObj->HasField("Columns")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Columns");
     tempStruct.Created = !(dataObj->HasField("Created")) ? TEXT("") : dataObj->GetStringField("Created");
     tempStruct.EntityType = !(dataObj->HasField("EntityType")) ? TEXT("") : dataObj->GetStringField("EntityType");
+    tempStruct.EventEmissionConfig = !(dataObj->HasField("EventEmissionConfig")) ? nullptr : dataObj->GetObjectField("EventEmissionConfig");
     tempStruct.LastResetTime = !(dataObj->HasField("LastResetTime")) ? TEXT("") : dataObj->GetStringField("LastResetTime");
     tempStruct.Name = !(dataObj->HasField("Name")) ? TEXT("") : dataObj->GetStringField("Name");
     tempStruct.SizeLimit = !(dataObj->HasField("SizeLimit")) ? 0 : int(dataObj->GetNumberField("SizeLimit"));
@@ -113,6 +114,7 @@ FProgressionGetStatisticDefinitionResponse UPlayFabProgressionModelDecoder::deco
     tempStruct.Columns = !(dataObj->HasField("Columns")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Columns");
     tempStruct.Created = !(dataObj->HasField("Created")) ? TEXT("") : dataObj->GetStringField("Created");
     tempStruct.EntityType = !(dataObj->HasField("EntityType")) ? TEXT("") : dataObj->GetStringField("EntityType");
+    tempStruct.EventEmissionConfig = !(dataObj->HasField("EventEmissionConfig")) ? nullptr : dataObj->GetObjectField("EventEmissionConfig");
     tempStruct.LastResetTime = !(dataObj->HasField("LastResetTime")) ? TEXT("") : dataObj->GetStringField("LastResetTime");
     tempStruct.LinkedLeaderboardNames = !(dataObj->HasField("LinkedLeaderboardNames")) ? TEXT("") : FString::Join(dataObj->GetStringArrayField("LinkedLeaderboardNames"), TEXT(","));
     tempStruct.Name = !(dataObj->HasField("Name")) ? TEXT("") : dataObj->GetStringField("Name");

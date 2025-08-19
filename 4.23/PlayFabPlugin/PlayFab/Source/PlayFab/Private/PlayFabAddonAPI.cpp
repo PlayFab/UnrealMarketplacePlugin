@@ -99,10 +99,17 @@ UPlayFabAddonAPI* UPlayFabAddonAPI::CreateOrUpdateApple(FAddonCreateOrUpdateAppl
 
 
     // Serialize all the request properties to json
+    OutRestJsonObj->SetBoolField(TEXT("AllowProduction"), request.AllowProduction);
+    OutRestJsonObj->SetBoolField(TEXT("AllowSandbox"), request.AllowSandbox);
     if (request.AppBundleId.IsEmpty() || request.AppBundleId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("AppBundleId"));
     } else {
         OutRestJsonObj->SetStringField(TEXT("AppBundleId"), request.AppBundleId);
+    }
+    if (request.AppId.IsEmpty() || request.AppId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("AppId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("AppId"), request.AppId);
     }
     if (request.AppSharedSecret.IsEmpty() || request.AppSharedSecret == "") {
         OutRestJsonObj->SetFieldNull(TEXT("AppSharedSecret"));
@@ -113,6 +120,21 @@ UPlayFabAddonAPI* UPlayFabAddonAPI::CreateOrUpdateApple(FAddonCreateOrUpdateAppl
     if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
     OutRestJsonObj->SetBoolField(TEXT("ErrorIfExists"), request.ErrorIfExists);
     OutRestJsonObj->SetBoolField(TEXT("IgnoreExpirationDate"), request.IgnoreExpirationDate);
+    if (request.IssuerId.IsEmpty() || request.IssuerId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("IssuerId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("IssuerId"), request.IssuerId);
+    }
+    if (request.KeyId.IsEmpty() || request.KeyId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("KeyId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("KeyId"), request.KeyId);
+    }
+    if (request.PrivateKey.IsEmpty() || request.PrivateKey == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("PrivateKey"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("PrivateKey"), request.PrivateKey);
+    }
     OutRestJsonObj->SetBoolField(TEXT("RequireSecureAuthentication"), request.RequireSecureAuthentication);
 
     // Add Request to manager

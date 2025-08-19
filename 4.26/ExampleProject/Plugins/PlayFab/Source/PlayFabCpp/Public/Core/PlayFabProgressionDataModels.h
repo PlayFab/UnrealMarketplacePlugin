@@ -85,6 +85,94 @@ namespace ProgressionModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    enum EventType
+    {
+        EventTypeNone,
+        EventTypeTelemetry,
+        EventTypePlayStream
+    };
+
+    PLAYFABCPP_API void writeEventTypeEnumJSON(EventType enumVal, JsonWriter& writer);
+    PLAYFABCPP_API EventType readEventTypeFromValue(const TSharedPtr<FJsonValue>& value);
+    PLAYFABCPP_API EventType readEventTypeFromValue(const FString& value);
+
+    struct PLAYFABCPP_API FLeaderboardEntityRankOnVersionEndConfig : public PlayFab::FPlayFabCppBaseModel
+    {
+        // The type of event to emit when the leaderboard version end.
+        EventType pfEventType;
+
+        // The maximum number of entity to return on leaderboard version end. Range is 1 to 1000.
+        int32 RankLimit;
+
+        FLeaderboardEntityRankOnVersionEndConfig() :
+            FPlayFabCppBaseModel(),
+            pfEventType(),
+            RankLimit(0)
+            {}
+
+        FLeaderboardEntityRankOnVersionEndConfig(const FLeaderboardEntityRankOnVersionEndConfig& src) = default;
+
+        FLeaderboardEntityRankOnVersionEndConfig(const TSharedPtr<FJsonObject>& obj) : FLeaderboardEntityRankOnVersionEndConfig()
+        {
+            readFromValue(obj);
+        }
+
+        ~FLeaderboardEntityRankOnVersionEndConfig();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FLeaderboardVersionEndConfig : public PlayFab::FPlayFabCppBaseModel
+    {
+        // The type of event to emit when the leaderboard version end.
+        EventType pfEventType;
+
+        FLeaderboardVersionEndConfig() :
+            FPlayFabCppBaseModel(),
+            pfEventType()
+            {}
+
+        FLeaderboardVersionEndConfig(const FLeaderboardVersionEndConfig& src) = default;
+
+        FLeaderboardVersionEndConfig(const TSharedPtr<FJsonObject>& obj) : FLeaderboardVersionEndConfig()
+        {
+            readFromValue(obj);
+        }
+
+        ~FLeaderboardVersionEndConfig();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FLeaderboardEventEmissionConfig : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] This event emits the top ranks of the leaderboard when the leaderboard version end.
+        TSharedPtr<FLeaderboardEntityRankOnVersionEndConfig> EntityRankOnVersionEndConfig;
+
+        // [optional] This event is emitted when the leaderboard version end.
+        TSharedPtr<FLeaderboardVersionEndConfig> VersionEndConfig;
+
+        FLeaderboardEventEmissionConfig() :
+            FPlayFabCppBaseModel(),
+            EntityRankOnVersionEndConfig(nullptr),
+            VersionEndConfig(nullptr)
+            {}
+
+        FLeaderboardEventEmissionConfig(const FLeaderboardEventEmissionConfig& src) = default;
+
+        FLeaderboardEventEmissionConfig(const TSharedPtr<FJsonObject>& obj) : FLeaderboardEventEmissionConfig()
+        {
+            readFromValue(obj);
+        }
+
+        ~FLeaderboardEventEmissionConfig();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     enum ResetInterval
     {
         ResetIntervalManual,
@@ -146,6 +234,9 @@ namespace ProgressionModels
          */
         FString EntityType;
 
+        // [optional] [In Preview]: The configuration for the events emitted by this leaderboard. If not specified, no events will be emitted.
+        TSharedPtr<FLeaderboardEventEmissionConfig> EventEmissionConfig;
+
         // A name for the leaderboard, unique per title.
         FString Name;
 
@@ -160,6 +251,7 @@ namespace ProgressionModels
             Columns(),
             CustomTags(),
             EntityType(),
+            EventEmissionConfig(nullptr),
             Name(),
             SizeLimit(0),
             pfVersionConfiguration(nullptr)
@@ -217,6 +309,52 @@ namespace ProgressionModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FStatisticsUpdateEventConfig : public PlayFab::FPlayFabCppBaseModel
+    {
+        // The event type to emit when statistics are updated.
+        EventType pfEventType;
+
+        FStatisticsUpdateEventConfig() :
+            FPlayFabCppBaseModel(),
+            pfEventType()
+            {}
+
+        FStatisticsUpdateEventConfig(const FStatisticsUpdateEventConfig& src) = default;
+
+        FStatisticsUpdateEventConfig(const TSharedPtr<FJsonObject>& obj) : FStatisticsUpdateEventConfig()
+        {
+            readFromValue(obj);
+        }
+
+        ~FStatisticsUpdateEventConfig();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FStatisticsEventEmissionConfig : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Emitted when statistics are updated.
+        TSharedPtr<FStatisticsUpdateEventConfig> UpdateEventConfig;
+
+        FStatisticsEventEmissionConfig() :
+            FPlayFabCppBaseModel(),
+            UpdateEventConfig(nullptr)
+            {}
+
+        FStatisticsEventEmissionConfig(const FStatisticsEventEmissionConfig& src) = default;
+
+        FStatisticsEventEmissionConfig(const TSharedPtr<FJsonObject>& obj) : FStatisticsEventEmissionConfig()
+        {
+            readFromValue(obj);
+        }
+
+        ~FStatisticsEventEmissionConfig();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FCreateStatisticDefinitionRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         /**
@@ -232,6 +370,9 @@ namespace ProgressionModels
         // [optional] The entity type allowed to have score(s) for this statistic.
         FString EntityType;
 
+        // [optional] [In Preview]: Configurations for different Statistics events that can be emitted by the service.
+        TSharedPtr<FStatisticsEventEmissionConfig> EventEmissionConfig;
+
         // Name of the statistic. Must be less than 150 characters. Restricted to a-Z, 0-9, '(', ')', '_', '-' and '.'.
         FString Name;
 
@@ -244,6 +385,7 @@ namespace ProgressionModels
             Columns(),
             CustomTags(),
             EntityType(),
+            EventEmissionConfig(nullptr),
             Name(),
             pfVersionConfiguration(nullptr)
             {}
@@ -782,6 +924,9 @@ namespace ProgressionModels
          */
         FString EntityType;
 
+        // [optional] [In Preview]: The configuration for the events emitted by this leaderboard. If not specified, no events will be emitted.
+        TSharedPtr<FLeaderboardEventEmissionConfig> EventEmissionConfig;
+
         // [optional] Last time, in UTC, leaderboard version was incremented.
         Boxed<FDateTime> LastResetTime;
 
@@ -802,6 +947,7 @@ namespace ProgressionModels
             Columns(),
             Created(0),
             EntityType(),
+            EventEmissionConfig(nullptr),
             LastResetTime(),
             Name(),
             SizeLimit(0),
@@ -899,6 +1045,9 @@ namespace ProgressionModels
         // [optional] The entity type that can have this statistic.
         FString EntityType;
 
+        // [optional] [In Preview]: Configurations for different Statistics events that can be emitted by the service.
+        TSharedPtr<FStatisticsEventEmissionConfig> EventEmissionConfig;
+
         // [optional] Last time, in UTC, statistic version was incremented.
         Boxed<FDateTime> LastResetTime;
 
@@ -920,6 +1069,7 @@ namespace ProgressionModels
             Columns(),
             Created(0),
             EntityType(),
+            EventEmissionConfig(nullptr),
             LastResetTime(),
             LinkedLeaderboardNames(),
             Name(),
@@ -1184,6 +1334,9 @@ namespace ProgressionModels
          */
         FString EntityType;
 
+        // [optional] [In Preview]: The configuration for the events emitted by this leaderboard. If not specified, no events will be emitted.
+        TSharedPtr<FLeaderboardEventEmissionConfig> EventEmissionConfig;
+
         // [optional] Last time, in UTC, leaderboard version was incremented.
         Boxed<FDateTime> LastResetTime;
 
@@ -1204,6 +1357,7 @@ namespace ProgressionModels
             Columns(),
             Created(0),
             EntityType(),
+            EventEmissionConfig(nullptr),
             LastResetTime(),
             Name(),
             SizeLimit(0),
@@ -1344,6 +1498,9 @@ namespace ProgressionModels
         // [optional] The entity type that can have this statistic.
         FString EntityType;
 
+        // [optional] [In Preview]: Configurations for different Statistics events that can be emitted by the service.
+        TSharedPtr<FStatisticsEventEmissionConfig> EventEmissionConfig;
+
         // [optional] Last time, in UTC, statistic version was incremented.
         Boxed<FDateTime> LastResetTime;
 
@@ -1365,6 +1522,7 @@ namespace ProgressionModels
             Columns(),
             Created(0),
             EntityType(),
+            EventEmissionConfig(nullptr),
             LastResetTime(),
             LinkedLeaderboardNames(),
             Name(),
@@ -1486,6 +1644,9 @@ namespace ProgressionModels
     {
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
+        // [optional] [In Preview]: The configuration for the events emitted by this leaderboard. If not specified, no events will be emitted.
+        TSharedPtr<FLeaderboardEventEmissionConfig> EventEmissionConfig;
+
         // The name of the leaderboard to update the definition for.
         FString Name;
 
@@ -1498,6 +1659,7 @@ namespace ProgressionModels
         FUpdateLeaderboardDefinitionRequest() :
             FPlayFabCppRequestCommon(),
             CustomTags(),
+            EventEmissionConfig(nullptr),
             Name(),
             SizeLimit(),
             pfVersionConfiguration(nullptr)
@@ -1549,6 +1711,9 @@ namespace ProgressionModels
     {
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
+        // [optional] [In Preview]: Configurations for different Statistics events that can be emitted by the service.
+        TSharedPtr<FStatisticsEventEmissionConfig> EventEmissionConfig;
+
         // Name of the statistic. Must be less than 150 characters. Restricted to a-Z, 0-9, '(', ')', '_', '-' and '.'.
         FString Name;
 
@@ -1558,6 +1723,7 @@ namespace ProgressionModels
         FUpdateStatisticDefinitionRequest() :
             FPlayFabCppRequestCommon(),
             CustomTags(),
+            EventEmissionConfig(nullptr),
             Name(),
             pfVersionConfiguration(nullptr)
             {}

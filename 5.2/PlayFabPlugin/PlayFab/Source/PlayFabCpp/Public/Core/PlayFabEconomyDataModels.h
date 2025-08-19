@@ -3605,6 +3605,12 @@ namespace EconomyModels
 
     struct PLAYFABCPP_API FTransactionPurchaseDetails : public PlayFab::FPlayFabCppBaseModel
     {
+        // [optional] The friendly id of the item that was purchased.
+        FString ItemFriendlyId;
+
+        // [optional] The id of the item that was purchased.
+        FString ItemId;
+
         // [optional] The friendly id of the Store the item was purchased from or null.
         FString StoreFriendlyId;
 
@@ -3613,6 +3619,8 @@ namespace EconomyModels
 
         FTransactionPurchaseDetails() :
             FPlayFabCppBaseModel(),
+            ItemFriendlyId(),
+            ItemId(),
             StoreFriendlyId(),
             StoreId()
             {}

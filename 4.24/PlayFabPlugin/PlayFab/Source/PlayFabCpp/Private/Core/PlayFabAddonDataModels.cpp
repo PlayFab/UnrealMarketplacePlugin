@@ -70,6 +70,18 @@ void PlayFab::AddonModels::FCreateOrUpdateAppleRequest::writeJSON(JsonWriter& wr
 {
     writer->WriteObjectStart();
 
+    if (AllowProduction.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("AllowProduction"));
+        writer->WriteValue(AllowProduction);
+    }
+
+    if (AllowSandbox.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("AllowSandbox"));
+        writer->WriteValue(AllowSandbox);
+    }
+
     if (!AppBundleId.IsEmpty() == false)
     {
         UE_LOG(LogTemp, Error, TEXT("This field is required: CreateOrUpdateAppleRequest::AppBundleId, PlayFab calls may not work if it remains empty."));
@@ -78,6 +90,12 @@ void PlayFab::AddonModels::FCreateOrUpdateAppleRequest::writeJSON(JsonWriter& wr
     {
         writer->WriteIdentifierPrefix(TEXT("AppBundleId"));
         writer->WriteValue(AppBundleId);
+    }
+
+    if (AppId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("AppId"));
+        writer->WriteValue(AppId);
     }
 
     if (AppSharedSecret.IsEmpty() == false)
@@ -115,6 +133,24 @@ void PlayFab::AddonModels::FCreateOrUpdateAppleRequest::writeJSON(JsonWriter& wr
         writer->WriteValue(IgnoreExpirationDate);
     }
 
+    if (IssuerId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("IssuerId"));
+        writer->WriteValue(IssuerId);
+    }
+
+    if (KeyId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("KeyId"));
+        writer->WriteValue(KeyId);
+    }
+
+    if (PrivateKey.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PrivateKey"));
+        writer->WriteValue(PrivateKey);
+    }
+
     if (RequireSecureAuthentication.notNull())
     {
         writer->WriteIdentifierPrefix(TEXT("RequireSecureAuthentication"));
@@ -128,11 +164,32 @@ bool PlayFab::AddonModels::FCreateOrUpdateAppleRequest::readFromValue(const TSha
 {
     bool HasSucceeded = true;
 
+    const TSharedPtr<FJsonValue> AllowProductionValue = obj->TryGetField(TEXT("AllowProduction"));
+    if (AllowProductionValue.IsValid() && !AllowProductionValue->IsNull())
+    {
+        bool TmpValue;
+        if (AllowProductionValue->TryGetBool(TmpValue)) { AllowProduction = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> AllowSandboxValue = obj->TryGetField(TEXT("AllowSandbox"));
+    if (AllowSandboxValue.IsValid() && !AllowSandboxValue->IsNull())
+    {
+        bool TmpValue;
+        if (AllowSandboxValue->TryGetBool(TmpValue)) { AllowSandbox = TmpValue; }
+    }
+
     const TSharedPtr<FJsonValue> AppBundleIdValue = obj->TryGetField(TEXT("AppBundleId"));
     if (AppBundleIdValue.IsValid() && !AppBundleIdValue->IsNull())
     {
         FString TmpValue;
         if (AppBundleIdValue->TryGetString(TmpValue)) { AppBundleId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> AppIdValue = obj->TryGetField(TEXT("AppId"));
+    if (AppIdValue.IsValid() && !AppIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (AppIdValue->TryGetString(TmpValue)) { AppId = TmpValue; }
     }
 
     const TSharedPtr<FJsonValue> AppSharedSecretValue = obj->TryGetField(TEXT("AppSharedSecret"));
@@ -169,6 +226,27 @@ bool PlayFab::AddonModels::FCreateOrUpdateAppleRequest::readFromValue(const TSha
     {
         bool TmpValue;
         if (IgnoreExpirationDateValue->TryGetBool(TmpValue)) { IgnoreExpirationDate = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> IssuerIdValue = obj->TryGetField(TEXT("IssuerId"));
+    if (IssuerIdValue.IsValid() && !IssuerIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (IssuerIdValue->TryGetString(TmpValue)) { IssuerId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> KeyIdValue = obj->TryGetField(TEXT("KeyId"));
+    if (KeyIdValue.IsValid() && !KeyIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (KeyIdValue->TryGetString(TmpValue)) { KeyId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> PrivateKeyValue = obj->TryGetField(TEXT("PrivateKey"));
+    if (PrivateKeyValue.IsValid() && !PrivateKeyValue->IsNull())
+    {
+        FString TmpValue;
+        if (PrivateKeyValue->TryGetString(TmpValue)) { PrivateKey = TmpValue; }
     }
 
     const TSharedPtr<FJsonValue> RequireSecureAuthenticationValue = obj->TryGetField(TEXT("RequireSecureAuthentication"));

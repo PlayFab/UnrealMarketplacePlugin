@@ -1497,6 +1497,16 @@ enum class EExperimentType : uint8
     pfenum_Snapshot = 1 UMETA(DisplayName = "Snapshot"),
 };
 
+/** EventType */
+
+UENUM(BlueprintType)
+enum class EEventType : uint8
+{
+    pfenum_None = 0 UMETA(DisplayName = "None"),
+    pfenum_Telemetry = 1 UMETA(DisplayName = "Telemetry"),
+    pfenum_PlayStream = 2 UMETA(DisplayName = "PlayStream"),
+};
+
 /** LeaderboardSortDirection */
 
 UENUM(BlueprintType)

@@ -154,6 +154,147 @@ bool PlayFab::ProgressionModels::FLeaderboardColumn::readFromValue(const TShared
     return HasSucceeded;
 }
 
+void PlayFab::ProgressionModels::writeEventTypeEnumJSON(EventType enumVal, JsonWriter& writer)
+{
+    switch (enumVal)
+    {
+
+    case EventTypeNone: writer->WriteValue(TEXT("None")); break;
+    case EventTypeTelemetry: writer->WriteValue(TEXT("Telemetry")); break;
+    case EventTypePlayStream: writer->WriteValue(TEXT("PlayStream")); break;
+    }
+}
+
+ProgressionModels::EventType PlayFab::ProgressionModels::readEventTypeFromValue(const TSharedPtr<FJsonValue>& value)
+{
+    return readEventTypeFromValue(value.IsValid() ? value->AsString() : "");
+}
+
+ProgressionModels::EventType PlayFab::ProgressionModels::readEventTypeFromValue(const FString& value)
+{
+    static TMap<FString, EventType> _EventTypeMap;
+    if (_EventTypeMap.Num() == 0)
+    {
+        // Auto-generate the map on the first use
+        _EventTypeMap.Add(TEXT("None"), EventTypeNone);
+        _EventTypeMap.Add(TEXT("Telemetry"), EventTypeTelemetry);
+        _EventTypeMap.Add(TEXT("PlayStream"), EventTypePlayStream);
+
+    }
+
+    if (!value.IsEmpty())
+    {
+        auto output = _EventTypeMap.Find(value);
+        if (output != nullptr)
+            return *output;
+    }
+
+    return EventTypeNone; // Basically critical fail
+}
+
+PlayFab::ProgressionModels::FLeaderboardEntityRankOnVersionEndConfig::~FLeaderboardEntityRankOnVersionEndConfig()
+{
+
+}
+
+void PlayFab::ProgressionModels::FLeaderboardEntityRankOnVersionEndConfig::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteIdentifierPrefix(TEXT("EventType"));
+    writeEventTypeEnumJSON(pfEventType, writer);
+
+    writer->WriteIdentifierPrefix(TEXT("RankLimit"));
+    writer->WriteValue(RankLimit);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ProgressionModels::FLeaderboardEntityRankOnVersionEndConfig::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    pfEventType = readEventTypeFromValue(obj->TryGetField(TEXT("EventType")));
+
+    const TSharedPtr<FJsonValue> RankLimitValue = obj->TryGetField(TEXT("RankLimit"));
+    if (RankLimitValue.IsValid() && !RankLimitValue->IsNull())
+    {
+        int32 TmpValue;
+        if (RankLimitValue->TryGetNumber(TmpValue)) { RankLimit = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::ProgressionModels::FLeaderboardVersionEndConfig::~FLeaderboardVersionEndConfig()
+{
+
+}
+
+void PlayFab::ProgressionModels::FLeaderboardVersionEndConfig::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteIdentifierPrefix(TEXT("EventType"));
+    writeEventTypeEnumJSON(pfEventType, writer);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ProgressionModels::FLeaderboardVersionEndConfig::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    pfEventType = readEventTypeFromValue(obj->TryGetField(TEXT("EventType")));
+
+    return HasSucceeded;
+}
+
+PlayFab::ProgressionModels::FLeaderboardEventEmissionConfig::~FLeaderboardEventEmissionConfig()
+{
+    //if (EntityRankOnVersionEndConfig != nullptr) delete EntityRankOnVersionEndConfig;
+    //if (VersionEndConfig != nullptr) delete VersionEndConfig;
+
+}
+
+void PlayFab::ProgressionModels::FLeaderboardEventEmissionConfig::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (EntityRankOnVersionEndConfig.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("EntityRankOnVersionEndConfig"));
+        EntityRankOnVersionEndConfig->writeJSON(writer);
+    }
+
+    if (VersionEndConfig.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("VersionEndConfig"));
+        VersionEndConfig->writeJSON(writer);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ProgressionModels::FLeaderboardEventEmissionConfig::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> EntityRankOnVersionEndConfigValue = obj->TryGetField(TEXT("EntityRankOnVersionEndConfig"));
+    if (EntityRankOnVersionEndConfigValue.IsValid() && !EntityRankOnVersionEndConfigValue->IsNull())
+    {
+        EntityRankOnVersionEndConfig = MakeShareable(new FLeaderboardEntityRankOnVersionEndConfig(EntityRankOnVersionEndConfigValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> VersionEndConfigValue = obj->TryGetField(TEXT("VersionEndConfig"));
+    if (VersionEndConfigValue.IsValid() && !VersionEndConfigValue->IsNull())
+    {
+        VersionEndConfig = MakeShareable(new FLeaderboardVersionEndConfig(VersionEndConfigValue->AsObject()));
+    }
+
+    return HasSucceeded;
+}
+
 void PlayFab::ProgressionModels::writeResetIntervalEnumJSON(ResetInterval enumVal, JsonWriter& writer)
 {
     switch (enumVal)
@@ -232,6 +373,7 @@ bool PlayFab::ProgressionModels::FVersionConfiguration::readFromValue(const TSha
 
 PlayFab::ProgressionModels::FCreateLeaderboardDefinitionRequest::~FCreateLeaderboardDefinitionRequest()
 {
+    //if (EventEmissionConfig != nullptr) delete EventEmissionConfig;
     //if (VersionConfiguration != nullptr) delete VersionConfiguration;
 
 }
@@ -265,6 +407,12 @@ void PlayFab::ProgressionModels::FCreateLeaderboardDefinitionRequest::writeJSON(
     {
         writer->WriteIdentifierPrefix(TEXT("EntityType"));
         writer->WriteValue(EntityType);
+    }
+
+    if (EventEmissionConfig.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("EventEmissionConfig"));
+        EventEmissionConfig->writeJSON(writer);
     }
 
     if (!Name.IsEmpty() == false)
@@ -315,6 +463,12 @@ bool PlayFab::ProgressionModels::FCreateLeaderboardDefinitionRequest::readFromVa
     {
         FString TmpValue;
         if (EntityTypeValue->TryGetString(TmpValue)) { EntityType = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> EventEmissionConfigValue = obj->TryGetField(TEXT("EventEmissionConfig"));
+    if (EventEmissionConfigValue.IsValid() && !EventEmissionConfigValue->IsNull())
+    {
+        EventEmissionConfig = MakeShareable(new FLeaderboardEventEmissionConfig(EventEmissionConfigValue->AsObject()));
     }
 
     const TSharedPtr<FJsonValue> NameValue = obj->TryGetField(TEXT("Name"));
@@ -421,8 +575,65 @@ bool PlayFab::ProgressionModels::FStatisticColumn::readFromValue(const TSharedPt
     return HasSucceeded;
 }
 
+PlayFab::ProgressionModels::FStatisticsUpdateEventConfig::~FStatisticsUpdateEventConfig()
+{
+
+}
+
+void PlayFab::ProgressionModels::FStatisticsUpdateEventConfig::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteIdentifierPrefix(TEXT("EventType"));
+    writeEventTypeEnumJSON(pfEventType, writer);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ProgressionModels::FStatisticsUpdateEventConfig::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    pfEventType = readEventTypeFromValue(obj->TryGetField(TEXT("EventType")));
+
+    return HasSucceeded;
+}
+
+PlayFab::ProgressionModels::FStatisticsEventEmissionConfig::~FStatisticsEventEmissionConfig()
+{
+    //if (UpdateEventConfig != nullptr) delete UpdateEventConfig;
+
+}
+
+void PlayFab::ProgressionModels::FStatisticsEventEmissionConfig::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (UpdateEventConfig.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("UpdateEventConfig"));
+        UpdateEventConfig->writeJSON(writer);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ProgressionModels::FStatisticsEventEmissionConfig::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> UpdateEventConfigValue = obj->TryGetField(TEXT("UpdateEventConfig"));
+    if (UpdateEventConfigValue.IsValid() && !UpdateEventConfigValue->IsNull())
+    {
+        UpdateEventConfig = MakeShareable(new FStatisticsUpdateEventConfig(UpdateEventConfigValue->AsObject()));
+    }
+
+    return HasSucceeded;
+}
+
 PlayFab::ProgressionModels::FCreateStatisticDefinitionRequest::~FCreateStatisticDefinitionRequest()
 {
+    //if (EventEmissionConfig != nullptr) delete EventEmissionConfig;
     //if (VersionConfiguration != nullptr) delete VersionConfiguration;
 
 }
@@ -464,6 +675,12 @@ void PlayFab::ProgressionModels::FCreateStatisticDefinitionRequest::writeJSON(Js
     {
         writer->WriteIdentifierPrefix(TEXT("EntityType"));
         writer->WriteValue(EntityType);
+    }
+
+    if (EventEmissionConfig.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("EventEmissionConfig"));
+        EventEmissionConfig->writeJSON(writer);
     }
 
     if (!Name.IsEmpty() == false)
@@ -513,6 +730,12 @@ bool PlayFab::ProgressionModels::FCreateStatisticDefinitionRequest::readFromValu
     {
         FString TmpValue;
         if (EntityTypeValue->TryGetString(TmpValue)) { EntityType = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> EventEmissionConfigValue = obj->TryGetField(TEXT("EventEmissionConfig"));
+    if (EventEmissionConfigValue.IsValid() && !EventEmissionConfigValue->IsNull())
+    {
+        EventEmissionConfig = MakeShareable(new FStatisticsEventEmissionConfig(EventEmissionConfigValue->AsObject()));
     }
 
     const TSharedPtr<FJsonValue> NameValue = obj->TryGetField(TEXT("Name"));
@@ -1587,6 +1810,7 @@ bool PlayFab::ProgressionModels::FGetLeaderboardDefinitionRequest::readFromValue
 
 PlayFab::ProgressionModels::FGetLeaderboardDefinitionResponse::~FGetLeaderboardDefinitionResponse()
 {
+    //if (EventEmissionConfig != nullptr) delete EventEmissionConfig;
 
 }
 
@@ -1611,6 +1835,12 @@ void PlayFab::ProgressionModels::FGetLeaderboardDefinitionResponse::writeJSON(Js
     {
         writer->WriteIdentifierPrefix(TEXT("EntityType"));
         writer->WriteValue(EntityType);
+    }
+
+    if (EventEmissionConfig.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("EventEmissionConfig"));
+        EventEmissionConfig->writeJSON(writer);
     }
 
     if (LastResetTime.notNull())
@@ -1663,6 +1893,12 @@ bool PlayFab::ProgressionModels::FGetLeaderboardDefinitionResponse::readFromValu
     {
         FString TmpValue;
         if (EntityTypeValue->TryGetString(TmpValue)) { EntityType = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> EventEmissionConfigValue = obj->TryGetField(TEXT("EventEmissionConfig"));
+    if (EventEmissionConfigValue.IsValid() && !EventEmissionConfigValue->IsNull())
+    {
+        EventEmissionConfig = MakeShareable(new FLeaderboardEventEmissionConfig(EventEmissionConfigValue->AsObject()));
     }
 
     const TSharedPtr<FJsonValue> LastResetTimeValue = obj->TryGetField(TEXT("LastResetTime"));
@@ -1835,6 +2071,7 @@ bool PlayFab::ProgressionModels::FGetStatisticDefinitionRequest::readFromValue(c
 
 PlayFab::ProgressionModels::FGetStatisticDefinitionResponse::~FGetStatisticDefinitionResponse()
 {
+    //if (EventEmissionConfig != nullptr) delete EventEmissionConfig;
     //if (VersionConfiguration != nullptr) delete VersionConfiguration;
 
 }
@@ -1877,6 +2114,12 @@ void PlayFab::ProgressionModels::FGetStatisticDefinitionResponse::writeJSON(Json
     {
         writer->WriteIdentifierPrefix(TEXT("EntityType"));
         writer->WriteValue(EntityType);
+    }
+
+    if (EventEmissionConfig.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("EventEmissionConfig"));
+        EventEmissionConfig->writeJSON(writer);
     }
 
     if (LastResetTime.notNull())
@@ -1938,6 +2181,12 @@ bool PlayFab::ProgressionModels::FGetStatisticDefinitionResponse::readFromValue(
     {
         FString TmpValue;
         if (EntityTypeValue->TryGetString(TmpValue)) { EntityType = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> EventEmissionConfigValue = obj->TryGetField(TEXT("EventEmissionConfig"));
+    if (EventEmissionConfigValue.IsValid() && !EventEmissionConfigValue->IsNull())
+    {
+        EventEmissionConfig = MakeShareable(new FStatisticsEventEmissionConfig(EventEmissionConfigValue->AsObject()));
     }
 
     const TSharedPtr<FJsonValue> LastResetTimeValue = obj->TryGetField(TEXT("LastResetTime"));
@@ -2433,6 +2682,7 @@ bool PlayFab::ProgressionModels::FIncrementStatisticVersionResponse::readFromVal
 
 PlayFab::ProgressionModels::FLeaderboardDefinition::~FLeaderboardDefinition()
 {
+    //if (EventEmissionConfig != nullptr) delete EventEmissionConfig;
 
 }
 
@@ -2457,6 +2707,12 @@ void PlayFab::ProgressionModels::FLeaderboardDefinition::writeJSON(JsonWriter& w
     {
         writer->WriteIdentifierPrefix(TEXT("EntityType"));
         writer->WriteValue(EntityType);
+    }
+
+    if (EventEmissionConfig.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("EventEmissionConfig"));
+        EventEmissionConfig->writeJSON(writer);
     }
 
     if (LastResetTime.notNull())
@@ -2509,6 +2765,12 @@ bool PlayFab::ProgressionModels::FLeaderboardDefinition::readFromValue(const TSh
     {
         FString TmpValue;
         if (EntityTypeValue->TryGetString(TmpValue)) { EntityType = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> EventEmissionConfigValue = obj->TryGetField(TEXT("EventEmissionConfig"));
+    if (EventEmissionConfigValue.IsValid() && !EventEmissionConfigValue->IsNull())
+    {
+        EventEmissionConfig = MakeShareable(new FLeaderboardEventEmissionConfig(EventEmissionConfigValue->AsObject()));
     }
 
     const TSharedPtr<FJsonValue> LastResetTimeValue = obj->TryGetField(TEXT("LastResetTime"));
@@ -2722,6 +2984,7 @@ bool PlayFab::ProgressionModels::FListStatisticDefinitionsRequest::readFromValue
 
 PlayFab::ProgressionModels::FStatisticDefinition::~FStatisticDefinition()
 {
+    //if (EventEmissionConfig != nullptr) delete EventEmissionConfig;
     //if (VersionConfiguration != nullptr) delete VersionConfiguration;
 
 }
@@ -2764,6 +3027,12 @@ void PlayFab::ProgressionModels::FStatisticDefinition::writeJSON(JsonWriter& wri
     {
         writer->WriteIdentifierPrefix(TEXT("EntityType"));
         writer->WriteValue(EntityType);
+    }
+
+    if (EventEmissionConfig.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("EventEmissionConfig"));
+        EventEmissionConfig->writeJSON(writer);
     }
 
     if (LastResetTime.notNull())
@@ -2825,6 +3094,12 @@ bool PlayFab::ProgressionModels::FStatisticDefinition::readFromValue(const TShar
     {
         FString TmpValue;
         if (EntityTypeValue->TryGetString(TmpValue)) { EntityType = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> EventEmissionConfigValue = obj->TryGetField(TEXT("EventEmissionConfig"));
+    if (EventEmissionConfigValue.IsValid() && !EventEmissionConfigValue->IsNull())
+    {
+        EventEmissionConfig = MakeShareable(new FStatisticsEventEmissionConfig(EventEmissionConfigValue->AsObject()));
     }
 
     const TSharedPtr<FJsonValue> LastResetTimeValue = obj->TryGetField(TEXT("LastResetTime"));
@@ -3061,6 +3336,7 @@ bool PlayFab::ProgressionModels::FUnlinkLeaderboardFromStatisticRequest::readFro
 
 PlayFab::ProgressionModels::FUpdateLeaderboardDefinitionRequest::~FUpdateLeaderboardDefinitionRequest()
 {
+    //if (EventEmissionConfig != nullptr) delete EventEmissionConfig;
     //if (VersionConfiguration != nullptr) delete VersionConfiguration;
 
 }
@@ -3078,6 +3354,12 @@ void PlayFab::ProgressionModels::FUpdateLeaderboardDefinitionRequest::writeJSON(
             writer->WriteValue((*It).Value);
         }
         writer->WriteObjectEnd();
+    }
+
+    if (EventEmissionConfig.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("EventEmissionConfig"));
+        EventEmissionConfig->writeJSON(writer);
     }
 
     if (!Name.IsEmpty() == false)
@@ -3116,6 +3398,12 @@ bool PlayFab::ProgressionModels::FUpdateLeaderboardDefinitionRequest::readFromVa
         {
             CustomTags.Add(It.Key(), It.Value()->AsString());
         }
+    }
+
+    const TSharedPtr<FJsonValue> EventEmissionConfigValue = obj->TryGetField(TEXT("EventEmissionConfig"));
+    if (EventEmissionConfigValue.IsValid() && !EventEmissionConfigValue->IsNull())
+    {
+        EventEmissionConfig = MakeShareable(new FLeaderboardEventEmissionConfig(EventEmissionConfigValue->AsObject()));
     }
 
     const TSharedPtr<FJsonValue> NameValue = obj->TryGetField(TEXT("Name"));
@@ -3216,6 +3504,7 @@ bool PlayFab::ProgressionModels::FUpdateLeaderboardEntriesRequest::readFromValue
 
 PlayFab::ProgressionModels::FUpdateStatisticDefinitionRequest::~FUpdateStatisticDefinitionRequest()
 {
+    //if (EventEmissionConfig != nullptr) delete EventEmissionConfig;
     //if (VersionConfiguration != nullptr) delete VersionConfiguration;
 
 }
@@ -3233,6 +3522,12 @@ void PlayFab::ProgressionModels::FUpdateStatisticDefinitionRequest::writeJSON(Js
             writer->WriteValue((*It).Value);
         }
         writer->WriteObjectEnd();
+    }
+
+    if (EventEmissionConfig.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("EventEmissionConfig"));
+        EventEmissionConfig->writeJSON(writer);
     }
 
     if (!Name.IsEmpty() == false)
@@ -3265,6 +3560,12 @@ bool PlayFab::ProgressionModels::FUpdateStatisticDefinitionRequest::readFromValu
         {
             CustomTags.Add(It.Key(), It.Value()->AsString());
         }
+    }
+
+    const TSharedPtr<FJsonValue> EventEmissionConfigValue = obj->TryGetField(TEXT("EventEmissionConfig"));
+    if (EventEmissionConfigValue.IsValid() && !EventEmissionConfigValue->IsNull())
+    {
+        EventEmissionConfig = MakeShareable(new FStatisticsEventEmissionConfig(EventEmissionConfigValue->AsObject()));
     }
 
     const TSharedPtr<FJsonValue> NameValue = obj->TryGetField(TEXT("Name"));

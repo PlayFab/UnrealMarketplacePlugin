@@ -35,9 +35,18 @@ struct PLAYFAB_API FAddonCreateOrUpdateAppleRequest : public FPlayFabRequestComm
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** Allow validation of receipts from the Apple production environment. Required for app releases. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Addon | Addon Models")
+        bool AllowProduction = false;
+    /** Allow validation of receipts from the Apple sandbox environment. Typically used while testing. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Addon | Addon Models")
+        bool AllowSandbox = false;
     /** iOS App Bundle ID obtained after setting up your app in the App Store. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Addon | Addon Models")
         FString AppBundleId;
+    /** AppId obtained after setting up your app in the App Store. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Addon | Addon Models")
+        FString AppId;
     /** iOS App Shared Secret obtained after setting up your app in the App Store. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Addon | Addon Models")
         FString AppSharedSecret;
@@ -56,6 +65,15 @@ public:
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Addon | Addon Models")
         bool IgnoreExpirationDate = false;
+    /** IssuerId obtained after setting up your app in the App Store. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Addon | Addon Models")
+        FString IssuerId;
+    /** KeyId obtained after setting up your app in the App Store. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Addon | Addon Models")
+        FString KeyId;
+    /** PrivateKey obtained after setting up your app in the App Store. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Addon | Addon Models")
+        FString PrivateKey;
     /** Require secure authentication only for this app. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Addon | Addon Models")
         bool RequireSecureAuthentication = false;

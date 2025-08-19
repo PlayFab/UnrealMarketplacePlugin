@@ -43,8 +43,17 @@ namespace AddonModels
 
     struct PLAYFABCPP_API FCreateOrUpdateAppleRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] Allow validation of receipts from the Apple production environment. Required for app releases.
+        Boxed<bool> AllowProduction;
+
+        // [optional] Allow validation of receipts from the Apple sandbox environment. Typically used while testing.
+        Boxed<bool> AllowSandbox;
+
         // iOS App Bundle ID obtained after setting up your app in the App Store.
         FString AppBundleId;
+
+        // [optional] AppId obtained after setting up your app in the App Store.
+        FString AppId;
 
         // [optional] iOS App Shared Secret obtained after setting up your app in the App Store.
         FString AppSharedSecret;
@@ -63,17 +72,32 @@ namespace AddonModels
          */
         Boxed<bool> IgnoreExpirationDate;
 
+        // [optional] IssuerId obtained after setting up your app in the App Store.
+        FString IssuerId;
+
+        // [optional] KeyId obtained after setting up your app in the App Store.
+        FString KeyId;
+
+        // [optional] PrivateKey obtained after setting up your app in the App Store.
+        FString PrivateKey;
+
         // [optional] Require secure authentication only for this app.
         Boxed<bool> RequireSecureAuthentication;
 
         FCreateOrUpdateAppleRequest() :
             FPlayFabCppRequestCommon(),
+            AllowProduction(),
+            AllowSandbox(),
             AppBundleId(),
+            AppId(),
             AppSharedSecret(),
             CustomTags(),
             Entity(nullptr),
             ErrorIfExists(),
             IgnoreExpirationDate(),
+            IssuerId(),
+            KeyId(),
+            PrivateKey(),
             RequireSecureAuthentication()
             {}
 

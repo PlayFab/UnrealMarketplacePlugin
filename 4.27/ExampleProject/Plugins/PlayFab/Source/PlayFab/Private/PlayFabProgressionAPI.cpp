@@ -110,6 +110,7 @@ UPlayFabProgressionAPI* UPlayFabProgressionAPI::CreateLeaderboardDefinition(FPro
     } else {
         OutRestJsonObj->SetStringField(TEXT("EntityType"), request.EntityType);
     }
+    if (request.EventEmissionConfig != nullptr) OutRestJsonObj->SetObjectField(TEXT("EventEmissionConfig"), request.EventEmissionConfig);
     if (request.Name.IsEmpty() || request.Name == "") {
         OutRestJsonObj->SetFieldNull(TEXT("Name"));
     } else {
@@ -734,6 +735,7 @@ UPlayFabProgressionAPI* UPlayFabProgressionAPI::UpdateLeaderboardDefinition(FPro
 
     // Serialize all the request properties to json
     if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.EventEmissionConfig != nullptr) OutRestJsonObj->SetObjectField(TEXT("EventEmissionConfig"), request.EventEmissionConfig);
     if (request.Name.IsEmpty() || request.Name == "") {
         OutRestJsonObj->SetFieldNull(TEXT("Name"));
     } else {
@@ -871,6 +873,7 @@ UPlayFabProgressionAPI* UPlayFabProgressionAPI::CreateStatisticDefinition(FProgr
     } else {
         OutRestJsonObj->SetStringField(TEXT("EntityType"), request.EntityType);
     }
+    if (request.EventEmissionConfig != nullptr) OutRestJsonObj->SetObjectField(TEXT("EventEmissionConfig"), request.EventEmissionConfig);
     if (request.Name.IsEmpty() || request.Name == "") {
         OutRestJsonObj->SetFieldNull(TEXT("Name"));
     } else {
@@ -1306,6 +1309,7 @@ UPlayFabProgressionAPI* UPlayFabProgressionAPI::UpdateStatisticDefinition(FProgr
 
     // Serialize all the request properties to json
     if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.EventEmissionConfig != nullptr) OutRestJsonObj->SetObjectField(TEXT("EventEmissionConfig"), request.EventEmissionConfig);
     if (request.Name.IsEmpty() || request.Name == "") {
         OutRestJsonObj->SetFieldNull(TEXT("Name"));
     } else {

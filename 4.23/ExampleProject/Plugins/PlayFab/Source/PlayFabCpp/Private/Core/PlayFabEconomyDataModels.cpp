@@ -7148,6 +7148,18 @@ void PlayFab::EconomyModels::FTransactionPurchaseDetails::writeJSON(JsonWriter& 
 {
     writer->WriteObjectStart();
 
+    if (ItemFriendlyId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ItemFriendlyId"));
+        writer->WriteValue(ItemFriendlyId);
+    }
+
+    if (ItemId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ItemId"));
+        writer->WriteValue(ItemId);
+    }
+
     if (StoreFriendlyId.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("StoreFriendlyId"));
@@ -7166,6 +7178,20 @@ void PlayFab::EconomyModels::FTransactionPurchaseDetails::writeJSON(JsonWriter& 
 bool PlayFab::EconomyModels::FTransactionPurchaseDetails::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> ItemFriendlyIdValue = obj->TryGetField(TEXT("ItemFriendlyId"));
+    if (ItemFriendlyIdValue.IsValid() && !ItemFriendlyIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (ItemFriendlyIdValue->TryGetString(TmpValue)) { ItemFriendlyId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> ItemIdValue = obj->TryGetField(TEXT("ItemId"));
+    if (ItemIdValue.IsValid() && !ItemIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (ItemIdValue->TryGetString(TmpValue)) { ItemId = TmpValue; }
+    }
 
     const TSharedPtr<FJsonValue> StoreFriendlyIdValue = obj->TryGetField(TEXT("StoreFriendlyId"));
     if (StoreFriendlyIdValue.IsValid() && !StoreFriendlyIdValue->IsNull())

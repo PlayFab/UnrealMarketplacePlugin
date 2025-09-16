@@ -1703,6 +1703,71 @@ void UPlayFabServerAPI::HelperLinkXboxAccount(FPlayFabBaseModel response, UObjec
     this->RemoveFromRoot();
 }
 
+/** Links the Xbox Live account associated with the provided Xbox ID and Sandbox to the user's PlayFab account */
+UPlayFabServerAPI* UPlayFabServerAPI::LinkXboxId(FServerLinkXboxIdRequest request,
+    FDelegateOnSuccessLinkXboxId onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabServerAPI* manager = NewObject<UPlayFabServerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessLinkXboxId = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperLinkXboxId);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Server/LinkXboxId";
+    manager->useSecretKey = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    OutRestJsonObj->SetBoolField(TEXT("ForceLink"), request.ForceLink);
+    if (request.PlayFabId.IsEmpty() || request.PlayFabId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("PlayFabId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("PlayFabId"), request.PlayFabId);
+    }
+    if (request.Sandbox.IsEmpty() || request.Sandbox == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("Sandbox"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("Sandbox"), request.Sandbox);
+    }
+    if (request.XboxId.IsEmpty() || request.XboxId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("XboxId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("XboxId"), request.XboxId);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabServerRequestCompleted
+void UPlayFabServerAPI::HelperLinkXboxId(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessLinkXboxId.IsBound())
+    {
+        FServerLinkXboxAccountResult ResultStruct = UPlayFabServerModelDecoder::decodeLinkXboxAccountResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessLinkXboxId.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 /** Removes the specified generic service identifier from the player's PlayFab account. */
 UPlayFabServerAPI* UPlayFabServerAPI::RemoveGenericID(FServerRemoveGenericIDRequest request,
     FDelegateOnSuccessRemoveGenericID onSuccess,

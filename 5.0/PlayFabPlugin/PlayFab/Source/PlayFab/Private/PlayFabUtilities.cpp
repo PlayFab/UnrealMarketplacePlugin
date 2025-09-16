@@ -638,6 +638,8 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 1606: returnText = "ResourceNotModified"; break;
     case 1607: returnText = "StudioCreationLimitExceeded"; break;
     case 1608: returnText = "StudioDeletionInitiated"; break;
+    case 1609: returnText = "ProductDisabledForTitle"; break;
+    case 1610: returnText = "PreconditionFailed"; break;
     case 2001: returnText = "MatchmakingEntityInvalid"; break;
     case 2002: returnText = "MatchmakingPlayerAttributesInvalid"; break;
     case 2016: returnText = "MatchmakingQueueNotFound"; break;
@@ -770,6 +772,7 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 10012: returnText = "AsyncExportNotFound"; break;
     case 10013: returnText = "AsyncExportRateLimitExceeded"; break;
     case 10014: returnText = "AnalyticsSegmentCountOverLimit"; break;
+    case 10015: returnText = "GetPlayersInSegmentDeprecated"; break;
     case 11000: returnText = "SnapshotNotFound"; break;
     case 12000: returnText = "InventoryApiNotImplemented"; break;
     case 12001: returnText = "InventoryCollectionDeletionDisallowed"; break;
@@ -967,7 +970,13 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 23006: returnText = "InvalidEntityTypeForAggregation"; break;
     case 23007: returnText = "MultiLevelAggregationNotAllowed"; break;
     case 23008: returnText = "AggregationTypeNotAllowedForLinkedStat"; break;
+    case 23009: returnText = "OperationDeniedDueToDefinitionPolicy"; break;
+    case 23010: returnText = "StatisticUpdateNotAllowedWhileLinked"; break;
+    case 23011: returnText = "UnsupportedEntityType"; break;
+    case 23012: returnText = "EntityTypeSpecifiedRequiresAggregationSource"; break;
+    case 23013: returnText = "PlayFabErrorEventNotSupportedForEntityType"; break;
     case 23501: returnText = "StoreMetricsRequestInvalidInput"; break;
+    case 23502: returnText = "StoreMetricsErrorRetrievingMetrics"; break;
     }
 
     // Return the text

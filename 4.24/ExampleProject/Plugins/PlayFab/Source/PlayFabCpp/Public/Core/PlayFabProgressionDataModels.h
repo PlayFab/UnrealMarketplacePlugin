@@ -1610,6 +1610,36 @@ namespace ProgressionModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FUnlinkAggregationSourceFromStatisticRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // The name of the statistic to unlink.
+        FString Name;
+
+        // The name of the aggregation source statistic to unlink.
+        FString SourceStatisticName;
+
+        FUnlinkAggregationSourceFromStatisticRequest() :
+            FPlayFabCppRequestCommon(),
+            CustomTags(),
+            Name(),
+            SourceStatisticName()
+            {}
+
+        FUnlinkAggregationSourceFromStatisticRequest(const FUnlinkAggregationSourceFromStatisticRequest& src) = default;
+
+        FUnlinkAggregationSourceFromStatisticRequest(const TSharedPtr<FJsonObject>& obj) : FUnlinkAggregationSourceFromStatisticRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FUnlinkAggregationSourceFromStatisticRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FUnlinkLeaderboardFromStatisticRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).

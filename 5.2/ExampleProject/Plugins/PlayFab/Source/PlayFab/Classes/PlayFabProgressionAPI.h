@@ -336,6 +336,19 @@ public:
         void HelperListStatisticDefinitions(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessUnlinkAggregationSourceFromStatistic, FProgressionEmptyResponse, result, UObject*, customData);
+
+    /** Unlinks an aggregation source from a statistic definition. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Progression | Statistics ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabProgressionAPI* UnlinkAggregationSourceFromStatistic(FProgressionUnlinkAggregationSourceFromStatisticRequest request,
+            FDelegateOnSuccessUnlinkAggregationSourceFromStatistic onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabProgressionRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Progression | Statistics ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperUnlinkAggregationSourceFromStatistic(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessUpdateStatisticDefinition, FProgressionEmptyResponse, result, UObject*, customData);
 
     /** Update an existing entity statistic definition. */
@@ -403,6 +416,7 @@ public:
     FDelegateOnSuccessGetStatisticsForEntities OnSuccessGetStatisticsForEntities;
     FDelegateOnSuccessIncrementStatisticVersion OnSuccessIncrementStatisticVersion;
     FDelegateOnSuccessListStatisticDefinitions OnSuccessListStatisticDefinitions;
+    FDelegateOnSuccessUnlinkAggregationSourceFromStatistic OnSuccessUnlinkAggregationSourceFromStatistic;
     FDelegateOnSuccessUpdateStatisticDefinition OnSuccessUpdateStatisticDefinition;
     FDelegateOnSuccessUpdateStatistics OnSuccessUpdateStatistics;
 

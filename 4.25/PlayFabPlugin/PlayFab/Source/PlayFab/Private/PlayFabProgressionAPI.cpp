@@ -1284,6 +1284,65 @@ void UPlayFabProgressionAPI::HelperListStatisticDefinitions(FPlayFabBaseModel re
     this->RemoveFromRoot();
 }
 
+/** Unlinks an aggregation source from a statistic definition. */
+UPlayFabProgressionAPI* UPlayFabProgressionAPI::UnlinkAggregationSourceFromStatistic(FProgressionUnlinkAggregationSourceFromStatisticRequest request,
+    FDelegateOnSuccessUnlinkAggregationSourceFromStatistic onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabProgressionAPI* manager = NewObject<UPlayFabProgressionAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessUnlinkAggregationSourceFromStatistic = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabProgressionAPI::HelperUnlinkAggregationSourceFromStatistic);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Statistic/UnlinkAggregationSourceFromStatistic";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.Name.IsEmpty() || request.Name == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("Name"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("Name"), request.Name);
+    }
+    if (request.SourceStatisticName.IsEmpty() || request.SourceStatisticName == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("SourceStatisticName"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("SourceStatisticName"), request.SourceStatisticName);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabProgressionRequestCompleted
+void UPlayFabProgressionAPI::HelperUnlinkAggregationSourceFromStatistic(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessUnlinkAggregationSourceFromStatistic.IsBound())
+    {
+        FProgressionEmptyResponse ResultStruct = UPlayFabProgressionModelDecoder::decodeEmptyResponseResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessUnlinkAggregationSourceFromStatistic.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 /** Update an existing entity statistic definition. */
 UPlayFabProgressionAPI* UPlayFabProgressionAPI::UpdateStatisticDefinition(FProgressionUpdateStatisticDefinitionRequest request,
     FDelegateOnSuccessUpdateStatisticDefinition onSuccess,

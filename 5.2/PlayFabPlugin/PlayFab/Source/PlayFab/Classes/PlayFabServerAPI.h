@@ -454,6 +454,19 @@ public:
         void HelperLinkXboxAccount(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessLinkXboxId, FServerLinkXboxAccountResult, result, UObject*, customData);
+
+    /** Links the Xbox Live account associated with the provided Xbox ID and Sandbox to the user's PlayFab account */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabServerAPI* LinkXboxId(FServerLinkXboxIdRequest request,
+            FDelegateOnSuccessLinkXboxId onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabServerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperLinkXboxId(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessRemoveGenericID, FServerEmptyResult, result, UObject*, customData);
 
     /** Removes the specified generic service identifier from the player's PlayFab account. */
@@ -2306,6 +2319,7 @@ public:
     FDelegateOnSuccessLinkServerCustomId OnSuccessLinkServerCustomId;
     FDelegateOnSuccessLinkSteamId OnSuccessLinkSteamId;
     FDelegateOnSuccessLinkXboxAccount OnSuccessLinkXboxAccount;
+    FDelegateOnSuccessLinkXboxId OnSuccessLinkXboxId;
     FDelegateOnSuccessRemoveGenericID OnSuccessRemoveGenericID;
     FDelegateOnSuccessRevokeAllBansForUser OnSuccessRevokeAllBansForUser;
     FDelegateOnSuccessRevokeBans OnSuccessRevokeBans;

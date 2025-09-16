@@ -40,6 +40,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FIncrementStatisticVersionDelegate, const ProgressionModels::FIncrementStatisticVersionResponse&);
         DECLARE_DELEGATE_OneParam(FListLeaderboardDefinitionsDelegate, const ProgressionModels::FListLeaderboardDefinitionsResponse&);
         DECLARE_DELEGATE_OneParam(FListStatisticDefinitionsDelegate, const ProgressionModels::FListStatisticDefinitionsResponse&);
+        DECLARE_DELEGATE_OneParam(FUnlinkAggregationSourceFromStatisticDelegate, const ProgressionModels::FEmptyResponse&);
         DECLARE_DELEGATE_OneParam(FUnlinkLeaderboardFromStatisticDelegate, const ProgressionModels::FEmptyResponse&);
         DECLARE_DELEGATE_OneParam(FUpdateLeaderboardDefinitionDelegate, const ProgressionModels::FEmptyResponse&);
         DECLARE_DELEGATE_OneParam(FUpdateLeaderboardEntriesDelegate, const ProgressionModels::FEmptyResponse&);
@@ -112,6 +113,8 @@ namespace PlayFab
         bool ListLeaderboardDefinitions(ProgressionModels::FListLeaderboardDefinitionsRequest& request, const FListLeaderboardDefinitionsDelegate& SuccessDelegate = FListLeaderboardDefinitionsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Get all current statistic definitions information
         bool ListStatisticDefinitions(ProgressionModels::FListStatisticDefinitionsRequest& request, const FListStatisticDefinitionsDelegate& SuccessDelegate = FListStatisticDefinitionsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        // Unlinks an aggregation source from a statistic definition.
+        bool UnlinkAggregationSourceFromStatistic(ProgressionModels::FUnlinkAggregationSourceFromStatisticRequest& request, const FUnlinkAggregationSourceFromStatisticDelegate& SuccessDelegate = FUnlinkAggregationSourceFromStatisticDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Unlinks a leaderboard definition from it's linked statistic definition.
         bool UnlinkLeaderboardFromStatistic(ProgressionModels::FUnlinkLeaderboardFromStatisticRequest& request, const FUnlinkLeaderboardFromStatisticDelegate& SuccessDelegate = FUnlinkLeaderboardFromStatisticDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Updates a leaderboard definition.
@@ -146,6 +149,7 @@ namespace PlayFab
         void OnIncrementStatisticVersionResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FIncrementStatisticVersionDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnListLeaderboardDefinitionsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListLeaderboardDefinitionsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnListStatisticDefinitionsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListStatisticDefinitionsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnUnlinkAggregationSourceFromStatisticResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnlinkAggregationSourceFromStatisticDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUnlinkLeaderboardFromStatisticResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnlinkLeaderboardFromStatisticDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUpdateLeaderboardDefinitionResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateLeaderboardDefinitionDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUpdateLeaderboardEntriesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateLeaderboardEntriesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);

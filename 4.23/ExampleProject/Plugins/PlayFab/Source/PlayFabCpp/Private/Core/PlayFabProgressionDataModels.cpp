@@ -3261,6 +3261,79 @@ bool PlayFab::ProgressionModels::FStatisticUpdate::readFromValue(const TSharedPt
     return HasSucceeded;
 }
 
+PlayFab::ProgressionModels::FUnlinkAggregationSourceFromStatisticRequest::~FUnlinkAggregationSourceFromStatisticRequest()
+{
+
+}
+
+void PlayFab::ProgressionModels::FUnlinkAggregationSourceFromStatisticRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    if (!Name.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: UnlinkAggregationSourceFromStatisticRequest::Name, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("Name"));
+        writer->WriteValue(Name);
+    }
+
+    if (!SourceStatisticName.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: UnlinkAggregationSourceFromStatisticRequest::SourceStatisticName, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("SourceStatisticName"));
+        writer->WriteValue(SourceStatisticName);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ProgressionModels::FUnlinkAggregationSourceFromStatisticRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    const TSharedPtr<FJsonValue> NameValue = obj->TryGetField(TEXT("Name"));
+    if (NameValue.IsValid() && !NameValue->IsNull())
+    {
+        FString TmpValue;
+        if (NameValue->TryGetString(TmpValue)) { Name = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> SourceStatisticNameValue = obj->TryGetField(TEXT("SourceStatisticName"));
+    if (SourceStatisticNameValue.IsValid() && !SourceStatisticNameValue->IsNull())
+    {
+        FString TmpValue;
+        if (SourceStatisticNameValue->TryGetString(TmpValue)) { SourceStatisticName = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
 PlayFab::ProgressionModels::FUnlinkLeaderboardFromStatisticRequest::~FUnlinkLeaderboardFromStatisticRequest()
 {
 

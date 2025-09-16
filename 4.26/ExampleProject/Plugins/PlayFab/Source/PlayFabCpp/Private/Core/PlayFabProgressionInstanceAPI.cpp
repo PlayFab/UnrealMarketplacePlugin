@@ -617,6 +617,36 @@ void UPlayFabProgressionInstanceAPI::OnListStatisticDefinitionsResult(FHttpReque
     }
 }
 
+bool UPlayFabProgressionInstanceAPI::UnlinkAggregationSourceFromStatistic(
+    ProgressionModels::FUnlinkAggregationSourceFromStatisticRequest& request,
+    const FUnlinkAggregationSourceFromStatisticDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetEntityToken().Len() == 0) {
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
+    }
+
+
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Statistic/UnlinkAggregationSourceFromStatistic"), request.toJSONString(), TEXT("X-EntityToken"), context->GetEntityToken());
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabProgressionInstanceAPI::OnUnlinkAggregationSourceFromStatisticResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabProgressionInstanceAPI::OnUnlinkAggregationSourceFromStatisticResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnlinkAggregationSourceFromStatisticDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    ProgressionModels::FEmptyResponse outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
 bool UPlayFabProgressionInstanceAPI::UnlinkLeaderboardFromStatistic(
     ProgressionModels::FUnlinkLeaderboardFromStatisticRequest& request,
     const FUnlinkLeaderboardFromStatisticDelegate& SuccessDelegate,

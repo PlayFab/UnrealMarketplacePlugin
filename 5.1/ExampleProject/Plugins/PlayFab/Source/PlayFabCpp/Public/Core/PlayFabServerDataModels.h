@@ -8078,7 +8078,7 @@ namespace ServerModels
         // [optional] If another user is already linked to the account, unlink the other user and re-link.
         Boxed<bool> ForceLink;
 
-        // Unique PlayFab identifier for a user, or null if no PlayFab account is linked to the Xbox Live identifier.
+        // PlayFab unique identifier of the user to link.
         FString PlayFabId;
 
         // Unique Steam identifier for a user.
@@ -8131,7 +8131,7 @@ namespace ServerModels
         // [optional] If another user is already linked to the account, unlink the other user and re-link.
         Boxed<bool> ForceLink;
 
-        // Unique PlayFab identifier for a user, or null if no PlayFab account is linked to the Xbox Live identifier.
+        // PlayFab unique identifier of the user to link.
         FString PlayFabId;
 
         // Token provided by the Xbox Live SDK/XDK method GetTokenAndSignatureAsync("POST", "https://playfabapi.com/", "").
@@ -8172,6 +8172,44 @@ namespace ServerModels
         }
 
         ~FLinkXboxAccountResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FLinkXboxIdRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // [optional] If another user is already linked to the account, unlink the other user and re-link.
+        Boxed<bool> ForceLink;
+
+        // PlayFab unique identifier of the user to link.
+        FString PlayFabId;
+
+        // The id of Xbox Live sandbox.
+        FString Sandbox;
+
+        // Unique Xbox identifier for a user.
+        FString XboxId;
+
+        FLinkXboxIdRequest() :
+            FPlayFabCppRequestCommon(),
+            CustomTags(),
+            ForceLink(),
+            PlayFabId(),
+            Sandbox(),
+            XboxId()
+            {}
+
+        FLinkXboxIdRequest(const FLinkXboxIdRequest& src) = default;
+
+        FLinkXboxIdRequest(const TSharedPtr<FJsonObject>& obj) : FLinkXboxIdRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FLinkXboxIdRequest();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -10395,7 +10433,7 @@ namespace ServerModels
     {
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
-        // Unique PlayFab identifier for a user, or null if no PlayFab account is linked to the Xbox Live identifier.
+        // PlayFab unique identifier of the user to unlink.
         FString PlayFabId;
 
         FUnlinkXboxAccountRequest() :

@@ -611,6 +611,22 @@ public:
 };
 
 USTRUCT(BlueprintType)
+struct PLAYFAB_API FProgressionUnlinkAggregationSourceFromStatisticRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /** The name of the statistic to unlink. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
+        FString Name;
+    /** The name of the aggregation source statistic to unlink. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
+        FString SourceStatisticName;
+};
+
+USTRUCT(BlueprintType)
 struct PLAYFAB_API FProgressionUpdateStatisticDefinitionRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()

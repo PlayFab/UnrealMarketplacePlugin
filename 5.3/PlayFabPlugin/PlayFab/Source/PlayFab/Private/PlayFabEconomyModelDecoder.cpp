@@ -453,6 +453,19 @@ FEconomyRedeemAppleAppStoreInventoryItemsResponse UPlayFabEconomyModelDecoder::d
     return tempStruct;
 }
 
+FEconomyRedeemAppleAppStoreWithJwsInventoryItemsResponse UPlayFabEconomyModelDecoder::decodeRedeemAppleAppStoreWithJwsInventoryItemsResponseResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FEconomyRedeemAppleAppStoreWithJwsInventoryItemsResponse tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.Failed = !(dataObj->HasField("Failed")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Failed");
+    tempStruct.Succeeded = !(dataObj->HasField("Succeeded")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Succeeded");
+    tempStruct.TransactionIds = !(dataObj->HasField("TransactionIds")) ? TEXT("") : FString::Join(dataObj->GetStringArrayField("TransactionIds"), TEXT(","));
+
+    return tempStruct;
+}
+
 FEconomyRedeemGooglePlayInventoryItemsResponse UPlayFabEconomyModelDecoder::decodeRedeemGooglePlayInventoryItemsResponseResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct

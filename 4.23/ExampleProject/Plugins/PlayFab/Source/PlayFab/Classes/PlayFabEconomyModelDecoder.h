@@ -194,6 +194,10 @@ public:
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Inventory Models")
         static FEconomyRedeemAppleAppStoreInventoryItemsResponse decodeRedeemAppleAppStoreInventoryItemsResponseResponse(UPlayFabJsonObject* response);
 
+    /** Decode the RedeemAppleAppStoreWithJwsInventoryItemsResponse response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Inventory Models")
+        static FEconomyRedeemAppleAppStoreWithJwsInventoryItemsResponse decodeRedeemAppleAppStoreWithJwsInventoryItemsResponseResponse(UPlayFabJsonObject* response);
+
     /** Decode the RedeemGooglePlayInventoryItemsResponse response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Inventory Models")
         static FEconomyRedeemGooglePlayInventoryItemsResponse decodeRedeemGooglePlayInventoryItemsResponseResponse(UPlayFabJsonObject* response);

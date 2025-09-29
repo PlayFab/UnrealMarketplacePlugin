@@ -1231,6 +1231,9 @@ public:
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         UPlayFabJsonObject* Entity = nullptr;
+    /** The token to get the status of the inventory operation. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString OperationToken;
 };
 
 USTRUCT(BlueprintType)
@@ -1421,6 +1424,43 @@ public:
 
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FEconomyRedeemAppleAppStoreInventoryItemsResponse : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The list of failed redemptions from the external marketplace. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        TArray<UPlayFabJsonObject*> Failed;
+    /** The list of successful redemptions from the external marketplace. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        TArray<UPlayFabJsonObject*> Succeeded;
+    /** The Transaction IDs associated with the inventory modifications */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString TransactionIds;
+};
+
+/** The request for a redeem Apple AppStore With JWS */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FEconomyRedeemAppleAppStoreWithJwsInventoryItemsRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The id of the entity's collection to perform this action on. (Default="default") */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString CollectionId;
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /** The entity to perform this action on. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        UPlayFabJsonObject* Entity = nullptr;
+    /** The JWS representation of a transaction. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString JWSTransactions;
+};
+
+/** The response for a redeem Apple AppStore With JWS */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FEconomyRedeemAppleAppStoreWithJwsInventoryItemsResponse : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:

@@ -947,6 +947,36 @@ void UPlayFabEconomyInstanceAPI::OnRedeemAppleAppStoreInventoryItemsResult(FHttp
     }
 }
 
+bool UPlayFabEconomyInstanceAPI::RedeemAppleAppStoreWithJwsInventoryItems(
+    EconomyModels::FRedeemAppleAppStoreWithJwsInventoryItemsRequest& request,
+    const FRedeemAppleAppStoreWithJwsInventoryItemsDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetEntityToken().Len() == 0) {
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
+    }
+
+
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Inventory/RedeemAppleAppStoreWithJwsInventoryItems"), request.toJSONString(), TEXT("X-EntityToken"), context->GetEntityToken());
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabEconomyInstanceAPI::OnRedeemAppleAppStoreWithJwsInventoryItemsResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabEconomyInstanceAPI::OnRedeemAppleAppStoreWithJwsInventoryItemsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRedeemAppleAppStoreWithJwsInventoryItemsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    EconomyModels::FRedeemAppleAppStoreWithJwsInventoryItemsResponse outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
 bool UPlayFabEconomyInstanceAPI::RedeemGooglePlayInventoryItems(
     EconomyModels::FRedeemGooglePlayInventoryItemsRequest& request,
     const FRedeemGooglePlayInventoryItemsDelegate& SuccessDelegate,

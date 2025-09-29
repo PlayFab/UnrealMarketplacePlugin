@@ -5824,6 +5824,12 @@ void PlayFab::EconomyModels::FGetInventoryOperationStatusRequest::writeJSON(Json
         Entity->writeJSON(writer);
     }
 
+    if (OperationToken.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("OperationToken"));
+        writer->WriteValue(OperationToken);
+    }
+
     writer->WriteObjectEnd();
 }
 
@@ -5851,6 +5857,13 @@ bool PlayFab::EconomyModels::FGetInventoryOperationStatusRequest::readFromValue(
     if (EntityValue.IsValid() && !EntityValue->IsNull())
     {
         Entity = MakeShareable(new FEntityKey(EntityValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> OperationTokenValue = obj->TryGetField(TEXT("OperationToken"));
+    if (OperationTokenValue.IsValid() && !OperationTokenValue->IsNull())
+    {
+        FString TmpValue;
+        if (OperationTokenValue->TryGetString(TmpValue)) { OperationToken = TmpValue; }
     }
 
     return HasSucceeded;
@@ -8001,6 +8014,25 @@ bool PlayFab::EconomyModels::FPurchaseInventoryItemsResponse::readFromValue(cons
     return HasSucceeded;
 }
 
+PlayFab::EconomyModels::FPurchaseOverride::~FPurchaseOverride()
+{
+
+}
+
+void PlayFab::EconomyModels::FPurchaseOverride::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::EconomyModels::FPurchaseOverride::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    return HasSucceeded;
+}
+
 PlayFab::EconomyModels::FPurchaseOverridesInfo::~FPurchaseOverridesInfo()
 {
 
@@ -8262,6 +8294,143 @@ void PlayFab::EconomyModels::FRedeemAppleAppStoreInventoryItemsResponse::writeJS
 }
 
 bool PlayFab::EconomyModels::FRedeemAppleAppStoreInventoryItemsResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TArray<TSharedPtr<FJsonValue>>&FailedArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Failed"));
+    for (int32 Idx = 0; Idx < FailedArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = FailedArray[Idx];
+        Failed.Add(FRedemptionFailure(CurrentItem->AsObject()));
+    }
+
+
+    const TArray<TSharedPtr<FJsonValue>>&SucceededArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Succeeded"));
+    for (int32 Idx = 0; Idx < SucceededArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = SucceededArray[Idx];
+        Succeeded.Add(FRedemptionSuccess(CurrentItem->AsObject()));
+    }
+
+
+    obj->TryGetStringArrayField(TEXT("TransactionIds"), TransactionIds);
+
+    return HasSucceeded;
+}
+
+PlayFab::EconomyModels::FRedeemAppleAppStoreWithJwsInventoryItemsRequest::~FRedeemAppleAppStoreWithJwsInventoryItemsRequest()
+{
+    //if (Entity != nullptr) delete Entity;
+
+}
+
+void PlayFab::EconomyModels::FRedeemAppleAppStoreWithJwsInventoryItemsRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (CollectionId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("CollectionId"));
+        writer->WriteValue(CollectionId);
+    }
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    if (Entity.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Entity"));
+        Entity->writeJSON(writer);
+    }
+
+    writer->WriteArrayStart(TEXT("JWSTransactions"));
+    for (const FString& item : JWSTransactions)
+        writer->WriteValue(item);
+    writer->WriteArrayEnd();
+
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::EconomyModels::FRedeemAppleAppStoreWithJwsInventoryItemsRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> CollectionIdValue = obj->TryGetField(TEXT("CollectionId"));
+    if (CollectionIdValue.IsValid() && !CollectionIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (CollectionIdValue->TryGetString(TmpValue)) { CollectionId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
+    if (EntityValue.IsValid() && !EntityValue->IsNull())
+    {
+        Entity = MakeShareable(new FEntityKey(EntityValue->AsObject()));
+    }
+
+    obj->TryGetStringArrayField(TEXT("JWSTransactions"), JWSTransactions);
+
+    return HasSucceeded;
+}
+
+PlayFab::EconomyModels::FRedeemAppleAppStoreWithJwsInventoryItemsResponse::~FRedeemAppleAppStoreWithJwsInventoryItemsResponse()
+{
+
+}
+
+void PlayFab::EconomyModels::FRedeemAppleAppStoreWithJwsInventoryItemsResponse::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (Failed.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("Failed"));
+        for (const FRedemptionFailure& item : Failed)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
+    if (Succeeded.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("Succeeded"));
+        for (const FRedemptionSuccess& item : Succeeded)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
+    if (TransactionIds.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("TransactionIds"));
+        for (const FString& item : TransactionIds)
+            writer->WriteValue(item);
+        writer->WriteArrayEnd();
+    }
+
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::EconomyModels::FRedeemAppleAppStoreWithJwsInventoryItemsResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
 

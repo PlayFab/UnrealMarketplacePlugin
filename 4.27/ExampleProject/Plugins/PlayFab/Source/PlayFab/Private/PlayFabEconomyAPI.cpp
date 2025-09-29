@@ -2070,6 +2070,11 @@ UPlayFabEconomyAPI* UPlayFabEconomyAPI::GetInventoryOperationStatus(FEconomyGetI
     }
     if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
+    if (request.OperationToken.IsEmpty() || request.OperationToken == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("OperationToken"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("OperationToken"), request.OperationToken);
+    }
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -2345,6 +2350,68 @@ void UPlayFabEconomyAPI::HelperRedeemAppleAppStoreInventoryItems(FPlayFabBaseMod
     {
         FEconomyRedeemAppleAppStoreInventoryItemsResponse ResultStruct = UPlayFabEconomyModelDecoder::decodeRedeemAppleAppStoreInventoryItemsResponseResponse(response.responseData);
         OnSuccessRedeemAppleAppStoreInventoryItems.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Redeem items. */
+UPlayFabEconomyAPI* UPlayFabEconomyAPI::RedeemAppleAppStoreWithJwsInventoryItems(FEconomyRedeemAppleAppStoreWithJwsInventoryItemsRequest request,
+    FDelegateOnSuccessRedeemAppleAppStoreWithJwsInventoryItems onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabEconomyAPI* manager = NewObject<UPlayFabEconomyAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessRedeemAppleAppStoreWithJwsInventoryItems = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabEconomyAPI::HelperRedeemAppleAppStoreWithJwsInventoryItems);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Inventory/RedeemAppleAppStoreWithJwsInventoryItems";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CollectionId.IsEmpty() || request.CollectionId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("CollectionId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("CollectionId"), request.CollectionId);
+    }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
+    // Check to see if string is empty
+    if (request.JWSTransactions.IsEmpty() || request.JWSTransactions == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("JWSTransactions"));
+    } else {
+        TArray<FString> JWSTransactionsArray;
+        FString(request.JWSTransactions).ParseIntoArray(JWSTransactionsArray, TEXT(","), false);
+        OutRestJsonObj->SetStringArrayField(TEXT("JWSTransactions"), JWSTransactionsArray);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabEconomyRequestCompleted
+void UPlayFabEconomyAPI::HelperRedeemAppleAppStoreWithJwsInventoryItems(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessRedeemAppleAppStoreWithJwsInventoryItems.IsBound())
+    {
+        FEconomyRedeemAppleAppStoreWithJwsInventoryItemsResponse ResultStruct = UPlayFabEconomyModelDecoder::decodeRedeemAppleAppStoreWithJwsInventoryItemsResponseResponse(response.responseData);
+        OnSuccessRedeemAppleAppStoreWithJwsInventoryItems.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }

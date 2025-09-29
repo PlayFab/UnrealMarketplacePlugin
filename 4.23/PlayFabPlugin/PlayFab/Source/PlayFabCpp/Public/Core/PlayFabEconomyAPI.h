@@ -47,6 +47,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FPublishDraftItemDelegate, const EconomyModels::FPublishDraftItemResponse&);
         DECLARE_DELEGATE_OneParam(FPurchaseInventoryItemsDelegate, const EconomyModels::FPurchaseInventoryItemsResponse&);
         DECLARE_DELEGATE_OneParam(FRedeemAppleAppStoreInventoryItemsDelegate, const EconomyModels::FRedeemAppleAppStoreInventoryItemsResponse&);
+        DECLARE_DELEGATE_OneParam(FRedeemAppleAppStoreWithJwsInventoryItemsDelegate, const EconomyModels::FRedeemAppleAppStoreWithJwsInventoryItemsResponse&);
         DECLARE_DELEGATE_OneParam(FRedeemGooglePlayInventoryItemsDelegate, const EconomyModels::FRedeemGooglePlayInventoryItemsResponse&);
         DECLARE_DELEGATE_OneParam(FRedeemMicrosoftStoreInventoryItemsDelegate, const EconomyModels::FRedeemMicrosoftStoreInventoryItemsResponse&);
         DECLARE_DELEGATE_OneParam(FRedeemNintendoEShopInventoryItemsDelegate, const EconomyModels::FRedeemNintendoEShopInventoryItemsResponse&);
@@ -237,6 +238,11 @@ namespace PlayFab
         bool RedeemAppleAppStoreInventoryItems(EconomyModels::FRedeemAppleAppStoreInventoryItemsRequest& request, const FRedeemAppleAppStoreInventoryItemsDelegate& SuccessDelegate = FRedeemAppleAppStoreInventoryItemsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Redeem items.
+         * Redeem items from the Apple App Store using the JWS receipt from StoreKit 2.
+         */
+        bool RedeemAppleAppStoreWithJwsInventoryItems(EconomyModels::FRedeemAppleAppStoreWithJwsInventoryItemsRequest& request, const FRedeemAppleAppStoreWithJwsInventoryItemsDelegate& SuccessDelegate = FRedeemAppleAppStoreWithJwsInventoryItemsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
+         * Redeem items.
          * Redeem items from the Google Play Store.
          */
         bool RedeemGooglePlayInventoryItems(EconomyModels::FRedeemGooglePlayInventoryItemsRequest& request, const FRedeemGooglePlayInventoryItemsDelegate& SuccessDelegate = FRedeemGooglePlayInventoryItemsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
@@ -352,6 +358,7 @@ namespace PlayFab
         void OnPublishDraftItemResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FPublishDraftItemDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnPurchaseInventoryItemsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FPurchaseInventoryItemsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnRedeemAppleAppStoreInventoryItemsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRedeemAppleAppStoreInventoryItemsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnRedeemAppleAppStoreWithJwsInventoryItemsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRedeemAppleAppStoreWithJwsInventoryItemsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnRedeemGooglePlayInventoryItemsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRedeemGooglePlayInventoryItemsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnRedeemMicrosoftStoreInventoryItemsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRedeemMicrosoftStoreInventoryItemsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnRedeemNintendoEShopInventoryItemsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRedeemNintendoEShopInventoryItemsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);

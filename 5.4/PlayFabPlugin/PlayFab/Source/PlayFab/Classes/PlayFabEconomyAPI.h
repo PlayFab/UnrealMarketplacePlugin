@@ -650,6 +650,19 @@ public:
         void HelperRedeemAppleAppStoreInventoryItems(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessRedeemAppleAppStoreWithJwsInventoryItems, FEconomyRedeemAppleAppStoreWithJwsInventoryItemsResponse, result, UObject*, customData);
+
+    /** Redeem items. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Inventory ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabEconomyAPI* RedeemAppleAppStoreWithJwsInventoryItems(FEconomyRedeemAppleAppStoreWithJwsInventoryItemsRequest request,
+            FDelegateOnSuccessRedeemAppleAppStoreWithJwsInventoryItems onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabEconomyRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Inventory ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperRedeemAppleAppStoreWithJwsInventoryItems(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessRedeemGooglePlayInventoryItems, FEconomyRedeemGooglePlayInventoryItemsResponse, result, UObject*, customData);
 
     /** Redeem items. */
@@ -820,6 +833,7 @@ public:
     FDelegateOnSuccessGetTransactionHistory OnSuccessGetTransactionHistory;
     FDelegateOnSuccessPurchaseInventoryItems OnSuccessPurchaseInventoryItems;
     FDelegateOnSuccessRedeemAppleAppStoreInventoryItems OnSuccessRedeemAppleAppStoreInventoryItems;
+    FDelegateOnSuccessRedeemAppleAppStoreWithJwsInventoryItems OnSuccessRedeemAppleAppStoreWithJwsInventoryItems;
     FDelegateOnSuccessRedeemGooglePlayInventoryItems OnSuccessRedeemGooglePlayInventoryItems;
     FDelegateOnSuccessRedeemMicrosoftStoreInventoryItems OnSuccessRedeemMicrosoftStoreInventoryItems;
     FDelegateOnSuccessRedeemNintendoEShopInventoryItems OnSuccessRedeemNintendoEShopInventoryItems;

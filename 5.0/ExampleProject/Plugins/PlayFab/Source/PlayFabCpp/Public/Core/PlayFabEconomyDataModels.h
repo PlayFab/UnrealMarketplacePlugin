@@ -2938,11 +2938,15 @@ namespace EconomyModels
         // [optional] The entity to perform this action on.
         TSharedPtr<FEntityKey> Entity;
 
+        // [optional] The token to get the status of the inventory operation.
+        FString OperationToken;
+
         FGetInventoryOperationStatusRequest() :
             FPlayFabCppRequestCommon(),
             CollectionId(),
             CustomTags(),
-            Entity(nullptr)
+            Entity(nullptr),
+            OperationToken()
             {}
 
         FGetInventoryOperationStatusRequest(const FGetInventoryOperationStatusRequest& src) = default;
@@ -4007,6 +4011,25 @@ namespace EconomyModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FPurchaseOverride : public PlayFab::FPlayFabCppBaseModel
+    {
+        FPurchaseOverride() :
+            FPlayFabCppBaseModel()
+            {}
+
+        FPurchaseOverride(const FPurchaseOverride& src) = default;
+
+        FPurchaseOverride(const TSharedPtr<FJsonObject>& obj) : FPurchaseOverride()
+        {
+            readFromValue(obj);
+        }
+
+        ~FPurchaseOverride();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FPurchaseOverridesInfo : public PlayFab::FPlayFabCppBaseModel
     {
         FPurchaseOverridesInfo() :
@@ -4149,6 +4172,67 @@ namespace EconomyModels
         }
 
         ~FRedeemAppleAppStoreInventoryItemsResponse();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FRedeemAppleAppStoreWithJwsInventoryItemsRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The id of the entity's collection to perform this action on. (Default="default")
+        FString CollectionId;
+
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // [optional] The entity to perform this action on.
+        TSharedPtr<FEntityKey> Entity;
+
+        // The JWS representation of a transaction.
+        TArray<FString> JWSTransactions;
+        FRedeemAppleAppStoreWithJwsInventoryItemsRequest() :
+            FPlayFabCppRequestCommon(),
+            CollectionId(),
+            CustomTags(),
+            Entity(nullptr),
+            JWSTransactions()
+            {}
+
+        FRedeemAppleAppStoreWithJwsInventoryItemsRequest(const FRedeemAppleAppStoreWithJwsInventoryItemsRequest& src) = default;
+
+        FRedeemAppleAppStoreWithJwsInventoryItemsRequest(const TSharedPtr<FJsonObject>& obj) : FRedeemAppleAppStoreWithJwsInventoryItemsRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FRedeemAppleAppStoreWithJwsInventoryItemsRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FRedeemAppleAppStoreWithJwsInventoryItemsResponse : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] The list of failed redemptions from the external marketplace.
+        TArray<FRedemptionFailure> Failed;
+        // [optional] The list of successful redemptions from the external marketplace.
+        TArray<FRedemptionSuccess> Succeeded;
+        // [optional] The Transaction IDs associated with the inventory modifications
+        TArray<FString> TransactionIds;
+        FRedeemAppleAppStoreWithJwsInventoryItemsResponse() :
+            FPlayFabCppResultCommon(),
+            Failed(),
+            Succeeded(),
+            TransactionIds()
+            {}
+
+        FRedeemAppleAppStoreWithJwsInventoryItemsResponse(const FRedeemAppleAppStoreWithJwsInventoryItemsResponse& src) = default;
+
+        FRedeemAppleAppStoreWithJwsInventoryItemsResponse(const TSharedPtr<FJsonObject>& obj) : FRedeemAppleAppStoreWithJwsInventoryItemsResponse()
+        {
+            readFromValue(obj);
+        }
+
+        ~FRedeemAppleAppStoreWithJwsInventoryItemsResponse();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;

@@ -2879,6 +2879,9 @@ public:
     /** A guid string party ID created track the party session over its life. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString PartyId;
+    /** A player entity Id on behalf of whom the request is being made. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        FString PlayFabId;
     /**
      * The preferred regions to request a party session from. The party service will iterate through the regions in the
      * specified order and allocate a party session from the first one that is available.

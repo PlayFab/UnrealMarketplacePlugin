@@ -640,6 +640,7 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 1608: returnText = "StudioDeletionInitiated"; break;
     case 1609: returnText = "ProductDisabledForTitle"; break;
     case 1610: returnText = "PreconditionFailed"; break;
+    case 1611: returnText = "CannotEnableAnonymousPlayerCreation"; break;
     case 2001: returnText = "MatchmakingEntityInvalid"; break;
     case 2002: returnText = "MatchmakingPlayerAttributesInvalid"; break;
     case 2016: returnText = "MatchmakingQueueNotFound"; break;

@@ -13408,6 +13408,12 @@ void PlayFab::MultiplayerModels::FRequestPartyServiceRequest::writeJSON(JsonWrit
         writer->WriteValue(PartyId);
     }
 
+    if (PlayFabId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayFabId"));
+        writer->WriteValue(PlayFabId);
+    }
+
     writer->WriteArrayStart(TEXT("PreferredRegions"));
     for (const FString& item : PreferredRegions)
         writer->WriteValue(item);
@@ -13441,6 +13447,13 @@ bool PlayFab::MultiplayerModels::FRequestPartyServiceRequest::readFromValue(cons
     {
         FString TmpValue;
         if (PartyIdValue->TryGetString(TmpValue)) { PartyId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> PlayFabIdValue = obj->TryGetField(TEXT("PlayFabId"));
+    if (PlayFabIdValue.IsValid() && !PlayFabIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (PlayFabIdValue->TryGetString(TmpValue)) { PlayFabId = TmpValue; }
     }
 
     obj->TryGetStringArrayField(TEXT("PreferredRegions"), PreferredRegions);

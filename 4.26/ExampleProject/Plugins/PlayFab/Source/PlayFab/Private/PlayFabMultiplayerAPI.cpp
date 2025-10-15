@@ -4339,6 +4339,11 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::RequestPartyService(FMultiplayer
     } else {
         OutRestJsonObj->SetStringField(TEXT("PartyId"), request.PartyId);
     }
+    if (request.PlayFabId.IsEmpty() || request.PlayFabId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("PlayFabId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("PlayFabId"), request.PlayFabId);
+    }
     // Check to see if string is empty
     if (request.PreferredRegions.IsEmpty() || request.PreferredRegions == "") {
         OutRestJsonObj->SetFieldNull(TEXT("PreferredRegions"));

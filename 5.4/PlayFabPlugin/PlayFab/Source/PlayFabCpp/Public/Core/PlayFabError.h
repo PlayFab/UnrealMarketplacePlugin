@@ -614,6 +614,7 @@ namespace PlayFab
         PlayFabErrorStudioDeletionInitiated = 1608,
         PlayFabErrorProductDisabledForTitle = 1609,
         PlayFabErrorPreconditionFailed = 1610,
+        PlayFabErrorCannotEnableAnonymousPlayerCreation = 1611,
         PlayFabErrorMatchmakingEntityInvalid = 2001,
         PlayFabErrorMatchmakingPlayerAttributesInvalid = 2002,
         PlayFabErrorMatchmakingQueueNotFound = 2016,

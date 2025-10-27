@@ -1780,10 +1780,7 @@ namespace ProgressionModels
 
         // Collection of statistics to update, maximum 50.
         TArray<FStatisticUpdate> Statistics;
-        /**
-         * [optional] Optional transactionId of this update which can be used to ensure idempotence. Using this field is still in testing
-         * stage.
-         */
+        // [optional] Optional transactionId of this update which can be used to ensure idempotence.
         FString TransactionId;
 
         FUpdateStatisticsRequest() :

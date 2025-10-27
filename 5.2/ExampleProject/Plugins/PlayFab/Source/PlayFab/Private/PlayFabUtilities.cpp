@@ -641,6 +641,7 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 1609: returnText = "ProductDisabledForTitle"; break;
     case 1610: returnText = "PreconditionFailed"; break;
     case 1611: returnText = "CannotEnableAnonymousPlayerCreation"; break;
+    case 1612: returnText = "ParentCustomerAccountNotFound"; break;
     case 2001: returnText = "MatchmakingEntityInvalid"; break;
     case 2002: returnText = "MatchmakingPlayerAttributesInvalid"; break;
     case 2016: returnText = "MatchmakingQueueNotFound"; break;
@@ -952,6 +953,7 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 20327: returnText = "GameSaveServiceUnavailable"; break;
     case 20328: returnText = "GameSaveConflict"; break;
     case 20329: returnText = "GameSaveManifestNotEligibleForRollback"; break;
+    case 20330: returnText = "GameSaveTitleClientAnonymousAccountCreationNotDisabled"; break;
     case 21000: returnText = "StateShareForbidden"; break;
     case 21001: returnText = "StateShareTitleNotInFlight"; break;
     case 21002: returnText = "StateShareStateNotFound"; break;

@@ -24361,14 +24361,16 @@ void PlayFab::ClientModels::FValidateIOSReceiptRequest::writeJSON(JsonWriter& wr
         writer->WriteObjectEnd();
     }
 
+    if (JwsReceiptData.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("JwsReceiptData"));
+        writer->WriteValue(JwsReceiptData);
+    }
+
     writer->WriteIdentifierPrefix(TEXT("PurchasePrice"));
     writer->WriteValue(PurchasePrice);
 
-    if (!ReceiptData.IsEmpty() == false)
-    {
-        UE_LOG(LogTemp, Error, TEXT("This field is required: ValidateIOSReceiptRequest::ReceiptData, PlayFab calls may not work if it remains empty."));
-    }
-    else
+    if (ReceiptData.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("ReceiptData"));
         writer->WriteValue(ReceiptData);
@@ -24402,6 +24404,13 @@ bool PlayFab::ClientModels::FValidateIOSReceiptRequest::readFromValue(const TSha
         {
             CustomTags.Add(It.Key(), It.Value()->AsString());
         }
+    }
+
+    const TSharedPtr<FJsonValue> JwsReceiptDataValue = obj->TryGetField(TEXT("JwsReceiptData"));
+    if (JwsReceiptDataValue.IsValid() && !JwsReceiptDataValue->IsNull())
+    {
+        FString TmpValue;
+        if (JwsReceiptDataValue->TryGetString(TmpValue)) { JwsReceiptData = TmpValue; }
     }
 
     const TSharedPtr<FJsonValue> PurchasePriceValue = obj->TryGetField(TEXT("PurchasePrice"));

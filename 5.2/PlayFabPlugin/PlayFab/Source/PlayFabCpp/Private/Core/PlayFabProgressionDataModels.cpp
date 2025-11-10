@@ -2888,6 +2888,18 @@ void PlayFab::ProgressionModels::FListLeaderboardDefinitionsRequest::writeJSON(J
         writer->WriteObjectEnd();
     }
 
+    if (PageSize.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("PageSize"));
+        writer->WriteValue(PageSize);
+    }
+
+    if (SkipToken.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("SkipToken"));
+        writer->WriteValue(SkipToken);
+    }
+
     writer->WriteObjectEnd();
 }
 
@@ -2902,6 +2914,20 @@ bool PlayFab::ProgressionModels::FListLeaderboardDefinitionsRequest::readFromVal
         {
             CustomTags.Add(It.Key(), It.Value()->AsString());
         }
+    }
+
+    const TSharedPtr<FJsonValue> PageSizeValue = obj->TryGetField(TEXT("PageSize"));
+    if (PageSizeValue.IsValid() && !PageSizeValue->IsNull())
+    {
+        int32 TmpValue;
+        if (PageSizeValue->TryGetNumber(TmpValue)) { PageSize = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> SkipTokenValue = obj->TryGetField(TEXT("SkipToken"));
+    if (SkipTokenValue.IsValid() && !SkipTokenValue->IsNull())
+    {
+        FString TmpValue;
+        if (SkipTokenValue->TryGetString(TmpValue)) { SkipToken = TmpValue; }
     }
 
     return HasSucceeded;
@@ -2925,6 +2951,15 @@ void PlayFab::ProgressionModels::FListLeaderboardDefinitionsResponse::writeJSON(
     }
 
 
+    writer->WriteIdentifierPrefix(TEXT("PageSize"));
+    writer->WriteValue(PageSize);
+
+    if (SkipToken.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("SkipToken"));
+        writer->WriteValue(SkipToken);
+    }
+
     writer->WriteObjectEnd();
 }
 
@@ -2939,6 +2974,20 @@ bool PlayFab::ProgressionModels::FListLeaderboardDefinitionsResponse::readFromVa
         LeaderboardDefinitions.Add(FLeaderboardDefinition(CurrentItem->AsObject()));
     }
 
+
+    const TSharedPtr<FJsonValue> PageSizeValue = obj->TryGetField(TEXT("PageSize"));
+    if (PageSizeValue.IsValid() && !PageSizeValue->IsNull())
+    {
+        int32 TmpValue;
+        if (PageSizeValue->TryGetNumber(TmpValue)) { PageSize = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> SkipTokenValue = obj->TryGetField(TEXT("SkipToken"));
+    if (SkipTokenValue.IsValid() && !SkipTokenValue->IsNull())
+    {
+        FString TmpValue;
+        if (SkipTokenValue->TryGetString(TmpValue)) { SkipToken = TmpValue; }
+    }
 
     return HasSucceeded;
 }
@@ -2963,6 +3012,18 @@ void PlayFab::ProgressionModels::FListStatisticDefinitionsRequest::writeJSON(Jso
         writer->WriteObjectEnd();
     }
 
+    if (PageSize.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("PageSize"));
+        writer->WriteValue(PageSize);
+    }
+
+    if (SkipToken.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("SkipToken"));
+        writer->WriteValue(SkipToken);
+    }
+
     writer->WriteObjectEnd();
 }
 
@@ -2977,6 +3038,20 @@ bool PlayFab::ProgressionModels::FListStatisticDefinitionsRequest::readFromValue
         {
             CustomTags.Add(It.Key(), It.Value()->AsString());
         }
+    }
+
+    const TSharedPtr<FJsonValue> PageSizeValue = obj->TryGetField(TEXT("PageSize"));
+    if (PageSizeValue.IsValid() && !PageSizeValue->IsNull())
+    {
+        int32 TmpValue;
+        if (PageSizeValue->TryGetNumber(TmpValue)) { PageSize = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> SkipTokenValue = obj->TryGetField(TEXT("SkipToken"));
+    if (SkipTokenValue.IsValid() && !SkipTokenValue->IsNull())
+    {
+        FString TmpValue;
+        if (SkipTokenValue->TryGetString(TmpValue)) { SkipToken = TmpValue; }
     }
 
     return HasSucceeded;
@@ -3141,15 +3216,13 @@ void PlayFab::ProgressionModels::FListStatisticDefinitionsResponse::writeJSON(Js
 {
     writer->WriteObjectStart();
 
-    if (CustomTags.Num() != 0)
+    writer->WriteIdentifierPrefix(TEXT("PageSize"));
+    writer->WriteValue(PageSize);
+
+    if (SkipToken.IsEmpty() == false)
     {
-        writer->WriteObjectStart(TEXT("CustomTags"));
-        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
-        {
-            writer->WriteIdentifierPrefix((*It).Key);
-            writer->WriteValue((*It).Value);
-        }
-        writer->WriteObjectEnd();
+        writer->WriteIdentifierPrefix(TEXT("SkipToken"));
+        writer->WriteValue(SkipToken);
     }
 
     if (StatisticDefinitions.Num() != 0)
@@ -3168,13 +3241,18 @@ bool PlayFab::ProgressionModels::FListStatisticDefinitionsResponse::readFromValu
 {
     bool HasSucceeded = true;
 
-    const TSharedPtr<FJsonObject>* CustomTagsObject;
-    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    const TSharedPtr<FJsonValue> PageSizeValue = obj->TryGetField(TEXT("PageSize"));
+    if (PageSizeValue.IsValid() && !PageSizeValue->IsNull())
     {
-        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
-        {
-            CustomTags.Add(It.Key(), It.Value()->AsString());
-        }
+        int32 TmpValue;
+        if (PageSizeValue->TryGetNumber(TmpValue)) { PageSize = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> SkipTokenValue = obj->TryGetField(TEXT("SkipToken"));
+    if (SkipTokenValue.IsValid() && !SkipTokenValue->IsNull())
+    {
+        FString TmpValue;
+        if (SkipTokenValue->TryGetString(TmpValue)) { SkipToken = TmpValue; }
     }
 
     const TArray<TSharedPtr<FJsonValue>>&StatisticDefinitionsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("StatisticDefinitions"));

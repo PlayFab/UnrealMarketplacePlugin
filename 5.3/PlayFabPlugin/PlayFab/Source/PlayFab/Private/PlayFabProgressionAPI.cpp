@@ -628,6 +628,12 @@ UPlayFabProgressionAPI* UPlayFabProgressionAPI::ListLeaderboardDefinitions(FProg
 
     // Serialize all the request properties to json
     if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    OutRestJsonObj->SetNumberField(TEXT("PageSize"), request.PageSize);
+    if (request.SkipToken.IsEmpty() || request.SkipToken == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("SkipToken"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("SkipToken"), request.SkipToken);
+    }
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -1261,6 +1267,12 @@ UPlayFabProgressionAPI* UPlayFabProgressionAPI::ListStatisticDefinitions(FProgre
 
     // Serialize all the request properties to json
     if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    OutRestJsonObj->SetNumberField(TEXT("PageSize"), request.PageSize);
+    if (request.SkipToken.IsEmpty() || request.SkipToken == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("SkipToken"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("SkipToken"), request.SkipToken);
+    }
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);

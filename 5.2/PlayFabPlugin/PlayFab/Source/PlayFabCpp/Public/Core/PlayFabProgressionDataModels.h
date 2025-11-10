@@ -1418,9 +1418,17 @@ namespace ProgressionModels
     {
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
+        // [optional] The page size for the request.
+        Boxed<int32> PageSize;
+
+        // [optional] The skip token for the paged request.
+        FString SkipToken;
+
         FListLeaderboardDefinitionsRequest() :
             FPlayFabCppRequestCommon(),
-            CustomTags()
+            CustomTags(),
+            PageSize(),
+            SkipToken()
             {}
 
         FListLeaderboardDefinitionsRequest(const FListLeaderboardDefinitionsRequest& src) = default;
@@ -1440,9 +1448,17 @@ namespace ProgressionModels
     {
         // [optional] List of leaderboard definitions for the title.
         TArray<FLeaderboardDefinition> LeaderboardDefinitions;
+        // The page size on the response.
+        int32 PageSize;
+
+        // [optional] The skip token for the paged response.
+        FString SkipToken;
+
         FListLeaderboardDefinitionsResponse() :
             FPlayFabCppResultCommon(),
-            LeaderboardDefinitions()
+            LeaderboardDefinitions(),
+            PageSize(0),
+            SkipToken()
             {}
 
         FListLeaderboardDefinitionsResponse(const FListLeaderboardDefinitionsResponse& src) = default;
@@ -1462,9 +1478,17 @@ namespace ProgressionModels
     {
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
+        // [optional] The page size for the request.
+        Boxed<int32> PageSize;
+
+        // [optional] The skip token for the paged request.
+        FString SkipToken;
+
         FListStatisticDefinitionsRequest() :
             FPlayFabCppRequestCommon(),
-            CustomTags()
+            CustomTags(),
+            PageSize(),
+            SkipToken()
             {}
 
         FListStatisticDefinitionsRequest(const FListStatisticDefinitionsRequest& src) = default;
@@ -1545,13 +1569,18 @@ namespace ProgressionModels
 
     struct PLAYFABCPP_API FListStatisticDefinitionsResponse : public PlayFab::FPlayFabCppResultCommon
     {
-        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
-        TMap<FString, FString> CustomTags;
+        // The page size on the response.
+        int32 PageSize;
+
+        // [optional] The skip token for the paged response.
+        FString SkipToken;
+
         // [optional] List of statistic definitions for the title.
         TArray<FStatisticDefinition> StatisticDefinitions;
         FListStatisticDefinitionsResponse() :
             FPlayFabCppResultCommon(),
-            CustomTags(),
+            PageSize(0),
+            SkipToken(),
             StatisticDefinitions()
             {}
 

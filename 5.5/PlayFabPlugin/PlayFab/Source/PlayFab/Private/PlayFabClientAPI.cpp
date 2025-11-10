@@ -7226,6 +7226,11 @@ UPlayFabClientAPI* UPlayFabClientAPI::ValidateIOSReceipt(FClientValidateIOSRecei
         OutRestJsonObj->SetStringField(TEXT("CurrencyCode"), request.CurrencyCode);
     }
     if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.JwsReceiptData.IsEmpty() || request.JwsReceiptData == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("JwsReceiptData"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("JwsReceiptData"), request.JwsReceiptData);
+    }
     OutRestJsonObj->SetNumberField(TEXT("PurchasePrice"), request.PurchasePrice);
     if (request.ReceiptData.IsEmpty() || request.ReceiptData == "") {
         OutRestJsonObj->SetFieldNull(TEXT("ReceiptData"));

@@ -304,6 +304,12 @@ public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Leaderboards Models")
         UPlayFabJsonObject* CustomTags = nullptr;
+    /** The page size for the request. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Leaderboards Models")
+        int32 PageSize = 0;
+    /** The skip token for the paged request. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Leaderboards Models")
+        FString SkipToken;
 };
 
 USTRUCT(BlueprintType)
@@ -314,6 +320,12 @@ public:
     /** List of leaderboard definitions for the title. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Leaderboards Models")
         TArray<UPlayFabJsonObject*> LeaderboardDefinitions;
+    /** The page size on the response. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Leaderboards Models")
+        int32 PageSize = 0;
+    /** The skip token for the paged response. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Leaderboards Models")
+        FString SkipToken;
 };
 
 USTRUCT(BlueprintType)
@@ -595,6 +607,12 @@ public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
         UPlayFabJsonObject* CustomTags = nullptr;
+    /** The page size for the request. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
+        int32 PageSize = 0;
+    /** The skip token for the paged request. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
+        FString SkipToken;
 };
 
 USTRUCT(BlueprintType)
@@ -602,9 +620,12 @@ struct PLAYFAB_API FProgressionListStatisticDefinitionsResponse : public FPlayFa
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    /** The page size on the response. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        int32 PageSize = 0;
+    /** The skip token for the paged response. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
+        FString SkipToken;
     /** List of statistic definitions for the title. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
         TArray<UPlayFabJsonObject*> StatisticDefinitions;

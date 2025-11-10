@@ -12660,10 +12660,13 @@ namespace ClientModels
 
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
+        // [optional] Base64 encoded receipt data, passed back by the App Store as a result of a successful purchase.
+        FString JwsReceiptData;
+
         // Amount of the stated currency paid, in centesimal units.
         int32 PurchasePrice;
 
-        // Base64 encoded receipt data, passed back by the App Store as a result of a successful purchase.
+        // [optional] Base64 encoded receipt data, passed back by the App Store as a result of a successful purchase.
         FString ReceiptData;
 
         FValidateIOSReceiptRequest() :
@@ -12671,6 +12674,7 @@ namespace ClientModels
             CatalogVersion(),
             CurrencyCode(),
             CustomTags(),
+            JwsReceiptData(),
             PurchasePrice(0),
             ReceiptData()
             {}

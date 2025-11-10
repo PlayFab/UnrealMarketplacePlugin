@@ -82,6 +82,8 @@ FProgressionListLeaderboardDefinitionsResponse UPlayFabProgressionModelDecoder::
     UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
 
     tempStruct.LeaderboardDefinitions = !(dataObj->HasField("LeaderboardDefinitions")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("LeaderboardDefinitions");
+    tempStruct.PageSize = !(dataObj->HasField("PageSize")) ? 0 : int(dataObj->GetNumberField("PageSize"));
+    tempStruct.SkipToken = !(dataObj->HasField("SkipToken")) ? TEXT("") : dataObj->GetStringField("SkipToken");
 
     return tempStruct;
 }
@@ -166,7 +168,8 @@ FProgressionListStatisticDefinitionsResponse UPlayFabProgressionModelDecoder::de
     FProgressionListStatisticDefinitionsResponse tempStruct;
     UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
 
-    tempStruct.CustomTags = !(dataObj->HasField("CustomTags")) ? nullptr : dataObj->GetObjectField("CustomTags");
+    tempStruct.PageSize = !(dataObj->HasField("PageSize")) ? 0 : int(dataObj->GetNumberField("PageSize"));
+    tempStruct.SkipToken = !(dataObj->HasField("SkipToken")) ? TEXT("") : dataObj->GetStringField("SkipToken");
     tempStruct.StatisticDefinitions = !(dataObj->HasField("StatisticDefinitions")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("StatisticDefinitions");
 
     return tempStruct;

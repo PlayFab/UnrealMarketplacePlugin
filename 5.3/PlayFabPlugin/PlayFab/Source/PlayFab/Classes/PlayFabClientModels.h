@@ -3458,6 +3458,9 @@ public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Platform Specific Methods Models")
         UPlayFabJsonObject* CustomTags = nullptr;
+    /** Base64 encoded receipt data, passed back by the App Store as a result of a successful purchase. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Platform Specific Methods Models")
+        FString JwsReceiptData;
     /** Amount of the stated currency paid, in centesimal units. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Platform Specific Methods Models")
         int32 PurchasePrice = 0;

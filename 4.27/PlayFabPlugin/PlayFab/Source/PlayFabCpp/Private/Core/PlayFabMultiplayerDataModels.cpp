@@ -14631,6 +14631,12 @@ void PlayFab::MultiplayerModels::FUpdateLobbyRequest::writeJSON(JsonWriter& writ
         Owner->writeJSON(writer);
     }
 
+    if (RestrictInvitesToLobbyOwner.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("RestrictInvitesToLobbyOwner"));
+        writer->WriteValue(RestrictInvitesToLobbyOwner);
+    }
+
     if (SearchData.Num() != 0)
     {
         writer->WriteObjectStart(TEXT("SearchData"));
@@ -14717,6 +14723,13 @@ bool PlayFab::MultiplayerModels::FUpdateLobbyRequest::readFromValue(const TShare
     if (OwnerValue.IsValid() && !OwnerValue->IsNull())
     {
         Owner = MakeShareable(new FEntityKey(OwnerValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> RestrictInvitesToLobbyOwnerValue = obj->TryGetField(TEXT("RestrictInvitesToLobbyOwner"));
+    if (RestrictInvitesToLobbyOwnerValue.IsValid() && !RestrictInvitesToLobbyOwnerValue->IsNull())
+    {
+        bool TmpValue;
+        if (RestrictInvitesToLobbyOwnerValue->TryGetBool(TmpValue)) { RestrictInvitesToLobbyOwner = TmpValue; }
     }
 
     const TSharedPtr<FJsonObject>* SearchDataObject;

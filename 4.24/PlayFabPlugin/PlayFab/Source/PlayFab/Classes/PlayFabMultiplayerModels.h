@@ -639,6 +639,13 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
         UPlayFabJsonObject* Owner = nullptr;
     /**
+     * A setting that controls whether only the lobby owner can send invites to join the lobby. When true, only the lobby owner
+     * can send invites. When false or not specified, any member can send invites. Will not modify current configuration if not
+     * specified. Restricted to client owned lobbies.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        bool RestrictInvitesToLobbyOwner = false;
+    /**
      * The public key-value pairs which allow queries to differentiate between lobbies. Optional. Sets or updates key-value
      * pairs on the lobby for use with queries. Only the current lobby owner can set search data. New keys will be added with
      * their values and existing keys will be updated with the new values. There can be up to 30 key-value pairs stored here.

@@ -953,6 +953,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::UpdateLobby(FMultiplayerUpdateLo
     if (GetEnumValueToString<EMembershipLock>(TEXT("EMembershipLock"), request.MembershipLock, temp_MembershipLock))
         OutRestJsonObj->SetStringField(TEXT("MembershipLock"), temp_MembershipLock);
     if (request.Owner != nullptr) OutRestJsonObj->SetObjectField(TEXT("Owner"), request.Owner);
+    OutRestJsonObj->SetBoolField(TEXT("RestrictInvitesToLobbyOwner"), request.RestrictInvitesToLobbyOwner);
     if (request.SearchData != nullptr) OutRestJsonObj->SetObjectField(TEXT("SearchData"), request.SearchData);
     // Check to see if string is empty
     if (request.SearchDataToDelete.IsEmpty() || request.SearchDataToDelete == "") {

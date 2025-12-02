@@ -643,6 +643,7 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 1611: returnText = "CannotEnableAnonymousPlayerCreation"; break;
     case 1612: returnText = "ParentCustomerAccountNotFound"; break;
     case 1613: returnText = "AccountLinkedToABannedPlayer"; break;
+    case 1614: returnText = "AzureSubscriptionNotEligibleForLinking"; break;
     case 2001: returnText = "MatchmakingEntityInvalid"; break;
     case 2002: returnText = "MatchmakingPlayerAttributesInvalid"; break;
     case 2016: returnText = "MatchmakingQueueNotFound"; break;

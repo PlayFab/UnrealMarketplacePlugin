@@ -6026,6 +6026,107 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FOpenIdSubjectIdentifier : public PlayFab::FPlayFabCppBaseModel
+    {
+        // The issuer URL for the OpenId Connect provider, or the override URL if an override exists.
+        FString Issuer;
+
+        // The unique subject identifier within the context of the issuer.
+        FString Subject;
+
+        FOpenIdSubjectIdentifier() :
+            FPlayFabCppBaseModel(),
+            Issuer(),
+            Subject()
+            {}
+
+        FOpenIdSubjectIdentifier(const FOpenIdSubjectIdentifier& src) = default;
+
+        FOpenIdSubjectIdentifier(const TSharedPtr<FJsonObject>& obj) : FOpenIdSubjectIdentifier()
+        {
+            readFromValue(obj);
+        }
+
+        ~FOpenIdSubjectIdentifier();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FGetPlayFabIDsFromOpenIdsRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        /**
+         * Array of unique OpenId Connect identifiers for which the title needs to get PlayFab identifiers. The array cannot exceed
+         * 10 in length.
+         */
+        TArray<FOpenIdSubjectIdentifier> OpenIdSubjectIdentifiers;
+        FGetPlayFabIDsFromOpenIdsRequest() :
+            FPlayFabCppRequestCommon(),
+            OpenIdSubjectIdentifiers()
+            {}
+
+        FGetPlayFabIDsFromOpenIdsRequest(const FGetPlayFabIDsFromOpenIdsRequest& src) = default;
+
+        FGetPlayFabIDsFromOpenIdsRequest(const TSharedPtr<FJsonObject>& obj) : FGetPlayFabIDsFromOpenIdsRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetPlayFabIDsFromOpenIdsRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FOpenIdSubjectIdentifierPlayFabIdPair : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Unique OpenId Connect identifier for a user.
+        TSharedPtr<FOpenIdSubjectIdentifier> pfOpenIdSubjectIdentifier;
+
+        // [optional] Unique PlayFab identifier for a user, or null if no PlayFab account is linked to the OpenId Connect identifier.
+        FString PlayFabId;
+
+        FOpenIdSubjectIdentifierPlayFabIdPair() :
+            FPlayFabCppBaseModel(),
+            pfOpenIdSubjectIdentifier(nullptr),
+            PlayFabId()
+            {}
+
+        FOpenIdSubjectIdentifierPlayFabIdPair(const FOpenIdSubjectIdentifierPlayFabIdPair& src) = default;
+
+        FOpenIdSubjectIdentifierPlayFabIdPair(const TSharedPtr<FJsonObject>& obj) : FOpenIdSubjectIdentifierPlayFabIdPair()
+        {
+            readFromValue(obj);
+        }
+
+        ~FOpenIdSubjectIdentifierPlayFabIdPair();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FGetPlayFabIDsFromOpenIdsResult : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] Mapping of OpenId Connect identifiers to PlayFab identifiers.
+        TArray<FOpenIdSubjectIdentifierPlayFabIdPair> Data;
+        FGetPlayFabIDsFromOpenIdsResult() :
+            FPlayFabCppResultCommon(),
+            Data()
+            {}
+
+        FGetPlayFabIDsFromOpenIdsResult(const FGetPlayFabIDsFromOpenIdsResult& src) = default;
+
+        FGetPlayFabIDsFromOpenIdsResult(const TSharedPtr<FJsonObject>& obj) : FGetPlayFabIDsFromOpenIdsResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetPlayFabIDsFromOpenIdsResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FGetPlayFabIDsFromPSNAccountIDsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] Id of the PlayStation :tm: Network issuer environment. If null, defaults to production environment.
@@ -8124,6 +8225,40 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FLinkTwitchAccountRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // Twitch access token for authentication.
+        FString AccessToken;
+
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // [optional] If another user is already linked to the account, unlink the other user and re-link.
+        Boxed<bool> ForceLink;
+
+        // PlayFab unique identifier of the user to link.
+        FString PlayFabId;
+
+        FLinkTwitchAccountRequest() :
+            FPlayFabCppRequestCommon(),
+            AccessToken(),
+            CustomTags(),
+            ForceLink(),
+            PlayFabId()
+            {}
+
+        FLinkTwitchAccountRequest(const FLinkTwitchAccountRequest& src) = default;
+
+        FLinkTwitchAccountRequest(const TSharedPtr<FJsonObject>& obj) : FLinkTwitchAccountRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FLinkTwitchAccountRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FLinkXboxAccountRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
@@ -8604,6 +8739,48 @@ namespace ServerModels
         }
 
         ~FLoginWithSteamIdRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FLoginWithTwitchRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // Twitch access token for authentication.
+        FString AccessToken;
+
+        // [optional] If true, create a new PlayFab account if one does not exist.
+        Boxed<bool> CreateAccount;
+
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // [optional] Parameters for requesting additional player info.
+        TSharedPtr<FGetPlayerCombinedInfoRequestParams> InfoRequestParameters;
+
+        // [optional] Player secret for additional authentication.
+        FString PlayerSecret;
+
+        // PlayFab unique identifier of the user.
+        FString PlayFabId;
+
+        FLoginWithTwitchRequest() :
+            FPlayFabCppRequestCommon(),
+            AccessToken(),
+            CreateAccount(),
+            CustomTags(),
+            InfoRequestParameters(nullptr),
+            PlayerSecret(),
+            PlayFabId()
+            {}
+
+        FLoginWithTwitchRequest(const FLoginWithTwitchRequest& src) = default;
+
+        FLoginWithTwitchRequest(const TSharedPtr<FJsonObject>& obj) : FLoginWithTwitchRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FLoginWithTwitchRequest();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -10424,6 +10601,39 @@ namespace ServerModels
         }
 
         ~FUnlinkSteamIdResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FUnlinkTwitchAccountRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        /**
+         * [optional] Valid token issued by Twitch. Used to specify which twitch account to unlink from the profile. By default it uses the
+         * one that is present on the profile.
+         */
+        FString AccessToken;
+
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // PlayFab unique identifier of the user to unlink.
+        FString PlayFabId;
+
+        FUnlinkTwitchAccountRequest() :
+            FPlayFabCppRequestCommon(),
+            AccessToken(),
+            CustomTags(),
+            PlayFabId()
+            {}
+
+        FUnlinkTwitchAccountRequest(const FUnlinkTwitchAccountRequest& src) = default;
+
+        FUnlinkTwitchAccountRequest(const TSharedPtr<FJsonObject>& obj) : FUnlinkTwitchAccountRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FUnlinkTwitchAccountRequest();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;

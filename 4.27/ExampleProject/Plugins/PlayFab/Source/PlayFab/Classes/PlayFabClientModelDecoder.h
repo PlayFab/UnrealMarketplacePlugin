@@ -100,6 +100,10 @@ public:
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management Models")
         static FClientGetPlayFabIDsFromNintendoSwitchDeviceIdsResult decodeGetPlayFabIDsFromNintendoSwitchDeviceIdsResultResponse(UPlayFabJsonObject* response);
 
+    /** Decode the GetPlayFabIDsFromOpenIdsResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management Models")
+        static FClientGetPlayFabIDsFromOpenIdsResult decodeGetPlayFabIDsFromOpenIdsResultResponse(UPlayFabJsonObject* response);
+
     /** Decode the GetPlayFabIDsFromPSNAccountIDsResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management Models")
         static FClientGetPlayFabIDsFromPSNAccountIDsResult decodeGetPlayFabIDsFromPSNAccountIDsResultResponse(UPlayFabJsonObject* response);

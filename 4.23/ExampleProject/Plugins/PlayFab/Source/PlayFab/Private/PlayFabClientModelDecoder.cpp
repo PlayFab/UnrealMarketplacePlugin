@@ -194,6 +194,17 @@ FClientGetPlayFabIDsFromNintendoSwitchDeviceIdsResult UPlayFabClientModelDecoder
     return tempStruct;
 }
 
+FClientGetPlayFabIDsFromOpenIdsResult UPlayFabClientModelDecoder::decodeGetPlayFabIDsFromOpenIdsResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FClientGetPlayFabIDsFromOpenIdsResult tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.Data = !(dataObj->HasField("Data")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Data");
+
+    return tempStruct;
+}
+
 FClientGetPlayFabIDsFromPSNAccountIDsResult UPlayFabClientModelDecoder::decodeGetPlayFabIDsFromPSNAccountIDsResultResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct

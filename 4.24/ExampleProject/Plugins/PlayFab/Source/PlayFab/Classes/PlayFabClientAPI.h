@@ -292,6 +292,23 @@ public:
         void HelperGetPlayFabIDsFromNintendoSwitchDeviceIds(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetPlayFabIDsFromOpenIdSubjectIdentifiers, FClientGetPlayFabIDsFromOpenIdsResult, result, UObject*, customData);
+
+    /**
+     * Retrieves the unique PlayFab identifiers for the given set of OpenId subject identifiers. A OpenId identifier is the
+     * service name plus the service-specific ID for the player, as specified by the title when the OpenId identifier was added
+     * to the player account.
+     */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabClientAPI* GetPlayFabIDsFromOpenIdSubjectIdentifiers(FClientGetPlayFabIDsFromOpenIdsRequest request,
+            FDelegateOnSuccessGetPlayFabIDsFromOpenIdSubjectIdentifiers onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabClientRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperGetPlayFabIDsFromOpenIdSubjectIdentifiers(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetPlayFabIDsFromPSNAccountIDs, FClientGetPlayFabIDsFromPSNAccountIDsResult, result, UObject*, customData);
 
     /** Retrieves the unique PlayFab identifiers for the given set of PlayStation :tm: Network identifiers. */
@@ -2679,6 +2696,7 @@ public:
     FDelegateOnSuccessGetPlayFabIDsFromKongregateIDs OnSuccessGetPlayFabIDsFromKongregateIDs;
     FDelegateOnSuccessGetPlayFabIDsFromNintendoServiceAccountIds OnSuccessGetPlayFabIDsFromNintendoServiceAccountIds;
     FDelegateOnSuccessGetPlayFabIDsFromNintendoSwitchDeviceIds OnSuccessGetPlayFabIDsFromNintendoSwitchDeviceIds;
+    FDelegateOnSuccessGetPlayFabIDsFromOpenIdSubjectIdentifiers OnSuccessGetPlayFabIDsFromOpenIdSubjectIdentifiers;
     FDelegateOnSuccessGetPlayFabIDsFromPSNAccountIDs OnSuccessGetPlayFabIDsFromPSNAccountIDs;
     FDelegateOnSuccessGetPlayFabIDsFromPSNOnlineIDs OnSuccessGetPlayFabIDsFromPSNOnlineIDs;
     FDelegateOnSuccessGetPlayFabIDsFromSteamIDs OnSuccessGetPlayFabIDsFromSteamIDs;

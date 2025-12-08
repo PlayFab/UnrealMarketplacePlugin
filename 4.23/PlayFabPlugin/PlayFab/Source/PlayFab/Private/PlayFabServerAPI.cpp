@@ -128,7 +128,7 @@ void UPlayFabServerAPI::HelperAddGenericID(FPlayFabBaseModel response, UObject* 
     this->RemoveFromRoot();
 }
 
-/** Bans users by PlayFab ID with optional IP address, or MAC address for the provided game. */
+/** Bans users by PlayFab ID with optional IP address for the provided game. */
 UPlayFabServerAPI* UPlayFabServerAPI::BanUsers(FServerBanUsersRequest request,
     FDelegateOnSuccessBanUsers onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -662,6 +662,58 @@ void UPlayFabServerAPI::HelperGetPlayFabIDsFromNintendoSwitchDeviceIds(FPlayFabB
     {
         FServerGetPlayFabIDsFromNintendoSwitchDeviceIdsResult ResultStruct = UPlayFabServerModelDecoder::decodeGetPlayFabIDsFromNintendoSwitchDeviceIdsResultResponse(response.responseData);
         OnSuccessGetPlayFabIDsFromNintendoSwitchDeviceIds.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Retrieves the unique PlayFab identifiers for the given set of OpenId subject identifiers. A OpenId subject identifier is the OpenId issuer plus the OpenId subject for the player, as specified by the title when the OpenId identifier was added to the player account. */
+UPlayFabServerAPI* UPlayFabServerAPI::GetPlayFabIDsFromOpenIdSubjectIdentifiers(FServerGetPlayFabIDsFromOpenIdsRequest request,
+    FDelegateOnSuccessGetPlayFabIDsFromOpenIdSubjectIdentifiers onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabServerAPI* manager = NewObject<UPlayFabServerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessGetPlayFabIDsFromOpenIdSubjectIdentifiers = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperGetPlayFabIDsFromOpenIdSubjectIdentifiers);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Server/GetPlayFabIDsFromOpenIdSubjectIdentifiers";
+    manager->useSecretKey = true;
+
+
+    // Serialize all the request properties to json
+    if (request.OpenIdSubjectIdentifiers.Num() == 0) {
+        OutRestJsonObj->SetFieldNull(TEXT("OpenIdSubjectIdentifiers"));
+    } else {
+        OutRestJsonObj->SetObjectArrayField(TEXT("OpenIdSubjectIdentifiers"), request.OpenIdSubjectIdentifiers);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabServerRequestCompleted
+void UPlayFabServerAPI::HelperGetPlayFabIDsFromOpenIdSubjectIdentifiers(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessGetPlayFabIDsFromOpenIdSubjectIdentifiers.IsBound())
+    {
+        FServerGetPlayFabIDsFromOpenIdsResult ResultStruct = UPlayFabServerModelDecoder::decodeGetPlayFabIDsFromOpenIdsResultResponse(response.responseData);
+        OnSuccessGetPlayFabIDsFromOpenIdSubjectIdentifiers.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1644,6 +1696,66 @@ void UPlayFabServerAPI::HelperLinkSteamId(FPlayFabBaseModel response, UObject* c
     this->RemoveFromRoot();
 }
 
+/** Links the Twitch account associated with the token to the user's PlayFab account. */
+UPlayFabServerAPI* UPlayFabServerAPI::LinkTwitchAccount(FServerLinkTwitchAccountRequest request,
+    FDelegateOnSuccessLinkTwitchAccount onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabServerAPI* manager = NewObject<UPlayFabServerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessLinkTwitchAccount = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperLinkTwitchAccount);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Server/LinkTwitchAccount";
+    manager->useSecretKey = true;
+
+
+    // Serialize all the request properties to json
+    if (request.AccessToken.IsEmpty() || request.AccessToken == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("AccessToken"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("AccessToken"), request.AccessToken);
+    }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    OutRestJsonObj->SetBoolField(TEXT("ForceLink"), request.ForceLink);
+    if (request.PlayFabId.IsEmpty() || request.PlayFabId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("PlayFabId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("PlayFabId"), request.PlayFabId);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabServerRequestCompleted
+void UPlayFabServerAPI::HelperLinkTwitchAccount(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessLinkTwitchAccount.IsBound())
+    {
+        FServerEmptyResult ResultStruct = UPlayFabServerModelDecoder::decodeEmptyResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessLinkTwitchAccount.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 /** Links the Xbox Live account associated with the provided access code to the user's PlayFab account */
 UPlayFabServerAPI* UPlayFabServerAPI::LinkXboxAccount(FServerLinkXboxAccountRequest request,
     FDelegateOnSuccessLinkXboxAccount onSuccess,
@@ -2583,6 +2695,65 @@ void UPlayFabServerAPI::HelperUnlinkSteamId(FPlayFabBaseModel response, UObject*
     this->RemoveFromRoot();
 }
 
+/** Unlinks the related Twitch account from the user's PlayFab account. */
+UPlayFabServerAPI* UPlayFabServerAPI::UnlinkTwitchAccount(FServerUnlinkTwitchAccountRequest request,
+    FDelegateOnSuccessUnlinkTwitchAccount onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabServerAPI* manager = NewObject<UPlayFabServerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessUnlinkTwitchAccount = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperUnlinkTwitchAccount);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Server/UnlinkTwitchAccount";
+    manager->useSecretKey = true;
+
+
+    // Serialize all the request properties to json
+    if (request.AccessToken.IsEmpty() || request.AccessToken == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("AccessToken"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("AccessToken"), request.AccessToken);
+    }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.PlayFabId.IsEmpty() || request.PlayFabId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("PlayFabId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("PlayFabId"), request.PlayFabId);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabServerRequestCompleted
+void UPlayFabServerAPI::HelperUnlinkTwitchAccount(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessUnlinkTwitchAccount.IsBound())
+    {
+        FServerEmptyResult ResultStruct = UPlayFabServerModelDecoder::decodeEmptyResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessUnlinkTwitchAccount.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 /** Unlinks the related Xbox Live account from the user's PlayFab account */
 UPlayFabServerAPI* UPlayFabServerAPI::UnlinkXboxAccount(FServerUnlinkXboxAccountRequest request,
     FDelegateOnSuccessUnlinkXboxAccount onSuccess,
@@ -3418,6 +3589,72 @@ void UPlayFabServerAPI::HelperLoginWithSteamId(FPlayFabBaseModel response, UObje
         FServerServerLoginResult ResultStruct = UPlayFabServerModelDecoder::decodeServerLoginResultResponse(response.responseData);
         ResultStruct.Request = RequestJsonObj;
         OnSuccessLoginWithSteamId.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Sign in the user with a Twitch access token */
+UPlayFabServerAPI* UPlayFabServerAPI::LoginWithTwitch(FServerLoginWithTwitchRequest request,
+    FDelegateOnSuccessLoginWithTwitch onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabServerAPI* manager = NewObject<UPlayFabServerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessLoginWithTwitch = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperLoginWithTwitch);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Server/LoginWithTwitch";
+    manager->useSecretKey = true;
+
+
+    // Serialize all the request properties to json
+    if (request.AccessToken.IsEmpty() || request.AccessToken == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("AccessToken"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("AccessToken"), request.AccessToken);
+    }
+    OutRestJsonObj->SetBoolField(TEXT("CreateAccount"), request.CreateAccount);
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.InfoRequestParameters != nullptr) OutRestJsonObj->SetObjectField(TEXT("InfoRequestParameters"), request.InfoRequestParameters);
+    if (request.PlayerSecret.IsEmpty() || request.PlayerSecret == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("PlayerSecret"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("PlayerSecret"), request.PlayerSecret);
+    }
+    if (request.PlayFabId.IsEmpty() || request.PlayFabId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("PlayFabId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("PlayFabId"), request.PlayFabId);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabServerRequestCompleted
+void UPlayFabServerAPI::HelperLoginWithTwitch(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessLoginWithTwitch.IsBound())
+    {
+        FServerServerLoginResult ResultStruct = UPlayFabServerModelDecoder::decodeServerLoginResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessLoginWithTwitch.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }

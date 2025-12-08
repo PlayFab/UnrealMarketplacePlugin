@@ -51,8 +51,8 @@ public:
 };
 
 /**
- * The existence of each user will not be verified. When banning by IP or MAC address, multiple players may be affected, so
- * use this feature with caution. Returns information about the new bans.
+ * The existence of each user will not be verified. When banning by IP, multiple players may be affected, so use this
+ * feature with caution. Returns information about the new bans.
  */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerBanUsersRequest : public FPlayFabRequestCommon
@@ -301,6 +301,30 @@ struct PLAYFAB_API FServerGetPlayFabIDsFromNintendoSwitchDeviceIdsResult : publi
     GENERATED_USTRUCT_BODY()
 public:
     /** Mapping of Nintendo Switch Device identifiers to PlayFab identifiers. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        TArray<UPlayFabJsonObject*> Data;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FServerGetPlayFabIDsFromOpenIdsRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /**
+     * Array of unique OpenId Connect identifiers for which the title needs to get PlayFab identifiers. The array cannot exceed
+     * 10 in length.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        TArray<UPlayFabJsonObject*> OpenIdSubjectIdentifiers;
+};
+
+/** For OpenId identifiers which have not been linked to PlayFab accounts, null will be returned. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FServerGetPlayFabIDsFromOpenIdsResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Mapping of OpenId Connect identifiers to PlayFab identifiers. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
         TArray<UPlayFabJsonObject*> Data;
 };
@@ -729,6 +753,25 @@ public:
 };
 
 USTRUCT(BlueprintType)
+struct PLAYFAB_API FServerLinkTwitchAccountRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Twitch access token for authentication. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        FString AccessToken;
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /** If another user is already linked to the account, unlink the other user and re-link. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        bool ForceLink = false;
+    /** PlayFab unique identifier of the user to link. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        FString PlayFabId;
+};
+
+USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerLinkXboxAccountRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
@@ -1103,6 +1146,25 @@ struct PLAYFAB_API FServerUnlinkSteamIdResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FServerUnlinkTwitchAccountRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /**
+     * Valid token issued by Twitch. Used to specify which twitch account to unlink from the profile. By default it uses the
+     * one that is present on the profile.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        FString AccessToken;
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /** PlayFab unique identifier of the user to unlink. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        FString PlayFabId;
 };
 
 USTRUCT(BlueprintType)
@@ -1533,6 +1595,40 @@ public:
     /** Unique Steam identifier for a user. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Authentication Models")
         FString SteamId;
+};
+
+/**
+ * More details regarding Twitch and their authentication system can be found at
+ * https://github.com/justintv/Twitch-API/blob/master/authentication.md. Developers must provide the Twitch access token
+ * that is generated using one of the Twitch authentication flows. PlayFab will use the title's unique Twitch Client ID to
+ * authenticate the token and log in to the PlayFab system. If CreateAccount is set to true and there is not already a user
+ * matched to the Twitch username that generated the token, then PlayFab will create a new account for this user and link
+ * the ID. In this case, no email or username will be associated with the PlayFab account. If there is already a different
+ * PlayFab user linked with this account, then an error will be returned.
+ */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FServerLoginWithTwitchRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Twitch access token for authentication. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Authentication Models")
+        FString AccessToken;
+    /** If true, create a new PlayFab account if one does not exist. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Authentication Models")
+        bool CreateAccount = false;
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Authentication Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /** Parameters for requesting additional player info. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Authentication Models")
+        UPlayFabJsonObject* InfoRequestParameters = nullptr;
+    /** Player secret for additional authentication. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Authentication Models")
+        FString PlayerSecret;
+    /** PlayFab unique identifier of the user. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Authentication Models")
+        FString PlayFabId;
 };
 
 /**

@@ -75,7 +75,7 @@ FString UPlayFabAdminAPI::PercentEncode(const FString& Text)
 ///////////////////////////////////////////////////////
 // Account Management
 //////////////////////////////////////////////////////
-/** Bans users by PlayFab ID with optional IP address, or MAC address for the provided game. */
+/** Bans users by PlayFab ID with optional IP address for the provided game. */
 UPlayFabAdminAPI* UPlayFabAdminAPI::BanUsers(FAdminBanUsersRequest request,
     FDelegateOnSuccessBanUsers onSuccess,
     FDelegateOnFailurePlayFabError onFailure,

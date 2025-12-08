@@ -6504,6 +6504,107 @@ namespace ClientModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FOpenIdSubjectIdentifier : public PlayFab::FPlayFabCppBaseModel
+    {
+        // The issuer URL for the OpenId Connect provider, or the override URL if an override exists.
+        FString Issuer;
+
+        // The unique subject identifier within the context of the issuer.
+        FString Subject;
+
+        FOpenIdSubjectIdentifier() :
+            FPlayFabCppBaseModel(),
+            Issuer(),
+            Subject()
+            {}
+
+        FOpenIdSubjectIdentifier(const FOpenIdSubjectIdentifier& src) = default;
+
+        FOpenIdSubjectIdentifier(const TSharedPtr<FJsonObject>& obj) : FOpenIdSubjectIdentifier()
+        {
+            readFromValue(obj);
+        }
+
+        ~FOpenIdSubjectIdentifier();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FGetPlayFabIDsFromOpenIdsRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        /**
+         * Array of unique OpenId Connect identifiers for which the title needs to get PlayFab identifiers. The array cannot exceed
+         * 10 in length.
+         */
+        TArray<FOpenIdSubjectIdentifier> OpenIdSubjectIdentifiers;
+        FGetPlayFabIDsFromOpenIdsRequest() :
+            FPlayFabCppRequestCommon(),
+            OpenIdSubjectIdentifiers()
+            {}
+
+        FGetPlayFabIDsFromOpenIdsRequest(const FGetPlayFabIDsFromOpenIdsRequest& src) = default;
+
+        FGetPlayFabIDsFromOpenIdsRequest(const TSharedPtr<FJsonObject>& obj) : FGetPlayFabIDsFromOpenIdsRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetPlayFabIDsFromOpenIdsRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FOpenIdSubjectIdentifierPlayFabIdPair : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Unique OpenId Connect identifier for a user.
+        TSharedPtr<FOpenIdSubjectIdentifier> pfOpenIdSubjectIdentifier;
+
+        // [optional] Unique PlayFab identifier for a user, or null if no PlayFab account is linked to the OpenId Connect identifier.
+        FString PlayFabId;
+
+        FOpenIdSubjectIdentifierPlayFabIdPair() :
+            FPlayFabCppBaseModel(),
+            pfOpenIdSubjectIdentifier(nullptr),
+            PlayFabId()
+            {}
+
+        FOpenIdSubjectIdentifierPlayFabIdPair(const FOpenIdSubjectIdentifierPlayFabIdPair& src) = default;
+
+        FOpenIdSubjectIdentifierPlayFabIdPair(const TSharedPtr<FJsonObject>& obj) : FOpenIdSubjectIdentifierPlayFabIdPair()
+        {
+            readFromValue(obj);
+        }
+
+        ~FOpenIdSubjectIdentifierPlayFabIdPair();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FGetPlayFabIDsFromOpenIdsResult : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] Mapping of OpenId Connect identifiers to PlayFab identifiers.
+        TArray<FOpenIdSubjectIdentifierPlayFabIdPair> Data;
+        FGetPlayFabIDsFromOpenIdsResult() :
+            FPlayFabCppResultCommon(),
+            Data()
+            {}
+
+        FGetPlayFabIDsFromOpenIdsResult(const FGetPlayFabIDsFromOpenIdsResult& src) = default;
+
+        FGetPlayFabIDsFromOpenIdsResult(const TSharedPtr<FJsonObject>& obj) : FGetPlayFabIDsFromOpenIdsResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetPlayFabIDsFromOpenIdsResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FGetPlayFabIDsFromPSNAccountIDsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] Id of the PlayStation :tm: Network issuer environment. If null, defaults to production environment.

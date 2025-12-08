@@ -1826,6 +1826,37 @@ void UPlayFabClientInstanceAPI::OnGetPlayFabIDsFromNintendoSwitchDeviceIdsResult
     }
 }
 
+bool UPlayFabClientInstanceAPI::GetPlayFabIDsFromOpenIdSubjectIdentifiers(
+    ClientModels::FGetPlayFabIDsFromOpenIdsRequest& request,
+    const FGetPlayFabIDsFromOpenIdSubjectIdentifiersDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
+        return false;
+    }
+
+
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/GetPlayFabIDsFromOpenIdSubjectIdentifiers"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnGetPlayFabIDsFromOpenIdSubjectIdentifiersResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabClientInstanceAPI::OnGetPlayFabIDsFromOpenIdSubjectIdentifiersResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayFabIDsFromOpenIdSubjectIdentifiersDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    ClientModels::FGetPlayFabIDsFromOpenIdsResult outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
 bool UPlayFabClientInstanceAPI::GetPlayFabIDsFromPSNAccountIDs(
     ClientModels::FGetPlayFabIDsFromPSNAccountIDsRequest& request,
     const FGetPlayFabIDsFromPSNAccountIDsDelegate& SuccessDelegate,

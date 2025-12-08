@@ -462,6 +462,30 @@ public:
 };
 
 USTRUCT(BlueprintType)
+struct PLAYFAB_API FClientGetPlayFabIDsFromOpenIdsRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /**
+     * Array of unique OpenId Connect identifiers for which the title needs to get PlayFab identifiers. The array cannot exceed
+     * 10 in length.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
+        TArray<UPlayFabJsonObject*> OpenIdSubjectIdentifiers;
+};
+
+/** For OpenId identifiers which have not been linked to PlayFab accounts, null will be returned. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FClientGetPlayFabIDsFromOpenIdsResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Mapping of OpenId Connect identifiers to PlayFab identifiers. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
+        TArray<UPlayFabJsonObject*> Data;
+};
+
+USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientGetPlayFabIDsFromPSNAccountIDsRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()

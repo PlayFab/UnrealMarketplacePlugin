@@ -1383,10 +1383,7 @@ namespace ProgressionModels
         // The unique Id for the entry. If using PlayFab Entities, this would be the entityId of the entity.
         FString EntityId;
 
-        /**
-         * [optional] Arbitrary metadata to store along side the leaderboard entry, will be returned by all Leaderboard APIs. Must be less
-         * than 50 UTF8 encoded characters.
-         */
+        // [optional] Arbitrary metadata to store along side the leaderboard entry, will be returned by all Leaderboard APIs.
         FString Metadata;
 
         /**
@@ -1599,10 +1596,7 @@ namespace ProgressionModels
 
     struct PLAYFABCPP_API FStatisticUpdate : public PlayFab::FPlayFabCppBaseModel
     {
-        /**
-         * [optional] Arbitrary metadata to store along side the statistic, will be returned by all Leaderboard APIs. Must be less than 50
-         * UTF8 encoded characters.
-         */
+        // [optional] Arbitrary metadata to store along side the statistic, will be returned by all Leaderboard APIs.
         FString Metadata;
 
         // Name of the statistic, as originally configured.

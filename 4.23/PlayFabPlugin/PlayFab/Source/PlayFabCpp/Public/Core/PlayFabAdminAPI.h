@@ -170,8 +170,8 @@ namespace PlayFab
          */
         bool AddVirtualCurrencyTypes(AdminModels::FAddVirtualCurrencyTypesRequest& request, const FAddVirtualCurrencyTypesDelegate& SuccessDelegate = FAddVirtualCurrencyTypesDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
-         * Bans users by PlayFab ID with optional IP address, or MAC address for the provided game.
-         * The existence of each user will not be verified. When banning by IP or MAC address, multiple players may be affected, so use this feature with caution. Returns information about the new bans.
+         * Bans users by PlayFab ID with optional IP address for the provided game.
+         * The existence of each user will not be verified. When banning by IP, multiple players may be affected, so use this feature with caution. Returns information about the new bans.
          */
         bool BanUsers(AdminModels::FBanUsersRequest& request, const FBanUsersDelegate& SuccessDelegate = FBanUsersDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**

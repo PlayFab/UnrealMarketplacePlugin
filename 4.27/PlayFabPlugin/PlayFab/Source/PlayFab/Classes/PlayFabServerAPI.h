@@ -78,7 +78,7 @@ public:
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessBanUsers, FServerBanUsersResult, result, UObject*, customData);
 
-    /** Bans users by PlayFab ID with optional IP address, or MAC address for the provided game. */
+    /** Bans users by PlayFab ID with optional IP address for the provided game. */
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
         static UPlayFabServerAPI* BanUsers(FServerBanUsersRequest request,
             FDelegateOnSuccessBanUsers onSuccess,
@@ -208,6 +208,23 @@ public:
     // Implements FOnPlayFabServerRequestCompleted
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
         void HelperGetPlayFabIDsFromNintendoSwitchDeviceIds(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetPlayFabIDsFromOpenIdSubjectIdentifiers, FServerGetPlayFabIDsFromOpenIdsResult, result, UObject*, customData);
+
+    /**
+     * Retrieves the unique PlayFab identifiers for the given set of OpenId subject identifiers. A OpenId subject identifier is
+     * the OpenId issuer plus the OpenId subject for the player, as specified by the title when the OpenId identifier was added
+     * to the player account.
+     */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabServerAPI* GetPlayFabIDsFromOpenIdSubjectIdentifiers(FServerGetPlayFabIDsFromOpenIdsRequest request,
+            FDelegateOnSuccessGetPlayFabIDsFromOpenIdSubjectIdentifiers onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabServerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperGetPlayFabIDsFromOpenIdSubjectIdentifiers(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetPlayFabIDsFromPSNAccountIDs, FServerGetPlayFabIDsFromPSNAccountIDsResult, result, UObject*, customData);
@@ -441,6 +458,19 @@ public:
         void HelperLinkSteamId(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessLinkTwitchAccount, FServerEmptyResult, result, UObject*, customData);
+
+    /** Links the Twitch account associated with the token to the user's PlayFab account. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabServerAPI* LinkTwitchAccount(FServerLinkTwitchAccountRequest request,
+            FDelegateOnSuccessLinkTwitchAccount onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabServerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperLinkTwitchAccount(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessLinkXboxAccount, FServerLinkXboxAccountResult, result, UObject*, customData);
 
     /** Links the Xbox Live account associated with the provided access code to the user's PlayFab account */
@@ -658,6 +688,19 @@ public:
         void HelperUnlinkSteamId(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessUnlinkTwitchAccount, FServerEmptyResult, result, UObject*, customData);
+
+    /** Unlinks the related Twitch account from the user's PlayFab account. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabServerAPI* UnlinkTwitchAccount(FServerUnlinkTwitchAccountRequest request,
+            FDelegateOnSuccessUnlinkTwitchAccount onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabServerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperUnlinkTwitchAccount(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessUnlinkXboxAccount, FServerUnlinkXboxAccountResult, result, UObject*, customData);
 
     /** Unlinks the related Xbox Live account from the user's PlayFab account */
@@ -864,6 +907,19 @@ public:
     // Implements FOnPlayFabServerRequestCompleted
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Authentication ", meta = (BlueprintInternalUseOnly = "true"))
         void HelperLoginWithSteamId(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessLoginWithTwitch, FServerServerLoginResult, result, UObject*, customData);
+
+    /** Sign in the user with a Twitch access token */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Authentication ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabServerAPI* LoginWithTwitch(FServerLoginWithTwitchRequest request,
+            FDelegateOnSuccessLoginWithTwitch onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabServerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Authentication ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperLoginWithTwitch(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessLoginWithXbox, FServerServerLoginResult, result, UObject*, customData);
@@ -2301,6 +2357,7 @@ public:
     FDelegateOnSuccessGetPlayFabIDsFromGenericIDs OnSuccessGetPlayFabIDsFromGenericIDs;
     FDelegateOnSuccessGetPlayFabIDsFromNintendoServiceAccountIds OnSuccessGetPlayFabIDsFromNintendoServiceAccountIds;
     FDelegateOnSuccessGetPlayFabIDsFromNintendoSwitchDeviceIds OnSuccessGetPlayFabIDsFromNintendoSwitchDeviceIds;
+    FDelegateOnSuccessGetPlayFabIDsFromOpenIdSubjectIdentifiers OnSuccessGetPlayFabIDsFromOpenIdSubjectIdentifiers;
     FDelegateOnSuccessGetPlayFabIDsFromPSNAccountIDs OnSuccessGetPlayFabIDsFromPSNAccountIDs;
     FDelegateOnSuccessGetPlayFabIDsFromPSNOnlineIDs OnSuccessGetPlayFabIDsFromPSNOnlineIDs;
     FDelegateOnSuccessGetPlayFabIDsFromSteamIDs OnSuccessGetPlayFabIDsFromSteamIDs;
@@ -2318,6 +2375,7 @@ public:
     FDelegateOnSuccessLinkPSNId OnSuccessLinkPSNId;
     FDelegateOnSuccessLinkServerCustomId OnSuccessLinkServerCustomId;
     FDelegateOnSuccessLinkSteamId OnSuccessLinkSteamId;
+    FDelegateOnSuccessLinkTwitchAccount OnSuccessLinkTwitchAccount;
     FDelegateOnSuccessLinkXboxAccount OnSuccessLinkXboxAccount;
     FDelegateOnSuccessLinkXboxId OnSuccessLinkXboxId;
     FDelegateOnSuccessRemoveGenericID OnSuccessRemoveGenericID;
@@ -2334,6 +2392,7 @@ public:
     FDelegateOnSuccessUnlinkPSNAccount OnSuccessUnlinkPSNAccount;
     FDelegateOnSuccessUnlinkServerCustomId OnSuccessUnlinkServerCustomId;
     FDelegateOnSuccessUnlinkSteamId OnSuccessUnlinkSteamId;
+    FDelegateOnSuccessUnlinkTwitchAccount OnSuccessUnlinkTwitchAccount;
     FDelegateOnSuccessUnlinkXboxAccount OnSuccessUnlinkXboxAccount;
     FDelegateOnSuccessUpdateAvatarUrl OnSuccessUpdateAvatarUrl;
     FDelegateOnSuccessUpdateBans OnSuccessUpdateBans;
@@ -2348,6 +2407,7 @@ public:
     FDelegateOnSuccessLoginWithPSN OnSuccessLoginWithPSN;
     FDelegateOnSuccessLoginWithServerCustomId OnSuccessLoginWithServerCustomId;
     FDelegateOnSuccessLoginWithSteamId OnSuccessLoginWithSteamId;
+    FDelegateOnSuccessLoginWithTwitch OnSuccessLoginWithTwitch;
     FDelegateOnSuccessLoginWithXbox OnSuccessLoginWithXbox;
     FDelegateOnSuccessLoginWithXboxId OnSuccessLoginWithXboxId;
     FDelegateOnSuccessSetPlayerSecret OnSuccessSetPlayerSecret;

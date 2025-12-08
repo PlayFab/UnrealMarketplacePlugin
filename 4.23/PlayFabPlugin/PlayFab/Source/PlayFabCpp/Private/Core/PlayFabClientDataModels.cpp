@@ -12487,6 +12487,173 @@ bool PlayFab::ClientModels::FGetPlayFabIDsFromNintendoSwitchDeviceIdsResult::rea
     return HasSucceeded;
 }
 
+PlayFab::ClientModels::FOpenIdSubjectIdentifier::~FOpenIdSubjectIdentifier()
+{
+
+}
+
+void PlayFab::ClientModels::FOpenIdSubjectIdentifier::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (!Issuer.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: OpenIdSubjectIdentifier::Issuer, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("Issuer"));
+        writer->WriteValue(Issuer);
+    }
+
+    if (!Subject.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: OpenIdSubjectIdentifier::Subject, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("Subject"));
+        writer->WriteValue(Subject);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ClientModels::FOpenIdSubjectIdentifier::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> IssuerValue = obj->TryGetField(TEXT("Issuer"));
+    if (IssuerValue.IsValid() && !IssuerValue->IsNull())
+    {
+        FString TmpValue;
+        if (IssuerValue->TryGetString(TmpValue)) { Issuer = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> SubjectValue = obj->TryGetField(TEXT("Subject"));
+    if (SubjectValue.IsValid() && !SubjectValue->IsNull())
+    {
+        FString TmpValue;
+        if (SubjectValue->TryGetString(TmpValue)) { Subject = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::ClientModels::FGetPlayFabIDsFromOpenIdsRequest::~FGetPlayFabIDsFromOpenIdsRequest()
+{
+
+}
+
+void PlayFab::ClientModels::FGetPlayFabIDsFromOpenIdsRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteArrayStart(TEXT("OpenIdSubjectIdentifiers"));
+    for (const FOpenIdSubjectIdentifier& item : OpenIdSubjectIdentifiers)
+        item.writeJSON(writer);
+    writer->WriteArrayEnd();
+
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ClientModels::FGetPlayFabIDsFromOpenIdsRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TArray<TSharedPtr<FJsonValue>>&OpenIdSubjectIdentifiersArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("OpenIdSubjectIdentifiers"));
+    for (int32 Idx = 0; Idx < OpenIdSubjectIdentifiersArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = OpenIdSubjectIdentifiersArray[Idx];
+        OpenIdSubjectIdentifiers.Add(FOpenIdSubjectIdentifier(CurrentItem->AsObject()));
+    }
+
+
+    return HasSucceeded;
+}
+
+PlayFab::ClientModels::FOpenIdSubjectIdentifierPlayFabIdPair::~FOpenIdSubjectIdentifierPlayFabIdPair()
+{
+    //if (OpenIdSubjectIdentifier != nullptr) delete OpenIdSubjectIdentifier;
+
+}
+
+void PlayFab::ClientModels::FOpenIdSubjectIdentifierPlayFabIdPair::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (pfOpenIdSubjectIdentifier.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("OpenIdSubjectIdentifier"));
+        pfOpenIdSubjectIdentifier->writeJSON(writer);
+    }
+
+    if (PlayFabId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayFabId"));
+        writer->WriteValue(PlayFabId);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ClientModels::FOpenIdSubjectIdentifierPlayFabIdPair::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> OpenIdSubjectIdentifierValue = obj->TryGetField(TEXT("OpenIdSubjectIdentifier"));
+    if (OpenIdSubjectIdentifierValue.IsValid() && !OpenIdSubjectIdentifierValue->IsNull())
+    {
+        pfOpenIdSubjectIdentifier = MakeShareable(new FOpenIdSubjectIdentifier(OpenIdSubjectIdentifierValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> PlayFabIdValue = obj->TryGetField(TEXT("PlayFabId"));
+    if (PlayFabIdValue.IsValid() && !PlayFabIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (PlayFabIdValue->TryGetString(TmpValue)) { PlayFabId = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::ClientModels::FGetPlayFabIDsFromOpenIdsResult::~FGetPlayFabIDsFromOpenIdsResult()
+{
+
+}
+
+void PlayFab::ClientModels::FGetPlayFabIDsFromOpenIdsResult::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (Data.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("Data"));
+        for (const FOpenIdSubjectIdentifierPlayFabIdPair& item : Data)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ClientModels::FGetPlayFabIDsFromOpenIdsResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TArray<TSharedPtr<FJsonValue>>&DataArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Data"));
+    for (int32 Idx = 0; Idx < DataArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = DataArray[Idx];
+        Data.Add(FOpenIdSubjectIdentifierPlayFabIdPair(CurrentItem->AsObject()));
+    }
+
+
+    return HasSucceeded;
+}
+
 PlayFab::ClientModels::FGetPlayFabIDsFromPSNAccountIDsRequest::~FGetPlayFabIDsFromPSNAccountIDsRequest()
 {
 

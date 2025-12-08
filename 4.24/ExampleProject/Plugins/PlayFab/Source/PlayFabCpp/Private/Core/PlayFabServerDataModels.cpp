@@ -11964,6 +11964,173 @@ bool PlayFab::ServerModels::FGetPlayFabIDsFromNintendoSwitchDeviceIdsResult::rea
     return HasSucceeded;
 }
 
+PlayFab::ServerModels::FOpenIdSubjectIdentifier::~FOpenIdSubjectIdentifier()
+{
+
+}
+
+void PlayFab::ServerModels::FOpenIdSubjectIdentifier::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (!Issuer.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: OpenIdSubjectIdentifier::Issuer, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("Issuer"));
+        writer->WriteValue(Issuer);
+    }
+
+    if (!Subject.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: OpenIdSubjectIdentifier::Subject, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("Subject"));
+        writer->WriteValue(Subject);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ServerModels::FOpenIdSubjectIdentifier::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> IssuerValue = obj->TryGetField(TEXT("Issuer"));
+    if (IssuerValue.IsValid() && !IssuerValue->IsNull())
+    {
+        FString TmpValue;
+        if (IssuerValue->TryGetString(TmpValue)) { Issuer = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> SubjectValue = obj->TryGetField(TEXT("Subject"));
+    if (SubjectValue.IsValid() && !SubjectValue->IsNull())
+    {
+        FString TmpValue;
+        if (SubjectValue->TryGetString(TmpValue)) { Subject = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::ServerModels::FGetPlayFabIDsFromOpenIdsRequest::~FGetPlayFabIDsFromOpenIdsRequest()
+{
+
+}
+
+void PlayFab::ServerModels::FGetPlayFabIDsFromOpenIdsRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteArrayStart(TEXT("OpenIdSubjectIdentifiers"));
+    for (const FOpenIdSubjectIdentifier& item : OpenIdSubjectIdentifiers)
+        item.writeJSON(writer);
+    writer->WriteArrayEnd();
+
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ServerModels::FGetPlayFabIDsFromOpenIdsRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TArray<TSharedPtr<FJsonValue>>&OpenIdSubjectIdentifiersArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("OpenIdSubjectIdentifiers"));
+    for (int32 Idx = 0; Idx < OpenIdSubjectIdentifiersArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = OpenIdSubjectIdentifiersArray[Idx];
+        OpenIdSubjectIdentifiers.Add(FOpenIdSubjectIdentifier(CurrentItem->AsObject()));
+    }
+
+
+    return HasSucceeded;
+}
+
+PlayFab::ServerModels::FOpenIdSubjectIdentifierPlayFabIdPair::~FOpenIdSubjectIdentifierPlayFabIdPair()
+{
+    //if (OpenIdSubjectIdentifier != nullptr) delete OpenIdSubjectIdentifier;
+
+}
+
+void PlayFab::ServerModels::FOpenIdSubjectIdentifierPlayFabIdPair::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (pfOpenIdSubjectIdentifier.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("OpenIdSubjectIdentifier"));
+        pfOpenIdSubjectIdentifier->writeJSON(writer);
+    }
+
+    if (PlayFabId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayFabId"));
+        writer->WriteValue(PlayFabId);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ServerModels::FOpenIdSubjectIdentifierPlayFabIdPair::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> OpenIdSubjectIdentifierValue = obj->TryGetField(TEXT("OpenIdSubjectIdentifier"));
+    if (OpenIdSubjectIdentifierValue.IsValid() && !OpenIdSubjectIdentifierValue->IsNull())
+    {
+        pfOpenIdSubjectIdentifier = MakeShareable(new FOpenIdSubjectIdentifier(OpenIdSubjectIdentifierValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> PlayFabIdValue = obj->TryGetField(TEXT("PlayFabId"));
+    if (PlayFabIdValue.IsValid() && !PlayFabIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (PlayFabIdValue->TryGetString(TmpValue)) { PlayFabId = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::ServerModels::FGetPlayFabIDsFromOpenIdsResult::~FGetPlayFabIDsFromOpenIdsResult()
+{
+
+}
+
+void PlayFab::ServerModels::FGetPlayFabIDsFromOpenIdsResult::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (Data.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("Data"));
+        for (const FOpenIdSubjectIdentifierPlayFabIdPair& item : Data)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ServerModels::FGetPlayFabIDsFromOpenIdsResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TArray<TSharedPtr<FJsonValue>>&DataArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Data"));
+    for (int32 Idx = 0; Idx < DataArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = DataArray[Idx];
+        Data.Add(FOpenIdSubjectIdentifierPlayFabIdPair(CurrentItem->AsObject()));
+    }
+
+
+    return HasSucceeded;
+}
+
 PlayFab::ServerModels::FGetPlayFabIDsFromPSNAccountIDsRequest::~FGetPlayFabIDsFromPSNAccountIDsRequest()
 {
 
@@ -15949,6 +16116,92 @@ bool PlayFab::ServerModels::FLinkSteamIdResult::readFromValue(const TSharedPtr<F
     return HasSucceeded;
 }
 
+PlayFab::ServerModels::FLinkTwitchAccountRequest::~FLinkTwitchAccountRequest()
+{
+
+}
+
+void PlayFab::ServerModels::FLinkTwitchAccountRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (!AccessToken.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LinkTwitchAccountRequest::AccessToken, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("AccessToken"));
+        writer->WriteValue(AccessToken);
+    }
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    if (ForceLink.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ForceLink"));
+        writer->WriteValue(ForceLink);
+    }
+
+    if (!PlayFabId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LinkTwitchAccountRequest::PlayFabId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayFabId"));
+        writer->WriteValue(PlayFabId);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ServerModels::FLinkTwitchAccountRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> AccessTokenValue = obj->TryGetField(TEXT("AccessToken"));
+    if (AccessTokenValue.IsValid() && !AccessTokenValue->IsNull())
+    {
+        FString TmpValue;
+        if (AccessTokenValue->TryGetString(TmpValue)) { AccessToken = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    const TSharedPtr<FJsonValue> ForceLinkValue = obj->TryGetField(TEXT("ForceLink"));
+    if (ForceLinkValue.IsValid() && !ForceLinkValue->IsNull())
+    {
+        bool TmpValue;
+        if (ForceLinkValue->TryGetBool(TmpValue)) { ForceLink = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> PlayFabIdValue = obj->TryGetField(TEXT("PlayFabId"));
+    if (PlayFabIdValue.IsValid() && !PlayFabIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (PlayFabIdValue->TryGetString(TmpValue)) { PlayFabId = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
 PlayFab::ServerModels::FLinkXboxAccountRequest::~FLinkXboxAccountRequest()
 {
 
@@ -17033,6 +17286,118 @@ bool PlayFab::ServerModels::FLoginWithSteamIdRequest::readFromValue(const TShare
     {
         FString TmpValue;
         if (SteamIdValue->TryGetString(TmpValue)) { SteamId = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::ServerModels::FLoginWithTwitchRequest::~FLoginWithTwitchRequest()
+{
+    //if (InfoRequestParameters != nullptr) delete InfoRequestParameters;
+
+}
+
+void PlayFab::ServerModels::FLoginWithTwitchRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (!AccessToken.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LoginWithTwitchRequest::AccessToken, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("AccessToken"));
+        writer->WriteValue(AccessToken);
+    }
+
+    if (CreateAccount.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("CreateAccount"));
+        writer->WriteValue(CreateAccount);
+    }
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    if (InfoRequestParameters.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("InfoRequestParameters"));
+        InfoRequestParameters->writeJSON(writer);
+    }
+
+    if (PlayerSecret.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayerSecret"));
+        writer->WriteValue(PlayerSecret);
+    }
+
+    if (!PlayFabId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LoginWithTwitchRequest::PlayFabId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayFabId"));
+        writer->WriteValue(PlayFabId);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ServerModels::FLoginWithTwitchRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> AccessTokenValue = obj->TryGetField(TEXT("AccessToken"));
+    if (AccessTokenValue.IsValid() && !AccessTokenValue->IsNull())
+    {
+        FString TmpValue;
+        if (AccessTokenValue->TryGetString(TmpValue)) { AccessToken = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> CreateAccountValue = obj->TryGetField(TEXT("CreateAccount"));
+    if (CreateAccountValue.IsValid() && !CreateAccountValue->IsNull())
+    {
+        bool TmpValue;
+        if (CreateAccountValue->TryGetBool(TmpValue)) { CreateAccount = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    const TSharedPtr<FJsonValue> InfoRequestParametersValue = obj->TryGetField(TEXT("InfoRequestParameters"));
+    if (InfoRequestParametersValue.IsValid() && !InfoRequestParametersValue->IsNull())
+    {
+        InfoRequestParameters = MakeShareable(new FGetPlayerCombinedInfoRequestParams(InfoRequestParametersValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> PlayerSecretValue = obj->TryGetField(TEXT("PlayerSecret"));
+    if (PlayerSecretValue.IsValid() && !PlayerSecretValue->IsNull())
+    {
+        FString TmpValue;
+        if (PlayerSecretValue->TryGetString(TmpValue)) { PlayerSecret = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> PlayFabIdValue = obj->TryGetField(TEXT("PlayFabId"));
+    if (PlayFabIdValue.IsValid() && !PlayFabIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (PlayFabIdValue->TryGetString(TmpValue)) { PlayFabId = TmpValue; }
     }
 
     return HasSucceeded;
@@ -20489,6 +20854,75 @@ void PlayFab::ServerModels::FUnlinkSteamIdResult::writeJSON(JsonWriter& writer) 
 bool PlayFab::ServerModels::FUnlinkSteamIdResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    return HasSucceeded;
+}
+
+PlayFab::ServerModels::FUnlinkTwitchAccountRequest::~FUnlinkTwitchAccountRequest()
+{
+
+}
+
+void PlayFab::ServerModels::FUnlinkTwitchAccountRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (AccessToken.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("AccessToken"));
+        writer->WriteValue(AccessToken);
+    }
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    if (!PlayFabId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: UnlinkTwitchAccountRequest::PlayFabId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayFabId"));
+        writer->WriteValue(PlayFabId);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ServerModels::FUnlinkTwitchAccountRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> AccessTokenValue = obj->TryGetField(TEXT("AccessToken"));
+    if (AccessTokenValue.IsValid() && !AccessTokenValue->IsNull())
+    {
+        FString TmpValue;
+        if (AccessTokenValue->TryGetString(TmpValue)) { AccessToken = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    const TSharedPtr<FJsonValue> PlayFabIdValue = obj->TryGetField(TEXT("PlayFabId"));
+    if (PlayFabIdValue.IsValid() && !PlayFabIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (PlayFabIdValue->TryGetString(TmpValue)) { PlayFabId = TmpValue; }
+    }
 
     return HasSucceeded;
 }

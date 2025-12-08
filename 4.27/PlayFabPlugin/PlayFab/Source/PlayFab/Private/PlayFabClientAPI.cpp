@@ -961,6 +961,58 @@ void UPlayFabClientAPI::HelperGetPlayFabIDsFromNintendoSwitchDeviceIds(FPlayFabB
     this->RemoveFromRoot();
 }
 
+/** Retrieves the unique PlayFab identifiers for the given set of OpenId subject identifiers. A OpenId identifier is the service name plus the service-specific ID for the player, as specified by the title when the OpenId identifier was added to the player account. */
+UPlayFabClientAPI* UPlayFabClientAPI::GetPlayFabIDsFromOpenIdSubjectIdentifiers(FClientGetPlayFabIDsFromOpenIdsRequest request,
+    FDelegateOnSuccessGetPlayFabIDsFromOpenIdSubjectIdentifiers onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabClientAPI* manager = NewObject<UPlayFabClientAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessGetPlayFabIDsFromOpenIdSubjectIdentifiers = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperGetPlayFabIDsFromOpenIdSubjectIdentifiers);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Client/GetPlayFabIDsFromOpenIdSubjectIdentifiers";
+    manager->useSessionTicket = true;
+
+
+    // Serialize all the request properties to json
+    if (request.OpenIdSubjectIdentifiers.Num() == 0) {
+        OutRestJsonObj->SetFieldNull(TEXT("OpenIdSubjectIdentifiers"));
+    } else {
+        OutRestJsonObj->SetObjectArrayField(TEXT("OpenIdSubjectIdentifiers"), request.OpenIdSubjectIdentifiers);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabClientRequestCompleted
+void UPlayFabClientAPI::HelperGetPlayFabIDsFromOpenIdSubjectIdentifiers(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessGetPlayFabIDsFromOpenIdSubjectIdentifiers.IsBound())
+    {
+        FClientGetPlayFabIDsFromOpenIdsResult ResultStruct = UPlayFabClientModelDecoder::decodeGetPlayFabIDsFromOpenIdsResultResponse(response.responseData);
+        OnSuccessGetPlayFabIDsFromOpenIdSubjectIdentifiers.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 /** Retrieves the unique PlayFab identifiers for the given set of PlayStation :tm: Network identifiers. */
 UPlayFabClientAPI* UPlayFabClientAPI::GetPlayFabIDsFromPSNAccountIDs(FClientGetPlayFabIDsFromPSNAccountIDsRequest request,
     FDelegateOnSuccessGetPlayFabIDsFromPSNAccountIDs onSuccess,

@@ -78,6 +78,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FGetPlayFabIDsFromKongregateIDsDelegate, const ClientModels::FGetPlayFabIDsFromKongregateIDsResult&);
         DECLARE_DELEGATE_OneParam(FGetPlayFabIDsFromNintendoServiceAccountIdsDelegate, const ClientModels::FGetPlayFabIDsFromNintendoServiceAccountIdsResult&);
         DECLARE_DELEGATE_OneParam(FGetPlayFabIDsFromNintendoSwitchDeviceIdsDelegate, const ClientModels::FGetPlayFabIDsFromNintendoSwitchDeviceIdsResult&);
+        DECLARE_DELEGATE_OneParam(FGetPlayFabIDsFromOpenIdSubjectIdentifiersDelegate, const ClientModels::FGetPlayFabIDsFromOpenIdsResult&);
         DECLARE_DELEGATE_OneParam(FGetPlayFabIDsFromPSNAccountIDsDelegate, const ClientModels::FGetPlayFabIDsFromPSNAccountIDsResult&);
         DECLARE_DELEGATE_OneParam(FGetPlayFabIDsFromPSNOnlineIDsDelegate, const ClientModels::FGetPlayFabIDsFromPSNOnlineIDsResult&);
         DECLARE_DELEGATE_OneParam(FGetPlayFabIDsFromSteamIDsDelegate, const ClientModels::FGetPlayFabIDsFromSteamIDsResult&);
@@ -480,6 +481,12 @@ namespace PlayFab
         bool GetPlayFabIDsFromNintendoServiceAccountIds(ClientModels::FGetPlayFabIDsFromNintendoServiceAccountIdsRequest& request, const FGetPlayFabIDsFromNintendoServiceAccountIdsDelegate& SuccessDelegate = FGetPlayFabIDsFromNintendoServiceAccountIdsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Retrieves the unique PlayFab identifiers for the given set of Nintendo Switch Device identifiers.
         bool GetPlayFabIDsFromNintendoSwitchDeviceIds(ClientModels::FGetPlayFabIDsFromNintendoSwitchDeviceIdsRequest& request, const FGetPlayFabIDsFromNintendoSwitchDeviceIdsDelegate& SuccessDelegate = FGetPlayFabIDsFromNintendoSwitchDeviceIdsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
+         * Retrieves the unique PlayFab identifiers for the given set of OpenId subject identifiers. A OpenId identifier is the
+         * service name plus the service-specific ID for the player, as specified by the title when the OpenId identifier was added
+         * to the player account.
+         */
+        bool GetPlayFabIDsFromOpenIdSubjectIdentifiers(ClientModels::FGetPlayFabIDsFromOpenIdsRequest& request, const FGetPlayFabIDsFromOpenIdSubjectIdentifiersDelegate& SuccessDelegate = FGetPlayFabIDsFromOpenIdSubjectIdentifiersDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Retrieves the unique PlayFab identifiers for the given set of PlayStation :tm: Network identifiers.
         bool GetPlayFabIDsFromPSNAccountIDs(ClientModels::FGetPlayFabIDsFromPSNAccountIDsRequest& request, const FGetPlayFabIDsFromPSNAccountIDsDelegate& SuccessDelegate = FGetPlayFabIDsFromPSNAccountIDsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Retrieves the unique PlayFab identifiers for the given set of PlayStation :tm: Network identifiers.
@@ -1065,6 +1072,7 @@ namespace PlayFab
         void OnGetPlayFabIDsFromKongregateIDsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayFabIDsFromKongregateIDsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetPlayFabIDsFromNintendoServiceAccountIdsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayFabIDsFromNintendoServiceAccountIdsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetPlayFabIDsFromNintendoSwitchDeviceIdsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayFabIDsFromNintendoSwitchDeviceIdsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnGetPlayFabIDsFromOpenIdSubjectIdentifiersResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayFabIDsFromOpenIdSubjectIdentifiersDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetPlayFabIDsFromPSNAccountIDsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayFabIDsFromPSNAccountIDsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetPlayFabIDsFromPSNOnlineIDsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayFabIDsFromPSNOnlineIDsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetPlayFabIDsFromSteamIDsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayFabIDsFromSteamIDsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);

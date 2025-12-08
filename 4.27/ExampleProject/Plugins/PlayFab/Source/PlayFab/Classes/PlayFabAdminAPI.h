@@ -61,7 +61,7 @@ public:
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessBanUsers, FAdminBanUsersResult, result, UObject*, customData);
 
-    /** Bans users by PlayFab ID with optional IP address, or MAC address for the provided game. */
+    /** Bans users by PlayFab ID with optional IP address for the provided game. */
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
         static UPlayFabAdminAPI* BanUsers(FAdminBanUsersRequest request,
             FDelegateOnSuccessBanUsers onSuccess,

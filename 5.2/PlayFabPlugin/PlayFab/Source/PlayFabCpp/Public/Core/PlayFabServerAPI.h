@@ -66,6 +66,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FGetPlayFabIDsFromGenericIDsDelegate, const ServerModels::FGetPlayFabIDsFromGenericIDsResult&);
         DECLARE_DELEGATE_OneParam(FGetPlayFabIDsFromNintendoServiceAccountIdsDelegate, const ServerModels::FGetPlayFabIDsFromNintendoServiceAccountIdsResult&);
         DECLARE_DELEGATE_OneParam(FGetPlayFabIDsFromNintendoSwitchDeviceIdsDelegate, const ServerModels::FGetPlayFabIDsFromNintendoSwitchDeviceIdsResult&);
+        DECLARE_DELEGATE_OneParam(FGetPlayFabIDsFromOpenIdSubjectIdentifiersDelegate, const ServerModels::FGetPlayFabIDsFromOpenIdsResult&);
         DECLARE_DELEGATE_OneParam(FGetPlayFabIDsFromPSNAccountIDsDelegate, const ServerModels::FGetPlayFabIDsFromPSNAccountIDsResult&);
         DECLARE_DELEGATE_OneParam(FGetPlayFabIDsFromPSNOnlineIDsDelegate, const ServerModels::FGetPlayFabIDsFromPSNOnlineIDsResult&);
         DECLARE_DELEGATE_OneParam(FGetPlayFabIDsFromSteamIDsDelegate, const ServerModels::FGetPlayFabIDsFromSteamIDsResult&);
@@ -102,6 +103,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FLinkPSNIdDelegate, const ServerModels::FLinkPSNIdResponse&);
         DECLARE_DELEGATE_OneParam(FLinkServerCustomIdDelegate, const ServerModels::FLinkServerCustomIdResult&);
         DECLARE_DELEGATE_OneParam(FLinkSteamIdDelegate, const ServerModels::FLinkSteamIdResult&);
+        DECLARE_DELEGATE_OneParam(FLinkTwitchAccountDelegate, const ServerModels::FEmptyResult&);
         DECLARE_DELEGATE_OneParam(FLinkXboxAccountDelegate, const ServerModels::FLinkXboxAccountResult&);
         DECLARE_DELEGATE_OneParam(FLinkXboxIdDelegate, const ServerModels::FLinkXboxAccountResult&);
         DECLARE_DELEGATE_OneParam(FListPlayerCustomPropertiesDelegate, const ServerModels::FListPlayerCustomPropertiesResult&);
@@ -112,6 +114,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FLoginWithPSNDelegate, const ServerModels::FServerLoginResult&);
         DECLARE_DELEGATE_OneParam(FLoginWithServerCustomIdDelegate, const ServerModels::FServerLoginResult&);
         DECLARE_DELEGATE_OneParam(FLoginWithSteamIdDelegate, const ServerModels::FServerLoginResult&);
+        DECLARE_DELEGATE_OneParam(FLoginWithTwitchDelegate, const ServerModels::FServerLoginResult&);
         DECLARE_DELEGATE_OneParam(FLoginWithXboxDelegate, const ServerModels::FServerLoginResult&);
         DECLARE_DELEGATE_OneParam(FLoginWithXboxIdDelegate, const ServerModels::FServerLoginResult&);
         DECLARE_DELEGATE_OneParam(FModifyItemUsesDelegate, const ServerModels::FModifyItemUsesResult&);
@@ -146,6 +149,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FUnlinkPSNAccountDelegate, const ServerModels::FUnlinkPSNAccountResult&);
         DECLARE_DELEGATE_OneParam(FUnlinkServerCustomIdDelegate, const ServerModels::FUnlinkServerCustomIdResult&);
         DECLARE_DELEGATE_OneParam(FUnlinkSteamIdDelegate, const ServerModels::FUnlinkSteamIdResult&);
+        DECLARE_DELEGATE_OneParam(FUnlinkTwitchAccountDelegate, const ServerModels::FEmptyResult&);
         DECLARE_DELEGATE_OneParam(FUnlinkXboxAccountDelegate, const ServerModels::FUnlinkXboxAccountResult&);
         DECLARE_DELEGATE_OneParam(FUnlockContainerInstanceDelegate, const ServerModels::FUnlockContainerItemResult&);
         DECLARE_DELEGATE_OneParam(FUnlockContainerItemDelegate, const ServerModels::FUnlockContainerItemResult&);
@@ -217,8 +221,8 @@ namespace PlayFab
         // Awards the specified users the specified Steam achievements
         bool AwardSteamAchievement(ServerModels::FAwardSteamAchievementRequest& request, const FAwardSteamAchievementDelegate& SuccessDelegate = FAwardSteamAchievementDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
-         * Bans users by PlayFab ID with optional IP address, or MAC address for the provided game.
-         * The existence of each user will not be verified. When banning by IP or MAC address, multiple players may be affected, so use this feature with caution. Returns information about the new bans.
+         * Bans users by PlayFab ID with optional IP address for the provided game.
+         * The existence of each user will not be verified. When banning by IP, multiple players may be affected, so use this feature with caution. Returns information about the new bans.
          */
         bool BanUsers(ServerModels::FBanUsersRequest& request, const FBanUsersDelegate& SuccessDelegate = FBanUsersDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
@@ -397,6 +401,12 @@ namespace PlayFab
         bool GetPlayFabIDsFromNintendoServiceAccountIds(ServerModels::FGetPlayFabIDsFromNintendoServiceAccountIdsRequest& request, const FGetPlayFabIDsFromNintendoServiceAccountIdsDelegate& SuccessDelegate = FGetPlayFabIDsFromNintendoServiceAccountIdsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Retrieves the unique PlayFab identifiers for the given set of Nintendo Switch Device identifiers.
         bool GetPlayFabIDsFromNintendoSwitchDeviceIds(ServerModels::FGetPlayFabIDsFromNintendoSwitchDeviceIdsRequest& request, const FGetPlayFabIDsFromNintendoSwitchDeviceIdsDelegate& SuccessDelegate = FGetPlayFabIDsFromNintendoSwitchDeviceIdsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
+         * Retrieves the unique PlayFab identifiers for the given set of OpenId subject identifiers. A OpenId subject identifier is
+         * the OpenId issuer plus the OpenId subject for the player, as specified by the title when the OpenId identifier was added
+         * to the player account.
+         */
+        bool GetPlayFabIDsFromOpenIdSubjectIdentifiers(ServerModels::FGetPlayFabIDsFromOpenIdsRequest& request, const FGetPlayFabIDsFromOpenIdSubjectIdentifiersDelegate& SuccessDelegate = FGetPlayFabIDsFromOpenIdSubjectIdentifiersDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Retrieves the unique PlayFab identifiers for the given set of PlayStation :tm: Network identifiers.
         bool GetPlayFabIDsFromPSNAccountIDs(ServerModels::FGetPlayFabIDsFromPSNAccountIDsRequest& request, const FGetPlayFabIDsFromPSNAccountIDsDelegate& SuccessDelegate = FGetPlayFabIDsFromPSNAccountIDsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Retrieves the unique PlayFab identifiers for the given set of PlayStation :tm: Network identifiers.
@@ -554,6 +564,8 @@ namespace PlayFab
         bool LinkServerCustomId(ServerModels::FLinkServerCustomIdRequest& request, const FLinkServerCustomIdDelegate& SuccessDelegate = FLinkServerCustomIdDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Links the Steam account associated with the provided Steam ID to the user's PlayFab account
         bool LinkSteamId(ServerModels::FLinkSteamIdRequest& request, const FLinkSteamIdDelegate& SuccessDelegate = FLinkSteamIdDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        // Links the Twitch account associated with the token to the user's PlayFab account.
+        bool LinkTwitchAccount(ServerModels::FLinkTwitchAccountRequest& request, const FLinkTwitchAccountDelegate& SuccessDelegate = FLinkTwitchAccountDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Links the Xbox Live account associated with the provided access code to the user's PlayFab account
         bool LinkXboxAccount(ServerModels::FLinkXboxAccountRequest& request, const FLinkXboxAccountDelegate& SuccessDelegate = FLinkXboxAccountDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Links the Xbox Live account associated with the provided Xbox ID and Sandbox to the user's PlayFab account
@@ -597,6 +609,11 @@ namespace PlayFab
          * If this is the first time a user has signed in with the Steam ID and CreateAccount is set to true, a new PlayFab account will be created and linked to the Steam account. In this case, no email or username will be associated with the PlayFab account. Otherwise, if no PlayFab account is linked to the Steam account, an error indicating this will be returned, so that the title can guide the user through creation of a PlayFab account. Steam users that are not logged into the Steam Client app will only have their Steam username synced, other data, such as currency and country will not be available until they login while the Client is open.
          */
         bool LoginWithSteamId(ServerModels::FLoginWithSteamIdRequest& request, const FLoginWithSteamIdDelegate& SuccessDelegate = FLoginWithSteamIdDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
+         * Sign in the user with a Twitch access token
+         * More details regarding Twitch and their authentication system can be found at https://github.com/justintv/Twitch-API/blob/master/authentication.md. Developers must provide the Twitch access token that is generated using one of the Twitch authentication flows. PlayFab will use the title's unique Twitch Client ID to authenticate the token and log in to the PlayFab system. If CreateAccount is set to true and there is not already a user matched to the Twitch username that generated the token, then PlayFab will create a new account for this user and link the ID. In this case, no email or username will be associated with the PlayFab account. If there is already a different PlayFab user linked with this account, then an error will be returned.
+         */
+        bool LoginWithTwitch(ServerModels::FLoginWithTwitchRequest& request, const FLoginWithTwitchDelegate& SuccessDelegate = FLoginWithTwitchDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Signs the user in using a Xbox Live Token from an external server backend, returning a session identifier that can
          * subsequently be used for API calls which require an authenticated user
@@ -756,6 +773,8 @@ namespace PlayFab
         bool UnlinkServerCustomId(ServerModels::FUnlinkServerCustomIdRequest& request, const FUnlinkServerCustomIdDelegate& SuccessDelegate = FUnlinkServerCustomIdDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Unlinks the Steam account associated with the provided Steam ID to the user's PlayFab account
         bool UnlinkSteamId(ServerModels::FUnlinkSteamIdRequest& request, const FUnlinkSteamIdDelegate& SuccessDelegate = FUnlinkSteamIdDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        // Unlinks the related Twitch account from the user's PlayFab account.
+        bool UnlinkTwitchAccount(ServerModels::FUnlinkTwitchAccountRequest& request, const FUnlinkTwitchAccountDelegate& SuccessDelegate = FUnlinkTwitchAccountDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Unlinks the related Xbox Live account from the user's PlayFab account
         bool UnlinkXboxAccount(ServerModels::FUnlinkXboxAccountRequest& request, const FUnlinkXboxAccountDelegate& SuccessDelegate = FUnlinkXboxAccountDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
@@ -923,6 +942,7 @@ namespace PlayFab
         void OnGetPlayFabIDsFromGenericIDsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayFabIDsFromGenericIDsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetPlayFabIDsFromNintendoServiceAccountIdsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayFabIDsFromNintendoServiceAccountIdsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetPlayFabIDsFromNintendoSwitchDeviceIdsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayFabIDsFromNintendoSwitchDeviceIdsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnGetPlayFabIDsFromOpenIdSubjectIdentifiersResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayFabIDsFromOpenIdSubjectIdentifiersDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetPlayFabIDsFromPSNAccountIDsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayFabIDsFromPSNAccountIDsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetPlayFabIDsFromPSNOnlineIDsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayFabIDsFromPSNOnlineIDsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetPlayFabIDsFromSteamIDsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayFabIDsFromSteamIDsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
@@ -959,6 +979,7 @@ namespace PlayFab
         void OnLinkPSNIdResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLinkPSNIdDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLinkServerCustomIdResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLinkServerCustomIdDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLinkSteamIdResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLinkSteamIdDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnLinkTwitchAccountResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLinkTwitchAccountDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLinkXboxAccountResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLinkXboxAccountDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLinkXboxIdResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLinkXboxIdDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnListPlayerCustomPropertiesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListPlayerCustomPropertiesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
@@ -969,6 +990,7 @@ namespace PlayFab
         void OnLoginWithPSNResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLoginWithPSNDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLoginWithServerCustomIdResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLoginWithServerCustomIdDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLoginWithSteamIdResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLoginWithSteamIdDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnLoginWithTwitchResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLoginWithTwitchDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLoginWithXboxResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLoginWithXboxDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLoginWithXboxIdResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLoginWithXboxIdDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnModifyItemUsesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FModifyItemUsesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
@@ -1003,6 +1025,7 @@ namespace PlayFab
         void OnUnlinkPSNAccountResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnlinkPSNAccountDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUnlinkServerCustomIdResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnlinkServerCustomIdDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUnlinkSteamIdResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnlinkSteamIdDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnUnlinkTwitchAccountResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnlinkTwitchAccountDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUnlinkXboxAccountResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnlinkXboxAccountDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUnlockContainerInstanceResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnlockContainerInstanceDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUnlockContainerItemResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnlockContainerItemDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);

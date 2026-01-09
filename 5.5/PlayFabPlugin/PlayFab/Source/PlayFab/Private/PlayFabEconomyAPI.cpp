@@ -2475,7 +2475,7 @@ void UPlayFabEconomyAPI::HelperRedeemGooglePlayInventoryItems(FPlayFabBaseModel 
     this->RemoveFromRoot();
 }
 
-/** Redeem items. */
+/** Redeem items from the Microsoft Store. Supported entitlement types are Developer Manager Consumable and Durable. */
 UPlayFabEconomyAPI* UPlayFabEconomyAPI::RedeemMicrosoftStoreInventoryItems(FEconomyRedeemMicrosoftStoreInventoryItemsRequest request,
     FDelegateOnSuccessRedeemMicrosoftStoreInventoryItems onSuccess,
     FDelegateOnFailurePlayFabError onFailure,

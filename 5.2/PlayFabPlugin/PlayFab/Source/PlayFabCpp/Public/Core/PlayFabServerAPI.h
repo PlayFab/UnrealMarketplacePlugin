@@ -144,6 +144,8 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FSubtractCharacterVirtualCurrencyDelegate, const ServerModels::FModifyCharacterVirtualCurrencyResult&);
         DECLARE_DELEGATE_OneParam(FSubtractUserVirtualCurrencyDelegate, const ServerModels::FModifyUserVirtualCurrencyResult&);
         DECLARE_DELEGATE_OneParam(FUnlinkBattleNetAccountDelegate, const ServerModels::FEmptyResponse&);
+        DECLARE_DELEGATE_OneParam(FUnlinkFacebookAccountDelegate, const ServerModels::FUnlinkFacebookAccountResult&);
+        DECLARE_DELEGATE_OneParam(FUnlinkFacebookInstantGamesIdDelegate, const ServerModels::FUnlinkFacebookInstantGamesIdResult&);
         DECLARE_DELEGATE_OneParam(FUnlinkNintendoServiceAccountDelegate, const ServerModels::FEmptyResponse&);
         DECLARE_DELEGATE_OneParam(FUnlinkNintendoSwitchDeviceIdDelegate, const ServerModels::FUnlinkNintendoSwitchDeviceIdResult&);
         DECLARE_DELEGATE_OneParam(FUnlinkPSNAccountDelegate, const ServerModels::FUnlinkPSNAccountResult&);
@@ -763,6 +765,10 @@ namespace PlayFab
         bool SubtractUserVirtualCurrency(ServerModels::FSubtractUserVirtualCurrencyRequest& request, const FSubtractUserVirtualCurrencyDelegate& SuccessDelegate = FSubtractUserVirtualCurrencyDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Unlinks the related Battle.net account from the user's PlayFab account.
         bool UnlinkBattleNetAccount(ServerModels::FUnlinkBattleNetAccountRequest& request, const FUnlinkBattleNetAccountDelegate& SuccessDelegate = FUnlinkBattleNetAccountDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        // Unlinks the related Facebook account from the user's PlayFab account
+        bool UnlinkFacebookAccount(ServerModels::FUnlinkFacebookAccountRequest& request, const FUnlinkFacebookAccountDelegate& SuccessDelegate = FUnlinkFacebookAccountDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        // Unlinks the related Facebook Instant Games identifier from the user's PlayFab account
+        bool UnlinkFacebookInstantGamesId(ServerModels::FUnlinkFacebookInstantGamesIdRequest& request, const FUnlinkFacebookInstantGamesIdDelegate& SuccessDelegate = FUnlinkFacebookInstantGamesIdDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Unlinks the related Nintendo account from the user's PlayFab account
         bool UnlinkNintendoServiceAccount(ServerModels::FUnlinkNintendoServiceAccountRequest& request, const FUnlinkNintendoServiceAccountDelegate& SuccessDelegate = FUnlinkNintendoServiceAccountDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Unlinks the related NintendoSwitchDeviceId from the user's PlayFab account
@@ -1020,6 +1026,8 @@ namespace PlayFab
         void OnSubtractCharacterVirtualCurrencyResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSubtractCharacterVirtualCurrencyDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnSubtractUserVirtualCurrencyResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSubtractUserVirtualCurrencyDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUnlinkBattleNetAccountResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnlinkBattleNetAccountDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnUnlinkFacebookAccountResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnlinkFacebookAccountDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnUnlinkFacebookInstantGamesIdResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnlinkFacebookInstantGamesIdDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUnlinkNintendoServiceAccountResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnlinkNintendoServiceAccountDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUnlinkNintendoSwitchDeviceIdResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnlinkNintendoSwitchDeviceIdDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUnlinkPSNAccountResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnlinkPSNAccountDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);

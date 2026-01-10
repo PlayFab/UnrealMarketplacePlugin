@@ -10392,6 +10392,100 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FUnlinkFacebookAccountRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // PlayFab unique identifier of the user to unlink.
+        FString PlayFabId;
+
+        FUnlinkFacebookAccountRequest() :
+            FPlayFabCppRequestCommon(),
+            CustomTags(),
+            PlayFabId()
+            {}
+
+        FUnlinkFacebookAccountRequest(const FUnlinkFacebookAccountRequest& src) = default;
+
+        FUnlinkFacebookAccountRequest(const TSharedPtr<FJsonObject>& obj) : FUnlinkFacebookAccountRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FUnlinkFacebookAccountRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FUnlinkFacebookAccountResult : public PlayFab::FPlayFabCppResultCommon
+    {
+        FUnlinkFacebookAccountResult() :
+            FPlayFabCppResultCommon()
+            {}
+
+        FUnlinkFacebookAccountResult(const FUnlinkFacebookAccountResult& src) = default;
+
+        FUnlinkFacebookAccountResult(const TSharedPtr<FJsonObject>& obj) : FUnlinkFacebookAccountResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FUnlinkFacebookAccountResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FUnlinkFacebookInstantGamesIdRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // [optional] Facebook Instant Games identifier for the user. If not specified, the most recently linked identifier will be used.
+        FString FacebookInstantGamesId;
+
+        // PlayFab unique identifier of the user to unlink.
+        FString PlayFabId;
+
+        FUnlinkFacebookInstantGamesIdRequest() :
+            FPlayFabCppRequestCommon(),
+            CustomTags(),
+            FacebookInstantGamesId(),
+            PlayFabId()
+            {}
+
+        FUnlinkFacebookInstantGamesIdRequest(const FUnlinkFacebookInstantGamesIdRequest& src) = default;
+
+        FUnlinkFacebookInstantGamesIdRequest(const TSharedPtr<FJsonObject>& obj) : FUnlinkFacebookInstantGamesIdRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FUnlinkFacebookInstantGamesIdRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FUnlinkFacebookInstantGamesIdResult : public PlayFab::FPlayFabCppResultCommon
+    {
+        FUnlinkFacebookInstantGamesIdResult() :
+            FPlayFabCppResultCommon()
+            {}
+
+        FUnlinkFacebookInstantGamesIdResult(const FUnlinkFacebookInstantGamesIdResult& src) = default;
+
+        FUnlinkFacebookInstantGamesIdResult(const TSharedPtr<FJsonObject>& obj) : FUnlinkFacebookInstantGamesIdResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FUnlinkFacebookInstantGamesIdResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FUnlinkNintendoServiceAccountRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).

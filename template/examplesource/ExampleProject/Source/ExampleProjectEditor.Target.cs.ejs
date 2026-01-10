@@ -11,9 +11,9 @@ public class ExampleProjectEditorTarget : TargetRules
     {
         Type = TargetType.Editor;
         ExtraModuleNames.AddRange(new string[] { "ExampleProject" });
-<% if (ueTargetVersionMajor == 5 && ueTargetVersionMinor >= 4) { %>
+<% if (ueTargetVersionMajor == 5 && ueTargetVersionMinor >= 4 && ueTargetVersionMinor < 7) { %>
         DefaultBuildSettings = BuildSettingsVersion.V5;
-<% } else { %>
+<% } else if (ueTargetVersionMajor == 5 && ueTargetVersionMinor < 4) { %>
         DefaultBuildSettings = BuildSettingsVersion.V2;
 <% } %>
 

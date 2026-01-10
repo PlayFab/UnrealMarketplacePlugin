@@ -13,11 +13,15 @@ public class ExampleProjectTarget : TargetRules
         ExtraModuleNames.AddRange(new string[] { "ExampleProject" });
 <% if (ueTargetVersionMajor == 5 && ueTargetVersionMinor >= 7) { %>
         bOverrideBuildEnvironment = true;
-        DefaultBuildSettings = BuildSettingsVersion.V5;
+        DefaultBuildSettings = BuildSettingsVersion.V6;
 <% } else if (ueTargetVersionMajor == 5 && ueTargetVersionMinor >= 4) { %>
         DefaultBuildSettings = BuildSettingsVersion.V5;
 <% } else { %>
         DefaultBuildSettings = BuildSettingsVersion.V2;
+<% } %>
+
+<% if (ueTargetVersionMajor == 5 && ueTargetVersionMinor > 0) { %>
+        IncludeOrderVersion = EngineIncludeOrderVersion.Unreal5_<%- ueTargetVersionMinor %>;
 <% } %>
     }
 }

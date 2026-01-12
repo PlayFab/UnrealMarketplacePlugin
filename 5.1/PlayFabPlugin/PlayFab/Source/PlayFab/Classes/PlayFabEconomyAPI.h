@@ -678,7 +678,7 @@ public:
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessRedeemMicrosoftStoreInventoryItems, FEconomyRedeemMicrosoftStoreInventoryItemsResponse, result, UObject*, customData);
 
-    /** Redeem items. */
+    /** Redeem items from the Microsoft Store. Supported entitlement types are Developer Manager Consumable and Durable. */
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Inventory ", meta = (BlueprintInternalUseOnly = "true"))
         static UPlayFabEconomyAPI* RedeemMicrosoftStoreInventoryItems(FEconomyRedeemMicrosoftStoreInventoryItemsRequest request,
             FDelegateOnSuccessRedeemMicrosoftStoreInventoryItems onSuccess,

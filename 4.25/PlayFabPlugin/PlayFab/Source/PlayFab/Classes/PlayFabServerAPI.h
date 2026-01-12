@@ -623,6 +623,32 @@ public:
         void HelperUnlinkBattleNetAccount(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessUnlinkFacebookAccount, FServerUnlinkFacebookAccountResult, result, UObject*, customData);
+
+    /** Unlinks the related Facebook account from the user's PlayFab account */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabServerAPI* UnlinkFacebookAccount(FServerUnlinkFacebookAccountRequest request,
+            FDelegateOnSuccessUnlinkFacebookAccount onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabServerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperUnlinkFacebookAccount(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessUnlinkFacebookInstantGamesId, FServerUnlinkFacebookInstantGamesIdResult, result, UObject*, customData);
+
+    /** Unlinks the related Facebook Instant Games identifier from the user's PlayFab account */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabServerAPI* UnlinkFacebookInstantGamesId(FServerUnlinkFacebookInstantGamesIdRequest request,
+            FDelegateOnSuccessUnlinkFacebookInstantGamesId onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabServerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperUnlinkFacebookInstantGamesId(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessUnlinkNintendoServiceAccount, FServerEmptyResponse, result, UObject*, customData);
 
     /** Unlinks the related Nintendo account from the user's PlayFab account */
@@ -2387,6 +2413,8 @@ public:
     FDelegateOnSuccessSendPushNotification OnSuccessSendPushNotification;
     FDelegateOnSuccessSendPushNotificationFromTemplate OnSuccessSendPushNotificationFromTemplate;
     FDelegateOnSuccessUnlinkBattleNetAccount OnSuccessUnlinkBattleNetAccount;
+    FDelegateOnSuccessUnlinkFacebookAccount OnSuccessUnlinkFacebookAccount;
+    FDelegateOnSuccessUnlinkFacebookInstantGamesId OnSuccessUnlinkFacebookInstantGamesId;
     FDelegateOnSuccessUnlinkNintendoServiceAccount OnSuccessUnlinkNintendoServiceAccount;
     FDelegateOnSuccessUnlinkNintendoSwitchDeviceId OnSuccessUnlinkNintendoSwitchDeviceId;
     FDelegateOnSuccessUnlinkPSNAccount OnSuccessUnlinkPSNAccount;

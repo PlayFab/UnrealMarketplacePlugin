@@ -247,7 +247,7 @@ namespace PlayFab
          */
         bool RedeemGooglePlayInventoryItems(EconomyModels::FRedeemGooglePlayInventoryItemsRequest& request, const FRedeemGooglePlayInventoryItemsDelegate& SuccessDelegate = FRedeemGooglePlayInventoryItemsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
-         * Redeem items.
+         * Redeem items from the Microsoft Store. Supported entitlement types are Developer Manager Consumable and Durable.
          * Redeem items from the Microsoft Store.
          */
         bool RedeemMicrosoftStoreInventoryItems(EconomyModels::FRedeemMicrosoftStoreInventoryItemsRequest& request, const FRedeemMicrosoftStoreInventoryItemsDelegate& SuccessDelegate = FRedeemMicrosoftStoreInventoryItemsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());

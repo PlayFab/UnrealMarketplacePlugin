@@ -4160,6 +4160,12 @@ void PlayFab::EconomyModels::FInventoryItem::writeJSON(JsonWriter& writer) const
         writer->WriteValue(StackId);
     }
 
+    if (StartDate.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("StartDate"));
+        writeDatetime(StartDate, writer);
+    }
+
     if (Type.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("Type"));
@@ -4204,6 +4210,11 @@ bool PlayFab::EconomyModels::FInventoryItem::readFromValue(const TSharedPtr<FJso
         FString TmpValue;
         if (StackIdValue->TryGetString(TmpValue)) { StackId = TmpValue; }
     }
+
+    const TSharedPtr<FJsonValue> StartDateValue = obj->TryGetField(TEXT("StartDate"));
+    if (StartDateValue.IsValid())
+        StartDate = readDatetime(StartDateValue);
+
 
     const TSharedPtr<FJsonValue> TypeValue = obj->TryGetField(TEXT("Type"));
     if (TypeValue.IsValid() && !TypeValue->IsNull())

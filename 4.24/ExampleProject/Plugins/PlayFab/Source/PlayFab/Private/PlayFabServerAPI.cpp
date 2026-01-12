@@ -2419,6 +2419,117 @@ void UPlayFabServerAPI::HelperUnlinkBattleNetAccount(FPlayFabBaseModel response,
     this->RemoveFromRoot();
 }
 
+/** Unlinks the related Facebook account from the user's PlayFab account */
+UPlayFabServerAPI* UPlayFabServerAPI::UnlinkFacebookAccount(FServerUnlinkFacebookAccountRequest request,
+    FDelegateOnSuccessUnlinkFacebookAccount onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabServerAPI* manager = NewObject<UPlayFabServerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessUnlinkFacebookAccount = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperUnlinkFacebookAccount);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Server/UnlinkFacebookAccount";
+    manager->useSecretKey = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.PlayFabId.IsEmpty() || request.PlayFabId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("PlayFabId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("PlayFabId"), request.PlayFabId);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabServerRequestCompleted
+void UPlayFabServerAPI::HelperUnlinkFacebookAccount(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessUnlinkFacebookAccount.IsBound())
+    {
+        FServerUnlinkFacebookAccountResult ResultStruct = UPlayFabServerModelDecoder::decodeUnlinkFacebookAccountResultResponse(response.responseData);
+        OnSuccessUnlinkFacebookAccount.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Unlinks the related Facebook Instant Games identifier from the user's PlayFab account */
+UPlayFabServerAPI* UPlayFabServerAPI::UnlinkFacebookInstantGamesId(FServerUnlinkFacebookInstantGamesIdRequest request,
+    FDelegateOnSuccessUnlinkFacebookInstantGamesId onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabServerAPI* manager = NewObject<UPlayFabServerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessUnlinkFacebookInstantGamesId = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperUnlinkFacebookInstantGamesId);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Server/UnlinkFacebookInstantGamesId";
+    manager->useSecretKey = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.FacebookInstantGamesId.IsEmpty() || request.FacebookInstantGamesId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("FacebookInstantGamesId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("FacebookInstantGamesId"), request.FacebookInstantGamesId);
+    }
+    if (request.PlayFabId.IsEmpty() || request.PlayFabId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("PlayFabId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("PlayFabId"), request.PlayFabId);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabServerRequestCompleted
+void UPlayFabServerAPI::HelperUnlinkFacebookInstantGamesId(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessUnlinkFacebookInstantGamesId.IsBound())
+    {
+        FServerUnlinkFacebookInstantGamesIdResult ResultStruct = UPlayFabServerModelDecoder::decodeUnlinkFacebookInstantGamesIdResultResponse(response.responseData);
+        OnSuccessUnlinkFacebookInstantGamesId.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 /** Unlinks the related Nintendo account from the user's PlayFab account */
 UPlayFabServerAPI* UPlayFabServerAPI::UnlinkNintendoServiceAccount(FServerUnlinkNintendoServiceAccountRequest request,
     FDelegateOnSuccessUnlinkNintendoServiceAccount onSuccess,

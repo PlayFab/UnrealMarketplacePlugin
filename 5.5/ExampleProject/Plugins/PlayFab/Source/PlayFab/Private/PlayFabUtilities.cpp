@@ -759,6 +759,7 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 7021: returnText = "ExperimentationExclusionGroupInvalidTrafficAllocation"; break;
     case 7022: returnText = "ExperimentationExclusionGroupInvalidName"; break;
     case 7023: returnText = "ExperimentationLegacyExperimentInvalidOperation"; break;
+    case 7024: returnText = "ExperimentationExperimentStopFailed"; break;
     case 8000: returnText = "MaxActionDepthExceeded"; break;
     case 9000: returnText = "TitleNotOnUpdatedPricingPlan"; break;
     case 10000: returnText = "SegmentManagementTitleNotInFlight"; break;

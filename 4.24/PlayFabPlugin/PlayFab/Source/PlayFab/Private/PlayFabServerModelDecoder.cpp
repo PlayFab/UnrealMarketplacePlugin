@@ -369,6 +369,24 @@ FServerEmptyResponse UPlayFabServerModelDecoder::decodeEmptyResponseResponse(UPl
     return tempStruct;
 }
 
+FServerUnlinkFacebookAccountResult UPlayFabServerModelDecoder::decodeUnlinkFacebookAccountResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FServerUnlinkFacebookAccountResult tempStruct;
+
+
+    return tempStruct;
+}
+
+FServerUnlinkFacebookInstantGamesIdResult UPlayFabServerModelDecoder::decodeUnlinkFacebookInstantGamesIdResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FServerUnlinkFacebookInstantGamesIdResult tempStruct;
+
+
+    return tempStruct;
+}
+
 FServerUnlinkNintendoSwitchDeviceIdResult UPlayFabServerModelDecoder::decodeUnlinkNintendoSwitchDeviceIdResultResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct

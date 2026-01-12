@@ -2128,6 +2128,9 @@ namespace EconomyModels
         // [optional] The stack id of the item.
         FString StackId;
 
+        // [optional] Only used for subscriptions. The date of when the item started in UTC.
+        Boxed<FDateTime> StartDate;
+
         // [optional] The type of the item. This should correspond to the item type in the catalog.
         FString Type;
 
@@ -2138,6 +2141,7 @@ namespace EconomyModels
             ExpirationDate(),
             Id(),
             StackId(),
+            StartDate(),
             Type()
             {}
 

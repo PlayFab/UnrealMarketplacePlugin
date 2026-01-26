@@ -46,7 +46,6 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FGetItemReviewsDelegate, const EconomyModels::FGetItemReviewsResponse&);
         DECLARE_DELEGATE_OneParam(FGetItemReviewSummaryDelegate, const EconomyModels::FGetItemReviewSummaryResponse&);
         DECLARE_DELEGATE_OneParam(FGetItemsDelegate, const EconomyModels::FGetItemsResponse&);
-        DECLARE_DELEGATE_OneParam(FGetMicrosoftStoreAccessTokensDelegate, const EconomyModels::FGetMicrosoftStoreAccessTokensResponse&);
         DECLARE_DELEGATE_OneParam(FGetTransactionHistoryDelegate, const EconomyModels::FGetTransactionHistoryResponse&);
         DECLARE_DELEGATE_OneParam(FPublishDraftItemDelegate, const EconomyModels::FPublishDraftItemResponse&);
         DECLARE_DELEGATE_OneParam(FPurchaseInventoryItemsDelegate, const EconomyModels::FPurchaseInventoryItemsResponse&);
@@ -235,11 +234,6 @@ namespace PlayFab
          */
         bool GetItems(EconomyModels::FGetItemsRequest& request, const FGetItemsDelegate& SuccessDelegate = FGetItemsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
-         * Gets the access tokens.
-         * Gets the access tokens for Microsoft Store authentication.
-         */
-        bool GetMicrosoftStoreAccessTokens(EconomyModels::FGetMicrosoftStoreAccessTokensRequest& request, const FGetMicrosoftStoreAccessTokensDelegate& SuccessDelegate = FGetMicrosoftStoreAccessTokensDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        /**
          * Get transaction history for a player. Up to 250 Events can be returned at once. You can use continuation tokens to
          * paginate through results that return greater than the limit. Getting transaction history has a lower RPS limit than
          * getting a Player's inventory with Player Entities having a limit of 30 requests in 300 seconds.
@@ -380,7 +374,6 @@ namespace PlayFab
         void OnGetItemReviewsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetItemReviewsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetItemReviewSummaryResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetItemReviewSummaryDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetItemsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetItemsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
-        void OnGetMicrosoftStoreAccessTokensResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetMicrosoftStoreAccessTokensDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetTransactionHistoryResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetTransactionHistoryDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnPublishDraftItemResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FPublishDraftItemDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnPurchaseInventoryItemsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FPurchaseInventoryItemsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);

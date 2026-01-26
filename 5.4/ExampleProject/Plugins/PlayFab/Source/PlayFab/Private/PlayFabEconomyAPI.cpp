@@ -2098,54 +2098,6 @@ void UPlayFabEconomyAPI::HelperGetInventoryOperationStatus(FPlayFabBaseModel res
     this->RemoveFromRoot();
 }
 
-/** Gets the access tokens. */
-UPlayFabEconomyAPI* UPlayFabEconomyAPI::GetMicrosoftStoreAccessTokens(FEconomyGetMicrosoftStoreAccessTokensRequest request,
-    FDelegateOnSuccessGetMicrosoftStoreAccessTokens onSuccess,
-    FDelegateOnFailurePlayFabError onFailure,
-    UObject* customData)
-{
-    // Objects containing request data
-    UPlayFabEconomyAPI* manager = NewObject<UPlayFabEconomyAPI>();
-    if (manager->IsSafeForRootSet()) manager->AddToRoot();
-    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
-    manager->mCustomData = customData;
-
-    // Assign delegates
-    manager->OnSuccessGetMicrosoftStoreAccessTokens = onSuccess;
-    manager->OnFailure = onFailure;
-    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabEconomyAPI::HelperGetMicrosoftStoreAccessTokens);
-
-    // Setup the request
-    manager->SetCallAuthenticationContext(request.AuthenticationContext);
-    manager->PlayFabRequestURL = "/Inventory/GetMicrosoftStoreAccessTokens";
-    manager->useEntityToken = true;
-
-
-    // Serialize all the request properties to json
-    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
-
-    // Add Request to manager
-    manager->SetRequestObject(OutRestJsonObj);
-
-    return manager;
-}
-
-// Implements FOnPlayFabEconomyRequestCompleted
-void UPlayFabEconomyAPI::HelperGetMicrosoftStoreAccessTokens(FPlayFabBaseModel response, UObject* customData, bool successful)
-{
-    FPlayFabError error = response.responseError;
-    if (error.hasError && OnFailure.IsBound())
-    {
-        OnFailure.Execute(error, customData);
-    }
-    else if (!error.hasError && OnSuccessGetMicrosoftStoreAccessTokens.IsBound())
-    {
-        FEconomyGetMicrosoftStoreAccessTokensResponse ResultStruct = UPlayFabEconomyModelDecoder::decodeGetMicrosoftStoreAccessTokensResponseResponse(response.responseData);
-        OnSuccessGetMicrosoftStoreAccessTokens.Execute(ResultStruct, mCustomData);
-    }
-    this->RemoveFromRoot();
-}
-
 /** Get transaction history for a player. Up to 250 Events can be returned at once. You can use continuation tokens to paginate through results that return greater than the limit. Getting transaction history has a lower RPS limit than getting a Player's inventory with Player Entities having a limit of 30 requests in 300 seconds. */
 UPlayFabEconomyAPI* UPlayFabEconomyAPI::GetTransactionHistory(FEconomyGetTransactionHistoryRequest request,
     FDelegateOnSuccessGetTransactionHistory onSuccess,
@@ -2503,11 +2455,6 @@ UPlayFabEconomyAPI* UPlayFabEconomyAPI::RedeemMicrosoftStoreInventoryItems(FEcon
         OutRestJsonObj->SetFieldNull(TEXT("CollectionId"));
     } else {
         OutRestJsonObj->SetStringField(TEXT("CollectionId"), request.CollectionId);
-    }
-    if (request.CollectionsIdKey.IsEmpty() || request.CollectionsIdKey == "") {
-        OutRestJsonObj->SetFieldNull(TEXT("CollectionsIdKey"));
-    } else {
-        OutRestJsonObj->SetStringField(TEXT("CollectionsIdKey"), request.CollectionsIdKey);
     }
     if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);

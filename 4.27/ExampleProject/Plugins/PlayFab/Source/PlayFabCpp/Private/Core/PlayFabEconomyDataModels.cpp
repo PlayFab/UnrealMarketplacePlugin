@@ -6828,85 +6828,6 @@ bool PlayFab::EconomyModels::FGetItemsResponse::readFromValue(const TSharedPtr<F
     return HasSucceeded;
 }
 
-PlayFab::EconomyModels::FGetMicrosoftStoreAccessTokensRequest::~FGetMicrosoftStoreAccessTokensRequest()
-{
-
-}
-
-void PlayFab::EconomyModels::FGetMicrosoftStoreAccessTokensRequest::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    if (CustomTags.Num() != 0)
-    {
-        writer->WriteObjectStart(TEXT("CustomTags"));
-        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
-        {
-            writer->WriteIdentifierPrefix((*It).Key);
-            writer->WriteValue((*It).Value);
-        }
-        writer->WriteObjectEnd();
-    }
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::EconomyModels::FGetMicrosoftStoreAccessTokensRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonObject>* CustomTagsObject;
-    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
-    {
-        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
-        {
-            CustomTags.Add(It.Key(), It.Value()->AsString());
-        }
-    }
-
-    return HasSucceeded;
-}
-
-PlayFab::EconomyModels::FGetMicrosoftStoreAccessTokensResponse::~FGetMicrosoftStoreAccessTokensResponse()
-{
-
-}
-
-void PlayFab::EconomyModels::FGetMicrosoftStoreAccessTokensResponse::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    if (CollectionsAccessToken.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("CollectionsAccessToken"));
-        writer->WriteValue(CollectionsAccessToken);
-    }
-
-    writer->WriteIdentifierPrefix(TEXT("CollectionsAccessTokenExpirationDate"));
-    writeDatetime(CollectionsAccessTokenExpirationDate, writer);
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::EconomyModels::FGetMicrosoftStoreAccessTokensResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonValue> CollectionsAccessTokenValue = obj->TryGetField(TEXT("CollectionsAccessToken"));
-    if (CollectionsAccessTokenValue.IsValid() && !CollectionsAccessTokenValue->IsNull())
-    {
-        FString TmpValue;
-        if (CollectionsAccessTokenValue->TryGetString(TmpValue)) { CollectionsAccessToken = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> CollectionsAccessTokenExpirationDateValue = obj->TryGetField(TEXT("CollectionsAccessTokenExpirationDate"));
-    if (CollectionsAccessTokenExpirationDateValue.IsValid())
-        CollectionsAccessTokenExpirationDate = readDatetime(CollectionsAccessTokenExpirationDateValue);
-
-
-    return HasSucceeded;
-}
-
 PlayFab::EconomyModels::FGetTransactionHistoryRequest::~FGetTransactionHistoryRequest()
 {
     //if (Entity != nullptr) delete Entity;
@@ -8221,6 +8142,12 @@ void PlayFab::EconomyModels::FRedemptionSuccess::writeJSON(JsonWriter& writer) c
 {
     writer->WriteObjectStart();
 
+    if (ExpirationTimestamp.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ExpirationTimestamp"));
+        writeDatetime(ExpirationTimestamp, writer);
+    }
+
     if (MarketplaceAlternateId.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("MarketplaceAlternateId"));
@@ -8242,6 +8169,11 @@ void PlayFab::EconomyModels::FRedemptionSuccess::writeJSON(JsonWriter& writer) c
 bool PlayFab::EconomyModels::FRedemptionSuccess::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> ExpirationTimestampValue = obj->TryGetField(TEXT("ExpirationTimestamp"));
+    if (ExpirationTimestampValue.IsValid())
+        ExpirationTimestamp = readDatetime(ExpirationTimestampValue);
+
 
     const TSharedPtr<FJsonValue> MarketplaceAlternateIdValue = obj->TryGetField(TEXT("MarketplaceAlternateId"));
     if (MarketplaceAlternateIdValue.IsValid() && !MarketplaceAlternateIdValue->IsNull())
@@ -8628,12 +8560,6 @@ void PlayFab::EconomyModels::FRedeemMicrosoftStoreInventoryItemsRequest::writeJS
         writer->WriteValue(CollectionId);
     }
 
-    if (CollectionsIdKey.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("CollectionsIdKey"));
-        writer->WriteValue(CollectionsIdKey);
-    }
-
     if (CustomTags.Num() != 0)
     {
         writer->WriteObjectStart(TEXT("CustomTags"));
@@ -8669,13 +8595,6 @@ bool PlayFab::EconomyModels::FRedeemMicrosoftStoreInventoryItemsRequest::readFro
     {
         FString TmpValue;
         if (CollectionIdValue->TryGetString(TmpValue)) { CollectionId = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> CollectionsIdKeyValue = obj->TryGetField(TEXT("CollectionsIdKey"));
-    if (CollectionsIdKeyValue.IsValid() && !CollectionsIdKeyValue->IsNull())
-    {
-        FString TmpValue;
-        if (CollectionsIdKeyValue->TryGetString(TmpValue)) { CollectionsIdKey = TmpValue; }
     }
 
     const TSharedPtr<FJsonObject>* CustomTagsObject;

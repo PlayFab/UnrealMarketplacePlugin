@@ -403,18 +403,6 @@ FEconomyGetInventoryOperationStatusResponse UPlayFabEconomyModelDecoder::decodeG
     return tempStruct;
 }
 
-FEconomyGetMicrosoftStoreAccessTokensResponse UPlayFabEconomyModelDecoder::decodeGetMicrosoftStoreAccessTokensResponseResponse(UPlayFabJsonObject* response)
-{
-    // Temp ustruct
-    FEconomyGetMicrosoftStoreAccessTokensResponse tempStruct;
-    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
-
-    tempStruct.CollectionsAccessToken = !(dataObj->HasField("CollectionsAccessToken")) ? TEXT("") : dataObj->GetStringField("CollectionsAccessToken");
-    tempStruct.CollectionsAccessTokenExpirationDate = !(dataObj->HasField("CollectionsAccessTokenExpirationDate")) ? TEXT("") : dataObj->GetStringField("CollectionsAccessTokenExpirationDate");
-
-    return tempStruct;
-}
-
 FEconomyGetTransactionHistoryResponse UPlayFabEconomyModelDecoder::decodeGetTransactionHistoryResponseResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct

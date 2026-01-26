@@ -688,6 +688,7 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 4013: returnText = "CatalogBadRequest"; break;
     case 4014: returnText = "CatalogTooManyRequests"; break;
     case 4015: returnText = "InvalidCatalogItemConfiguration"; break;
+    case 4016: returnText = "LegacyEconomyDisabled"; break;
     case 5000: returnText = "ExportInvalidStatusUpdate"; break;
     case 5001: returnText = "ExportInvalidPrefix"; break;
     case 5002: returnText = "ExportBlobContainerDoesNotExist"; break;

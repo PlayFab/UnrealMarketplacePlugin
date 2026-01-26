@@ -662,6 +662,7 @@ namespace PlayFab
         PlayFabErrorCatalogBadRequest = 4013,
         PlayFabErrorCatalogTooManyRequests = 4014,
         PlayFabErrorInvalidCatalogItemConfiguration = 4015,
+        PlayFabErrorLegacyEconomyDisabled = 4016,
         PlayFabErrorExportInvalidStatusUpdate = 5000,
         PlayFabErrorExportInvalidPrefix = 5001,
         PlayFabErrorExportBlobContainerDoesNotExist = 5002,

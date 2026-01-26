@@ -1246,33 +1246,6 @@ public:
         FString OperationStatus;
 };
 
-/** Gets the access tokens for Microsoft Store authentication. */
-USTRUCT(BlueprintType)
-struct PLAYFAB_API FEconomyGetMicrosoftStoreAccessTokensRequest : public FPlayFabRequestCommon
-{
-    GENERATED_USTRUCT_BODY()
-public:
-    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
-};
-
-USTRUCT(BlueprintType)
-struct PLAYFAB_API FEconomyGetMicrosoftStoreAccessTokensResponse : public FPlayFabResultCommon
-{
-    GENERATED_USTRUCT_BODY()
-public:
-    /**
-     * The collections access token for calling https://onestore.microsoft.com/b2b/keys/create/collections to obtain a
-     * CollectionsIdKey for the user
-     */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
-        FString CollectionsAccessToken;
-    /** The date the collections access token expires */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
-        FString CollectionsAccessTokenExpirationDate;
-};
-
 /** Get transaction history for specified entity and collection. */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FEconomyGetTransactionHistoryRequest : public FPlayFabRequestCommon
@@ -1520,9 +1493,6 @@ public:
     /** The id of the entity's collection to perform this action on. (Default="default") */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         FString CollectionId;
-    /** The OneStore Collections Id Key used for AAD authentication. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
-        FString CollectionsIdKey;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         UPlayFabJsonObject* CustomTags = nullptr;

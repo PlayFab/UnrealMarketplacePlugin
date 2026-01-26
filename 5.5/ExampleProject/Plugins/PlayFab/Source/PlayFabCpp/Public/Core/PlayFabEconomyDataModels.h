@@ -3434,58 +3434,6 @@ namespace EconomyModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetMicrosoftStoreAccessTokensRequest : public PlayFab::FPlayFabCppRequestCommon
-    {
-        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
-        TMap<FString, FString> CustomTags;
-        FGetMicrosoftStoreAccessTokensRequest() :
-            FPlayFabCppRequestCommon(),
-            CustomTags()
-            {}
-
-        FGetMicrosoftStoreAccessTokensRequest(const FGetMicrosoftStoreAccessTokensRequest& src) = default;
-
-        FGetMicrosoftStoreAccessTokensRequest(const TSharedPtr<FJsonObject>& obj) : FGetMicrosoftStoreAccessTokensRequest()
-        {
-            readFromValue(obj);
-        }
-
-        ~FGetMicrosoftStoreAccessTokensRequest();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
-    struct PLAYFABCPP_API FGetMicrosoftStoreAccessTokensResponse : public PlayFab::FPlayFabCppResultCommon
-    {
-        /**
-         * [optional] The collections access token for calling https://onestore.microsoft.com/b2b/keys/create/collections to obtain a
-         * CollectionsIdKey for the user
-         */
-        FString CollectionsAccessToken;
-
-        // The date the collections access token expires
-        FDateTime CollectionsAccessTokenExpirationDate;
-
-        FGetMicrosoftStoreAccessTokensResponse() :
-            FPlayFabCppResultCommon(),
-            CollectionsAccessToken(),
-            CollectionsAccessTokenExpirationDate(0)
-            {}
-
-        FGetMicrosoftStoreAccessTokensResponse(const FGetMicrosoftStoreAccessTokensResponse& src) = default;
-
-        FGetMicrosoftStoreAccessTokensResponse(const TSharedPtr<FJsonObject>& obj) : FGetMicrosoftStoreAccessTokensResponse()
-        {
-            readFromValue(obj);
-        }
-
-        ~FGetMicrosoftStoreAccessTokensResponse();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
     struct PLAYFABCPP_API FGetTransactionHistoryRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] The id of the entity's collection to perform this action on. (Default="default")
@@ -4124,6 +4072,9 @@ namespace EconomyModels
 
     struct PLAYFABCPP_API FRedemptionSuccess : public PlayFab::FPlayFabCppBaseModel
     {
+        // [optional] The timestamp for when the redeem expired.
+        Boxed<FDateTime> ExpirationTimestamp;
+
         // [optional] The Marketplace Alternate ID being redeemed.
         FString MarketplaceAlternateId;
 
@@ -4135,6 +4086,7 @@ namespace EconomyModels
 
         FRedemptionSuccess() :
             FPlayFabCppBaseModel(),
+            ExpirationTimestamp(),
             MarketplaceAlternateId(),
             MarketplaceTransactionId(),
             SuccessTimestamp(0)
@@ -4308,9 +4260,6 @@ namespace EconomyModels
         // [optional] The id of the entity's collection to perform this action on. (Default="default")
         FString CollectionId;
 
-        // [optional] The OneStore Collections Id Key used for AAD authentication.
-        FString CollectionsIdKey;
-
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
         // [optional] The entity to perform this action on.
@@ -4325,7 +4274,6 @@ namespace EconomyModels
         FRedeemMicrosoftStoreInventoryItemsRequest() :
             FPlayFabCppRequestCommon(),
             CollectionId(),
-            CollectionsIdKey(),
             CustomTags(),
             Entity(nullptr),
             XboxToken()

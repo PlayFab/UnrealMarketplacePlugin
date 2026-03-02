@@ -25,6 +25,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FAddCharacterVirtualCurrencyDelegate, const ServerModels::FModifyCharacterVirtualCurrencyResult&);
         DECLARE_DELEGATE_OneParam(FAddFriendDelegate, const ServerModels::FEmptyResponse&);
         DECLARE_DELEGATE_OneParam(FAddGenericIDDelegate, const ServerModels::FEmptyResult&);
+        DECLARE_DELEGATE_OneParam(FAddOrUpdateContactEmailDelegate, const ServerModels::FAddOrUpdateContactEmailResult&);
         DECLARE_DELEGATE_OneParam(FAddPlayerTagDelegate, const ServerModels::FAddPlayerTagResult&);
         DECLARE_DELEGATE_OneParam(FAddSharedGroupMembersDelegate, const ServerModels::FAddSharedGroupMembersResult&);
         DECLARE_DELEGATE_OneParam(FAddUserVirtualCurrencyDelegate, const ServerModels::FModifyUserVirtualCurrencyResult&);
@@ -225,6 +226,11 @@ namespace PlayFab
          * authentication credentials, as the intent is that it is easily accessible by other players.
          */
         bool AddGenericID(ServerModels::FAddGenericIDRequest& request, const FAddGenericIDDelegate& SuccessDelegate = FAddGenericIDDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
+         * Adds or updates a contact email to the specified player's profile.
+         * This API adds a contact email to the specified player's profile. If the player's profile already contains a contact email, it will update the contact email to the email address specified.
+         */
+        bool AddOrUpdateContactEmail(ServerModels::FAddOrUpdateContactEmailRequest& request, const FAddOrUpdateContactEmailDelegate& SuccessDelegate = FAddOrUpdateContactEmailDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Adds a given tag to a player profile. The tag's namespace is automatically generated based on the source of the tag.
          * This API will trigger a player_tag_added event and add a tag with the given TagName and PlayFabID to the corresponding player profile. TagName can be used for segmentation and it is limited to 256 characters. Also there is a limit on the number of tags a title can have.
@@ -930,6 +936,7 @@ namespace PlayFab
         void OnAddCharacterVirtualCurrencyResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FAddCharacterVirtualCurrencyDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnAddFriendResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FAddFriendDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnAddGenericIDResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FAddGenericIDDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnAddOrUpdateContactEmailResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FAddOrUpdateContactEmailDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnAddPlayerTagResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FAddPlayerTagDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnAddSharedGroupMembersResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FAddSharedGroupMembersDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnAddUserVirtualCurrencyResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FAddUserVirtualCurrencyDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);

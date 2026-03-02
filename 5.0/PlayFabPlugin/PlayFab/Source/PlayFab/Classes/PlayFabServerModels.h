@@ -51,6 +51,33 @@ public:
 };
 
 /**
+ * This API adds a contact email to the specified player's profile. If the player's profile already contains a contact
+ * email, it will update the contact email to the email address specified.
+ */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FServerAddOrUpdateContactEmailRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /** The new contact email to associate with the player. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        FString EmailAddress;
+    /** Unique PlayFab assigned ID of the user on whom the operation will be performed. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        FString PlayFabId;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FServerAddOrUpdateContactEmailResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+};
+
+/**
  * The existence of each user will not be verified. When banning by IP, multiple players may be affected, so use this
  * feature with caution. Returns information about the new bans.
  */

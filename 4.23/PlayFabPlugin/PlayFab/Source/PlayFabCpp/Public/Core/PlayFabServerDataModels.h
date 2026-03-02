@@ -210,6 +210,55 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FAddOrUpdateContactEmailRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // The new contact email to associate with the player.
+        FString EmailAddress;
+
+        // Unique PlayFab assigned ID of the user on whom the operation will be performed.
+        FString PlayFabId;
+
+        FAddOrUpdateContactEmailRequest() :
+            FPlayFabCppRequestCommon(),
+            CustomTags(),
+            EmailAddress(),
+            PlayFabId()
+            {}
+
+        FAddOrUpdateContactEmailRequest(const FAddOrUpdateContactEmailRequest& src) = default;
+
+        FAddOrUpdateContactEmailRequest(const TSharedPtr<FJsonObject>& obj) : FAddOrUpdateContactEmailRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FAddOrUpdateContactEmailRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FAddOrUpdateContactEmailResult : public PlayFab::FPlayFabCppResultCommon
+    {
+        FAddOrUpdateContactEmailResult() :
+            FPlayFabCppResultCommon()
+            {}
+
+        FAddOrUpdateContactEmailResult(const FAddOrUpdateContactEmailResult& src) = default;
+
+        FAddOrUpdateContactEmailResult(const TSharedPtr<FJsonObject>& obj) : FAddOrUpdateContactEmailResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FAddOrUpdateContactEmailResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FAddPlayerTagRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).

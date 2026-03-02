@@ -128,6 +128,64 @@ void UPlayFabServerAPI::HelperAddGenericID(FPlayFabBaseModel response, UObject* 
     this->RemoveFromRoot();
 }
 
+/** Adds or updates a contact email to the specified player's profile. */
+UPlayFabServerAPI* UPlayFabServerAPI::AddOrUpdateContactEmail(FServerAddOrUpdateContactEmailRequest request,
+    FDelegateOnSuccessAddOrUpdateContactEmail onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabServerAPI* manager = NewObject<UPlayFabServerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessAddOrUpdateContactEmail = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperAddOrUpdateContactEmail);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Server/AddOrUpdateContactEmail";
+    manager->useSecretKey = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.EmailAddress.IsEmpty() || request.EmailAddress == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("EmailAddress"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("EmailAddress"), request.EmailAddress);
+    }
+    if (request.PlayFabId.IsEmpty() || request.PlayFabId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("PlayFabId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("PlayFabId"), request.PlayFabId);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabServerRequestCompleted
+void UPlayFabServerAPI::HelperAddOrUpdateContactEmail(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessAddOrUpdateContactEmail.IsBound())
+    {
+        FServerAddOrUpdateContactEmailResult ResultStruct = UPlayFabServerModelDecoder::decodeAddOrUpdateContactEmailResultResponse(response.responseData);
+        OnSuccessAddOrUpdateContactEmail.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 /** Bans users by PlayFab ID with optional IP address for the provided game. */
 UPlayFabServerAPI* UPlayFabServerAPI::BanUsers(FServerBanUsersRequest request,
     FDelegateOnSuccessBanUsers onSuccess,

@@ -40,6 +40,10 @@ public:
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management Models")
         static FServerEmptyResult decodeEmptyResultResponse(UPlayFabJsonObject* response);
 
+    /** Decode the AddOrUpdateContactEmailResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management Models")
+        static FServerAddOrUpdateContactEmailResult decodeAddOrUpdateContactEmailResultResponse(UPlayFabJsonObject* response);
+
     /** Decode the BanUsersResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management Models")
         static FServerBanUsersResult decodeBanUsersResultResponse(UPlayFabJsonObject* response);

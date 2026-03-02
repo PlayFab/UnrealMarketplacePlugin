@@ -306,6 +306,7 @@ void PlayFab::MultiplayerModels::writeAzureVmFamilyEnumJSON(AzureVmFamily enumVa
     case AzureVmFamilyHBv3: writer->WriteValue(TEXT("HBv3")); break;
     case AzureVmFamilyDdv5: writer->WriteValue(TEXT("Ddv5")); break;
     case AzureVmFamilyDdsv5: writer->WriteValue(TEXT("Ddsv5")); break;
+    case AzureVmFamilyDdsv6: writer->WriteValue(TEXT("Ddsv6")); break;
     }
 }
 
@@ -342,6 +343,7 @@ MultiplayerModels::AzureVmFamily PlayFab::MultiplayerModels::readAzureVmFamilyFr
         _AzureVmFamilyMap.Add(TEXT("HBv3"), AzureVmFamilyHBv3);
         _AzureVmFamilyMap.Add(TEXT("Ddv5"), AzureVmFamilyDdv5);
         _AzureVmFamilyMap.Add(TEXT("Ddsv5"), AzureVmFamilyDdsv5);
+        _AzureVmFamilyMap.Add(TEXT("Ddsv6"), AzureVmFamilyDdsv6);
 
     }
 
@@ -443,6 +445,10 @@ void PlayFab::MultiplayerModels::writeAzureVmSizeEnumJSON(AzureVmSize enumVal, J
     case AzureVmSizeStandard_D8ds_v5: writer->WriteValue(TEXT("Standard_D8ds_v5")); break;
     case AzureVmSizeStandard_D16ds_v5: writer->WriteValue(TEXT("Standard_D16ds_v5")); break;
     case AzureVmSizeStandard_D32ds_v5: writer->WriteValue(TEXT("Standard_D32ds_v5")); break;
+    case AzureVmSizeStandard_D2ds_v6: writer->WriteValue(TEXT("Standard_D2ds_v6")); break;
+    case AzureVmSizeStandard_D4ds_v6: writer->WriteValue(TEXT("Standard_D4ds_v6")); break;
+    case AzureVmSizeStandard_D8ds_v6: writer->WriteValue(TEXT("Standard_D8ds_v6")); break;
+    case AzureVmSizeStandard_D16ds_v6: writer->WriteValue(TEXT("Standard_D16ds_v6")); break;
     }
 }
 
@@ -540,6 +546,10 @@ MultiplayerModels::AzureVmSize PlayFab::MultiplayerModels::readAzureVmSizeFromVa
         _AzureVmSizeMap.Add(TEXT("Standard_D8ds_v5"), AzureVmSizeStandard_D8ds_v5);
         _AzureVmSizeMap.Add(TEXT("Standard_D16ds_v5"), AzureVmSizeStandard_D16ds_v5);
         _AzureVmSizeMap.Add(TEXT("Standard_D32ds_v5"), AzureVmSizeStandard_D32ds_v5);
+        _AzureVmSizeMap.Add(TEXT("Standard_D2ds_v6"), AzureVmSizeStandard_D2ds_v6);
+        _AzureVmSizeMap.Add(TEXT("Standard_D4ds_v6"), AzureVmSizeStandard_D4ds_v6);
+        _AzureVmSizeMap.Add(TEXT("Standard_D8ds_v6"), AzureVmSizeStandard_D8ds_v6);
+        _AzureVmSizeMap.Add(TEXT("Standard_D16ds_v6"), AzureVmSizeStandard_D16ds_v6);
 
     }
 

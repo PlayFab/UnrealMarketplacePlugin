@@ -76,6 +76,19 @@ public:
         void HelperAddGenericID(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessAddOrUpdateContactEmail, FServerAddOrUpdateContactEmailResult, result, UObject*, customData);
+
+    /** Adds or updates a contact email to the specified player's profile. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabServerAPI* AddOrUpdateContactEmail(FServerAddOrUpdateContactEmailRequest request,
+            FDelegateOnSuccessAddOrUpdateContactEmail onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabServerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperAddOrUpdateContactEmail(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessBanUsers, FServerBanUsersResult, result, UObject*, customData);
 
     /** Bans users by PlayFab ID with optional IP address for the provided game. */
@@ -2373,6 +2386,7 @@ public:
 
     FDelegateOnFailurePlayFabError OnFailure;
     FDelegateOnSuccessAddGenericID OnSuccessAddGenericID;
+    FDelegateOnSuccessAddOrUpdateContactEmail OnSuccessAddOrUpdateContactEmail;
     FDelegateOnSuccessBanUsers OnSuccessBanUsers;
     FDelegateOnSuccessDeletePlayer OnSuccessDeletePlayer;
     FDelegateOnSuccessDeletePushNotificationTemplate OnSuccessDeletePushNotificationTemplate;

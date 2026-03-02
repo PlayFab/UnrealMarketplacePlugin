@@ -983,6 +983,7 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 23012: returnText = "EntityTypeSpecifiedRequiresAggregationSource"; break;
     case 23013: returnText = "PlayFabErrorEventNotSupportedForEntityType"; break;
     case 23014: returnText = "MetadataLengthExceeded"; break;
+    case 23015: returnText = "MaxQueryableVersionsExceeded"; break;
     case 23501: returnText = "StoreMetricsRequestInvalidInput"; break;
     case 23502: returnText = "StoreMetricsErrorRetrievingMetrics"; break;
     }

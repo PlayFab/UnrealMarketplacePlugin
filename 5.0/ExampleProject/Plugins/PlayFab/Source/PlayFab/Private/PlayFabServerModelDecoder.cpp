@@ -30,6 +30,15 @@ FServerEmptyResult UPlayFabServerModelDecoder::decodeEmptyResultResponse(UPlayFa
     return tempStruct;
 }
 
+FServerAddOrUpdateContactEmailResult UPlayFabServerModelDecoder::decodeAddOrUpdateContactEmailResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FServerAddOrUpdateContactEmailResult tempStruct;
+
+
+    return tempStruct;
+}
+
 FServerBanUsersResult UPlayFabServerModelDecoder::decodeBanUsersResultResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct

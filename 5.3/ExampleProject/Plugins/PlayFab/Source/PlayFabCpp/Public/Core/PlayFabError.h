@@ -957,6 +957,7 @@ namespace PlayFab
         PlayFabErrorEntityTypeSpecifiedRequiresAggregationSource = 23012,
         PlayFabErrorPlayFabErrorEventNotSupportedForEntityType = 23013,
         PlayFabErrorMetadataLengthExceeded = 23014,
+        PlayFabErrorMaxQueryableVersionsExceeded = 23015,
         PlayFabErrorStoreMetricsRequestInvalidInput = 23501,
         PlayFabErrorStoreMetricsErrorRetrievingMetrics = 23502
     };

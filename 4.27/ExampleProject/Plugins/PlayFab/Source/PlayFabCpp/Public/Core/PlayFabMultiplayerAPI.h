@@ -232,7 +232,7 @@ namespace PlayFab
         bool EnableMultiplayerServersForTitle(MultiplayerModels::FEnableMultiplayerServersForTitleRequest& request, const FEnableMultiplayerServersForTitleDelegate& SuccessDelegate = FEnableMultiplayerServersForTitleDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Find lobbies which match certain criteria, and which friends are in.
-         * Find lobbies which match certain criteria and contain friends of the caller. Friends optionally include Steam, Facebook and Xbox friends. Returns a maximum of 50 instances for client calls. This method is not callable by servers.
+         * Find lobbies which match certain criteria and contain friends of the caller. Friends optionally include Steam, Facebook and Xbox friends. Only mutual friends are considered: for PlayFab friends, both players must have added each other; for Xbox Live friends, both users must be following each other. Returns a maximum of 50 instances for client calls. This method is not callable by servers.
          */
         bool FindFriendLobbies(MultiplayerModels::FFindFriendLobbiesRequest& request, const FFindFriendLobbiesDelegate& SuccessDelegate = FFindFriendLobbiesDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**

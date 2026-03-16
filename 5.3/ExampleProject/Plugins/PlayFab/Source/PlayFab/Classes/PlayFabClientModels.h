@@ -3085,7 +3085,10 @@ public:
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Friend List Management Models")
         UPlayFabJsonObject* ProfileConstraints = nullptr;
-    /** Xbox token if Xbox friends should be included. Requires Xbox be configured on PlayFab. */
+    /**
+     * Xbox token if Xbox friends should be included. Requires Xbox be configured on PlayFab. When provided, all Xbox Live
+     * users the caller is following are included regardless of whether they follow the caller back.
+     */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Friend List Management Models")
         FString XboxToken;
 };
@@ -3096,6 +3099,8 @@ public:
  * recently, and only friends who also plays this game will be included. Note: If the user authenticated with
  * AuthenticationToken when calling LoginWithFacebook, instead of AccessToken, an empty list will be returned. For Xbox
  * Live, user has to have logged into the Xbox Live recently, and only friends who also play this game will be included.
+ * Xbox Live friends include all users the caller is following, regardless of whether those users follow the caller back.
+ * This differs from FindFriendLobbies, which only considers mutual Xbox Live friends (where both users follow each other).
  */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientGetFriendsListResult : public FPlayFabResultCommon

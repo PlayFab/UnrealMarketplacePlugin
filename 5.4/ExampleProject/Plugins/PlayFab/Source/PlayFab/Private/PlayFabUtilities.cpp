@@ -778,7 +778,7 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 10012: returnText = "AsyncExportNotFound"; break;
     case 10013: returnText = "AsyncExportRateLimitExceeded"; break;
     case 10014: returnText = "AnalyticsSegmentCountOverLimit"; break;
-    case 10015: returnText = "GetPlayersInSegmentDeprecated"; break;
+    case 10015: returnText = "GetPlayersInSegmentRetired"; break;
     case 11000: returnText = "SnapshotNotFound"; break;
     case 12000: returnText = "InventoryApiNotImplemented"; break;
     case 12001: returnText = "InventoryCollectionDeletionDisallowed"; break;

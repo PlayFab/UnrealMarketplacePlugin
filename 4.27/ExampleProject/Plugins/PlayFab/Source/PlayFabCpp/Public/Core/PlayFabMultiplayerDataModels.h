@@ -3170,7 +3170,11 @@ namespace MultiplayerModels
         // [optional] Request pagination information.
         TSharedPtr<FPaginationRequest> Pagination;
 
-        // [optional] Xbox token if Xbox friends should be included. Requires Xbox be configured on PlayFab.
+        /**
+         * [optional] Xbox token if Xbox friends should be included. Requires Xbox be configured on PlayFab. Only mutual Xbox Live friends
+         * (where both users follow each other) are included, unlike GetFriendsList which includes all users the caller is
+         * following.
+         */
         FString XboxToken;
 
         FFindFriendLobbiesRequest() :

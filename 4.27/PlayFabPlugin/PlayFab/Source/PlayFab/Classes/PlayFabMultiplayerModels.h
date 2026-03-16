@@ -173,7 +173,11 @@ public:
     /** Request pagination information. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
         UPlayFabJsonObject* Pagination = nullptr;
-    /** Xbox token if Xbox friends should be included. Requires Xbox be configured on PlayFab. */
+    /**
+     * Xbox token if Xbox friends should be included. Requires Xbox be configured on PlayFab. Only mutual Xbox Live friends
+     * (where both users follow each other) are included, unlike GetFriendsList which includes all users the caller is
+     * following.
+     */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
         FString XboxToken;
 };

@@ -752,7 +752,7 @@ namespace PlayFab
         PlayFabErrorAsyncExportNotFound = 10012,
         PlayFabErrorAsyncExportRateLimitExceeded = 10013,
         PlayFabErrorAnalyticsSegmentCountOverLimit = 10014,
-        PlayFabErrorGetPlayersInSegmentDeprecated = 10015,
+        PlayFabErrorGetPlayersInSegmentRetired = 10015,
         PlayFabErrorSnapshotNotFound = 11000,
         PlayFabErrorInventoryApiNotImplemented = 12000,
         PlayFabErrorInventoryCollectionDeletionDisallowed = 12001,

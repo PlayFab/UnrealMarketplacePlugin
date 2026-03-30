@@ -269,6 +269,7 @@ FAdminGetPolicyResponse UPlayFabAdminModelDecoder::decodeGetPolicyResponseRespon
     FAdminGetPolicyResponse tempStruct;
     UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
 
+    tempStruct.LastUpdated = !(dataObj->HasField("LastUpdated")) ? TEXT("") : dataObj->GetStringField("LastUpdated");
     tempStruct.PolicyName = !(dataObj->HasField("PolicyName")) ? TEXT("") : dataObj->GetStringField("PolicyName");
     tempStruct.PolicyVersion = !(dataObj->HasField("PolicyVersion")) ? 0 : int(dataObj->GetNumberField("PolicyVersion"));
     tempStruct.Statements = !(dataObj->HasField("Statements")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Statements");
@@ -313,6 +314,7 @@ FAdminUpdatePolicyResponse UPlayFabAdminModelDecoder::decodeUpdatePolicyResponse
 
     tempStruct.PolicyName = !(dataObj->HasField("PolicyName")) ? TEXT("") : dataObj->GetStringField("PolicyName");
     tempStruct.Statements = !(dataObj->HasField("Statements")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Statements");
+    tempStruct.Warnings = !(dataObj->HasField("Warnings")) ? TEXT("") : FString::Join(dataObj->GetStringArrayField("Warnings"), TEXT(","));
 
     return tempStruct;
 }

@@ -81,6 +81,9 @@ public:
     /** The optional entity to perform this action on. Defaults to the currently logged in entity. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Profiles | Account Management Models")
         UPlayFabJsonObject* Entity = nullptr;
+    /** Determines whether the entity statistics will be returned in the entity profile. Default is false. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Profiles | Account Management Models")
+        bool IncludeStatistics = false;
 };
 
 USTRUCT(BlueprintType)
@@ -114,6 +117,9 @@ public:
     /** Entity keys of the profiles to load. Must be between 1 and 25 */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Profiles | Account Management Models")
         TArray<UPlayFabJsonObject*> Entities;
+    /** Determines whether the entity statistics will be returned in the entity profile. Default is false. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Profiles | Account Management Models")
+        bool IncludeStatistics = false;
 };
 
 USTRUCT(BlueprintType)

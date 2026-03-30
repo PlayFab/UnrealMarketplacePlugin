@@ -13722,11 +13722,7 @@ void PlayFab::AdminModels::FPermissionStatement::writeJSON(JsonWriter& writer) c
 {
     writer->WriteObjectStart();
 
-    if (!Action.IsEmpty() == false)
-    {
-        UE_LOG(LogTemp, Error, TEXT("This field is required: PermissionStatement::Action, PlayFab calls may not work if it remains empty."));
-    }
-    else
+    if (Action.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("Action"));
         writer->WriteValue(Action);
@@ -13822,6 +13818,12 @@ void PlayFab::AdminModels::FGetPolicyResponse::writeJSON(JsonWriter& writer) con
 {
     writer->WriteObjectStart();
 
+    if (LastUpdated.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("LastUpdated"));
+        writeDatetime(LastUpdated, writer);
+    }
+
     if (PolicyName.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("PolicyName"));
@@ -13846,6 +13848,11 @@ void PlayFab::AdminModels::FGetPolicyResponse::writeJSON(JsonWriter& writer) con
 bool PlayFab::AdminModels::FGetPolicyResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> LastUpdatedValue = obj->TryGetField(TEXT("LastUpdated"));
+    if (LastUpdatedValue.IsValid())
+        LastUpdated = readDatetime(LastUpdatedValue);
+
 
     const TSharedPtr<FJsonValue> PolicyNameValue = obj->TryGetField(TEXT("PolicyName"));
     if (PolicyNameValue.IsValid() && !PolicyNameValue->IsNull())
@@ -21247,11 +21254,7 @@ void PlayFab::AdminModels::FUpdatePolicyRequest::writeJSON(JsonWriter& writer) c
     writer->WriteIdentifierPrefix(TEXT("OverwritePolicy"));
     writer->WriteValue(OverwritePolicy);
 
-    if (!PolicyName.IsEmpty() == false)
-    {
-        UE_LOG(LogTemp, Error, TEXT("This field is required: UpdatePolicyRequest::PolicyName, PlayFab calls may not work if it remains empty."));
-    }
-    else
+    if (PolicyName.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("PolicyName"));
         writer->WriteValue(PolicyName);
@@ -21329,6 +21332,15 @@ void PlayFab::AdminModels::FUpdatePolicyResponse::writeJSON(JsonWriter& writer) 
     }
 
 
+    if (Warnings.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("Warnings"));
+        for (const FString& item : Warnings)
+            writer->WriteValue(item);
+        writer->WriteArrayEnd();
+    }
+
+
     writer->WriteObjectEnd();
 }
 
@@ -21350,6 +21362,8 @@ bool PlayFab::AdminModels::FUpdatePolicyResponse::readFromValue(const TSharedPtr
         Statements.Add(FPermissionStatement(CurrentItem->AsObject()));
     }
 
+
+    obj->TryGetStringArrayField(TEXT("Warnings"), Warnings);
 
     return HasSucceeded;
 }

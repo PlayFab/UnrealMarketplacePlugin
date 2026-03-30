@@ -680,7 +680,10 @@ struct PLAYFAB_API FAdminGetPolicyRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** The name of the policy to read. Only supported name is 'ApiPolicy'. */
+    /**
+     * The name of the policy to read. Only 'ApiPolicy' is supported. This parameter is optional and defaults to 'ApiPolicy' if
+     * omitted.
+     */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Authentication Models")
         FString PolicyName;
 };
@@ -690,6 +693,9 @@ struct PLAYFAB_API FAdminGetPolicyResponse : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The UTC date and time when the policy was last updated. Null if the policy has never been customized. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Authentication Models")
+        FString LastUpdated;
     /** The name of the policy read. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Authentication Models")
         FString PolicyName;
@@ -817,7 +823,10 @@ public:
     /** Whether to overwrite or append to the existing policy. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Authentication Models")
         bool OverwritePolicy = false;
-    /** The name of the policy being updated. Only supported name is 'ApiPolicy' */
+    /**
+     * The name of the policy being updated. Only 'ApiPolicy' is supported. This parameter is optional and defaults to
+     * 'ApiPolicy' if omitted.
+     */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Authentication Models")
         FString PolicyName;
     /** Version of the policy to update. Must be the latest (as returned by GetPolicy). */
@@ -839,6 +848,12 @@ public:
     /** The statements included in the new version of the policy. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Authentication Models")
         TArray<UPlayFabJsonObject*> Statements;
+    /**
+     * Optional warnings about policy statements that may not have the intended effect. For example, resource paths that don't
+     * match any known API endpoint. The policy update still succeeds when warnings are present.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Authentication Models")
+        FString Warnings;
 };
 
 

@@ -644,6 +644,7 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 1612: returnText = "ParentCustomerAccountNotFound"; break;
     case 1613: returnText = "AccountLinkedToABannedPlayer"; break;
     case 1614: returnText = "AzureSubscriptionNotEligibleForLinking"; break;
+    case 1615: returnText = "EntityIsNotAMember"; break;
     case 2001: returnText = "MatchmakingEntityInvalid"; break;
     case 2002: returnText = "MatchmakingPlayerAttributesInvalid"; break;
     case 2016: returnText = "MatchmakingQueueNotFound"; break;
@@ -761,6 +762,8 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 7022: returnText = "ExperimentationExclusionGroupInvalidName"; break;
     case 7023: returnText = "ExperimentationLegacyExperimentInvalidOperation"; break;
     case 7024: returnText = "ExperimentationExperimentStopFailed"; break;
+    case 7025: returnText = "ExperimentationExperimentDeleteFailed"; break;
+    case 7026: returnText = "ExperimentationExperimentStartFailed"; break;
     case 8000: returnText = "MaxActionDepthExceeded"; break;
     case 9000: returnText = "TitleNotOnUpdatedPricingPlan"; break;
     case 10000: returnText = "SegmentManagementTitleNotInFlight"; break;
@@ -958,6 +961,7 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 20328: returnText = "GameSaveConflict"; break;
     case 20329: returnText = "GameSaveManifestNotEligibleForRollback"; break;
     case 20330: returnText = "GameSaveTitleClientAnonymousAccountCreationNotDisabled"; break;
+    case 20331: returnText = "GameSaveTitleConfigNoUpdatesRequested"; break;
     case 21000: returnText = "StateShareForbidden"; break;
     case 21001: returnText = "StateShareTitleNotInFlight"; break;
     case 21002: returnText = "StateShareStateNotFound"; break;

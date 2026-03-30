@@ -7138,7 +7138,10 @@ namespace AdminModels
 
     struct PLAYFABCPP_API FGetPolicyRequest : public PlayFab::FPlayFabCppRequestCommon
     {
-        // [optional] The name of the policy to read. Only supported name is 'ApiPolicy'.
+        /**
+         * [optional] The name of the policy to read. Only 'ApiPolicy' is supported. This parameter is optional and defaults to 'ApiPolicy' if
+         * omitted.
+         */
         FString PolicyName;
 
         FGetPolicyRequest() :
@@ -7161,7 +7164,7 @@ namespace AdminModels
 
     struct PLAYFABCPP_API FPermissionStatement : public PlayFab::FPlayFabCppBaseModel
     {
-        // The action this statement effects. The only supported action is 'Execute'.
+        // [optional] The action this statement effects. May only be '*'. This parameter is optional and defaults to '*' if omitted.
         FString Action;
 
         // [optional] Additional conditions to be applied for API Resources.
@@ -7173,7 +7176,10 @@ namespace AdminModels
         // The effect this statement will have. It could be either Allow or Deny
         EffectType Effect;
 
-        // The principal this statement will effect. The only supported principal is '*'.
+        /**
+         * The principal this statement will effect. May be '*' to match all callers, or a JSON object targeting a specific entity
+         * type, e.g. {"title_player_account":"*"} for players or {"master_player_account":"*"} for master player accounts.
+         */
         FString Principal;
 
         /**
@@ -7207,6 +7213,9 @@ namespace AdminModels
 
     struct PLAYFABCPP_API FGetPolicyResponse : public PlayFab::FPlayFabCppResultCommon
     {
+        // [optional] The UTC date and time when the policy was last updated. Null if the policy has never been customized.
+        Boxed<FDateTime> LastUpdated;
+
         // [optional] The name of the policy read.
         FString PolicyName;
 
@@ -7217,6 +7226,7 @@ namespace AdminModels
         TArray<FPermissionStatement> Statements;
         FGetPolicyResponse() :
             FPlayFabCppResultCommon(),
+            LastUpdated(),
             PolicyName(),
             PolicyVersion(0),
             Statements()
@@ -11191,7 +11201,10 @@ namespace AdminModels
         // Whether to overwrite or append to the existing policy.
         bool OverwritePolicy;
 
-        // The name of the policy being updated. Only supported name is 'ApiPolicy'
+        /**
+         * [optional] The name of the policy being updated. Only 'ApiPolicy' is supported. This parameter is optional and defaults to
+         * 'ApiPolicy' if omitted.
+         */
         FString PolicyName;
 
         // Version of the policy to update. Must be the latest (as returned by GetPolicy).
@@ -11227,10 +11240,16 @@ namespace AdminModels
 
         // [optional] The statements included in the new version of the policy.
         TArray<FPermissionStatement> Statements;
+        /**
+         * [optional] Optional warnings about policy statements that may not have the intended effect. For example, resource paths that don't
+         * match any known API endpoint. The policy update still succeeds when warnings are present.
+         */
+        TArray<FString> Warnings;
         FUpdatePolicyResponse() :
             FPlayFabCppResultCommon(),
             PolicyName(),
-            Statements()
+            Statements(),
+            Warnings()
             {}
 
         FUpdatePolicyResponse(const FUpdatePolicyResponse& src) = default;

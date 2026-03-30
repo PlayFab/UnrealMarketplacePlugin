@@ -151,6 +151,7 @@ UPlayFabProfilesAPI* UPlayFabProfilesAPI::GetProfile(FProfilesGetEntityProfileRe
     if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     OutRestJsonObj->SetBoolField(TEXT("DataAsObject"), request.DataAsObject);
     if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
+    OutRestJsonObj->SetBoolField(TEXT("IncludeStatistics"), request.IncludeStatistics);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -205,6 +206,7 @@ UPlayFabProfilesAPI* UPlayFabProfilesAPI::GetProfiles(FProfilesGetEntityProfiles
     } else {
         OutRestJsonObj->SetObjectArrayField(TEXT("Entities"), request.Entities);
     }
+    OutRestJsonObj->SetBoolField(TEXT("IncludeStatistics"), request.IncludeStatistics);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);

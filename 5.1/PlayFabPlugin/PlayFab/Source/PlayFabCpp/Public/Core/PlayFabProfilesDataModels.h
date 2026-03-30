@@ -237,6 +237,67 @@ namespace ProfilesModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    enum StatisticAggregationMethod
+    {
+        StatisticAggregationMethodLast,
+        StatisticAggregationMethodMin,
+        StatisticAggregationMethodMax,
+        StatisticAggregationMethodSum
+    };
+
+    PLAYFABCPP_API void writeStatisticAggregationMethodEnumJSON(StatisticAggregationMethod enumVal, JsonWriter& writer);
+    PLAYFABCPP_API StatisticAggregationMethod readStatisticAggregationMethodFromValue(const TSharedPtr<FJsonValue>& value);
+    PLAYFABCPP_API StatisticAggregationMethod readStatisticAggregationMethodFromValue(const FString& value);
+
+    struct PLAYFABCPP_API FStatisticColumn : public PlayFab::FPlayFabCppBaseModel
+    {
+        // Aggregation method for calculating new value of a statistic.
+        StatisticAggregationMethod AggregationMethod;
+
+        // Name of the statistic column, as originally configured.
+        FString Name;
+
+        FStatisticColumn() :
+            FPlayFabCppBaseModel(),
+            AggregationMethod(),
+            Name()
+            {}
+
+        FStatisticColumn(const FStatisticColumn& src) = default;
+
+        FStatisticColumn(const TSharedPtr<FJsonObject>& obj) : FStatisticColumn()
+        {
+            readFromValue(obj);
+        }
+
+        ~FStatisticColumn();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FStatisticColumnCollection : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Columns for the statistic defining the aggregation method for each column.
+        TArray<FStatisticColumn> Columns;
+        FStatisticColumnCollection() :
+            FPlayFabCppBaseModel(),
+            Columns()
+            {}
+
+        FStatisticColumnCollection(const FStatisticColumnCollection& src) = default;
+
+        FStatisticColumnCollection(const TSharedPtr<FJsonObject>& obj) : FStatisticColumnCollection()
+        {
+            readFromValue(obj);
+        }
+
+        ~FStatisticColumnCollection();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FEntityProfileBody : public PlayFab::FPlayFabCppBaseModel
     {
         // [optional] Avatar URL for the entity.
@@ -276,6 +337,8 @@ namespace ProfilesModels
         TArray<FEntityPermissionStatement> Permissions;
         // [optional] The statistics on this profile.
         TMap<FString, FEntityStatisticValue> Statistics;
+        // [optional] A mapping of statistic name to the columns defined in the corresponding definition.
+        TMap<FString, FStatisticColumnCollection> StatisticsColumnDetails;
         /**
          * The version number of the profile in persistent storage at the time of the read. Used for optional optimistic
          * concurrency during update.
@@ -296,6 +359,7 @@ namespace ProfilesModels
             Objects(),
             Permissions(),
             Statistics(),
+            StatisticsColumnDetails(),
             VersionNumber(0)
             {}
 
@@ -325,11 +389,15 @@ namespace ProfilesModels
         // [optional] The optional entity to perform this action on. Defaults to the currently logged in entity.
         TSharedPtr<FEntityKey> Entity;
 
+        // Determines whether the entity statistics will be returned in the entity profile. Default is false.
+        bool IncludeStatistics;
+
         FGetEntityProfileRequest() :
             FPlayFabCppRequestCommon(),
             CustomTags(),
             DataAsObject(),
-            Entity(nullptr)
+            Entity(nullptr),
+            IncludeStatistics(false)
             {}
 
         FGetEntityProfileRequest(const FGetEntityProfileRequest& src) = default;
@@ -380,11 +448,15 @@ namespace ProfilesModels
 
         // Entity keys of the profiles to load. Must be between 1 and 25
         TArray<FEntityKey> Entities;
+        // Determines whether the entity statistics will be returned in the entity profile. Default is false.
+        bool IncludeStatistics;
+
         FGetEntityProfilesRequest() :
             FPlayFabCppRequestCommon(),
             CustomTags(),
             DataAsObject(),
-            Entities()
+            Entities(),
+            IncludeStatistics(false)
             {}
 
         FGetEntityProfilesRequest(const FGetEntityProfilesRequest& src) = default;

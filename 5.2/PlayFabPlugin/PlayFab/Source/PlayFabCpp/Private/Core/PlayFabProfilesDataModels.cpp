@@ -471,6 +471,123 @@ bool PlayFab::ProfilesModels::FEntityStatisticValue::readFromValue(const TShared
     return HasSucceeded;
 }
 
+void PlayFab::ProfilesModels::writeStatisticAggregationMethodEnumJSON(StatisticAggregationMethod enumVal, JsonWriter& writer)
+{
+    switch (enumVal)
+    {
+
+    case StatisticAggregationMethodLast: writer->WriteValue(TEXT("Last")); break;
+    case StatisticAggregationMethodMin: writer->WriteValue(TEXT("Min")); break;
+    case StatisticAggregationMethodMax: writer->WriteValue(TEXT("Max")); break;
+    case StatisticAggregationMethodSum: writer->WriteValue(TEXT("Sum")); break;
+    }
+}
+
+ProfilesModels::StatisticAggregationMethod PlayFab::ProfilesModels::readStatisticAggregationMethodFromValue(const TSharedPtr<FJsonValue>& value)
+{
+    return readStatisticAggregationMethodFromValue(value.IsValid() ? value->AsString() : "");
+}
+
+ProfilesModels::StatisticAggregationMethod PlayFab::ProfilesModels::readStatisticAggregationMethodFromValue(const FString& value)
+{
+    static TMap<FString, StatisticAggregationMethod> _StatisticAggregationMethodMap;
+    if (_StatisticAggregationMethodMap.Num() == 0)
+    {
+        // Auto-generate the map on the first use
+        _StatisticAggregationMethodMap.Add(TEXT("Last"), StatisticAggregationMethodLast);
+        _StatisticAggregationMethodMap.Add(TEXT("Min"), StatisticAggregationMethodMin);
+        _StatisticAggregationMethodMap.Add(TEXT("Max"), StatisticAggregationMethodMax);
+        _StatisticAggregationMethodMap.Add(TEXT("Sum"), StatisticAggregationMethodSum);
+
+    }
+
+    if (!value.IsEmpty())
+    {
+        auto output = _StatisticAggregationMethodMap.Find(value);
+        if (output != nullptr)
+            return *output;
+    }
+
+    return StatisticAggregationMethodLast; // Basically critical fail
+}
+
+PlayFab::ProfilesModels::FStatisticColumn::~FStatisticColumn()
+{
+
+}
+
+void PlayFab::ProfilesModels::FStatisticColumn::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteIdentifierPrefix(TEXT("AggregationMethod"));
+    writeStatisticAggregationMethodEnumJSON(AggregationMethod, writer);
+
+    if (!Name.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: StatisticColumn::Name, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("Name"));
+        writer->WriteValue(Name);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ProfilesModels::FStatisticColumn::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    AggregationMethod = readStatisticAggregationMethodFromValue(obj->TryGetField(TEXT("AggregationMethod")));
+
+    const TSharedPtr<FJsonValue> NameValue = obj->TryGetField(TEXT("Name"));
+    if (NameValue.IsValid() && !NameValue->IsNull())
+    {
+        FString TmpValue;
+        if (NameValue->TryGetString(TmpValue)) { Name = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::ProfilesModels::FStatisticColumnCollection::~FStatisticColumnCollection()
+{
+
+}
+
+void PlayFab::ProfilesModels::FStatisticColumnCollection::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (Columns.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("Columns"));
+        for (const FStatisticColumn& item : Columns)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ProfilesModels::FStatisticColumnCollection::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TArray<TSharedPtr<FJsonValue>>&ColumnsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Columns"));
+    for (int32 Idx = 0; Idx < ColumnsArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = ColumnsArray[Idx];
+        Columns.Add(FStatisticColumn(CurrentItem->AsObject()));
+    }
+
+
+    return HasSucceeded;
+}
+
 PlayFab::ProfilesModels::FEntityProfileBody::~FEntityProfileBody()
 {
     //if (Entity != nullptr) delete Entity;
@@ -572,6 +689,17 @@ void PlayFab::ProfilesModels::FEntityProfileBody::writeJSON(JsonWriter& writer) 
         writer->WriteObjectEnd();
     }
 
+    if (StatisticsColumnDetails.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("StatisticsColumnDetails"));
+        for (TMap<FString, FStatisticColumnCollection>::TConstIterator It(StatisticsColumnDetails); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            (*It).Value.writeJSON(writer);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteIdentifierPrefix(TEXT("VersionNumber"));
     writer->WriteValue(VersionNumber);
 
@@ -664,6 +792,15 @@ bool PlayFab::ProfilesModels::FEntityProfileBody::readFromValue(const TSharedPtr
         }
     }
 
+    const TSharedPtr<FJsonObject>* StatisticsColumnDetailsObject;
+    if (obj->TryGetObjectField(TEXT("StatisticsColumnDetails"), StatisticsColumnDetailsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*StatisticsColumnDetailsObject)->Values); It; ++It)
+        {
+            StatisticsColumnDetails.Add(It.Key(), FStatisticColumnCollection(It.Value()->AsObject()));
+        }
+    }
+
     const TSharedPtr<FJsonValue> VersionNumberValue = obj->TryGetField(TEXT("VersionNumber"));
     if (VersionNumberValue.IsValid() && !VersionNumberValue->IsNull())
     {
@@ -707,6 +844,9 @@ void PlayFab::ProfilesModels::FGetEntityProfileRequest::writeJSON(JsonWriter& wr
         Entity->writeJSON(writer);
     }
 
+    writer->WriteIdentifierPrefix(TEXT("IncludeStatistics"));
+    writer->WriteValue(IncludeStatistics);
+
     writer->WriteObjectEnd();
 }
 
@@ -734,6 +874,13 @@ bool PlayFab::ProfilesModels::FGetEntityProfileRequest::readFromValue(const TSha
     if (EntityValue.IsValid() && !EntityValue->IsNull())
     {
         Entity = MakeShareable(new FEntityKey(EntityValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> IncludeStatisticsValue = obj->TryGetField(TEXT("IncludeStatistics"));
+    if (IncludeStatisticsValue.IsValid() && !IncludeStatisticsValue->IsNull())
+    {
+        bool TmpValue;
+        if (IncludeStatisticsValue->TryGetBool(TmpValue)) { IncludeStatistics = TmpValue; }
     }
 
     return HasSucceeded;
@@ -803,6 +950,9 @@ void PlayFab::ProfilesModels::FGetEntityProfilesRequest::writeJSON(JsonWriter& w
     writer->WriteArrayEnd();
 
 
+    writer->WriteIdentifierPrefix(TEXT("IncludeStatistics"));
+    writer->WriteValue(IncludeStatistics);
+
     writer->WriteObjectEnd();
 }
 
@@ -833,6 +983,13 @@ bool PlayFab::ProfilesModels::FGetEntityProfilesRequest::readFromValue(const TSh
         Entities.Add(FEntityKey(CurrentItem->AsObject()));
     }
 
+
+    const TSharedPtr<FJsonValue> IncludeStatisticsValue = obj->TryGetField(TEXT("IncludeStatistics"));
+    if (IncludeStatisticsValue.IsValid() && !IncludeStatisticsValue->IsNull())
+    {
+        bool TmpValue;
+        if (IncludeStatisticsValue->TryGetBool(TmpValue)) { IncludeStatistics = TmpValue; }
+    }
 
     return HasSucceeded;
 }

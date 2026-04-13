@@ -470,6 +470,10 @@ public:
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | PlayStream Models")
         static FServerAddPlayerTagResult decodeAddPlayerTagResultResponse(UPlayFabJsonObject* response);
 
+    /** Decode the ExportPlayersInSegmentResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | PlayStream Models")
+        static FServerExportPlayersInSegmentResult decodeExportPlayersInSegmentResultResponse(UPlayFabJsonObject* response);
+
     /** Decode the GetAllSegmentsResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | PlayStream Models")
         static FServerGetAllSegmentsResult decodeGetAllSegmentsResultResponse(UPlayFabJsonObject* response);
@@ -478,13 +482,13 @@ public:
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | PlayStream Models")
         static FServerGetPlayerSegmentsResult decodeGetPlayerSegmentsResultResponse(UPlayFabJsonObject* response);
 
-    /** Decode the GetPlayersInSegmentResult response object*/
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | PlayStream Models")
-        static FServerGetPlayersInSegmentResult decodeGetPlayersInSegmentResultResponse(UPlayFabJsonObject* response);
-
     /** Decode the GetPlayerTagsResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | PlayStream Models")
         static FServerGetPlayerTagsResult decodeGetPlayerTagsResultResponse(UPlayFabJsonObject* response);
+
+    /** Decode the GetPlayersInSegmentExportResponse response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | PlayStream Models")
+        static FServerGetPlayersInSegmentExportResponse decodeGetPlayersInSegmentExportResponseResponse(UPlayFabJsonObject* response);
 
     /** Decode the RemovePlayerTagResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | PlayStream Models")

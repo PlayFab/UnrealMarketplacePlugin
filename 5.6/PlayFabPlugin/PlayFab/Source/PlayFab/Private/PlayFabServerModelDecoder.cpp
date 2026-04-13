@@ -1083,6 +1083,18 @@ FServerAddPlayerTagResult UPlayFabServerModelDecoder::decodeAddPlayerTagResultRe
     return tempStruct;
 }
 
+FServerExportPlayersInSegmentResult UPlayFabServerModelDecoder::decodeExportPlayersInSegmentResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FServerExportPlayersInSegmentResult tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.ExportId = !(dataObj->HasField("ExportId")) ? TEXT("") : dataObj->GetStringField("ExportId");
+    tempStruct.SegmentId = !(dataObj->HasField("SegmentId")) ? TEXT("") : dataObj->GetStringField("SegmentId");
+
+    return tempStruct;
+}
+
 FServerGetAllSegmentsResult UPlayFabServerModelDecoder::decodeGetAllSegmentsResultResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct
@@ -1105,19 +1117,6 @@ FServerGetPlayerSegmentsResult UPlayFabServerModelDecoder::decodeGetPlayerSegmen
     return tempStruct;
 }
 
-FServerGetPlayersInSegmentResult UPlayFabServerModelDecoder::decodeGetPlayersInSegmentResultResponse(UPlayFabJsonObject* response)
-{
-    // Temp ustruct
-    FServerGetPlayersInSegmentResult tempStruct;
-    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
-
-    tempStruct.ContinuationToken = !(dataObj->HasField("ContinuationToken")) ? TEXT("") : dataObj->GetStringField("ContinuationToken");
-    tempStruct.PlayerProfiles = !(dataObj->HasField("PlayerProfiles")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("PlayerProfiles");
-    tempStruct.ProfilesInSegment = !(dataObj->HasField("ProfilesInSegment")) ? 0 : int(dataObj->GetNumberField("ProfilesInSegment"));
-
-    return tempStruct;
-}
-
 FServerGetPlayerTagsResult UPlayFabServerModelDecoder::decodeGetPlayerTagsResultResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct
@@ -1126,6 +1125,18 @@ FServerGetPlayerTagsResult UPlayFabServerModelDecoder::decodeGetPlayerTagsResult
 
     tempStruct.PlayFabId = !(dataObj->HasField("PlayFabId")) ? TEXT("") : dataObj->GetStringField("PlayFabId");
     tempStruct.Tags = !(dataObj->HasField("Tags")) ? TEXT("") : FString::Join(dataObj->GetStringArrayField("Tags"), TEXT(","));
+
+    return tempStruct;
+}
+
+FServerGetPlayersInSegmentExportResponse UPlayFabServerModelDecoder::decodeGetPlayersInSegmentExportResponseResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FServerGetPlayersInSegmentExportResponse tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.IndexUrl = !(dataObj->HasField("IndexUrl")) ? TEXT("") : dataObj->GetStringField("IndexUrl");
+    tempStruct.State = !(dataObj->HasField("State")) ? TEXT("") : dataObj->GetStringField("State");
 
     return tempStruct;
 }

@@ -132,7 +132,8 @@ namespace MultiplayerModels
         AzureRegionUkSouth,
         AzureRegionSwedenCentral,
         AzureRegionCanadaCentral,
-        AzureRegionMexicoCentral
+        AzureRegionMexicoCentral,
+        AzureRegionWestUs3
     };
 
     PLAYFABCPP_API void writeAzureRegionEnumJSON(AzureRegion enumVal, JsonWriter& writer);
@@ -163,7 +164,14 @@ namespace MultiplayerModels
         AzureVmFamilyHBv3,
         AzureVmFamilyDdv5,
         AzureVmFamilyDdsv5,
-        AzureVmFamilyDdsv6
+        AzureVmFamilyDdsv6,
+        AzureVmFamilyFasv6,
+        AzureVmFamilyFasv7,
+        AzureVmFamilyFadsv7,
+        AzureVmFamilyEadsv5,
+        AzureVmFamilyEadsv6,
+        AzureVmFamilyEadsv7,
+        AzureVmFamilyDadsv7
     };
 
     PLAYFABCPP_API void writeAzureVmFamilyEnumJSON(AzureVmFamily enumVal, JsonWriter& writer);
@@ -198,6 +206,18 @@ namespace MultiplayerModels
         AzureVmSizeStandard_F4s_v2,
         AzureVmSizeStandard_F8s_v2,
         AzureVmSizeStandard_F16s_v2,
+        AzureVmSizeStandard_F2as_v6,
+        AzureVmSizeStandard_F4as_v6,
+        AzureVmSizeStandard_F8as_v6,
+        AzureVmSizeStandard_F16as_v6,
+        AzureVmSizeStandard_F2as_v7,
+        AzureVmSizeStandard_F4as_v7,
+        AzureVmSizeStandard_F8as_v7,
+        AzureVmSizeStandard_F16as_v7,
+        AzureVmSizeStandard_F2ads_v7,
+        AzureVmSizeStandard_F4ads_v7,
+        AzureVmSizeStandard_F8ads_v7,
+        AzureVmSizeStandard_F16ads_v7,
         AzureVmSizeStandard_D2as_v4,
         AzureVmSizeStandard_D4as_v4,
         AzureVmSizeStandard_D8as_v4,
@@ -214,6 +234,10 @@ namespace MultiplayerModels
         AzureVmSizeStandard_D4ads_v6,
         AzureVmSizeStandard_D8ads_v6,
         AzureVmSizeStandard_D16ads_v6,
+        AzureVmSizeStandard_D2ads_v7,
+        AzureVmSizeStandard_D4ads_v7,
+        AzureVmSizeStandard_D8ads_v7,
+        AzureVmSizeStandard_D16ads_v7,
         AzureVmSizeStandard_E2a_v4,
         AzureVmSizeStandard_E4a_v4,
         AzureVmSizeStandard_E8a_v4,
@@ -222,6 +246,18 @@ namespace MultiplayerModels
         AzureVmSizeStandard_E4as_v4,
         AzureVmSizeStandard_E8as_v4,
         AzureVmSizeStandard_E16as_v4,
+        AzureVmSizeStandard_E2ads_v5,
+        AzureVmSizeStandard_E4ads_v5,
+        AzureVmSizeStandard_E8ads_v5,
+        AzureVmSizeStandard_E16ads_v5,
+        AzureVmSizeStandard_E2ads_v6,
+        AzureVmSizeStandard_E4ads_v6,
+        AzureVmSizeStandard_E8ads_v6,
+        AzureVmSizeStandard_E16ads_v6,
+        AzureVmSizeStandard_E2ads_v7,
+        AzureVmSizeStandard_E4ads_v7,
+        AzureVmSizeStandard_E8ads_v7,
+        AzureVmSizeStandard_E16ads_v7,
         AzureVmSizeStandard_D2s_v3,
         AzureVmSizeStandard_D4s_v3,
         AzureVmSizeStandard_D8s_v3,

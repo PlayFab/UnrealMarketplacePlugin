@@ -67,7 +67,6 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FGetPlayerProfileDelegate, const AdminModels::FGetPlayerProfileResult&);
         DECLARE_DELEGATE_OneParam(FGetPlayerSegmentsDelegate, const AdminModels::FGetPlayerSegmentsResult&);
         DECLARE_DELEGATE_OneParam(FGetPlayerSharedSecretsDelegate, const AdminModels::FGetPlayerSharedSecretsResult&);
-        DECLARE_DELEGATE_OneParam(FGetPlayersInSegmentDelegate, const AdminModels::FGetPlayersInSegmentResult&);
         DECLARE_DELEGATE_OneParam(FGetPlayerStatisticDefinitionsDelegate, const AdminModels::FGetPlayerStatisticDefinitionsResult&);
         DECLARE_DELEGATE_OneParam(FGetPlayerStatisticVersionsDelegate, const AdminModels::FGetPlayerStatisticVersionsResult&);
         DECLARE_DELEGATE_OneParam(FGetPlayerTagsDelegate, const AdminModels::FGetPlayerTagsResult&);
@@ -139,6 +138,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FUpdateUserPublisherReadOnlyDataDelegate, const AdminModels::FUpdateUserDataResult&);
         DECLARE_DELEGATE_OneParam(FUpdateUserReadOnlyDataDelegate, const AdminModels::FUpdateUserDataResult&);
         DECLARE_DELEGATE_OneParam(FUpdateUserTitleDisplayNameDelegate, const AdminModels::FUpdateUserTitleDisplayNameResult&);
+        DECLARE_DELEGATE_OneParam(FValidateApiPolicyDelegate, const AdminModels::FValidateApiPolicyResponse&);
 
 
     private:
@@ -405,15 +405,6 @@ namespace PlayFab
          * Player Shared Secret Keys are used for the call to Client/GetTitlePublicKey, which exchanges the shared secret for an RSA CSP blob to be used to encrypt the payload of account creation requests when that API requires a signature header.
          */
         bool GetPlayerSharedSecrets(AdminModels::FGetPlayerSharedSecretsRequest& request, const FGetPlayerSharedSecretsDelegate& SuccessDelegate = FGetPlayerSharedSecretsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        /**
-         * Allows for paging through all players in a given segment. This API creates a snapshot of all player profiles that match
-         * the segment definition at the time of its creation and lives through the Total Seconds to Live, refreshing its life span
-         * on each subsequent use of the Continuation Token. Profiles that change during the course of paging will not be reflected
-         * in the results. AB Test segments are currently not supported by this operation. NOTE: This API is limited to being
-         * called 30 times in one minute. You will be returned an error if you exceed this threshold.
-         * Initial request must contain at least a Segment ID. Subsequent requests must contain the Segment ID as well as the Continuation Token. Failure to send the Continuation Token will result in a new player segment list being generated. Each time the Continuation Token is passed in the length of the Total Seconds to Live is refreshed. If too much time passes between requests to the point that a subsequent request is past the Total Seconds to Live an error will be returned and paging will be terminated. This API is resource intensive and should not be used in scenarios which might generate high request volumes. Only one request to this API at a time should be made per title. Concurrent requests to the API may be rejected with the APIConcurrentRequestLimitExceeded error.
-         */
-        bool GetPlayersInSegment(AdminModels::FGetPlayersInSegmentRequest& request, const FGetPlayersInSegmentDelegate& SuccessDelegate = FGetPlayersInSegmentDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Retrieves the configuration information for all player statistics defined in the title, regardless of whether they have
          * a reset interval.
@@ -790,6 +781,11 @@ namespace PlayFab
          * In addition to the PlayFab username, titles can make use of a DisplayName which is also a unique identifier, but specific to the title. This allows for unique names which more closely match the theme or genre of a title, for example. This API enables changing that name, whether due to a customer request, an offensive name choice, etc.
          */
         bool UpdateUserTitleDisplayName(AdminModels::FUpdateUserTitleDisplayNameRequest& request, const FUpdateUserTitleDisplayNameDelegate& SuccessDelegate = FUpdateUserTitleDisplayNameDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
+         * Validates the result of a policy update without persisting it.
+         * Validates the proposed policy change and returns the resulting merged policy, validation errors, warnings, and a diff summary showing what would change. Use this to validate the impact of a policy update before calling UpdatePolicy. No changes are saved.
+         */
+        bool ValidateApiPolicy(AdminModels::FValidateApiPolicyRequest& request, const FValidateApiPolicyDelegate& SuccessDelegate = FValidateApiPolicyDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
 
     private:
         // ------------ Generated result handlers
@@ -838,7 +834,6 @@ namespace PlayFab
         void OnGetPlayerProfileResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayerProfileDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetPlayerSegmentsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayerSegmentsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetPlayerSharedSecretsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayerSharedSecretsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
-        void OnGetPlayersInSegmentResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayersInSegmentDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetPlayerStatisticDefinitionsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayerStatisticDefinitionsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetPlayerStatisticVersionsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayerStatisticVersionsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetPlayerTagsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayerTagsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
@@ -910,6 +905,7 @@ namespace PlayFab
         void OnUpdateUserPublisherReadOnlyDataResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateUserPublisherReadOnlyDataDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUpdateUserReadOnlyDataResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateUserReadOnlyDataDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUpdateUserTitleDisplayNameResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateUserTitleDisplayNameDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnValidateApiPolicyResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FValidateApiPolicyDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
 
     };
 };

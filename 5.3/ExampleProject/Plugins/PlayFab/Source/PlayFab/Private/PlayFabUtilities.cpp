@@ -782,6 +782,8 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 10013: returnText = "AsyncExportRateLimitExceeded"; break;
     case 10014: returnText = "AnalyticsSegmentCountOverLimit"; break;
     case 10015: returnText = "GetPlayersInSegmentRetired"; break;
+    case 10016: returnText = "GetSegmentPlayerCountNotInFlight"; break;
+    case 10017: returnText = "GetSegmentPlayerCountRateLimitExceeded"; break;
     case 11000: returnText = "SnapshotNotFound"; break;
     case 12000: returnText = "InventoryApiNotImplemented"; break;
     case 12001: returnText = "InventoryCollectionDeletionDisallowed"; break;
@@ -962,6 +964,7 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 20329: returnText = "GameSaveManifestNotEligibleForRollback"; break;
     case 20330: returnText = "GameSaveTitleClientAnonymousAccountCreationNotDisabled"; break;
     case 20331: returnText = "GameSaveTitleConfigNoUpdatesRequested"; break;
+    case 20332: returnText = "GameSavePlayerNotEligibleForTransfer"; break;
     case 21000: returnText = "StateShareForbidden"; break;
     case 21001: returnText = "StateShareTitleNotInFlight"; break;
     case 21002: returnText = "StateShareStateNotFound"; break;

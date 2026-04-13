@@ -3646,6 +3646,30 @@ struct PLAYFAB_API FServerAddPlayerTagResult : public FPlayFabResultCommon
 public:
 };
 
+/** Request must contain the Segment ID */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FServerExportPlayersInSegmentRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Unique identifier of the requested segment. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | PlayStream Models")
+        FString SegmentId;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FServerExportPlayersInSegmentResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Unique identifier of the export for the requested Segment. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | PlayStream Models")
+        FString ExportId;
+    /** Unique identifier of the requested Segment. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | PlayStream Models")
+        FString SegmentId;
+};
+
 /** Request has no paramaters. */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerGetAllSegmentsRequest : public FPlayFabRequestCommon
@@ -3688,66 +3712,6 @@ public:
 };
 
 /**
- * Initial request must contain at least a Segment ID. Subsequent requests must contain the Segment ID as well as the
- * Continuation Token. Failure to send the Continuation Token will result in a new player segment list being generated.
- * Each time the Continuation Token is passed in the length of the Total Seconds to Live is refreshed. If too much time
- * passes between requests to the point that a subsequent request is past the Total Seconds to Live an error will be
- * returned and paging will be terminated. This API is resource intensive and should not be used in scenarios which might
- * generate high request volumes. Only one request to this API at a time should be made per title. Concurrent requests to
- * the API may be rejected with the APIConcurrentRequestLimitExceeded error.
- */
-USTRUCT(BlueprintType)
-struct PLAYFAB_API FServerGetPlayersInSegmentRequest : public FPlayFabRequestCommon
-{
-    GENERATED_USTRUCT_BODY()
-public:
-    /** Continuation token if retrieving subsequent pages of results. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | PlayStream Models")
-        FString ContinuationToken;
-    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | PlayStream Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
-    /**
-     * If set to true, the profiles are loaded asynchronously and the response will include a continuation token and
-     * approximate profile count until the first batch of profiles is loaded. Use this parameter to help avoid network
-     * timeouts.
-     */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | PlayStream Models")
-        bool GetProfilesAsync = false;
-    /**
-     * Maximum is 10,000. The value 0 will prevent loading any profiles and return only the count of profiles matching this
-     * segment.
-     */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | PlayStream Models")
-        int32 MaxBatchSize = 0;
-    /**
-     * Number of seconds to keep the continuation token active. After token expiration it is not possible to continue paging
-     * results. Default is 300 (5 minutes). Maximum is 5,400 (90 minutes).
-     */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | PlayStream Models")
-        int32 SecondsToLive = 0;
-    /** Unique identifier for this segment. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | PlayStream Models")
-        FString SegmentId;
-};
-
-USTRUCT(BlueprintType)
-struct PLAYFAB_API FServerGetPlayersInSegmentResult : public FPlayFabResultCommon
-{
-    GENERATED_USTRUCT_BODY()
-public:
-    /** Continuation token to use to retrieve subsequent pages of results. If token returns null there are no more results. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | PlayStream Models")
-        FString ContinuationToken;
-    /** Array of player profiles in this segment. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | PlayStream Models")
-        TArray<UPlayFabJsonObject*> PlayerProfiles;
-    /** Count of profiles matching this segment. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | PlayStream Models")
-        int32 ProfilesInSegment = 0;
-};
-
-/**
  * This API will return a list of canonical tags which includes both namespace and tag's name. If namespace is not
  * provided, the result is a list of all canonical tags. TagName can be used for segmentation and Namespace is limited to
  * 128 characters.
@@ -3779,6 +3743,30 @@ public:
     /** Canonical tags (including namespace and tag's name) for the requested user */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | PlayStream Models")
         FString Tags;
+};
+
+/** Request must contain the ExportId */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FServerGetPlayersInSegmentExportRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Unique identifier of the export for the requested Segment. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | PlayStream Models")
+        FString ExportId;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FServerGetPlayersInSegmentExportResponse : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Url from which the index file can be downloaded. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | PlayStream Models")
+        FString IndexUrl;
+    /** Shows the current status of the export */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | PlayStream Models")
+        FString State;
 };
 
 /**

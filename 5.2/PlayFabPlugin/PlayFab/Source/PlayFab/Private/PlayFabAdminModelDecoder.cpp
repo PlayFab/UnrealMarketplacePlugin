@@ -319,6 +319,23 @@ FAdminUpdatePolicyResponse UPlayFabAdminModelDecoder::decodeUpdatePolicyResponse
     return tempStruct;
 }
 
+FAdminValidateApiPolicyResponse UPlayFabAdminModelDecoder::decodeValidateApiPolicyResponseResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FAdminValidateApiPolicyResponse tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.Diff = !(dataObj->HasField("Diff")) ? nullptr : dataObj->GetObjectField("Diff");
+    tempStruct.IsValid = !(dataObj->HasField("IsValid")) ? false : dataObj->GetBoolField("IsValid");
+    tempStruct.PolicyName = !(dataObj->HasField("PolicyName")) ? TEXT("") : dataObj->GetStringField("PolicyName");
+    tempStruct.PolicyVersion = !(dataObj->HasField("PolicyVersion")) ? 0 : int(dataObj->GetNumberField("PolicyVersion"));
+    tempStruct.ResultingStatements = !(dataObj->HasField("ResultingStatements")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("ResultingStatements");
+    tempStruct.ValidationErrors = !(dataObj->HasField("ValidationErrors")) ? TEXT("") : FString::Join(dataObj->GetStringArrayField("ValidationErrors"), TEXT(","));
+    tempStruct.Warnings = !(dataObj->HasField("Warnings")) ? TEXT("") : FString::Join(dataObj->GetStringArrayField("Warnings"), TEXT(","));
+
+    return tempStruct;
+}
+
 
 
 ///////////////////////////////////////////////////////
@@ -693,19 +710,6 @@ FAdminGetPlayerSegmentsResult UPlayFabAdminModelDecoder::decodeGetPlayerSegments
     UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
 
     tempStruct.Segments = !(dataObj->HasField("Segments")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Segments");
-
-    return tempStruct;
-}
-
-FAdminGetPlayersInSegmentResult UPlayFabAdminModelDecoder::decodeGetPlayersInSegmentResultResponse(UPlayFabJsonObject* response)
-{
-    // Temp ustruct
-    FAdminGetPlayersInSegmentResult tempStruct;
-    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
-
-    tempStruct.ContinuationToken = !(dataObj->HasField("ContinuationToken")) ? TEXT("") : dataObj->GetStringField("ContinuationToken");
-    tempStruct.PlayerProfiles = !(dataObj->HasField("PlayerProfiles")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("PlayerProfiles");
-    tempStruct.ProfilesInSegment = !(dataObj->HasField("ProfilesInSegment")) ? 0 : int(dataObj->GetNumberField("ProfilesInSegment"));
 
     return tempStruct;
 }

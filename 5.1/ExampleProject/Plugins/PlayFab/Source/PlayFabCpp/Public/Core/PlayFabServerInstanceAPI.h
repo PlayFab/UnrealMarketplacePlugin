@@ -41,6 +41,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FDeleteSharedGroupDelegate, const ServerModels::FEmptyResponse&);
         DECLARE_DELEGATE_OneParam(FEvaluateRandomResultTableDelegate, const ServerModels::FEvaluateRandomResultTableResult&);
         DECLARE_DELEGATE_OneParam(FExecuteCloudScriptDelegate, const ServerModels::FExecuteCloudScriptResult&);
+        DECLARE_DELEGATE_OneParam(FExportPlayersInSegmentDelegate, const ServerModels::FExportPlayersInSegmentResult&);
         DECLARE_DELEGATE_OneParam(FGetAllSegmentsDelegate, const ServerModels::FGetAllSegmentsResult&);
         DECLARE_DELEGATE_OneParam(FGetAllUsersCharactersDelegate, const ServerModels::FListUsersCharactersResult&);
         DECLARE_DELEGATE_OneParam(FGetCatalogItemsDelegate, const ServerModels::FGetCatalogItemsResult&);
@@ -61,7 +62,6 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FGetPlayerCustomPropertyDelegate, const ServerModels::FGetPlayerCustomPropertyResult&);
         DECLARE_DELEGATE_OneParam(FGetPlayerProfileDelegate, const ServerModels::FGetPlayerProfileResult&);
         DECLARE_DELEGATE_OneParam(FGetPlayerSegmentsDelegate, const ServerModels::FGetPlayerSegmentsResult&);
-        DECLARE_DELEGATE_OneParam(FGetPlayersInSegmentDelegate, const ServerModels::FGetPlayersInSegmentResult&);
         DECLARE_DELEGATE_OneParam(FGetPlayerStatisticsDelegate, const ServerModels::FGetPlayerStatisticsResult&);
         DECLARE_DELEGATE_OneParam(FGetPlayerStatisticVersionsDelegate, const ServerModels::FGetPlayerStatisticVersionsResult&);
         DECLARE_DELEGATE_OneParam(FGetPlayerTagsDelegate, const ServerModels::FGetPlayerTagsResult&);
@@ -80,6 +80,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FGetPlayFabIDsFromXboxLiveIDsDelegate, const ServerModels::FGetPlayFabIDsFromXboxLiveIDsResult&);
         DECLARE_DELEGATE_OneParam(FGetPublisherDataDelegate, const ServerModels::FGetPublisherDataResult&);
         DECLARE_DELEGATE_OneParam(FGetRandomResultTablesDelegate, const ServerModels::FGetRandomResultTablesResult&);
+        DECLARE_DELEGATE_OneParam(FGetSegmentExportDelegate, const ServerModels::FGetPlayersInSegmentExportResponse&);
         DECLARE_DELEGATE_OneParam(FGetServerCustomIDsFromPlayFabIDsDelegate, const ServerModels::FGetServerCustomIDsFromPlayFabIDsResult&);
         DECLARE_DELEGATE_OneParam(FGetSharedGroupDataDelegate, const ServerModels::FGetSharedGroupDataResult&);
         DECLARE_DELEGATE_OneParam(FGetStoreItemsDelegate, const ServerModels::FGetStoreItemsResult&);
@@ -310,6 +311,13 @@ namespace PlayFab
          */
         bool ExecuteCloudScript(ServerModels::FExecuteCloudScriptServerRequest& request, const FExecuteCloudScriptDelegate& SuccessDelegate = FExecuteCloudScriptDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
+         * Starts an export for the player profiles in a segment. This API creates a snapshot of all the player profiles which
+         * match the segment definition at the time of the API call. Profiles which change while an export is in progress will not
+         * be reflected in the results.
+         * Request must contain the Segment ID
+         */
+        bool ExportPlayersInSegment(ServerModels::FExportPlayersInSegmentRequest& request, const FExportPlayersInSegmentDelegate& SuccessDelegate = FExportPlayersInSegmentDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
          * Retrieves an array of player segment definitions. Results from this can be used in subsequent API calls such as
          * GetPlayersInSegment which requires a Segment ID. While segment names can change the ID for that segment will not change.
          * Request has no paramaters.
@@ -402,15 +410,6 @@ namespace PlayFab
         bool GetPlayerProfile(ServerModels::FGetPlayerProfileRequest& request, const FGetPlayerProfileDelegate& SuccessDelegate = FGetPlayerProfileDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // List all segments that a player currently belongs to at this moment in time.
         bool GetPlayerSegments(ServerModels::FGetPlayersSegmentsRequest& request, const FGetPlayerSegmentsDelegate& SuccessDelegate = FGetPlayerSegmentsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        /**
-         * Allows for paging through all players in a given segment. This API creates a snapshot of all player profiles that match
-         * the segment definition at the time of its creation and lives through the Total Seconds to Live, refreshing its life span
-         * on each subsequent use of the Continuation Token. Profiles that change during the course of paging will not be reflected
-         * in the results. AB Test segments are currently not supported by this operation. NOTE: This API is limited to being
-         * called 30 times in one minute. You will be returned an error if you exceed this threshold.
-         * Initial request must contain at least a Segment ID. Subsequent requests must contain the Segment ID as well as the Continuation Token. Failure to send the Continuation Token will result in a new player segment list being generated. Each time the Continuation Token is passed in the length of the Total Seconds to Live is refreshed. If too much time passes between requests to the point that a subsequent request is past the Total Seconds to Live an error will be returned and paging will be terminated. This API is resource intensive and should not be used in scenarios which might generate high request volumes. Only one request to this API at a time should be made per title. Concurrent requests to the API may be rejected with the APIConcurrentRequestLimitExceeded error.
-         */
-        bool GetPlayersInSegment(ServerModels::FGetPlayersInSegmentRequest& request, const FGetPlayersInSegmentDelegate& SuccessDelegate = FGetPlayersInSegmentDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Retrieves the current version and values for the indicated statistics, for the local player.
         bool GetPlayerStatistics(ServerModels::FGetPlayerStatisticsRequest& request, const FGetPlayerStatisticsDelegate& SuccessDelegate = FGetPlayerStatisticsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Retrieves the information on the available versions of the specified statistic.
@@ -475,6 +474,14 @@ namespace PlayFab
          * ItemId values and weights
          */
         bool GetRandomResultTables(ServerModels::FGetRandomResultTablesRequest& request, const FGetRandomResultTablesDelegate& SuccessDelegate = FGetRandomResultTablesDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
+         * Retrieves the result of an export started by ExportPlayersInSegment API. If the ExportPlayersInSegment is successful and
+         * complete, this API returns the IndexUrl from which the index file can be downloaded. The index file has a list of urls
+         * from which the files containing the player profile data can be downloaded. Otherwise, it returns the current 'State' of
+         * the export
+         * Request must contain the ExportId
+         */
+        bool GetSegmentExport(ServerModels::FGetPlayersInSegmentExportRequest& request, const FGetSegmentExportDelegate& SuccessDelegate = FGetSegmentExportDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Retrieves the associated PlayFab account identifiers for the given set of server custom identifiers.
         bool GetServerCustomIDsFromPlayFabIDs(ServerModels::FGetServerCustomIDsFromPlayFabIDsRequest& request, const FGetServerCustomIDsFromPlayFabIDsDelegate& SuccessDelegate = FGetServerCustomIDsFromPlayFabIDsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
@@ -952,6 +959,7 @@ namespace PlayFab
         void OnDeleteSharedGroupResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteSharedGroupDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnEvaluateRandomResultTableResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FEvaluateRandomResultTableDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnExecuteCloudScriptResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FExecuteCloudScriptDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnExportPlayersInSegmentResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FExportPlayersInSegmentDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetAllSegmentsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetAllSegmentsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetAllUsersCharactersResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetAllUsersCharactersDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetCatalogItemsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetCatalogItemsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
@@ -972,7 +980,6 @@ namespace PlayFab
         void OnGetPlayerCustomPropertyResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayerCustomPropertyDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetPlayerProfileResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayerProfileDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetPlayerSegmentsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayerSegmentsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
-        void OnGetPlayersInSegmentResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayersInSegmentDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetPlayerStatisticsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayerStatisticsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetPlayerStatisticVersionsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayerStatisticVersionsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetPlayerTagsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayerTagsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
@@ -991,6 +998,7 @@ namespace PlayFab
         void OnGetPlayFabIDsFromXboxLiveIDsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayFabIDsFromXboxLiveIDsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetPublisherDataResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPublisherDataDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetRandomResultTablesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetRandomResultTablesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnGetSegmentExportResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetSegmentExportDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetServerCustomIDsFromPlayFabIDsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetServerCustomIDsFromPlayFabIDsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetSharedGroupDataResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetSharedGroupDataDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetStoreItemsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetStoreItemsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);

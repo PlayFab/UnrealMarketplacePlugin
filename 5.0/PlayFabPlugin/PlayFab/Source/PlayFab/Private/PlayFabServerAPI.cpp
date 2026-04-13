@@ -8215,6 +8215,58 @@ void UPlayFabServerAPI::HelperAddPlayerTag(FPlayFabBaseModel response, UObject* 
     this->RemoveFromRoot();
 }
 
+/** Starts an export for the player profiles in a segment. This API creates a snapshot of all the player profiles which match the segment definition at the time of the API call. Profiles which change while an export is in progress will not be reflected in the results. */
+UPlayFabServerAPI* UPlayFabServerAPI::ExportPlayersInSegment(FServerExportPlayersInSegmentRequest request,
+    FDelegateOnSuccessExportPlayersInSegment onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabServerAPI* manager = NewObject<UPlayFabServerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessExportPlayersInSegment = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperExportPlayersInSegment);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Server/ExportPlayersInSegment";
+    manager->useSecretKey = true;
+
+
+    // Serialize all the request properties to json
+    if (request.SegmentId.IsEmpty() || request.SegmentId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("SegmentId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("SegmentId"), request.SegmentId);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabServerRequestCompleted
+void UPlayFabServerAPI::HelperExportPlayersInSegment(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessExportPlayersInSegment.IsBound())
+    {
+        FServerExportPlayersInSegmentResult ResultStruct = UPlayFabServerModelDecoder::decodeExportPlayersInSegmentResultResponse(response.responseData);
+        OnSuccessExportPlayersInSegment.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 /** Retrieves an array of player segment definitions. Results from this can be used in subsequent API calls such as GetPlayersInSegment which requires a Segment ID. While segment names can change the ID for that segment will not change. */
 UPlayFabServerAPI* UPlayFabServerAPI::GetAllSegments(FServerGetAllSegmentsRequest request,
     FDelegateOnSuccessGetAllSegments onSuccess,
@@ -8315,67 +8367,6 @@ void UPlayFabServerAPI::HelperGetPlayerSegments(FPlayFabBaseModel response, UObj
     this->RemoveFromRoot();
 }
 
-/** Allows for paging through all players in a given segment. This API creates a snapshot of all player profiles that match the segment definition at the time of its creation and lives through the Total Seconds to Live, refreshing its life span on each subsequent use of the Continuation Token. Profiles that change during the course of paging will not be reflected in the results. AB Test segments are currently not supported by this operation. NOTE: This API is limited to being called 30 times in one minute. You will be returned an error if you exceed this threshold. */
-UPlayFabServerAPI* UPlayFabServerAPI::GetPlayersInSegment(FServerGetPlayersInSegmentRequest request,
-    FDelegateOnSuccessGetPlayersInSegment onSuccess,
-    FDelegateOnFailurePlayFabError onFailure,
-    UObject* customData)
-{
-    // Objects containing request data
-    UPlayFabServerAPI* manager = NewObject<UPlayFabServerAPI>();
-    if (manager->IsSafeForRootSet()) manager->AddToRoot();
-    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
-    manager->mCustomData = customData;
-
-    // Assign delegates
-    manager->OnSuccessGetPlayersInSegment = onSuccess;
-    manager->OnFailure = onFailure;
-    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperGetPlayersInSegment);
-
-    // Setup the request
-    manager->SetCallAuthenticationContext(request.AuthenticationContext);
-    manager->PlayFabRequestURL = "/Server/GetPlayersInSegment";
-    manager->useSecretKey = true;
-
-
-    // Serialize all the request properties to json
-    if (request.ContinuationToken.IsEmpty() || request.ContinuationToken == "") {
-        OutRestJsonObj->SetFieldNull(TEXT("ContinuationToken"));
-    } else {
-        OutRestJsonObj->SetStringField(TEXT("ContinuationToken"), request.ContinuationToken);
-    }
-    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
-    OutRestJsonObj->SetBoolField(TEXT("GetProfilesAsync"), request.GetProfilesAsync);
-    OutRestJsonObj->SetNumberField(TEXT("MaxBatchSize"), request.MaxBatchSize);
-    OutRestJsonObj->SetNumberField(TEXT("SecondsToLive"), request.SecondsToLive);
-    if (request.SegmentId.IsEmpty() || request.SegmentId == "") {
-        OutRestJsonObj->SetFieldNull(TEXT("SegmentId"));
-    } else {
-        OutRestJsonObj->SetStringField(TEXT("SegmentId"), request.SegmentId);
-    }
-
-    // Add Request to manager
-    manager->SetRequestObject(OutRestJsonObj);
-
-    return manager;
-}
-
-// Implements FOnPlayFabServerRequestCompleted
-void UPlayFabServerAPI::HelperGetPlayersInSegment(FPlayFabBaseModel response, UObject* customData, bool successful)
-{
-    FPlayFabError error = response.responseError;
-    if (error.hasError && OnFailure.IsBound())
-    {
-        OnFailure.Execute(error, customData);
-    }
-    else if (!error.hasError && OnSuccessGetPlayersInSegment.IsBound())
-    {
-        FServerGetPlayersInSegmentResult ResultStruct = UPlayFabServerModelDecoder::decodeGetPlayersInSegmentResultResponse(response.responseData);
-        OnSuccessGetPlayersInSegment.Execute(ResultStruct, mCustomData);
-    }
-    this->RemoveFromRoot();
-}
-
 /** Get all tags with a given Namespace (optional) from a player profile. */
 UPlayFabServerAPI* UPlayFabServerAPI::GetPlayerTags(FServerGetPlayerTagsRequest request,
     FDelegateOnSuccessGetPlayerTags onSuccess,
@@ -8430,6 +8421,58 @@ void UPlayFabServerAPI::HelperGetPlayerTags(FPlayFabBaseModel response, UObject*
     {
         FServerGetPlayerTagsResult ResultStruct = UPlayFabServerModelDecoder::decodeGetPlayerTagsResultResponse(response.responseData);
         OnSuccessGetPlayerTags.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Retrieves the result of an export started by ExportPlayersInSegment API. If the ExportPlayersInSegment is successful and complete, this API returns the IndexUrl from which the index file can be downloaded. The index file has a list of urls from which the files containing the player profile data can be downloaded. Otherwise, it returns the current 'State' of the export */
+UPlayFabServerAPI* UPlayFabServerAPI::GetSegmentExport(FServerGetPlayersInSegmentExportRequest request,
+    FDelegateOnSuccessGetSegmentExport onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabServerAPI* manager = NewObject<UPlayFabServerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessGetSegmentExport = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperGetSegmentExport);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Server/GetSegmentExport";
+    manager->useSecretKey = true;
+
+
+    // Serialize all the request properties to json
+    if (request.ExportId.IsEmpty() || request.ExportId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("ExportId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("ExportId"), request.ExportId);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabServerRequestCompleted
+void UPlayFabServerAPI::HelperGetSegmentExport(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessGetSegmentExport.IsBound())
+    {
+        FServerGetPlayersInSegmentExportResponse ResultStruct = UPlayFabServerModelDecoder::decodeGetPlayersInSegmentExportResponseResponse(response.responseData);
+        OnSuccessGetSegmentExport.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }

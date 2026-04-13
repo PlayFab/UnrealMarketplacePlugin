@@ -1757,6 +1757,65 @@ void UPlayFabAdminAPI::HelperUpdatePolicy(FPlayFabBaseModel response, UObject* c
     this->RemoveFromRoot();
 }
 
+/** Validates the result of a policy update without persisting it. */
+UPlayFabAdminAPI* UPlayFabAdminAPI::ValidateApiPolicy(FAdminValidateApiPolicyRequest request,
+    FDelegateOnSuccessValidateApiPolicy onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabAdminAPI* manager = NewObject<UPlayFabAdminAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessValidateApiPolicy = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperValidateApiPolicy);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Admin/ValidateApiPolicy";
+    manager->useSecretKey = true;
+
+
+    // Serialize all the request properties to json
+    OutRestJsonObj->SetBoolField(TEXT("OverwritePolicy"), request.OverwritePolicy);
+    if (request.PolicyName.IsEmpty() || request.PolicyName == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("PolicyName"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("PolicyName"), request.PolicyName);
+    }
+    OutRestJsonObj->SetNumberField(TEXT("PolicyVersion"), request.PolicyVersion);
+    if (request.Statements.Num() == 0) {
+        OutRestJsonObj->SetFieldNull(TEXT("Statements"));
+    } else {
+        OutRestJsonObj->SetObjectArrayField(TEXT("Statements"), request.Statements);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabAdminRequestCompleted
+void UPlayFabAdminAPI::HelperValidateApiPolicy(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessValidateApiPolicy.IsBound())
+    {
+        FAdminValidateApiPolicyResponse ResultStruct = UPlayFabAdminModelDecoder::decodeValidateApiPolicyResponseResponse(response.responseData);
+        OnSuccessValidateApiPolicy.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 
 ///////////////////////////////////////////////////////
 // Characters
@@ -4165,67 +4224,6 @@ void UPlayFabAdminAPI::HelperGetPlayerSegments(FPlayFabBaseModel response, UObje
     {
         FAdminGetPlayerSegmentsResult ResultStruct = UPlayFabAdminModelDecoder::decodeGetPlayerSegmentsResultResponse(response.responseData);
         OnSuccessGetPlayerSegments.Execute(ResultStruct, mCustomData);
-    }
-    this->RemoveFromRoot();
-}
-
-/** Allows for paging through all players in a given segment. This API creates a snapshot of all player profiles that match the segment definition at the time of its creation and lives through the Total Seconds to Live, refreshing its life span on each subsequent use of the Continuation Token. Profiles that change during the course of paging will not be reflected in the results. AB Test segments are currently not supported by this operation. NOTE: This API is limited to being called 30 times in one minute. You will be returned an error if you exceed this threshold. */
-UPlayFabAdminAPI* UPlayFabAdminAPI::GetPlayersInSegment(FAdminGetPlayersInSegmentRequest request,
-    FDelegateOnSuccessGetPlayersInSegment onSuccess,
-    FDelegateOnFailurePlayFabError onFailure,
-    UObject* customData)
-{
-    // Objects containing request data
-    UPlayFabAdminAPI* manager = NewObject<UPlayFabAdminAPI>();
-    if (manager->IsSafeForRootSet()) manager->AddToRoot();
-    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
-    manager->mCustomData = customData;
-
-    // Assign delegates
-    manager->OnSuccessGetPlayersInSegment = onSuccess;
-    manager->OnFailure = onFailure;
-    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperGetPlayersInSegment);
-
-    // Setup the request
-    manager->SetCallAuthenticationContext(request.AuthenticationContext);
-    manager->PlayFabRequestURL = "/Admin/GetPlayersInSegment";
-    manager->useSecretKey = true;
-
-
-    // Serialize all the request properties to json
-    if (request.ContinuationToken.IsEmpty() || request.ContinuationToken == "") {
-        OutRestJsonObj->SetFieldNull(TEXT("ContinuationToken"));
-    } else {
-        OutRestJsonObj->SetStringField(TEXT("ContinuationToken"), request.ContinuationToken);
-    }
-    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
-    OutRestJsonObj->SetBoolField(TEXT("GetProfilesAsync"), request.GetProfilesAsync);
-    OutRestJsonObj->SetNumberField(TEXT("MaxBatchSize"), request.MaxBatchSize);
-    OutRestJsonObj->SetNumberField(TEXT("SecondsToLive"), request.SecondsToLive);
-    if (request.SegmentId.IsEmpty() || request.SegmentId == "") {
-        OutRestJsonObj->SetFieldNull(TEXT("SegmentId"));
-    } else {
-        OutRestJsonObj->SetStringField(TEXT("SegmentId"), request.SegmentId);
-    }
-
-    // Add Request to manager
-    manager->SetRequestObject(OutRestJsonObj);
-
-    return manager;
-}
-
-// Implements FOnPlayFabAdminRequestCompleted
-void UPlayFabAdminAPI::HelperGetPlayersInSegment(FPlayFabBaseModel response, UObject* customData, bool successful)
-{
-    FPlayFabError error = response.responseError;
-    if (error.hasError && OnFailure.IsBound())
-    {
-        OnFailure.Execute(error, customData);
-    }
-    else if (!error.hasError && OnSuccessGetPlayersInSegment.IsBound())
-    {
-        FAdminGetPlayersInSegmentResult ResultStruct = UPlayFabAdminModelDecoder::decodeGetPlayersInSegmentResultResponse(response.responseData);
-        OnSuccessGetPlayersInSegment.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }

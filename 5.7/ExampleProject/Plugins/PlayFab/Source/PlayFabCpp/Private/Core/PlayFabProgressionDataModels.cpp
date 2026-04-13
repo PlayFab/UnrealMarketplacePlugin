@@ -3275,6 +3275,15 @@ void PlayFab::ProgressionModels::FStatisticUpdate::writeJSON(JsonWriter& writer)
 {
     writer->WriteObjectStart();
 
+    if (AggregationTargetEntityKeys.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("AggregationTargetEntityKeys"));
+        for (const FEntityKey& item : AggregationTargetEntityKeys)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
     if (Metadata.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("Metadata"));
@@ -3312,6 +3321,14 @@ void PlayFab::ProgressionModels::FStatisticUpdate::writeJSON(JsonWriter& writer)
 bool PlayFab::ProgressionModels::FStatisticUpdate::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TArray<TSharedPtr<FJsonValue>>&AggregationTargetEntityKeysArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("AggregationTargetEntityKeys"));
+    for (int32 Idx = 0; Idx < AggregationTargetEntityKeysArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = AggregationTargetEntityKeysArray[Idx];
+        AggregationTargetEntityKeys.Add(FEntityKey(CurrentItem->AsObject()));
+    }
+
 
     const TSharedPtr<FJsonValue> MetadataValue = obj->TryGetField(TEXT("Metadata"));
     if (MetadataValue.IsValid() && !MetadataValue->IsNull())

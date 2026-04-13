@@ -154,6 +154,10 @@ public:
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Authentication Models")
         static FAdminUpdatePolicyResponse decodeUpdatePolicyResponseResponse(UPlayFabJsonObject* response);
 
+    /** Decode the ValidateApiPolicyResponse response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Authentication Models")
+        static FAdminValidateApiPolicyResponse decodeValidateApiPolicyResponseResponse(UPlayFabJsonObject* response);
+
 
 
     ///////////////////////////////////////////////////////
@@ -315,10 +319,6 @@ public:
     /** Decode the GetPlayerSegmentsResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | PlayStream Models")
         static FAdminGetPlayerSegmentsResult decodeGetPlayerSegmentsResultResponse(UPlayFabJsonObject* response);
-
-    /** Decode the GetPlayersInSegmentResult response object*/
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | PlayStream Models")
-        static FAdminGetPlayersInSegmentResult decodeGetPlayersInSegmentResultResponse(UPlayFabJsonObject* response);
 
     /** Decode the GetPlayerTagsResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | PlayStream Models")

@@ -14,37 +14,6 @@ namespace PlayFab
 namespace ServerModels
 {
 
-    struct PLAYFABCPP_API FAdCampaignAttribution : public PlayFab::FPlayFabCppBaseModel
-    {
-        // UTC time stamp of attribution
-        FDateTime AttributedAt;
-
-        // [optional] Attribution campaign identifier
-        FString CampaignId;
-
-        // [optional] Attribution network name
-        FString Platform;
-
-        FAdCampaignAttribution() :
-            FPlayFabCppBaseModel(),
-            AttributedAt(0),
-            CampaignId(),
-            Platform()
-            {}
-
-        FAdCampaignAttribution(const FAdCampaignAttribution& src) = default;
-
-        FAdCampaignAttribution(const TSharedPtr<FJsonObject>& obj) : FAdCampaignAttribution()
-        {
-            readFromValue(obj);
-        }
-
-        ~FAdCampaignAttribution();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
     struct PLAYFABCPP_API FAdCampaignAttributionModel : public PlayFab::FPlayFabCppBaseModel
     {
         // UTC time stamp of attribution
@@ -2082,18 +2051,6 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    enum ChurnRiskLevel
-    {
-        ChurnRiskLevelNoData,
-        ChurnRiskLevelLowRisk,
-        ChurnRiskLevelMediumRisk,
-        ChurnRiskLevelHighRisk
-    };
-
-    PLAYFABCPP_API void writeChurnRiskLevelEnumJSON(ChurnRiskLevel enumVal, JsonWriter& writer);
-    PLAYFABCPP_API ChurnRiskLevel readChurnRiskLevelFromValue(const TSharedPtr<FJsonValue>& value);
-    PLAYFABCPP_API ChurnRiskLevel readChurnRiskLevelFromValue(const FString& value);
-
     enum CloudScriptRevisionOption
     {
         CloudScriptRevisionOptionLive,
@@ -2180,37 +2137,6 @@ namespace ServerModels
     PLAYFABCPP_API void writeEmailVerificationStatusEnumJSON(EmailVerificationStatus enumVal, JsonWriter& writer);
     PLAYFABCPP_API EmailVerificationStatus readEmailVerificationStatusFromValue(const TSharedPtr<FJsonValue>& value);
     PLAYFABCPP_API EmailVerificationStatus readEmailVerificationStatusFromValue(const FString& value);
-
-    struct PLAYFABCPP_API FContactEmailInfo : public PlayFab::FPlayFabCppBaseModel
-    {
-        // [optional] The email address
-        FString EmailAddress;
-
-        // [optional] The name of the email info data
-        FString Name;
-
-        // [optional] The verification status of the email
-        Boxed<EmailVerificationStatus> VerificationStatus;
-
-        FContactEmailInfo() :
-            FPlayFabCppBaseModel(),
-            EmailAddress(),
-            Name(),
-            VerificationStatus()
-            {}
-
-        FContactEmailInfo(const FContactEmailInfo& src) = default;
-
-        FContactEmailInfo(const TSharedPtr<FJsonObject>& obj) : FContactEmailInfo()
-        {
-            readFromValue(obj);
-        }
-
-        ~FContactEmailInfo();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
 
     struct PLAYFABCPP_API FContactEmailInfoModel : public PlayFab::FPlayFabCppBaseModel
     {
@@ -3160,6 +3086,56 @@ namespace ServerModels
         }
 
         ~FExecuteCloudScriptServerRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FExportPlayersInSegmentRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // Unique identifier of the requested segment.
+        FString SegmentId;
+
+        FExportPlayersInSegmentRequest() :
+            FPlayFabCppRequestCommon(),
+            SegmentId()
+            {}
+
+        FExportPlayersInSegmentRequest(const FExportPlayersInSegmentRequest& src) = default;
+
+        FExportPlayersInSegmentRequest(const TSharedPtr<FJsonObject>& obj) : FExportPlayersInSegmentRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FExportPlayersInSegmentRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FExportPlayersInSegmentResult : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] Unique identifier of the export for the requested Segment.
+        FString ExportId;
+
+        // [optional] Unique identifier of the requested Segment.
+        FString SegmentId;
+
+        FExportPlayersInSegmentResult() :
+            FPlayFabCppResultCommon(),
+            ExportId(),
+            SegmentId()
+            {}
+
+        FExportPlayersInSegmentResult(const FExportPlayersInSegmentResult& src) = default;
+
+        FExportPlayersInSegmentResult(const TSharedPtr<FJsonObject>& obj) : FExportPlayersInSegmentResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FExportPlayersInSegmentResult();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -5161,318 +5137,51 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetPlayersInSegmentRequest : public PlayFab::FPlayFabCppRequestCommon
+    struct PLAYFABCPP_API FGetPlayersInSegmentExportRequest : public PlayFab::FPlayFabCppRequestCommon
     {
-        // [optional] Continuation token if retrieving subsequent pages of results.
-        FString ContinuationToken;
+        // Unique identifier of the export for the requested Segment.
+        FString ExportId;
 
-        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
-        TMap<FString, FString> CustomTags;
-        /**
-         * [optional] If set to true, the profiles are loaded asynchronously and the response will include a continuation token and
-         * approximate profile count until the first batch of profiles is loaded. Use this parameter to help avoid network
-         * timeouts.
-         */
-        Boxed<bool> GetProfilesAsync;
-
-        /**
-         * [optional] Maximum is 10,000. The value 0 will prevent loading any profiles and return only the count of profiles matching this
-         * segment.
-         */
-        Boxed<uint32> MaxBatchSize;
-
-        /**
-         * [optional] Number of seconds to keep the continuation token active. After token expiration it is not possible to continue paging
-         * results. Default is 300 (5 minutes). Maximum is 5,400 (90 minutes).
-         */
-        Boxed<uint32> SecondsToLive;
-
-        // Unique identifier for this segment.
-        FString SegmentId;
-
-        FGetPlayersInSegmentRequest() :
+        FGetPlayersInSegmentExportRequest() :
             FPlayFabCppRequestCommon(),
-            ContinuationToken(),
-            CustomTags(),
-            GetProfilesAsync(),
-            MaxBatchSize(),
-            SecondsToLive(),
-            SegmentId()
+            ExportId()
             {}
 
-        FGetPlayersInSegmentRequest(const FGetPlayersInSegmentRequest& src) = default;
+        FGetPlayersInSegmentExportRequest(const FGetPlayersInSegmentExportRequest& src) = default;
 
-        FGetPlayersInSegmentRequest(const TSharedPtr<FJsonObject>& obj) : FGetPlayersInSegmentRequest()
+        FGetPlayersInSegmentExportRequest(const TSharedPtr<FJsonObject>& obj) : FGetPlayersInSegmentExportRequest()
         {
             readFromValue(obj);
         }
 
-        ~FGetPlayersInSegmentRequest();
+        ~FGetPlayersInSegmentExportRequest();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FPlayerLinkedAccount : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetPlayersInSegmentExportResponse : public PlayFab::FPlayFabCppResultCommon
     {
-        // [optional] Linked account's email
-        FString Email;
+        // [optional] Url from which the index file can be downloaded.
+        FString IndexUrl;
 
-        // [optional] Authentication platform
-        Boxed<LoginIdentityProvider> Platform;
+        // [optional] Shows the current status of the export
+        FString State;
 
-        // [optional] Platform user identifier
-        FString PlatformUserId;
-
-        // [optional] Linked account's username
-        FString Username;
-
-        FPlayerLinkedAccount() :
-            FPlayFabCppBaseModel(),
-            Email(),
-            Platform(),
-            PlatformUserId(),
-            Username()
-            {}
-
-        FPlayerLinkedAccount(const FPlayerLinkedAccount& src) = default;
-
-        FPlayerLinkedAccount(const TSharedPtr<FJsonObject>& obj) : FPlayerLinkedAccount()
-        {
-            readFromValue(obj);
-        }
-
-        ~FPlayerLinkedAccount();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
-    struct PLAYFABCPP_API FPlayerLocation : public PlayFab::FPlayFabCppBaseModel
-    {
-        // [optional] City of the player's geographic location.
-        FString City;
-
-        // The two-character continent code for this location
-        ContinentCode pfContinentCode;
-
-        // The two-character ISO 3166-1 country code for the country associated with the location
-        CountryCode pfCountryCode;
-
-        // [optional] Latitude coordinate of the player's geographic location.
-        Boxed<double> Latitude;
-
-        // [optional] Longitude coordinate of the player's geographic location.
-        Boxed<double> Longitude;
-
-        FPlayerLocation() :
-            FPlayFabCppBaseModel(),
-            City(),
-            pfContinentCode(),
-            pfCountryCode(),
-            Latitude(),
-            Longitude()
-            {}
-
-        FPlayerLocation(const FPlayerLocation& src) = default;
-
-        FPlayerLocation(const TSharedPtr<FJsonObject>& obj) : FPlayerLocation()
-        {
-            readFromValue(obj);
-        }
-
-        ~FPlayerLocation();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
-    struct PLAYFABCPP_API FPlayerStatistic : public PlayFab::FPlayFabCppBaseModel
-    {
-        // [optional] Statistic ID
-        FString Id;
-
-        // [optional] Statistic name
-        FString Name;
-
-        // Current statistic value
-        int32 StatisticValue;
-
-        // Statistic version (0 if not a versioned statistic)
-        int32 StatisticVersion;
-
-        FPlayerStatistic() :
-            FPlayFabCppBaseModel(),
-            Id(),
-            Name(),
-            StatisticValue(0),
-            StatisticVersion(0)
-            {}
-
-        FPlayerStatistic(const FPlayerStatistic& src) = default;
-
-        FPlayerStatistic(const TSharedPtr<FJsonObject>& obj) : FPlayerStatistic()
-        {
-            readFromValue(obj);
-        }
-
-        ~FPlayerStatistic();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
-    struct PLAYFABCPP_API FPushNotificationRegistration : public PlayFab::FPlayFabCppBaseModel
-    {
-        // [optional] Notification configured endpoint
-        FString NotificationEndpointARN;
-
-        // [optional] Push notification platform
-        Boxed<PushNotificationPlatform> Platform;
-
-        FPushNotificationRegistration() :
-            FPlayFabCppBaseModel(),
-            NotificationEndpointARN(),
-            Platform()
-            {}
-
-        FPushNotificationRegistration(const FPushNotificationRegistration& src) = default;
-
-        FPushNotificationRegistration(const TSharedPtr<FJsonObject>& obj) : FPushNotificationRegistration()
-        {
-            readFromValue(obj);
-        }
-
-        ~FPushNotificationRegistration();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
-    struct PLAYFABCPP_API FPlayerProfile : public PlayFab::FPlayFabCppBaseModel
-    {
-        // [optional] Array of ad campaigns player has been attributed to
-        TArray<FAdCampaignAttribution> AdCampaignAttributions;
-        // [optional] Image URL of the player's avatar.
-        FString AvatarUrl;
-
-        // [optional] Banned until UTC Date. If permanent ban this is set for 20 years after the original ban date.
-        Boxed<FDateTime> BannedUntil;
-
-        // [optional] The prediction of the player to churn within the next seven days.
-        Boxed<ChurnRiskLevel> ChurnPrediction;
-
-        // [optional] Array of contact email addresses associated with the player
-        TArray<FContactEmailInfo> ContactEmailAddresses;
-        // [optional] Player record created
-        Boxed<FDateTime> Created;
-
-        // [optional] Dictionary of player's custom properties.
-        TMap<FString, FJsonKeeper> CustomProperties;
-        // [optional] Player Display Name
-        FString DisplayName;
-
-        // [optional] Last login
-        Boxed<FDateTime> LastLogin;
-
-        // [optional] Array of third party accounts linked to this player
-        TArray<FPlayerLinkedAccount> LinkedAccounts;
-        // [optional] Dictionary of player's locations by type.
-        TMap<FString, FPlayerLocation> Locations;
-        // [optional] Player account origination
-        Boxed<LoginIdentityProvider> Origination;
-
-        // [optional] List of player variants for experimentation
-        TArray<FString> PlayerExperimentVariants;
-        // [optional] PlayFab Player ID
-        FString PlayerId;
-
-        // [optional] Array of player statistics
-        TArray<FPlayerStatistic> PlayerStatistics;
-        // [optional] Publisher this player belongs to
-        FString PublisherId;
-
-        // [optional] Array of configured push notification end points
-        TArray<FPushNotificationRegistration> PushNotificationRegistrations;
-        // [optional] Dictionary of player's statistics using only the latest version's value
-        TMap<FString, int32> Statistics;
-        // [optional] List of player's tags for segmentation.
-        TArray<FString> Tags;
-        // [optional] Title ID this profile applies to
-        FString TitleId;
-
-        // [optional] A sum of player's total purchases in USD across all currencies.
-        Boxed<uint32> TotalValueToDateInUSD;
-
-        // [optional] Dictionary of player's total purchases by currency.
-        TMap<FString, uint32> ValuesToDate;
-        // [optional] Dictionary of player's virtual currency balances
-        TMap<FString, int32> VirtualCurrencyBalances;
-        FPlayerProfile() :
-            FPlayFabCppBaseModel(),
-            AdCampaignAttributions(),
-            AvatarUrl(),
-            BannedUntil(),
-            ChurnPrediction(),
-            ContactEmailAddresses(),
-            Created(),
-            CustomProperties(),
-            DisplayName(),
-            LastLogin(),
-            LinkedAccounts(),
-            Locations(),
-            Origination(),
-            PlayerExperimentVariants(),
-            PlayerId(),
-            PlayerStatistics(),
-            PublisherId(),
-            PushNotificationRegistrations(),
-            Statistics(),
-            Tags(),
-            TitleId(),
-            TotalValueToDateInUSD(),
-            ValuesToDate(),
-            VirtualCurrencyBalances()
-            {}
-
-        FPlayerProfile(const FPlayerProfile& src) = default;
-
-        FPlayerProfile(const TSharedPtr<FJsonObject>& obj) : FPlayerProfile()
-        {
-            readFromValue(obj);
-        }
-
-        ~FPlayerProfile();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
-    struct PLAYFABCPP_API FGetPlayersInSegmentResult : public PlayFab::FPlayFabCppResultCommon
-    {
-        // [optional] Continuation token to use to retrieve subsequent pages of results. If token returns null there are no more results.
-        FString ContinuationToken;
-
-        // [optional] Array of player profiles in this segment.
-        TArray<FPlayerProfile> PlayerProfiles;
-        // Count of profiles matching this segment.
-        int32 ProfilesInSegment;
-
-        FGetPlayersInSegmentResult() :
+        FGetPlayersInSegmentExportResponse() :
             FPlayFabCppResultCommon(),
-            ContinuationToken(),
-            PlayerProfiles(),
-            ProfilesInSegment(0)
+            IndexUrl(),
+            State()
             {}
 
-        FGetPlayersInSegmentResult(const FGetPlayersInSegmentResult& src) = default;
+        FGetPlayersInSegmentExportResponse(const FGetPlayersInSegmentExportResponse& src) = default;
 
-        FGetPlayersInSegmentResult(const TSharedPtr<FJsonObject>& obj) : FGetPlayersInSegmentResult()
+        FGetPlayersInSegmentExportResponse(const TSharedPtr<FJsonObject>& obj) : FGetPlayersInSegmentExportResponse()
         {
             readFromValue(obj);
         }
 
-        ~FGetPlayersInSegmentResult();
+        ~FGetPlayersInSegmentExportResponse();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;

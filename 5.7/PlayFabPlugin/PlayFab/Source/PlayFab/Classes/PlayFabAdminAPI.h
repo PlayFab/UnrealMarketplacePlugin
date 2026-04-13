@@ -465,6 +465,19 @@ public:
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Authentication ", meta = (BlueprintInternalUseOnly = "true"))
         void HelperUpdatePolicy(FPlayFabBaseModel response, UObject* customData, bool successful);
 
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessValidateApiPolicy, FAdminValidateApiPolicyResponse, result, UObject*, customData);
+
+    /** Validates the result of a policy update without persisting it. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Authentication ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabAdminAPI* ValidateApiPolicy(FAdminValidateApiPolicyRequest request,
+            FDelegateOnSuccessValidateApiPolicy onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabAdminRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Authentication ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperValidateApiPolicy(FPlayFabBaseModel response, UObject* customData, bool successful);
+
 
     ///////////////////////////////////////////////////////
     // Characters
@@ -1072,25 +1085,6 @@ public:
     // Implements FOnPlayFabAdminRequestCompleted
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | PlayStream ", meta = (BlueprintInternalUseOnly = "true"))
         void HelperGetPlayerSegments(FPlayFabBaseModel response, UObject* customData, bool successful);
-
-    // callbacks
-    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetPlayersInSegment, FAdminGetPlayersInSegmentResult, result, UObject*, customData);
-
-    /**
-     * Allows for paging through all players in a given segment. This API creates a snapshot of all player profiles that match
-     * the segment definition at the time of its creation and lives through the Total Seconds to Live, refreshing its life span
-     * on each subsequent use of the Continuation Token. Profiles that change during the course of paging will not be reflected
-     * in the results. AB Test segments are currently not supported by this operation. NOTE: This API is limited to being
-     * called 30 times in one minute. You will be returned an error if you exceed this threshold.
-     */
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | PlayStream ", meta = (BlueprintInternalUseOnly = "true"))
-        static UPlayFabAdminAPI* GetPlayersInSegment(FAdminGetPlayersInSegmentRequest request,
-            FDelegateOnSuccessGetPlayersInSegment onSuccess,
-            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
-
-    // Implements FOnPlayFabAdminRequestCompleted
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | PlayStream ", meta = (BlueprintInternalUseOnly = "true"))
-        void HelperGetPlayersInSegment(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetPlayerTags, FAdminGetPlayerTagsResult, result, UObject*, customData);
@@ -1812,6 +1806,7 @@ public:
     FDelegateOnSuccessUpdateOpenIdConnection OnSuccessUpdateOpenIdConnection;
     FDelegateOnSuccessUpdatePlayerSharedSecret OnSuccessUpdatePlayerSharedSecret;
     FDelegateOnSuccessUpdatePolicy OnSuccessUpdatePolicy;
+    FDelegateOnSuccessValidateApiPolicy OnSuccessValidateApiPolicy;
     FDelegateOnSuccessResetCharacterStatistics OnSuccessResetCharacterStatistics;
     FDelegateOnSuccessDeleteContent OnSuccessDeleteContent;
     FDelegateOnSuccessGetContentList OnSuccessGetContentList;
@@ -1853,7 +1848,6 @@ public:
     FDelegateOnSuccessExportPlayersInSegment OnSuccessExportPlayersInSegment;
     FDelegateOnSuccessGetAllSegments OnSuccessGetAllSegments;
     FDelegateOnSuccessGetPlayerSegments OnSuccessGetPlayerSegments;
-    FDelegateOnSuccessGetPlayersInSegment OnSuccessGetPlayersInSegment;
     FDelegateOnSuccessGetPlayerTags OnSuccessGetPlayerTags;
     FDelegateOnSuccessGetSegmentExport OnSuccessGetSegmentExport;
     FDelegateOnSuccessRemovePlayerTag OnSuccessRemovePlayerTag;

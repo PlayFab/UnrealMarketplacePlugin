@@ -42,10 +42,10 @@ struct PLAYFAB_API FEventsCreateTelemetryKeyRequest : public FPlayFabRequestComm
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Events | PlayStream Events Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The optional entity to perform this action on. Defaults to the currently logged in entity. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Events | PlayStream Events Models")
-        UPlayFabJsonObject* Entity = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Entity;
     /** The name of the new key. Telemetry key names must be unique within the scope of the title. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Events | PlayStream Events Models")
         FString KeyName;
@@ -58,7 +58,7 @@ struct PLAYFAB_API FEventsCreateTelemetryKeyResponse : public FPlayFabResultComm
 public:
     /** Details about the newly created telemetry key. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Events | PlayStream Events Models")
-        UPlayFabJsonObject* NewKeyDetails = nullptr;
+        TObjectPtr<UPlayFabJsonObject> NewKeyDetails;
 };
 
 USTRUCT(BlueprintType)
@@ -68,7 +68,7 @@ struct PLAYFAB_API FEventsDeleteDataConnectionRequest : public FPlayFabRequestCo
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Events | PlayStream Events Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The name of the data connection to delete. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Events | PlayStream Events Models")
         FString Name;
@@ -91,10 +91,10 @@ struct PLAYFAB_API FEventsDeleteTelemetryKeyRequest : public FPlayFabRequestComm
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Events | PlayStream Events Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The optional entity to perform this action on. Defaults to the currently logged in entity. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Events | PlayStream Events Models")
-        UPlayFabJsonObject* Entity = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Entity;
     /** The name of the key to delete. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Events | PlayStream Events Models")
         FString KeyName;
@@ -117,7 +117,7 @@ struct PLAYFAB_API FEventsGetDataConnectionRequest : public FPlayFabRequestCommo
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Events | PlayStream Events Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The name of the data connection to retrieve. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Events | PlayStream Events Models")
         FString Name;
@@ -130,7 +130,7 @@ struct PLAYFAB_API FEventsGetDataConnectionResponse : public FPlayFabResultCommo
 public:
     /** The details of the queried Data Connection. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Events | PlayStream Events Models")
-        UPlayFabJsonObject* DataConnection = nullptr;
+        TObjectPtr<UPlayFabJsonObject> DataConnection;
 };
 
 USTRUCT(BlueprintType)
@@ -140,10 +140,10 @@ struct PLAYFAB_API FEventsGetTelemetryKeyRequest : public FPlayFabRequestCommon
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Events | PlayStream Events Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The optional entity to perform this action on. Defaults to the currently logged in entity. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Events | PlayStream Events Models")
-        UPlayFabJsonObject* Entity = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Entity;
     /** The name of the key to retrieve. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Events | PlayStream Events Models")
         FString KeyName;
@@ -156,7 +156,7 @@ struct PLAYFAB_API FEventsGetTelemetryKeyResponse : public FPlayFabResultCommon
 public:
     /** Details about the requested telemetry key. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Events | PlayStream Events Models")
-        UPlayFabJsonObject* KeyDetails = nullptr;
+        TObjectPtr<UPlayFabJsonObject> KeyDetails;
 };
 
 USTRUCT(BlueprintType)
@@ -166,7 +166,7 @@ struct PLAYFAB_API FEventsListDataConnectionsRequest : public FPlayFabRequestCom
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Events | PlayStream Events Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
 };
 
 USTRUCT(BlueprintType)
@@ -176,7 +176,7 @@ struct PLAYFAB_API FEventsListDataConnectionsResponse : public FPlayFabResultCom
 public:
     /** The list of existing Data Connections. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Events | PlayStream Events Models")
-        TArray<UPlayFabJsonObject*> DataConnections;
+        TArray<TObjectPtr<UPlayFabJsonObject>> DataConnections;
 };
 
 USTRUCT(BlueprintType)
@@ -186,10 +186,10 @@ struct PLAYFAB_API FEventsListTelemetryKeysRequest : public FPlayFabRequestCommo
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Events | PlayStream Events Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The optional entity to perform this action on. Defaults to the currently logged in entity. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Events | PlayStream Events Models")
-        UPlayFabJsonObject* Entity = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Entity;
 };
 
 USTRUCT(BlueprintType)
@@ -199,7 +199,7 @@ struct PLAYFAB_API FEventsListTelemetryKeysResponse : public FPlayFabResultCommo
 public:
     /** The telemetry keys configured for the title. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Events | PlayStream Events Models")
-        TArray<UPlayFabJsonObject*> KeyDetails;
+        TArray<TObjectPtr<UPlayFabJsonObject>> KeyDetails;
 };
 
 USTRUCT(BlueprintType)
@@ -209,10 +209,10 @@ struct PLAYFAB_API FEventsSetDataConnectionRequest : public FPlayFabRequestCommo
 public:
     /** Settings of the data connection. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Events | PlayStream Events Models")
-        UPlayFabJsonObject* ConnectionSettings = nullptr;
+        TObjectPtr<UPlayFabJsonObject> ConnectionSettings;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Events | PlayStream Events Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Whether or not the connection is currently active. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Events | PlayStream Events Models")
         bool IsActive = false;
@@ -231,7 +231,7 @@ struct PLAYFAB_API FEventsSetDataConnectionResponse : public FPlayFabResultCommo
 public:
     /** The details of the Data Connection to be created or updated. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Events | PlayStream Events Models")
-        UPlayFabJsonObject* DataConnection = nullptr;
+        TObjectPtr<UPlayFabJsonObject> DataConnection;
 };
 
 USTRUCT(BlueprintType)
@@ -244,7 +244,7 @@ public:
         bool Active = false;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Events | PlayStream Events Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The name of the data connection to update. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Events | PlayStream Events Models")
         FString Name;
@@ -257,7 +257,7 @@ struct PLAYFAB_API FEventsSetDataConnectionActiveResponse : public FPlayFabResul
 public:
     /** The most current details about the data connection that was to be updated. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Events | PlayStream Events Models")
-        UPlayFabJsonObject* DataConnection = nullptr;
+        TObjectPtr<UPlayFabJsonObject> DataConnection;
     /**
      * Indicates whether or not the data connection was updated. If false, the data connection was already in the desired
      * state.
@@ -276,10 +276,10 @@ public:
         bool Active = false;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Events | PlayStream Events Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The optional entity to perform this action on. Defaults to the currently logged in entity. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Events | PlayStream Events Models")
-        UPlayFabJsonObject* Entity = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Entity;
     /** The name of the key to update. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Events | PlayStream Events Models")
         FString KeyName;
@@ -292,7 +292,7 @@ struct PLAYFAB_API FEventsSetTelemetryKeyActiveResponse : public FPlayFabResultC
 public:
     /** The most current details about the telemetry key that was to be updated. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Events | PlayStream Events Models")
-        UPlayFabJsonObject* KeyDetails = nullptr;
+        TObjectPtr<UPlayFabJsonObject> KeyDetails;
     /** Indicates whether or not the key was updated. If false, the key was already in the desired state. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Events | PlayStream Events Models")
         bool WasKeyUpdated = false;
@@ -305,10 +305,10 @@ struct PLAYFAB_API FEventsWriteEventsRequest : public FPlayFabRequestCommon
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Events | PlayStream Events Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The collection of events to write. Up to 200 events can be written per request. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Events | PlayStream Events Models")
-        TArray<UPlayFabJsonObject*> Events;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Events;
 };
 
 USTRUCT(BlueprintType)

@@ -38,7 +38,7 @@ struct PLAYFAB_API FExperimentationCreateExclusionGroupRequest : public FPlayFab
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Description of the exclusion group. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
         FString Description;
@@ -65,7 +65,7 @@ struct PLAYFAB_API FExperimentationCreateExperimentRequest : public FPlayFabRequ
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Description of the experiment. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
         FString Description;
@@ -98,7 +98,7 @@ public:
         FString TitlePlayerAccountTestIds;
     /** List of variants for the experiment. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
-        TArray<UPlayFabJsonObject*> Variants;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Variants;
 };
 
 USTRUCT(BlueprintType)
@@ -119,7 +119,7 @@ struct PLAYFAB_API FExperimentationDeleteExclusionGroupRequest : public FPlayFab
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The ID of the exclusion group to delete. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
         FString ExclusionGroupId;
@@ -143,7 +143,7 @@ struct PLAYFAB_API FExperimentationDeleteExperimentRequest : public FPlayFabRequ
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The ID of the experiment to delete. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
         FString ExperimentId;
@@ -157,7 +157,7 @@ struct PLAYFAB_API FExperimentationGetExclusionGroupsRequest : public FPlayFabRe
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
 };
 
 USTRUCT(BlueprintType)
@@ -167,7 +167,7 @@ struct PLAYFAB_API FExperimentationGetExclusionGroupsResult : public FPlayFabRes
 public:
     /** List of exclusion groups for the title. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
-        TArray<UPlayFabJsonObject*> ExclusionGroups;
+        TArray<TObjectPtr<UPlayFabJsonObject>> ExclusionGroups;
 };
 
 /**
@@ -181,7 +181,7 @@ struct PLAYFAB_API FExperimentationGetExclusionGroupTrafficRequest : public FPla
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The ID of the exclusion group. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
         FString ExclusionGroupId;
@@ -194,7 +194,7 @@ struct PLAYFAB_API FExperimentationGetExclusionGroupTrafficResult : public FPlay
 public:
     /** List of traffic allocations for the exclusion group. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
-        TArray<UPlayFabJsonObject*> TrafficAllocations;
+        TArray<TObjectPtr<UPlayFabJsonObject>> TrafficAllocations;
 };
 
 /**
@@ -208,7 +208,7 @@ struct PLAYFAB_API FExperimentationGetExperimentsRequest : public FPlayFabReques
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
 };
 
 USTRUCT(BlueprintType)
@@ -218,7 +218,7 @@ struct PLAYFAB_API FExperimentationGetExperimentsResult : public FPlayFabResultC
 public:
     /** List of experiments for the title. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
-        TArray<UPlayFabJsonObject*> Experiments;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Experiments;
 };
 
 /** Given a title entity token and experiment details, will return the latest available scorecard. */
@@ -229,7 +229,7 @@ struct PLAYFAB_API FExperimentationGetLatestScorecardRequest : public FPlayFabRe
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The ID of the experiment. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
         FString ExperimentId;
@@ -242,7 +242,7 @@ struct PLAYFAB_API FExperimentationGetLatestScorecardResult : public FPlayFabRes
 public:
     /** Scorecard for the experiment of the title. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
-        UPlayFabJsonObject* Scorecard = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Scorecard;
 };
 
 /**
@@ -256,10 +256,10 @@ struct PLAYFAB_API FExperimentationGetTreatmentAssignmentRequest : public FPlayF
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The optional entity to perform this action on. Defaults to the currently logged in entity. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
-        UPlayFabJsonObject* Entity = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Entity;
 };
 
 USTRUCT(BlueprintType)
@@ -269,7 +269,7 @@ struct PLAYFAB_API FExperimentationGetTreatmentAssignmentResult : public FPlayFa
 public:
     /** Treatment assignment for the entity. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
-        UPlayFabJsonObject* TreatmentAssignment = nullptr;
+        TObjectPtr<UPlayFabJsonObject> TreatmentAssignment;
 };
 
 /** Given a title entity token and an experiment ID, this API starts the experiment. */
@@ -280,7 +280,7 @@ struct PLAYFAB_API FExperimentationStartExperimentRequest : public FPlayFabReque
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The ID of the experiment to start. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
         FString ExperimentId;
@@ -294,7 +294,7 @@ struct PLAYFAB_API FExperimentationStopExperimentRequest : public FPlayFabReques
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The ID of the experiment to stop. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
         FString ExperimentId;
@@ -308,7 +308,7 @@ struct PLAYFAB_API FExperimentationUpdateExclusionGroupRequest : public FPlayFab
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Description of the exclusion group. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
         FString Description;
@@ -331,7 +331,7 @@ struct PLAYFAB_API FExperimentationUpdateExperimentRequest : public FPlayFabRequ
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Description of the experiment. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
         FString Description;
@@ -367,6 +367,6 @@ public:
         FString TitlePlayerAccountTestIds;
     /** List of variants for the experiment. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
-        TArray<UPlayFabJsonObject*> Variants;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Variants;
 };
 

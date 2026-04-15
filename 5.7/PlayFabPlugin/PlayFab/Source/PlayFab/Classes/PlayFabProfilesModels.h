@@ -41,10 +41,10 @@ struct PLAYFAB_API FProfilesGetGlobalPolicyRequest : public FPlayFabRequestCommo
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Profiles | Account Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The optional entity to perform this action on. Defaults to the currently logged in entity. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Profiles | Account Management Models")
-        UPlayFabJsonObject* Entity = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Entity;
 };
 
 USTRUCT(BlueprintType)
@@ -54,7 +54,7 @@ struct PLAYFAB_API FProfilesGetGlobalPolicyResponse : public FPlayFabResultCommo
 public:
     /** The permissions that govern access to all entities under this title or namespace. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Profiles | Account Management Models")
-        TArray<UPlayFabJsonObject*> Permissions;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Permissions;
 };
 
 /**
@@ -71,7 +71,7 @@ struct PLAYFAB_API FProfilesGetEntityProfileRequest : public FPlayFabRequestComm
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Profiles | Account Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /**
      * Determines whether the objects will be returned as an escaped JSON string or as a un-escaped JSON object. Default is
      * JSON string.
@@ -80,7 +80,7 @@ public:
         bool DataAsObject = false;
     /** The optional entity to perform this action on. Defaults to the currently logged in entity. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Profiles | Account Management Models")
-        UPlayFabJsonObject* Entity = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Entity;
     /** Determines whether the entity statistics will be returned in the entity profile. Default is false. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Profiles | Account Management Models")
         bool IncludeStatistics = false;
@@ -93,7 +93,7 @@ struct PLAYFAB_API FProfilesGetEntityProfileResponse : public FPlayFabResultComm
 public:
     /** Entity profile */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Profiles | Account Management Models")
-        UPlayFabJsonObject* Profile = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Profile;
 };
 
 /**
@@ -107,7 +107,7 @@ struct PLAYFAB_API FProfilesGetEntityProfilesRequest : public FPlayFabRequestCom
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Profiles | Account Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /**
      * Determines whether the objects will be returned as an escaped JSON string or as a un-escaped JSON object. Default is
      * JSON string.
@@ -116,7 +116,7 @@ public:
         bool DataAsObject = false;
     /** Entity keys of the profiles to load. Must be between 1 and 25 */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Profiles | Account Management Models")
-        TArray<UPlayFabJsonObject*> Entities;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Entities;
     /** Determines whether the entity statistics will be returned in the entity profile. Default is false. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Profiles | Account Management Models")
         bool IncludeStatistics = false;
@@ -129,7 +129,7 @@ struct PLAYFAB_API FProfilesGetEntityProfilesResponse : public FPlayFabResultCom
 public:
     /** Entity profiles */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Profiles | Account Management Models")
-        TArray<UPlayFabJsonObject*> Profiles;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Profiles;
 };
 
 /** Given a master player account id (PlayFab ID), returns all title player accounts associated with it. */
@@ -140,7 +140,7 @@ struct PLAYFAB_API FProfilesGetTitlePlayersFromMasterPlayerAccountIdsRequest : p
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Profiles | Account Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Master player account ids. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Profiles | Account Management Models")
         FString MasterPlayerAccountIds;
@@ -156,7 +156,7 @@ public:
         FString TitleId;
     /** Dictionary of master player ids mapped to title player entity keys and id pairs */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Profiles | Account Management Models")
-        UPlayFabJsonObject* TitlePlayerAccounts = nullptr;
+        TObjectPtr<UPlayFabJsonObject> TitlePlayerAccounts;
 };
 
 USTRUCT(BlueprintType)
@@ -169,7 +169,7 @@ public:
      * doesn't exist or doesn't play the requested title.
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Profiles | Account Management Models")
-        UPlayFabJsonObject* TitlePlayerAccounts = nullptr;
+        TObjectPtr<UPlayFabJsonObject> TitlePlayerAccounts;
 };
 
 /** Given a collection of Xbox IDs (XUIDs), returns all title player accounts. */
@@ -180,7 +180,7 @@ struct PLAYFAB_API FProfilesGetTitlePlayersFromXboxLiveIDsRequest : public FPlay
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Profiles | Account Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Xbox Sandbox the players had on their Xbox tokens. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Profiles | Account Management Models")
         FString Sandbox;
@@ -200,13 +200,13 @@ struct PLAYFAB_API FProfilesSetDisplayNameRequest : public FPlayFabRequestCommon
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Profiles | Account Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The new value to be set on Entity Profile's display name */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Profiles | Account Management Models")
         FString DisplayName;
     /** The optional entity to perform this action on. Defaults to the currently logged in entity. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Profiles | Account Management Models")
-        UPlayFabJsonObject* Entity = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Entity;
     /** The expected version of a profile to perform this update on */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Profiles | Account Management Models")
         int32 ExpectedVersion = 0;
@@ -236,10 +236,10 @@ struct PLAYFAB_API FProfilesSetGlobalPolicyRequest : public FPlayFabRequestCommo
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Profiles | Account Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The permissions that govern access to all entities under this title or namespace. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Profiles | Account Management Models")
-        TArray<UPlayFabJsonObject*> Permissions;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Permissions;
 };
 
 USTRUCT(BlueprintType)
@@ -260,10 +260,10 @@ struct PLAYFAB_API FProfilesSetProfileLanguageRequest : public FPlayFabRequestCo
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Profiles | Account Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The optional entity to perform this action on. Defaults to the currently logged in entity. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Profiles | Account Management Models")
-        UPlayFabJsonObject* Entity = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Entity;
     /** The expected version of a profile to perform this update on */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Profiles | Account Management Models")
         int32 ExpectedVersion = 0;
@@ -296,13 +296,13 @@ struct PLAYFAB_API FProfilesSetEntityProfilePolicyRequest : public FPlayFabReque
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Profiles | Account Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Profiles | Account Management Models")
-        UPlayFabJsonObject* Entity = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Entity;
     /** The statements to include in the access policy. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Profiles | Account Management Models")
-        TArray<UPlayFabJsonObject*> Statements;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Statements;
 };
 
 USTRUCT(BlueprintType)
@@ -315,6 +315,6 @@ public:
      * profile, not global statements from titles and namespaces.
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Profiles | Account Management Models")
-        TArray<UPlayFabJsonObject*> Permissions;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Permissions;
 };
 

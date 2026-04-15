@@ -44,7 +44,7 @@ public:
         FString CustomId;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Authentication | Authentication Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags = nullptr;
 };
 
 USTRUCT(BlueprintType)
@@ -54,7 +54,7 @@ struct PLAYFAB_API FAuthenticationAuthenticateCustomIdResult : public FPlayFabRe
 public:
     /** The token generated used to set X-EntityToken for game_server calls. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Authentication | Authentication Models")
-        UPlayFabJsonObject* EntityToken = nullptr;
+        TObjectPtr<UPlayFabJsonObject> EntityToken = nullptr;
     /** True if the account was newly created on this authentication. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Authentication | Authentication Models")
         bool NewlyCreated = false;
@@ -71,10 +71,10 @@ struct PLAYFAB_API FAuthenticationDeleteRequest : public FPlayFabRequestCommon
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Authentication | Authentication Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags = nullptr;
     /** The game_server entity to be removed. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Authentication | Authentication Models")
-        UPlayFabJsonObject* Entity = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Entity = nullptr;
 };
 
 USTRUCT(BlueprintType)
@@ -98,10 +98,10 @@ struct PLAYFAB_API FAuthenticationGetEntityTokenRequest : public FPlayFabRequest
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Authentication | Authentication Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags = nullptr;
     /** The optional entity to perform this action on. Defaults to the currently logged in entity. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Authentication | Authentication Models")
-        UPlayFabJsonObject* Entity = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Entity = nullptr;
 };
 
 USTRUCT(BlueprintType)
@@ -111,7 +111,7 @@ struct PLAYFAB_API FAuthenticationGetEntityTokenResponse : public FPlayFabResult
 public:
     /** The entity id and type. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Authentication | Authentication Models")
-        UPlayFabJsonObject* Entity = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Entity = nullptr;
     /** The token used to set X-EntityToken for all entity based API calls. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Authentication | Authentication Models")
         FString EntityToken;
@@ -128,7 +128,7 @@ struct PLAYFAB_API FAuthenticationValidateEntityTokenRequest : public FPlayFabRe
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Authentication | Authentication Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags = nullptr;
     /** Client EntityToken */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Authentication | Authentication Models")
         FString EntityToken;
@@ -141,7 +141,7 @@ struct PLAYFAB_API FAuthenticationValidateEntityTokenResponse : public FPlayFabR
 public:
     /** The entity id and type. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Authentication | Authentication Models")
-        UPlayFabJsonObject* Entity = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Entity = nullptr;
     /** The authenticated device for this entity, for the given login */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Authentication | Authentication Models")
         EIdentifiedDeviceType IdentifiedDeviceType = StaticCast<EIdentifiedDeviceType>(0);
@@ -153,6 +153,6 @@ public:
         FString IdentityProviderIssuedId;
     /** The lineage of this profile. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Authentication | Authentication Models")
-        UPlayFabJsonObject* Lineage = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Lineage = nullptr;
 };
 

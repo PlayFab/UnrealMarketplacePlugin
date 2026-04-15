@@ -37,7 +37,7 @@ struct PLAYFAB_API FClientAddGenericIDRequest : public FPlayFabRequestCommon
 public:
     /** Generic service identifier to add to the player account. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
-        UPlayFabJsonObject* GenericId = nullptr;
+        TObjectPtr<UPlayFabJsonObject> GenericId;
 };
 
 USTRUCT(BlueprintType)
@@ -58,7 +58,7 @@ struct PLAYFAB_API FClientAddOrUpdateContactEmailRequest : public FPlayFabReques
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The new contact email to associate with the player. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         FString EmailAddress;
@@ -78,7 +78,7 @@ struct PLAYFAB_API FClientAddUsernamePasswordRequest : public FPlayFabRequestCom
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** User email address attached to their account */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         FString Email;
@@ -145,7 +145,7 @@ struct PLAYFAB_API FClientGetAccountInfoResult : public FPlayFabResultCommon
 public:
     /** Account information for the local user. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
-        UPlayFabJsonObject* AccountInfo = nullptr;
+        TObjectPtr<UPlayFabJsonObject> AccountInfo;
 };
 
 USTRUCT(BlueprintType)
@@ -155,10 +155,10 @@ struct PLAYFAB_API FClientGetPlayerCombinedInfoRequest : public FPlayFabRequestC
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Flags for which pieces of info to return for the user. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
-        UPlayFabJsonObject* InfoRequestParameters = nullptr;
+        TObjectPtr<UPlayFabJsonObject> InfoRequestParameters;
     /** PlayFabId of the user whose data will be returned. If not filled included, we return the data for the calling player. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         FString PlayFabId;
@@ -176,7 +176,7 @@ struct PLAYFAB_API FClientGetPlayerCombinedInfoResult : public FPlayFabResultCom
 public:
     /** Results for requested info. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
-        UPlayFabJsonObject* InfoResultPayload = nullptr;
+        TObjectPtr<UPlayFabJsonObject> InfoResultPayload;
     /** Unique PlayFab assigned ID of the user on whom the operation will be performed. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         FString PlayFabId;
@@ -195,7 +195,7 @@ struct PLAYFAB_API FClientGetPlayerProfileRequest : public FPlayFabRequestCommon
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Unique PlayFab assigned ID of the user on whom the operation will be performed. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         FString PlayFabId;
@@ -205,7 +205,7 @@ public:
      * the Game Manager "Client Profile Options" tab in the "Settings" section.
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
-        UPlayFabJsonObject* ProfileConstraints = nullptr;
+        TObjectPtr<UPlayFabJsonObject> ProfileConstraints;
 };
 
 USTRUCT(BlueprintType)
@@ -218,7 +218,7 @@ public:
      * exist.
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
-        UPlayFabJsonObject* PlayerProfile = nullptr;
+        TObjectPtr<UPlayFabJsonObject> PlayerProfile;
 };
 
 USTRUCT(BlueprintType)
@@ -242,7 +242,7 @@ struct PLAYFAB_API FClientGetPlayFabIDsFromBattleNetAccountIdsResult : public FP
 public:
     /** Mapping of Battle.net account identifiers to PlayFab identifiers. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
-        TArray<UPlayFabJsonObject*> Data;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Data;
 };
 
 USTRUCT(BlueprintType)
@@ -266,7 +266,7 @@ struct PLAYFAB_API FClientGetPlayFabIDsFromFacebookIDsResult : public FPlayFabRe
 public:
     /** Mapping of Facebook identifiers to PlayFab identifiers. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
-        TArray<UPlayFabJsonObject*> Data;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Data;
 };
 
 USTRUCT(BlueprintType)
@@ -290,7 +290,7 @@ struct PLAYFAB_API FClientGetPlayFabIDsFromFacebookInstantGamesIdsResult : publi
 public:
     /** Mapping of Facebook Instant Games identifiers to PlayFab identifiers. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
-        TArray<UPlayFabJsonObject*> Data;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Data;
 };
 
 USTRUCT(BlueprintType)
@@ -314,7 +314,7 @@ struct PLAYFAB_API FClientGetPlayFabIDsFromGameCenterIDsResult : public FPlayFab
 public:
     /** Mapping of Game Center identifiers to PlayFab identifiers. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
-        TArray<UPlayFabJsonObject*> Data;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Data;
 };
 
 USTRUCT(BlueprintType)
@@ -327,7 +327,7 @@ public:
      * maximum of 10 in a single request.
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
-        TArray<UPlayFabJsonObject*> GenericIDs;
+        TArray<TObjectPtr<UPlayFabJsonObject>> GenericIDs;
 };
 
 /** For generic service identifiers which have not been linked to PlayFab accounts, null will be returned. */
@@ -338,7 +338,7 @@ struct PLAYFAB_API FClientGetPlayFabIDsFromGenericIDsResult : public FPlayFabRes
 public:
     /** Mapping of generic service identifiers to PlayFab identifiers. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
-        TArray<UPlayFabJsonObject*> Data;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Data;
 };
 
 USTRUCT(BlueprintType)
@@ -362,7 +362,7 @@ struct PLAYFAB_API FClientGetPlayFabIDsFromGoogleIDsResult : public FPlayFabResu
 public:
     /** Mapping of Google identifiers to PlayFab identifiers. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
-        TArray<UPlayFabJsonObject*> Data;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Data;
 };
 
 USTRUCT(BlueprintType)
@@ -386,7 +386,7 @@ struct PLAYFAB_API FClientGetPlayFabIDsFromGooglePlayGamesPlayerIDsResult : publ
 public:
     /** Mapping of Google Play Games identifiers to PlayFab identifiers. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
-        TArray<UPlayFabJsonObject*> Data;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Data;
 };
 
 USTRUCT(BlueprintType)
@@ -410,7 +410,7 @@ struct PLAYFAB_API FClientGetPlayFabIDsFromKongregateIDsResult : public FPlayFab
 public:
     /** Mapping of Kongregate identifiers to PlayFab identifiers. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
-        TArray<UPlayFabJsonObject*> Data;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Data;
 };
 
 USTRUCT(BlueprintType)
@@ -434,7 +434,7 @@ struct PLAYFAB_API FClientGetPlayFabIDsFromNintendoServiceAccountIdsResult : pub
 public:
     /** Mapping of Nintendo Switch Service Account identifiers to PlayFab identifiers. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
-        TArray<UPlayFabJsonObject*> Data;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Data;
 };
 
 USTRUCT(BlueprintType)
@@ -458,7 +458,7 @@ struct PLAYFAB_API FClientGetPlayFabIDsFromNintendoSwitchDeviceIdsResult : publi
 public:
     /** Mapping of Nintendo Switch Device identifiers to PlayFab identifiers. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
-        TArray<UPlayFabJsonObject*> Data;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Data;
 };
 
 USTRUCT(BlueprintType)
@@ -471,7 +471,7 @@ public:
      * 10 in length.
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
-        TArray<UPlayFabJsonObject*> OpenIdSubjectIdentifiers;
+        TArray<TObjectPtr<UPlayFabJsonObject>> OpenIdSubjectIdentifiers;
 };
 
 /** For OpenId identifiers which have not been linked to PlayFab accounts, null will be returned. */
@@ -482,7 +482,7 @@ struct PLAYFAB_API FClientGetPlayFabIDsFromOpenIdsResult : public FPlayFabResult
 public:
     /** Mapping of OpenId Connect identifiers to PlayFab identifiers. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
-        TArray<UPlayFabJsonObject*> Data;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Data;
 };
 
 USTRUCT(BlueprintType)
@@ -509,7 +509,7 @@ struct PLAYFAB_API FClientGetPlayFabIDsFromPSNAccountIDsResult : public FPlayFab
 public:
     /** Mapping of PlayStation :tm: Network identifiers to PlayFab identifiers. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
-        TArray<UPlayFabJsonObject*> Data;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Data;
 };
 
 USTRUCT(BlueprintType)
@@ -536,7 +536,7 @@ struct PLAYFAB_API FClientGetPlayFabIDsFromPSNOnlineIDsResult : public FPlayFabR
 public:
     /** Mapping of PlayStation :tm: Network identifiers to PlayFab identifiers. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
-        TArray<UPlayFabJsonObject*> Data;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Data;
 };
 
 USTRUCT(BlueprintType)
@@ -560,7 +560,7 @@ struct PLAYFAB_API FClientGetPlayFabIDsFromSteamIDsResult : public FPlayFabResul
 public:
     /** Mapping of Steam identifiers to PlayFab identifiers. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
-        TArray<UPlayFabJsonObject*> Data;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Data;
 };
 
 USTRUCT(BlueprintType)
@@ -587,7 +587,7 @@ struct PLAYFAB_API FClientGetPlayFabIDsFromSteamNamesResult : public FPlayFabRes
 public:
     /** Mapping of Steam identifiers to PlayFab identifiers. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
-        TArray<UPlayFabJsonObject*> Data;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Data;
 };
 
 USTRUCT(BlueprintType)
@@ -611,7 +611,7 @@ struct PLAYFAB_API FClientGetPlayFabIDsFromTwitchIDsResult : public FPlayFabResu
 public:
     /** Mapping of Twitch identifiers to PlayFab identifiers. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
-        TArray<UPlayFabJsonObject*> Data;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Data;
 };
 
 USTRUCT(BlueprintType)
@@ -638,7 +638,7 @@ struct PLAYFAB_API FClientGetPlayFabIDsFromXboxLiveIDsResult : public FPlayFabRe
 public:
     /** Mapping of Xbox Live identifiers to PlayFab identifiers. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
-        TArray<UPlayFabJsonObject*> Data;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Data;
 };
 
 USTRUCT(BlueprintType)
@@ -654,7 +654,7 @@ public:
         FString AndroidDeviceId;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** If another user is already linked to the device, unlink the other user and re-link. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         bool ForceLink = false;
@@ -684,7 +684,7 @@ struct PLAYFAB_API FClientLinkAppleRequest : public FPlayFabRequestCommon
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** If another user is already linked to a specific Apple account, unlink the other user and re-link. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         bool ForceLink = false;
@@ -710,7 +710,7 @@ struct PLAYFAB_API FClientLinkBattleNetAccountRequest : public FPlayFabRequestCo
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** If another user is already linked to a specific Battle.net account, unlink the other user and re-link. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         bool ForceLink = false;
@@ -729,7 +729,7 @@ public:
         FString CustomId;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** If another user is already linked to the custom ID, unlink the other user and re-link. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         bool ForceLink = false;
@@ -764,7 +764,7 @@ public:
         FString AuthenticationToken;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** If another user is already linked to the account, unlink the other user and re-link. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         bool ForceLink = false;
@@ -784,7 +784,7 @@ struct PLAYFAB_API FClientLinkFacebookInstantGamesIdRequest : public FPlayFabReq
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Facebook Instant Games signature for the user. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         FString FacebookInstantGamesSignature;
@@ -807,7 +807,7 @@ struct PLAYFAB_API FClientLinkGameCenterAccountRequest : public FPlayFabRequestC
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /**
      * If another user is already linked to the account, unlink the other user and re-link. If the current user is already
      * linked, link both accounts
@@ -852,7 +852,7 @@ struct PLAYFAB_API FClientLinkGoogleAccountRequest : public FPlayFabRequestCommo
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /**
      * If another user is already linked to the account, unlink the other user and re-link. If the current user is already
      * linked, link both accounts
@@ -885,7 +885,7 @@ struct PLAYFAB_API FClientLinkGooglePlayGamesServicesAccountRequest : public FPl
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /**
      * If another user is already linked to the account, unlink the other user and re-link. If the current user is already
      * linked, link both accounts
@@ -914,7 +914,7 @@ struct PLAYFAB_API FClientLinkIOSDeviceIDRequest : public FPlayFabRequestCommon
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Vendor-specific iOS identifier for the user's device. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         FString DeviceId;
@@ -946,7 +946,7 @@ public:
         FString AuthTicket;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** If another user is already linked to the account, unlink the other user and re-link. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         bool ForceLink = false;
@@ -969,7 +969,7 @@ struct PLAYFAB_API FClientLinkNintendoServiceAccountRequest : public FPlayFabReq
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** If another user is already linked to a specific Nintendo Switch account, unlink the other user and re-link. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         bool ForceLink = false;
@@ -988,7 +988,7 @@ struct PLAYFAB_API FClientLinkNintendoSwitchDeviceIdRequest : public FPlayFabReq
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** If another user is already linked to the Nintendo Switch Device ID, unlink the other user and re-link. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         bool ForceLink = false;
@@ -1014,7 +1014,7 @@ public:
         FString ConnectionId;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** If another user is already linked to a specific OpenId Connect user, unlink the other user and re-link. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         bool ForceLink = false;
@@ -1036,7 +1036,7 @@ public:
         FString AuthCode;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** If another user is already linked to the account, unlink the other user and re-link. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         bool ForceLink = false;
@@ -1069,7 +1069,7 @@ struct PLAYFAB_API FClientLinkSteamAccountRequest : public FPlayFabRequestCommon
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** If another user is already linked to the account, unlink the other user and re-link. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         bool ForceLink = false;
@@ -1104,7 +1104,7 @@ public:
         FString AccessToken;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** If another user is already linked to the account, unlink the other user and re-link. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         bool ForceLink = false;
@@ -1124,7 +1124,7 @@ struct PLAYFAB_API FClientLinkXboxAccountRequest : public FPlayFabRequestCommon
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** If another user is already linked to the account, unlink the other user and re-link. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         bool ForceLink = false;
@@ -1148,7 +1148,7 @@ struct PLAYFAB_API FClientRemoveContactEmailRequest : public FPlayFabRequestComm
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
 };
 
 USTRUCT(BlueprintType)
@@ -1165,7 +1165,7 @@ struct PLAYFAB_API FClientRemoveGenericIDRequest : public FPlayFabRequestCommon
 public:
     /** Generic service identifier to be removed from the player. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
-        UPlayFabJsonObject* GenericId = nullptr;
+        TObjectPtr<UPlayFabJsonObject> GenericId;
 };
 
 USTRUCT(BlueprintType)
@@ -1185,7 +1185,7 @@ public:
         FString Comment;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Unique PlayFab identifier of the reported player. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         FString ReporteeId;
@@ -1217,7 +1217,7 @@ struct PLAYFAB_API FClientSendAccountRecoveryEmailRequest : public FPlayFabReque
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** User email address attached to their account */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         FString Email;
@@ -1246,7 +1246,7 @@ public:
         FString AndroidDeviceId;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
 };
 
 USTRUCT(BlueprintType)
@@ -1263,7 +1263,7 @@ struct PLAYFAB_API FClientUnlinkAppleRequest : public FPlayFabRequestCommon
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
 };
 
 USTRUCT(BlueprintType)
@@ -1273,7 +1273,7 @@ struct PLAYFAB_API FClientUnlinkBattleNetAccountRequest : public FPlayFabRequest
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
 };
 
 USTRUCT(BlueprintType)
@@ -1289,7 +1289,7 @@ public:
         FString CustomId;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
 };
 
 USTRUCT(BlueprintType)
@@ -1306,7 +1306,7 @@ struct PLAYFAB_API FClientUnlinkFacebookAccountRequest : public FPlayFabRequestC
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
 };
 
 USTRUCT(BlueprintType)
@@ -1323,7 +1323,7 @@ struct PLAYFAB_API FClientUnlinkFacebookInstantGamesIdRequest : public FPlayFabR
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Facebook Instant Games identifier for the user. If not specified, the most recently signed in ID will be used. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         FString FacebookInstantGamesId;
@@ -1343,7 +1343,7 @@ struct PLAYFAB_API FClientUnlinkGameCenterAccountRequest : public FPlayFabReques
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
 };
 
 USTRUCT(BlueprintType)
@@ -1360,7 +1360,7 @@ struct PLAYFAB_API FClientUnlinkGoogleAccountRequest : public FPlayFabRequestCom
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
 };
 
 USTRUCT(BlueprintType)
@@ -1377,7 +1377,7 @@ struct PLAYFAB_API FClientUnlinkGooglePlayGamesServicesAccountRequest : public F
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
 };
 
 USTRUCT(BlueprintType)
@@ -1394,7 +1394,7 @@ struct PLAYFAB_API FClientUnlinkIOSDeviceIDRequest : public FPlayFabRequestCommo
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /**
      * Vendor-specific iOS identifier for the user's device. If not specified, the most recently signed in iOS Device ID will
      * be used.
@@ -1417,7 +1417,7 @@ struct PLAYFAB_API FClientUnlinkKongregateAccountRequest : public FPlayFabReques
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
 };
 
 USTRUCT(BlueprintType)
@@ -1434,7 +1434,7 @@ struct PLAYFAB_API FClientUnlinkNintendoServiceAccountRequest : public FPlayFabR
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
 };
 
 USTRUCT(BlueprintType)
@@ -1444,7 +1444,7 @@ struct PLAYFAB_API FClientUnlinkNintendoSwitchDeviceIdRequest : public FPlayFabR
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Nintendo Switch Device identifier for the user. If not specified, the most recently signed in device ID will be used. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         FString NintendoSwitchDeviceId;
@@ -1467,7 +1467,7 @@ public:
         FString ConnectionId;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
 };
 
 USTRUCT(BlueprintType)
@@ -1477,7 +1477,7 @@ struct PLAYFAB_API FClientUnlinkPSNAccountRequest : public FPlayFabRequestCommon
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
 };
 
 USTRUCT(BlueprintType)
@@ -1494,7 +1494,7 @@ struct PLAYFAB_API FClientUnlinkSteamAccountRequest : public FPlayFabRequestComm
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
 };
 
 USTRUCT(BlueprintType)
@@ -1517,7 +1517,7 @@ public:
         FString AccessToken;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
 };
 
 USTRUCT(BlueprintType)
@@ -1534,7 +1534,7 @@ struct PLAYFAB_API FClientUnlinkXboxAccountRequest : public FPlayFabRequestCommo
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
 };
 
 USTRUCT(BlueprintType)
@@ -1565,7 +1565,7 @@ struct PLAYFAB_API FClientUpdateUserTitleDisplayNameRequest : public FPlayFabReq
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** New title display name for the user - must be between 3 and 25 characters. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         FString DisplayName;
@@ -1621,7 +1621,7 @@ public:
         FString AppId;
     /** Using the name or unique identifier, filter the result for get a specific placement. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Advertising Models")
-        UPlayFabJsonObject* Identifier = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Identifier;
 };
 
 /** Array of AdPlacementDetails */
@@ -1632,7 +1632,7 @@ struct PLAYFAB_API FClientGetAdPlacementsResult : public FPlayFabResultCommon
 public:
     /** Array of results */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Advertising Models")
-        TArray<UPlayFabJsonObject*> AdPlacements;
+        TArray<TObjectPtr<UPlayFabJsonObject>> AdPlacements;
 };
 
 /** Report ad activity */
@@ -1646,7 +1646,7 @@ public:
         EAdActivity Activity = StaticCast<EAdActivity>(0);
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Advertising Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Unique ID of the placement to report for */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Advertising Models")
         FString PlacementId;
@@ -1671,7 +1671,7 @@ struct PLAYFAB_API FClientRewardAdActivityRequest : public FPlayFabRequestCommon
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Advertising Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Placement unique ID */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Advertising Models")
         FString PlacementId;
@@ -1706,7 +1706,7 @@ public:
         int32 PlacementViewsResetMinutes = 0;
     /** Reward results */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Advertising Models")
-        UPlayFabJsonObject* RewardResults = nullptr;
+        TObjectPtr<UPlayFabJsonObject> RewardResults;
 };
 
 
@@ -1722,7 +1722,7 @@ struct PLAYFAB_API FClientDeviceInfoRequest : public FPlayFabRequestCommon
 public:
     /** Information posted to the PlayStream Event. Currently arbitrary, and specific to the environment sending it. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Analytics Models")
-        UPlayFabJsonObject* Info = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Info;
 };
 
 /**
@@ -1737,13 +1737,13 @@ struct PLAYFAB_API FClientWriteClientCharacterEventRequest : public FPlayFabRequ
 public:
     /** Custom event properties. Each property consists of a name (string) and a value (JSON object). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Analytics Models")
-        UPlayFabJsonObject* Body = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Body;
     /** Unique PlayFab assigned ID for a specific character owned by a user */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Analytics Models")
         FString CharacterId;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Analytics Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /**
      * The name of the event, within the namespace scoped to the title. The naming convention is up to the caller, but it
      * commonly follows the subject_verb_object pattern (e.g. player_logged_in).
@@ -1780,10 +1780,10 @@ struct PLAYFAB_API FClientWriteClientPlayerEventRequest : public FPlayFabRequest
 public:
     /** Custom data properties associated with the event. Each property consists of a name (string) and a value (JSON object). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Analytics Models")
-        UPlayFabJsonObject* Body = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Body;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Analytics Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /**
      * The name of the event, within the namespace scoped to the title. The naming convention is up to the caller, but it
      * commonly follows the subject_verb_object pattern (e.g. player_logged_in).
@@ -1807,10 +1807,10 @@ struct PLAYFAB_API FClientWriteTitleEventRequest : public FPlayFabRequestCommon
 public:
     /** Custom event properties. Each property consists of a name (string) and a value (JSON object). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Analytics Models")
-        UPlayFabJsonObject* Body = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Body;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Analytics Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /**
      * The name of the event, within the namespace scoped to the title. The naming convention is up to the caller, but it
      * commonly follows the subject_verb_object pattern (e.g. player_logged_in).
@@ -1886,10 +1886,10 @@ public:
      * returned.
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
-        UPlayFabJsonObject* EntityToken = nullptr;
+        TObjectPtr<UPlayFabJsonObject> EntityToken;
     /** Results for requested info. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
-        UPlayFabJsonObject* InfoResultPayload = nullptr;
+        TObjectPtr<UPlayFabJsonObject> InfoResultPayload;
     /** The time of this user's previous login. If there was no previous login, then it's DateTime.MinValue */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString LastLoginTime;
@@ -1904,10 +1904,10 @@ public:
         FString SessionTicket;
     /** Settings specific to this user. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
-        UPlayFabJsonObject* SettingsForUser = nullptr;
+        TObjectPtr<UPlayFabJsonObject> SettingsForUser;
     /** The experimentation treatments for this user at the time of login. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
-        UPlayFabJsonObject* TreatmentAssignment = nullptr;
+        TObjectPtr<UPlayFabJsonObject> TreatmentAssignment;
 };
 
 /**
@@ -1938,13 +1938,13 @@ public:
         bool CreateAccount = false;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Base64 encoded body that is encrypted with the Title's public RSA key (Enterprise Only). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString EncryptedRequest;
     /** Flags for which pieces of info to return for the user. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
-        UPlayFabJsonObject* InfoRequestParameters = nullptr;
+        TObjectPtr<UPlayFabJsonObject> InfoRequestParameters;
     /** Specific Operating System version for the user's device. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString OS;
@@ -1963,7 +1963,7 @@ public:
         bool CreateAccount = false;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Base64 encoded body that is encrypted with the Title's public RSA key (Enterprise Only). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString EncryptedRequest;
@@ -1976,7 +1976,7 @@ public:
         FString IdentityToken;
     /** Flags for which pieces of info to return for the user. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
-        UPlayFabJsonObject* InfoRequestParameters = nullptr;
+        TObjectPtr<UPlayFabJsonObject> InfoRequestParameters;
     /** Player secret that is used to verify API request signatures (Enterprise Only). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString PlayerSecret;
@@ -1992,7 +1992,7 @@ public:
         bool CreateAccount = false;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Base64 encoded body that is encrypted with the Title's public RSA key (Enterprise Only). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString EncryptedRequest;
@@ -2001,7 +2001,7 @@ public:
         FString IdentityToken;
     /** Flags for which pieces of info to return for the user. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
-        UPlayFabJsonObject* InfoRequestParameters = nullptr;
+        TObjectPtr<UPlayFabJsonObject> InfoRequestParameters;
     /** Player secret that is used to verify API request signatures (Enterprise Only). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString PlayerSecret;
@@ -2027,13 +2027,13 @@ public:
         FString CustomId;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Base64 encoded body that is encrypted with the Title's public RSA key (Enterprise Only). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString EncryptedRequest;
     /** Flags for which pieces of info to return for the user. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
-        UPlayFabJsonObject* InfoRequestParameters = nullptr;
+        TObjectPtr<UPlayFabJsonObject> InfoRequestParameters;
     /** Player secret that is used to verify API request signatures (Enterprise Only). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString PlayerSecret;
@@ -2051,13 +2051,13 @@ struct PLAYFAB_API FClientLoginWithEmailAddressRequest : public FPlayFabRequestC
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Email address for the account. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString Email;
     /** Flags for which pieces of info to return for the user. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
-        UPlayFabJsonObject* InfoRequestParameters = nullptr;
+        TObjectPtr<UPlayFabJsonObject> InfoRequestParameters;
     /** Password for the PlayFab account (6-100 characters) */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString Password;
@@ -2093,13 +2093,13 @@ public:
         bool CreateAccount = false;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Base64 encoded body that is encrypted with the Title's public RSA key (Enterprise Only). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString EncryptedRequest;
     /** Flags for which pieces of info to return for the user. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
-        UPlayFabJsonObject* InfoRequestParameters = nullptr;
+        TObjectPtr<UPlayFabJsonObject> InfoRequestParameters;
     /** Player secret that is used to verify API request signatures (Enterprise Only). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString PlayerSecret;
@@ -2115,7 +2115,7 @@ public:
         bool CreateAccount = false;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Base64 encoded body that is encrypted with the Title's public RSA key (Enterprise Only). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString EncryptedRequest;
@@ -2124,7 +2124,7 @@ public:
         FString FacebookInstantGamesSignature;
     /** Flags for which pieces of info to return for the user. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
-        UPlayFabJsonObject* InfoRequestParameters = nullptr;
+        TObjectPtr<UPlayFabJsonObject> InfoRequestParameters;
     /** Player secret that is used to verify API request signatures (Enterprise Only). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString PlayerSecret;
@@ -2151,13 +2151,13 @@ public:
         bool CreateAccount = false;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Base64 encoded body that is encrypted with the Title's public RSA key (Enterprise Only). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString EncryptedRequest;
     /** Flags for which pieces of info to return for the user. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
-        UPlayFabJsonObject* InfoRequestParameters = nullptr;
+        TObjectPtr<UPlayFabJsonObject> InfoRequestParameters;
     /** Unique Game Center player id. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString PlayerId;
@@ -2207,13 +2207,13 @@ public:
         bool CreateAccount = false;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Base64 encoded body that is encrypted with the Title's public RSA key (Enterprise Only). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString EncryptedRequest;
     /** Flags for which pieces of info to return for the user. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
-        UPlayFabJsonObject* InfoRequestParameters = nullptr;
+        TObjectPtr<UPlayFabJsonObject> InfoRequestParameters;
     /** Player secret that is used to verify API request signatures (Enterprise Only). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString PlayerSecret;
@@ -2251,13 +2251,13 @@ public:
         bool CreateAccount = false;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Base64 encoded body that is encrypted with the Title's public RSA key (Enterprise Only). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString EncryptedRequest;
     /** Flags for which pieces of info to return for the user. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
-        UPlayFabJsonObject* InfoRequestParameters = nullptr;
+        TObjectPtr<UPlayFabJsonObject> InfoRequestParameters;
     /** Player secret that is used to verify API request signatures (Enterprise Only). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString PlayerSecret;
@@ -2291,7 +2291,7 @@ public:
         bool CreateAccount = false;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Vendor-specific iOS identifier for the user's device. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString DeviceId;
@@ -2303,7 +2303,7 @@ public:
         FString EncryptedRequest;
     /** Flags for which pieces of info to return for the user. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
-        UPlayFabJsonObject* InfoRequestParameters = nullptr;
+        TObjectPtr<UPlayFabJsonObject> InfoRequestParameters;
     /** Specific Operating System version for the user's device. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString OS;
@@ -2334,13 +2334,13 @@ public:
         bool CreateAccount = false;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Base64 encoded body that is encrypted with the Title's public RSA key (Enterprise Only). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString EncryptedRequest;
     /** Flags for which pieces of info to return for the user. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
-        UPlayFabJsonObject* InfoRequestParameters = nullptr;
+        TObjectPtr<UPlayFabJsonObject> InfoRequestParameters;
     /** Numeric user ID assigned by Kongregate */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString KongregateId;
@@ -2359,7 +2359,7 @@ public:
         bool CreateAccount = false;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Base64 encoded body that is encrypted with the Title's public RSA key (Enterprise Only). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString EncryptedRequest;
@@ -2368,7 +2368,7 @@ public:
         FString IdentityToken;
     /** Flags for which pieces of info to return for the user. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
-        UPlayFabJsonObject* InfoRequestParameters = nullptr;
+        TObjectPtr<UPlayFabJsonObject> InfoRequestParameters;
     /** Player secret that is used to verify API request signatures (Enterprise Only). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString PlayerSecret;
@@ -2384,13 +2384,13 @@ public:
         bool CreateAccount = false;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Base64 encoded body that is encrypted with the Title's public RSA key (Enterprise Only). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString EncryptedRequest;
     /** Flags for which pieces of info to return for the user. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
-        UPlayFabJsonObject* InfoRequestParameters = nullptr;
+        TObjectPtr<UPlayFabJsonObject> InfoRequestParameters;
     /** Nintendo Switch unique identifier for the user's device. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString NintendoSwitchDeviceId;
@@ -2412,7 +2412,7 @@ public:
         bool CreateAccount = false;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Base64 encoded body that is encrypted with the Title's public RSA key (Enterprise Only). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString EncryptedRequest;
@@ -2424,7 +2424,7 @@ public:
         FString IdToken;
     /** Flags for which pieces of info to return for the user. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
-        UPlayFabJsonObject* InfoRequestParameters = nullptr;
+        TObjectPtr<UPlayFabJsonObject> InfoRequestParameters;
     /** Player secret that is used to verify API request signatures (Enterprise Only). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString PlayerSecret;
@@ -2442,10 +2442,10 @@ struct PLAYFAB_API FClientLoginWithPlayFabRequest : public FPlayFabRequestCommon
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Flags for which pieces of info to return for the user. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
-        UPlayFabJsonObject* InfoRequestParameters = nullptr;
+        TObjectPtr<UPlayFabJsonObject> InfoRequestParameters;
     /** Password for the PlayFab account (6-100 characters) */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString Password;
@@ -2474,13 +2474,13 @@ public:
         bool CreateAccount = false;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Base64 encoded body that is encrypted with the Title's public RSA key (Enterprise Only). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString EncryptedRequest;
     /** Flags for which pieces of info to return for the user. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
-        UPlayFabJsonObject* InfoRequestParameters = nullptr;
+        TObjectPtr<UPlayFabJsonObject> InfoRequestParameters;
     /** Id of the PlayStation :tm: Network issuer environment. If null, defaults to production environment. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         int32 IssuerId = 0;
@@ -2512,13 +2512,13 @@ public:
         bool CreateAccount = false;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Base64 encoded body that is encrypted with the Title's public RSA key (Enterprise Only). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString EncryptedRequest;
     /** Flags for which pieces of info to return for the user. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
-        UPlayFabJsonObject* InfoRequestParameters = nullptr;
+        TObjectPtr<UPlayFabJsonObject> InfoRequestParameters;
     /** Player secret that is used to verify API request signatures (Enterprise Only). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString PlayerSecret;
@@ -2558,13 +2558,13 @@ public:
         bool CreateAccount = false;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Base64 encoded body that is encrypted with the Title's public RSA key (Enterprise Only). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString EncryptedRequest;
     /** Flags for which pieces of info to return for the user. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
-        UPlayFabJsonObject* InfoRequestParameters = nullptr;
+        TObjectPtr<UPlayFabJsonObject> InfoRequestParameters;
     /** Player secret that is used to verify API request signatures (Enterprise Only). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString PlayerSecret;
@@ -2586,13 +2586,13 @@ public:
         bool CreateAccount = false;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Base64 encoded body that is encrypted with the Title's public RSA key (Enterprise Only). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString EncryptedRequest;
     /** Flags for which pieces of info to return for the user. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
-        UPlayFabJsonObject* InfoRequestParameters = nullptr;
+        TObjectPtr<UPlayFabJsonObject> InfoRequestParameters;
     /** Player secret that is used to verify API request signatures (Enterprise Only). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString PlayerSecret;
@@ -2608,7 +2608,7 @@ struct PLAYFAB_API FClientRegisterPlayFabUserRequest : public FPlayFabRequestCom
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** An optional parameter for setting the display name for this title (3-25 characters). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString DisplayName;
@@ -2620,7 +2620,7 @@ public:
         FString EncryptedRequest;
     /** Flags for which pieces of info to return for the user. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
-        UPlayFabJsonObject* InfoRequestParameters = nullptr;
+        TObjectPtr<UPlayFabJsonObject> InfoRequestParameters;
     /** Password for the PlayFab account (6-100 characters) */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString Password;
@@ -2654,7 +2654,7 @@ public:
      * returned.
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
-        UPlayFabJsonObject* EntityToken = nullptr;
+        TObjectPtr<UPlayFabJsonObject> EntityToken;
     /** PlayFab unique identifier for this newly created account. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString PlayFabId;
@@ -2663,7 +2663,7 @@ public:
         FString SessionTicket;
     /** Settings specific to this user. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
-        UPlayFabJsonObject* SettingsForUser = nullptr;
+        TObjectPtr<UPlayFabJsonObject> SettingsForUser;
     /** PlayFab unique user name. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString Username;
@@ -2738,7 +2738,7 @@ public:
         FString CharacterId;
     /** User specific data for this title. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Character Data Models")
-        UPlayFabJsonObject* Data = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Data;
     /**
      * Indicates the current version of the data that has been set. This is incremented with every set call for that type of
      * data (read-only, internal, etc). This version can be provided in Get calls to find updated data.
@@ -2763,13 +2763,13 @@ public:
         FString CharacterId;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Character Data Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /**
      * Key-value pairs to be written to the custom data. Note that keys are trimmed of whitespace, are limited in size, and may
      * not begin with a '!' character or be null.
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Character Data Models")
-        UPlayFabJsonObject* Data = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Data;
     /**
      * Optional list of Data-keys to remove from UserData. Some SDKs cannot insert null-values into Data due to language
      * constraints. Use this to delete the keys directly.
@@ -2817,7 +2817,7 @@ struct PLAYFAB_API FClientListUsersCharactersResult : public FPlayFabResultCommo
 public:
     /** The requested list of characters. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Characters Models")
-        TArray<UPlayFabJsonObject*> Characters;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Characters;
 };
 
 USTRUCT(BlueprintType)
@@ -2844,7 +2844,7 @@ struct PLAYFAB_API FClientGetCharacterLeaderboardResult : public FPlayFabResultC
 public:
     /** Ordered list of leaderboard entries. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Characters Models")
-        TArray<UPlayFabJsonObject*> Leaderboard;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Leaderboard;
 };
 
 USTRUCT(BlueprintType)
@@ -2865,7 +2865,7 @@ struct PLAYFAB_API FClientGetCharacterStatisticsResult : public FPlayFabResultCo
 public:
     /** The requested character statistics. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Characters Models")
-        UPlayFabJsonObject* CharacterStatistics = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CharacterStatistics;
 };
 
 USTRUCT(BlueprintType)
@@ -2895,7 +2895,7 @@ struct PLAYFAB_API FClientGetLeaderboardAroundCharacterResult : public FPlayFabR
 public:
     /** Ordered list of leaderboard entries. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Characters Models")
-        TArray<UPlayFabJsonObject*> Leaderboard;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Leaderboard;
 };
 
 USTRUCT(BlueprintType)
@@ -2920,7 +2920,7 @@ struct PLAYFAB_API FClientGetLeaderboardForUsersCharactersResult : public FPlayF
 public:
     /** Ordered list of leaderboard entries. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Characters Models")
-        TArray<UPlayFabJsonObject*> Leaderboard;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Leaderboard;
 };
 
 /**
@@ -2941,7 +2941,7 @@ public:
         FString CharacterName;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Characters Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /**
      * Catalog item identifier of the item in the user's inventory that corresponds to the character in the catalog to be
      * created.
@@ -2983,10 +2983,10 @@ public:
         FString CharacterId;
     /** Statistics to be updated with the provided values, in the Key(string), Value(int) pattern. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Characters Models")
-        UPlayFabJsonObject* CharacterStatistics = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CharacterStatistics;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Characters Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
 };
 
 USTRUCT(BlueprintType)
@@ -3071,7 +3071,7 @@ struct PLAYFAB_API FClientGetFriendsListRequest : public FPlayFabRequestCommon
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Friend List Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /**
      * Indicates which other platforms' friends should be included in the response. In HTTP, it is represented as a
      * comma-separated list of platforms.
@@ -3084,7 +3084,7 @@ public:
      * the Game Manager "Client Profile Options" tab in the "Settings" section.
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Friend List Management Models")
-        UPlayFabJsonObject* ProfileConstraints = nullptr;
+        TObjectPtr<UPlayFabJsonObject> ProfileConstraints;
     /**
      * Xbox token if Xbox friends should be included. Requires Xbox be configured on PlayFab. When provided, all Xbox Live
      * users the caller is following are included regardless of whether they follow the caller back.
@@ -3109,7 +3109,7 @@ struct PLAYFAB_API FClientGetFriendsListResult : public FPlayFabResultCommon
 public:
     /** Array of friends found. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Friend List Management Models")
-        TArray<UPlayFabJsonObject*> Friends;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Friends;
 };
 
 USTRUCT(BlueprintType)
@@ -3206,10 +3206,10 @@ public:
         FString CatalogVersion;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Platform Specific Methods Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Marketplace specific payload containing details to fetch in app purchase transactions */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Platform Specific Methods Models")
-        UPlayFabJsonObject* MarketplaceSpecificData = nullptr;
+        TObjectPtr<UPlayFabJsonObject> MarketplaceSpecificData;
 };
 
 USTRUCT(BlueprintType)
@@ -3219,7 +3219,7 @@ struct PLAYFAB_API FClientConsumeMicrosoftStoreEntitlementsResponse : public FPl
 public:
     /** Details for the items purchased. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Platform Specific Methods Models")
-        TArray<UPlayFabJsonObject*> Items;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Items;
 };
 
 USTRUCT(BlueprintType)
@@ -3232,10 +3232,10 @@ public:
         FString CatalogVersion;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Platform Specific Methods Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Marketplace specific payload containing details to fetch in app purchase transactions */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Platform Specific Methods Models")
-        UPlayFabJsonObject* MarketplaceSpecificData = nullptr;
+        TObjectPtr<UPlayFabJsonObject> MarketplaceSpecificData;
 };
 
 USTRUCT(BlueprintType)
@@ -3245,7 +3245,7 @@ struct PLAYFAB_API FClientConsumePS5EntitlementsResult : public FPlayFabResultCo
 public:
     /** Details for the items purchased. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Platform Specific Methods Models")
-        TArray<UPlayFabJsonObject*> Items;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Items;
 };
 
 USTRUCT(BlueprintType)
@@ -3258,7 +3258,7 @@ public:
         FString CatalogVersion;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Platform Specific Methods Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Id of the PlayStation :tm: Network service label to consume entitlements from */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Platform Specific Methods Models")
         int32 ServiceLabel = 0;
@@ -3271,7 +3271,7 @@ struct PLAYFAB_API FClientConsumePSNEntitlementsResult : public FPlayFabResultCo
 public:
     /** Array of items granted to the player as a result of consuming entitlements. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Platform Specific Methods Models")
-        TArray<UPlayFabJsonObject*> ItemsGranted;
+        TArray<TObjectPtr<UPlayFabJsonObject>> ItemsGranted;
 };
 
 USTRUCT(BlueprintType)
@@ -3284,7 +3284,7 @@ public:
         FString CatalogVersion;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Platform Specific Methods Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Token provided by the Xbox Live SDK/XDK method GetTokenAndSignatureAsync("POST", "https://playfabapi.com/", ""). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Platform Specific Methods Models")
         FString XboxToken;
@@ -3297,7 +3297,7 @@ struct PLAYFAB_API FClientConsumeXboxEntitlementsResult : public FPlayFabResultC
 public:
     /** Details for the items purchased. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Platform Specific Methods Models")
-        TArray<UPlayFabJsonObject*> Items;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Items;
 };
 
 USTRUCT(BlueprintType)
@@ -3359,7 +3359,7 @@ public:
         FString CatalogVersion;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Platform Specific Methods Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Base64 encoded receipt data, passed back by the App Store as a result of a successful purchase. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Platform Specific Methods Models")
         FString ReceiptData;
@@ -3376,7 +3376,7 @@ struct PLAYFAB_API FClientRestoreIOSPurchasesResult : public FPlayFabResultCommo
 public:
     /** Fulfilled inventory items and recorded purchases in fulfillment of the validated receipt transactions. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Platform Specific Methods Models")
-        TArray<UPlayFabJsonObject*> Fulfillments;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Fulfillments;
 };
 
 USTRUCT(BlueprintType)
@@ -3392,7 +3392,7 @@ public:
         FString CurrencyCode;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Platform Specific Methods Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Amount of the stated currency paid, in centesimal units. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Platform Specific Methods Models")
         int32 PurchasePrice = 0;
@@ -3416,7 +3416,7 @@ struct PLAYFAB_API FClientValidateAmazonReceiptResult : public FPlayFabResultCom
 public:
     /** Fulfilled inventory items and recorded purchases in fulfillment of the validated receipt transactions. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Platform Specific Methods Models")
-        TArray<UPlayFabJsonObject*> Fulfillments;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Fulfillments;
 };
 
 /**
@@ -3439,7 +3439,7 @@ public:
         FString CurrencyCode;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Platform Specific Methods Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Amount of the stated currency paid, in centesimal units. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Platform Specific Methods Models")
         int32 PurchasePrice = 0;
@@ -3463,7 +3463,7 @@ struct PLAYFAB_API FClientValidateGooglePlayPurchaseResult : public FPlayFabResu
 public:
     /** Fulfilled inventory items and recorded purchases in fulfillment of the validated receipt transactions. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Platform Specific Methods Models")
-        TArray<UPlayFabJsonObject*> Fulfillments;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Fulfillments;
 };
 
 /**
@@ -3486,7 +3486,7 @@ public:
         FString CurrencyCode;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Platform Specific Methods Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Base64 encoded receipt data, passed back by the App Store as a result of a successful purchase. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Platform Specific Methods Models")
         FString JwsReceiptData;
@@ -3510,7 +3510,7 @@ struct PLAYFAB_API FClientValidateIOSReceiptResult : public FPlayFabResultCommon
 public:
     /** Fulfilled inventory items and recorded purchases in fulfillment of the validated receipt transactions. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Platform Specific Methods Models")
-        TArray<UPlayFabJsonObject*> Fulfillments;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Fulfillments;
 };
 
 USTRUCT(BlueprintType)
@@ -3526,7 +3526,7 @@ public:
         FString CurrencyCode;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Platform Specific Methods Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Amount of the stated currency paid, in centesimal units. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Platform Specific Methods Models")
         int32 PurchasePrice = 0;
@@ -3547,7 +3547,7 @@ struct PLAYFAB_API FClientValidateWindowsReceiptResult : public FPlayFabResultCo
 public:
     /** Fulfilled inventory items and recorded purchases in fulfillment of the validated receipt transactions. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Platform Specific Methods Models")
-        TArray<UPlayFabJsonObject*> Fulfillments;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Fulfillments;
 };
 
 
@@ -3563,7 +3563,7 @@ struct PLAYFAB_API FClientDeletePlayerCustomPropertiesRequest : public FPlayFabR
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Data Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /**
      * Optional field used for concurrency control. One can ensure that the delete operation will only be performed if the
      * player's properties have not been updated by any other clients since the last version.
@@ -3582,7 +3582,7 @@ struct PLAYFAB_API FClientDeletePlayerCustomPropertiesResult : public FPlayFabRe
 public:
     /** The list of properties requested to be deleted. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Data Management Models")
-        TArray<UPlayFabJsonObject*> DeletedProperties;
+        TArray<TObjectPtr<UPlayFabJsonObject>> DeletedProperties;
     /**
      * Indicates the current version of a player's properties that have been set. This is incremented after updates and
      * deletes. This version can be provided in update and delete calls for concurrency control.
@@ -3598,7 +3598,7 @@ struct PLAYFAB_API FClientGetFriendLeaderboardRequest : public FPlayFabRequestCo
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Data Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /**
      * Indicates which other platforms' friends should be included in the response. In HTTP, it is represented as a
      * comma-separated list of platforms.
@@ -3614,7 +3614,7 @@ public:
      * the Game Manager "Client Profile Options" tab in the "Settings" section.
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Data Management Models")
-        UPlayFabJsonObject* ProfileConstraints = nullptr;
+        TObjectPtr<UPlayFabJsonObject> ProfileConstraints;
     /** Position in the leaderboard to start this listing (defaults to the first entry). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Data Management Models")
         int32 StartPosition = 0;
@@ -3640,7 +3640,7 @@ struct PLAYFAB_API FClientGetLeaderboardResult : public FPlayFabResultCommon
 public:
     /** Ordered listing of users and their positions in the requested leaderboard. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Data Management Models")
-        TArray<UPlayFabJsonObject*> Leaderboard;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Leaderboard;
     /** The time the next scheduled reset will occur. Null if the leaderboard does not reset on a schedule. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Data Management Models")
         FString NextReset;
@@ -3656,7 +3656,7 @@ struct PLAYFAB_API FClientGetFriendLeaderboardAroundPlayerRequest : public FPlay
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Data Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /**
      * Indicates which other platforms' friends should be included in the response. In HTTP, it is represented as a
      * comma-separated list of platforms.
@@ -3675,7 +3675,7 @@ public:
      * the Game Manager "Client Profile Options" tab in the "Settings" section.
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Data Management Models")
-        UPlayFabJsonObject* ProfileConstraints = nullptr;
+        TObjectPtr<UPlayFabJsonObject> ProfileConstraints;
     /** Statistic used to rank players for this leaderboard. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Data Management Models")
         FString StatisticName;
@@ -3703,7 +3703,7 @@ struct PLAYFAB_API FClientGetFriendLeaderboardAroundPlayerResult : public FPlayF
 public:
     /** Ordered listing of users and their positions in the requested leaderboard. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Data Management Models")
-        TArray<UPlayFabJsonObject*> Leaderboard;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Leaderboard;
     /** The time the next scheduled reset will occur. Null if the leaderboard does not reset on a schedule. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Data Management Models")
         FString NextReset;
@@ -3719,7 +3719,7 @@ struct PLAYFAB_API FClientGetLeaderboardRequest : public FPlayFabRequestCommon
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Data Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Maximum number of entries to retrieve. Default 10, maximum 100. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Data Management Models")
         int32 MaxResultsCount = 0;
@@ -3729,7 +3729,7 @@ public:
      * the Game Manager "Client Profile Options" tab in the "Settings" section.
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Data Management Models")
-        UPlayFabJsonObject* ProfileConstraints = nullptr;
+        TObjectPtr<UPlayFabJsonObject> ProfileConstraints;
     /** Position in the leaderboard to start this listing (defaults to the first entry). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Data Management Models")
         int32 StartPosition = 0;
@@ -3751,7 +3751,7 @@ struct PLAYFAB_API FClientGetLeaderboardAroundPlayerRequest : public FPlayFabReq
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Data Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Maximum number of entries to retrieve. Default 10, maximum 100. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Data Management Models")
         int32 MaxResultsCount = 0;
@@ -3764,7 +3764,7 @@ public:
      * the Game Manager "Client Profile Options" tab in the "Settings" section.
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Data Management Models")
-        UPlayFabJsonObject* ProfileConstraints = nullptr;
+        TObjectPtr<UPlayFabJsonObject> ProfileConstraints;
     /** Statistic used to rank players for this leaderboard. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Data Management Models")
         FString StatisticName;
@@ -3787,7 +3787,7 @@ struct PLAYFAB_API FClientGetLeaderboardAroundPlayerResult : public FPlayFabResu
 public:
     /** Ordered listing of users and their positions in the requested leaderboard. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Data Management Models")
-        TArray<UPlayFabJsonObject*> Leaderboard;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Leaderboard;
     /** The time the next scheduled reset will occur. Null if the leaderboard does not reset on a schedule. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Data Management Models")
         FString NextReset;
@@ -3819,7 +3819,7 @@ public:
         int32 PropertiesVersion = 0;
     /** Player specific property and its corresponding value. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Data Management Models")
-        UPlayFabJsonObject* Property = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Property;
 };
 
 USTRUCT(BlueprintType)
@@ -3829,7 +3829,7 @@ struct PLAYFAB_API FClientGetPlayerStatisticsRequest : public FPlayFabRequestCom
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Data Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** statistics to return (current version will be returned for each) */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Data Management Models")
         FString StatisticNames;
@@ -3838,7 +3838,7 @@ public:
      * returned)
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Data Management Models")
-        TArray<UPlayFabJsonObject*> StatisticNameVersions;
+        TArray<TObjectPtr<UPlayFabJsonObject>> StatisticNameVersions;
 };
 
 /** In addition to being available for use by the title, the statistics are used for all leaderboard operations in PlayFab. */
@@ -3849,7 +3849,7 @@ struct PLAYFAB_API FClientGetPlayerStatisticsResult : public FPlayFabResultCommo
 public:
     /** User statistics for the requested user. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Data Management Models")
-        TArray<UPlayFabJsonObject*> Statistics;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Statistics;
 };
 
 USTRUCT(BlueprintType)
@@ -3859,7 +3859,7 @@ struct PLAYFAB_API FClientGetPlayerStatisticVersionsRequest : public FPlayFabReq
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Data Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** unique name of the statistic */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Data Management Models")
         FString StatisticName;
@@ -3872,7 +3872,7 @@ struct PLAYFAB_API FClientGetPlayerStatisticVersionsResult : public FPlayFabResu
 public:
     /** version change history of the statistic */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Data Management Models")
-        TArray<UPlayFabJsonObject*> StatisticVersions;
+        TArray<TObjectPtr<UPlayFabJsonObject>> StatisticVersions;
 };
 
 /**
@@ -3910,7 +3910,7 @@ struct PLAYFAB_API FClientGetUserDataResult : public FPlayFabResultCommon
 public:
     /** User specific data for this title. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Data Management Models")
-        UPlayFabJsonObject* Data = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Data;
     /**
      * Indicates the current version of the data that has been set. This is incremented with every set call for that type of
      * data (read-only, internal, etc). This version can be provided in Get calls to find updated data.
@@ -3933,7 +3933,7 @@ struct PLAYFAB_API FClientListPlayerCustomPropertiesResult : public FPlayFabResu
 public:
     /** Player specific properties and their corresponding values for this title. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Data Management Models")
-        TArray<UPlayFabJsonObject*> Properties;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Properties;
     /**
      * Indicates the current version of a player's properties that have been set. This is incremented after updates and
      * deletes. This version can be provided in update and delete calls for concurrency control.
@@ -3954,7 +3954,7 @@ struct PLAYFAB_API FClientUpdatePlayerCustomPropertiesRequest : public FPlayFabR
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Data Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /**
      * Optional field used for concurrency control. One can ensure that the update operation will only be performed if the
      * player's properties have not been updated by any other clients since last the version.
@@ -3963,7 +3963,7 @@ public:
         int32 ExpectedPropertiesVersion = 0;
     /** Collection of properties to be set for a player. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Data Management Models")
-        TArray<UPlayFabJsonObject*> Properties;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Properties;
 };
 
 USTRUCT(BlueprintType)
@@ -3995,10 +3995,10 @@ struct PLAYFAB_API FClientUpdatePlayerStatisticsRequest : public FPlayFabRequest
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Data Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Statistics to be updated with the provided values */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Data Management Models")
-        TArray<UPlayFabJsonObject*> Statistics;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Statistics;
 };
 
 USTRUCT(BlueprintType)
@@ -4021,13 +4021,13 @@ struct PLAYFAB_API FClientUpdateUserDataRequest : public FPlayFabRequestCommon
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Data Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /**
      * Key-value pairs to be written to the custom data. Note that keys are trimmed of whitespace, are limited in size, and may
      * not begin with a '!' character or be null.
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Data Management Models")
-        UPlayFabJsonObject* Data = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Data;
     /**
      * Optional list of Data-keys to remove from UserData. Some SDKs cannot insert null-values into Data due to language
      * constraints. Use this to delete the keys directly.
@@ -4071,7 +4071,7 @@ public:
         int32 Amount = 0;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Item Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Name of the virtual currency which is to be incremented. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Item Management Models")
         FString VirtualCurrency;
@@ -4114,7 +4114,7 @@ struct PLAYFAB_API FClientConfirmPurchaseRequest : public FPlayFabRequestCommon
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Item Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Purchase order identifier returned from StartPurchase. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Item Management Models")
         FString OrderId;
@@ -4132,7 +4132,7 @@ struct PLAYFAB_API FClientConfirmPurchaseResult : public FPlayFabResultCommon
 public:
     /** Array of items purchased. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Item Management Models")
-        TArray<UPlayFabJsonObject*> Items;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Items;
     /** Purchase order identifier. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Item Management Models")
         FString OrderId;
@@ -4154,7 +4154,7 @@ public:
         int32 ConsumeCount = 0;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Item Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Unique instance identifier of the item to be consumed. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Item Management Models")
         FString ItemInstanceId;
@@ -4191,7 +4191,7 @@ public:
         FString CharacterId;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Item Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
 };
 
 USTRUCT(BlueprintType)
@@ -4204,13 +4204,13 @@ public:
         FString CharacterId;
     /** Array of inventory items belonging to the character. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Item Management Models")
-        TArray<UPlayFabJsonObject*> Inventory;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Inventory;
     /** Array of virtual currency balance(s) belonging to the character. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Item Management Models")
-        UPlayFabJsonObject* VirtualCurrency = nullptr;
+        TObjectPtr<UPlayFabJsonObject> VirtualCurrency;
     /** Array of remaining times and timestamps for virtual currencies. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Item Management Models")
-        UPlayFabJsonObject* VirtualCurrencyRechargeTimes = nullptr;
+        TObjectPtr<UPlayFabJsonObject> VirtualCurrencyRechargeTimes;
 };
 
 USTRUCT(BlueprintType)
@@ -4275,7 +4275,7 @@ struct PLAYFAB_API FClientGetUserInventoryRequest : public FPlayFabRequestCommon
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Item Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
 };
 
 /**
@@ -4290,13 +4290,13 @@ struct PLAYFAB_API FClientGetUserInventoryResult : public FPlayFabResultCommon
 public:
     /** Array of inventory items belonging to the user. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Item Management Models")
-        TArray<UPlayFabJsonObject*> Inventory;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Inventory;
     /** Array of virtual currency balance(s) belonging to the user. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Item Management Models")
-        UPlayFabJsonObject* VirtualCurrency = nullptr;
+        TObjectPtr<UPlayFabJsonObject> VirtualCurrency;
     /** Array of remaining times and timestamps for virtual currencies. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Item Management Models")
-        UPlayFabJsonObject* VirtualCurrencyRechargeTimes = nullptr;
+        TObjectPtr<UPlayFabJsonObject> VirtualCurrencyRechargeTimes;
 };
 
 /**
@@ -4315,7 +4315,7 @@ public:
         FString Currency;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Item Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Purchase order identifier returned from StartPurchase. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Item Management Models")
         FString OrderId;
@@ -4362,10 +4362,10 @@ public:
         ETransactionStatus Status = StaticCast<ETransactionStatus>(0);
     /** Virtual currencies granted by the transaction, if any. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Item Management Models")
-        UPlayFabJsonObject* VCAmount = nullptr;
+        TObjectPtr<UPlayFabJsonObject> VCAmount;
     /** Current virtual currency balances for the user. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Item Management Models")
-        UPlayFabJsonObject* VirtualCurrency = nullptr;
+        TObjectPtr<UPlayFabJsonObject> VirtualCurrency;
 };
 
 /**
@@ -4385,7 +4385,7 @@ public:
         FString CharacterId;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Item Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Unique identifier of the item to purchase. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Item Management Models")
         FString ItemId;
@@ -4407,7 +4407,7 @@ struct PLAYFAB_API FClientPurchaseItemResult : public FPlayFabResultCommon
 public:
     /** Details for the items purchased. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Item Management Models")
-        TArray<UPlayFabJsonObject*> Items;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Items;
 };
 
 /**
@@ -4431,7 +4431,7 @@ public:
         FString CouponCode;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Item Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
 };
 
 USTRUCT(BlueprintType)
@@ -4441,7 +4441,7 @@ struct PLAYFAB_API FClientRedeemCouponResult : public FPlayFabResultCommon
 public:
     /** Items granted to the player as a result of redeeming the coupon. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Item Management Models")
-        TArray<UPlayFabJsonObject*> GrantedItems;
+        TArray<TObjectPtr<UPlayFabJsonObject>> GrantedItems;
 };
 
 /**
@@ -4459,10 +4459,10 @@ public:
         FString CatalogVersion;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Item Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Array of items to purchase. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Item Management Models")
-        TArray<UPlayFabJsonObject*> Items;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Items;
     /** Store through which to purchase items. If not set, prices will be pulled from the catalog itself. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Item Management Models")
         FString StoreId;
@@ -4475,16 +4475,16 @@ struct PLAYFAB_API FClientStartPurchaseResult : public FPlayFabResultCommon
 public:
     /** Cart items to be purchased. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Item Management Models")
-        TArray<UPlayFabJsonObject*> Contents;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Contents;
     /** Purchase order identifier. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Item Management Models")
         FString OrderId;
     /** Available methods by which the user can pay. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Item Management Models")
-        TArray<UPlayFabJsonObject*> PaymentOptions;
+        TArray<TObjectPtr<UPlayFabJsonObject>> PaymentOptions;
     /** Current virtual currency totals for the user. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Item Management Models")
-        UPlayFabJsonObject* VirtualCurrencyBalances = nullptr;
+        TObjectPtr<UPlayFabJsonObject> VirtualCurrencyBalances;
 };
 
 /** This API must be enabled for use as an option in the game manager website. It is disabled by default. */
@@ -4498,7 +4498,7 @@ public:
         int32 Amount = 0;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Item Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Name of the virtual currency which is to be decremented. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Item Management Models")
         FString VirtualCurrency;
@@ -4524,7 +4524,7 @@ public:
         FString ContainerItemInstanceId;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Item Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /**
      * ItemInstanceId of the key that will be consumed by unlocking this container. If the container requires a key, this
      * parameter is required.
@@ -4541,7 +4541,7 @@ struct PLAYFAB_API FClientUnlockContainerItemResult : public FPlayFabResultCommo
 public:
     /** Items granted to the player as a result of unlocking the container. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Item Management Models")
-        TArray<UPlayFabJsonObject*> GrantedItems;
+        TArray<TObjectPtr<UPlayFabJsonObject>> GrantedItems;
     /** Unique instance identifier of the container unlocked. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Item Management Models")
         FString UnlockedItemInstanceId;
@@ -4550,7 +4550,7 @@ public:
         FString UnlockedWithItemInstanceId;
     /** Virtual currency granted to the player as a result of unlocking the container. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Item Management Models")
-        UPlayFabJsonObject* VirtualCurrency = nullptr;
+        TObjectPtr<UPlayFabJsonObject> VirtualCurrency;
 };
 
 /** Specify the type of container to open and optionally the catalogVersion for the container to open */
@@ -4573,7 +4573,7 @@ public:
         FString ContainerItemId;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Item Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
 };
 
 
@@ -4595,7 +4595,7 @@ struct PLAYFAB_API FClientGetPlayerSegmentsResult : public FPlayFabResultCommon
 public:
     /** Array of segments the requested player currently belongs to. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | PlayStream Models")
-        TArray<UPlayFabJsonObject*> Segments;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Segments;
 };
 
 /**
@@ -4610,7 +4610,7 @@ struct PLAYFAB_API FClientGetPlayerTagsRequest : public FPlayFabRequestCommon
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | PlayStream Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Optional namespace to filter results by */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | PlayStream Models")
         FString Namespace;
@@ -4644,13 +4644,13 @@ struct PLAYFAB_API FClientExecuteCloudScriptRequest : public FPlayFabRequestComm
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Server-Side Cloud Script Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The name of the CloudScript function to execute */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Server-Side Cloud Script Models")
         FString FunctionName;
     /** Object that is passed in to the function as the first argument */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Server-Side Cloud Script Models")
-        UPlayFabJsonObject* FunctionParameter = nullptr;
+        TObjectPtr<UPlayFabJsonObject> FunctionParameter;
     /**
      * Generate a 'player_executed_cloudscript' PlayStream event containing the results of the function execution and other
      * contextual information. This event will show up in the PlayStream debugger console for the player in Game Manager.
@@ -4679,7 +4679,7 @@ public:
         int32 APIRequestsIssued = 0;
     /** Information about the error, if any, that occurred during execution */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Server-Side Cloud Script Models")
-        UPlayFabJsonObject* Error = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Error;
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Server-Side Cloud Script Models")
         int32 ExecutionTimeSeconds = 0;
     /** The name of the function that executed */
@@ -4687,7 +4687,7 @@ public:
         FString FunctionName;
     /** The object returned from the CloudScript function, if any */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Server-Side Cloud Script Models")
-        UPlayFabJsonObject* FunctionResult = nullptr;
+        TObjectPtr<UPlayFabJsonObject> FunctionResult;
     /**
      * Flag indicating if the FunctionResult was too large and was subsequently dropped from this event. This only occurs if
      * the total event size is larger than 350KB.
@@ -4702,7 +4702,7 @@ public:
      * and log.error() and error entries for API and HTTP request failures.
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Server-Side Cloud Script Models")
-        TArray<UPlayFabJsonObject*> Logs;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Logs;
     /**
      * Flag indicating if the logs were too large and were subsequently dropped from this event. This only occurs if the total
      * event size is larger than 350KB after the FunctionResult was removed.
@@ -4797,7 +4797,7 @@ struct PLAYFAB_API FClientGetSharedGroupDataResult : public FPlayFabResultCommon
 public:
     /** Data for the requested keys. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Shared Group Data Models")
-        UPlayFabJsonObject* Data = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Data;
     /** List of PlayFabId identifiers for the members of this group, if requested. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Shared Group Data Models")
         FString Members;
@@ -4836,13 +4836,13 @@ struct PLAYFAB_API FClientUpdateSharedGroupDataRequest : public FPlayFabRequestC
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Shared Group Data Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /**
      * Key-value pairs to be written to the custom data. Note that keys are trimmed of whitespace, are limited in size, and may
      * not begin with a '!' character or be null.
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Shared Group Data Models")
-        UPlayFabJsonObject* Data = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Data;
     /**
      * Optional list of Data-keys to remove from UserData. Some SDKs cannot insert null-values into Data due to language
      * constraints. Use this to delete the keys directly.
@@ -4890,7 +4890,7 @@ struct PLAYFAB_API FClientGetCatalogItemsResult : public FPlayFabResultCommon
 public:
     /** Array of items which can be purchased. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Title-Wide Data Management Models")
-        TArray<UPlayFabJsonObject*> Catalog;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Catalog;
 };
 
 /**
@@ -4916,7 +4916,7 @@ struct PLAYFAB_API FClientGetPublisherDataResult : public FPlayFabResultCommon
 public:
     /** a dictionary object of key / value pairs */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Title-Wide Data Management Models")
-        UPlayFabJsonObject* Data = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Data;
 };
 
 /**
@@ -4953,13 +4953,13 @@ public:
         FString CatalogVersion;
     /** Additional data about the store. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Title-Wide Data Management Models")
-        UPlayFabJsonObject* MarketingData = nullptr;
+        TObjectPtr<UPlayFabJsonObject> MarketingData;
     /** How the store was last updated (Admin or a third party). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Title-Wide Data Management Models")
         EPfSourceType Source = StaticCast<EPfSourceType>(0);
     /** Array of items which can be purchased from this store. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Title-Wide Data Management Models")
-        TArray<UPlayFabJsonObject*> Store;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Store;
     /** The ID of this store. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Title-Wide Data Management Models")
         FString StoreId;
@@ -5018,7 +5018,7 @@ struct PLAYFAB_API FClientGetTitleDataResult : public FPlayFabResultCommon
 public:
     /** a dictionary object of key / value pairs */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Title-Wide Data Management Models")
-        UPlayFabJsonObject* Data = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Data;
 };
 
 USTRUCT(BlueprintType)
@@ -5038,7 +5038,7 @@ struct PLAYFAB_API FClientGetTitleNewsResult : public FPlayFabResultCommon
 public:
     /** Array of news items. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Title-Wide Data Management Models")
-        TArray<UPlayFabJsonObject*> News;
+        TArray<TObjectPtr<UPlayFabJsonObject>> News;
 };
 
 
@@ -5072,7 +5072,7 @@ struct PLAYFAB_API FClientAcceptTradeResponse : public FPlayFabResultCommon
 public:
     /** Details about trade which was just accepted. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Trading Models")
-        UPlayFabJsonObject* Trade = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Trade;
 };
 
 USTRUCT(BlueprintType)
@@ -5092,7 +5092,7 @@ struct PLAYFAB_API FClientCancelTradeResponse : public FPlayFabResultCommon
 public:
     /** Details about trade which was just canceled. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Trading Models")
-        UPlayFabJsonObject* Trade = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Trade;
 };
 
 USTRUCT(BlueprintType)
@@ -5112,10 +5112,10 @@ struct PLAYFAB_API FClientGetPlayerTradesResponse : public FPlayFabResultCommon
 public:
     /** History of trades which this player has accepted. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Trading Models")
-        TArray<UPlayFabJsonObject*> AcceptedTrades;
+        TArray<TObjectPtr<UPlayFabJsonObject>> AcceptedTrades;
     /** The trades for this player which are currently available to be accepted. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Trading Models")
-        TArray<UPlayFabJsonObject*> OpenedTrades;
+        TArray<TObjectPtr<UPlayFabJsonObject>> OpenedTrades;
 };
 
 USTRUCT(BlueprintType)
@@ -5138,7 +5138,7 @@ struct PLAYFAB_API FClientGetTradeStatusResponse : public FPlayFabResultCommon
 public:
     /** Information about the requested trade. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Trading Models")
-        UPlayFabJsonObject* Trade = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Trade;
 };
 
 USTRUCT(BlueprintType)
@@ -5167,6 +5167,6 @@ struct PLAYFAB_API FClientOpenTradeResponse : public FPlayFabResultCommon
 public:
     /** The information about the trade that was just opened. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Trading Models")
-        UPlayFabJsonObject* Trade = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Trade;
 };
 

@@ -41,10 +41,10 @@ struct PLAYFAB_API FAdminBanUsersRequest : public FPlayFabRequestCommon
 public:
     /** List of ban requests to be applied. Maximum 100. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Account Management Models")
-        TArray<UPlayFabJsonObject*> Bans;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Bans;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Account Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
 };
 
 USTRUCT(BlueprintType)
@@ -54,7 +54,7 @@ struct PLAYFAB_API FAdminBanUsersResult : public FPlayFabResultCommon
 public:
     /** Information on the bans that were applied */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Account Management Models")
-        TArray<UPlayFabJsonObject*> BanData;
+        TArray<TObjectPtr<UPlayFabJsonObject>> BanData;
 };
 
 /**
@@ -126,7 +126,7 @@ struct PLAYFAB_API FAdminDeleteMembershipSubscriptionRequest : public FPlayFabRe
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Account Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Id of the membership to apply the override expiration date to. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Account Management Models")
         FString MembershipId;
@@ -286,7 +286,7 @@ struct PLAYFAB_API FAdminGetPlayerProfileRequest : public FPlayFabRequestCommon
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Account Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Unique PlayFab assigned ID of the user on whom the operation will be performed. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Account Management Models")
         FString PlayFabId;
@@ -296,7 +296,7 @@ public:
      * the Game Manager "Client Profile Options" tab in the "Settings" section.
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Account Management Models")
-        UPlayFabJsonObject* ProfileConstraints = nullptr;
+        TObjectPtr<UPlayFabJsonObject> ProfileConstraints;
 };
 
 USTRUCT(BlueprintType)
@@ -309,7 +309,7 @@ public:
      * exist.
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Account Management Models")
-        UPlayFabJsonObject* PlayerProfile = nullptr;
+        TObjectPtr<UPlayFabJsonObject> PlayerProfile;
 };
 
 /**
@@ -344,7 +344,7 @@ struct PLAYFAB_API FAdminLookupUserAccountInfoResult : public FPlayFabResultComm
 public:
     /** User info for the user matching the request */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Account Management Models")
-        UPlayFabJsonObject* UserInfo = nullptr;
+        TObjectPtr<UPlayFabJsonObject> UserInfo;
 };
 
 /** Get all bans for a user, including inactive and expired bans. */
@@ -365,7 +365,7 @@ struct PLAYFAB_API FAdminGetUserBansResult : public FPlayFabResultCommon
 public:
     /** Information about the bans */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Account Management Models")
-        TArray<UPlayFabJsonObject*> BanData;
+        TArray<TObjectPtr<UPlayFabJsonObject>> BanData;
 };
 
 /**
@@ -379,7 +379,7 @@ struct PLAYFAB_API FAdminResetPasswordRequest : public FPlayFabRequestCommon
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Account Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The new password for the player. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Account Management Models")
         FString Password;
@@ -416,7 +416,7 @@ struct PLAYFAB_API FAdminRevokeAllBansForUserResult : public FPlayFabResultCommo
 public:
     /** Information on the bans that were revoked. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Account Management Models")
-        TArray<UPlayFabJsonObject*> BanData;
+        TArray<TObjectPtr<UPlayFabJsonObject>> BanData;
 };
 
 /**
@@ -440,7 +440,7 @@ struct PLAYFAB_API FAdminRevokeBansResult : public FPlayFabResultCommon
 public:
     /** Information on the bans that were revoked */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Account Management Models")
-        TArray<UPlayFabJsonObject*> BanData;
+        TArray<TObjectPtr<UPlayFabJsonObject>> BanData;
 };
 
 /**
@@ -455,7 +455,7 @@ struct PLAYFAB_API FAdminSendAccountRecoveryEmailRequest : public FPlayFabReques
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Account Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** User email address attached to their account */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Account Management Models")
         FString Email;
@@ -479,7 +479,7 @@ struct PLAYFAB_API FAdminSetMembershipOverrideRequest : public FPlayFabRequestCo
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Account Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Expiration time for the membership in DateTime format, will override any subscription expirations. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Account Management Models")
         FString ExpirationTime;
@@ -509,7 +509,7 @@ struct PLAYFAB_API FAdminUpdateBansRequest : public FPlayFabRequestCommon
 public:
     /** List of bans to be updated. Maximum 100. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Account Management Models")
-        TArray<UPlayFabJsonObject*> Bans;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Bans;
 };
 
 USTRUCT(BlueprintType)
@@ -519,7 +519,7 @@ struct PLAYFAB_API FAdminUpdateBansResult : public FPlayFabResultCommon
 public:
     /** Information on the bans that were updated */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Account Management Models")
-        TArray<UPlayFabJsonObject*> BanData;
+        TArray<TObjectPtr<UPlayFabJsonObject>> BanData;
 };
 
 /**
@@ -534,7 +534,7 @@ struct PLAYFAB_API FAdminUpdateUserTitleDisplayNameRequest : public FPlayFabRequ
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Account Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** New title display name for the user - must be between 3 and 25 characters */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Account Management Models")
         FString DisplayName;
@@ -585,7 +585,7 @@ public:
         FString IssuerDiscoveryUrl;
     /** Manually specified information for an OpenID Connect issuer. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Authentication Models")
-        UPlayFabJsonObject* IssuerInformation = nullptr;
+        TObjectPtr<UPlayFabJsonObject> IssuerInformation;
     /** Override the issuer name for user indexing and lookup. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Authentication Models")
         FString IssuerOverride;
@@ -671,7 +671,7 @@ struct PLAYFAB_API FAdminGetPlayerSharedSecretsResult : public FPlayFabResultCom
 public:
     /** The player shared secret to use when calling Client/GetTitlePublicKey */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Authentication Models")
-        TArray<UPlayFabJsonObject*> SharedSecrets;
+        TArray<TObjectPtr<UPlayFabJsonObject>> SharedSecrets;
 };
 
 /** Views the requested policy. Today, the only supported policy is 'ApiPolicy'. */
@@ -704,7 +704,7 @@ public:
         int32 PolicyVersion = 0;
     /** The statements in the requested policy. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Authentication Models")
-        TArray<UPlayFabJsonObject*> Statements;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Statements;
 };
 
 USTRUCT(BlueprintType)
@@ -721,7 +721,7 @@ struct PLAYFAB_API FAdminListOpenIdConnectionResponse : public FPlayFabResultCom
 public:
     /** The list of Open ID Connections */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Authentication Models")
-        TArray<UPlayFabJsonObject*> Connections;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Connections;
 };
 
 /**
@@ -774,7 +774,7 @@ public:
         FString IssuerDiscoveryUrl;
     /** Manually specified information for an OpenID Connect issuer. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Authentication Models")
-        UPlayFabJsonObject* IssuerInformation = nullptr;
+        TObjectPtr<UPlayFabJsonObject> IssuerInformation;
     /** Override the issuer name for user indexing and lookup. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Authentication Models")
         FString IssuerOverride;
@@ -834,7 +834,7 @@ public:
         int32 PolicyVersion = 0;
     /** The new statements to include in the policy. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Authentication Models")
-        TArray<UPlayFabJsonObject*> Statements;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Statements;
 };
 
 USTRUCT(BlueprintType)
@@ -847,7 +847,7 @@ public:
         FString PolicyName;
     /** The statements included in the new version of the policy. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Authentication Models")
-        TArray<UPlayFabJsonObject*> Statements;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Statements;
     /**
      * Optional warnings about policy statements that may not have the intended effect. For example, resource paths that don't
      * match any known API endpoint. The policy update still succeeds when warnings are present.
@@ -880,7 +880,7 @@ public:
         int32 PolicyVersion = 0;
     /** The statements to validate. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Authentication Models")
-        TArray<UPlayFabJsonObject*> Statements;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Statements;
 };
 
 USTRUCT(BlueprintType)
@@ -890,7 +890,7 @@ struct PLAYFAB_API FAdminValidateApiPolicyResponse : public FPlayFabResultCommon
 public:
     /** Summary of what would change compared to the current policy. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Authentication Models")
-        UPlayFabJsonObject* Diff = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Diff;
     /** Whether the proposed policy is valid and would be accepted by UpdatePolicy. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Authentication Models")
         bool IsValid = false;
@@ -902,7 +902,7 @@ public:
         int32 PolicyVersion = 0;
     /** The full set of statements that would result from applying this update. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Authentication Models")
-        TArray<UPlayFabJsonObject*> ResultingStatements;
+        TArray<TObjectPtr<UPlayFabJsonObject>> ResultingStatements;
     /** Validation errors that would cause UpdatePolicy to reject this request. Empty if IsValid is true. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Authentication Models")
         FString ValidationErrors;
@@ -930,7 +930,7 @@ public:
         FString CharacterId;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Characters Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Unique PlayFab assigned ID of the user on whom the operation will be performed. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Characters Models")
         FString PlayFabId;
@@ -985,7 +985,7 @@ struct PLAYFAB_API FAdminGetContentListResult : public FPlayFabResultCommon
 public:
     /** List of content items. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Content Models")
-        TArray<UPlayFabJsonObject*> Contents;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Contents;
     /** Number of content items returned. We currently have a maximum of 1000 items limit. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Content Models")
         int32 ItemCount = 0;
@@ -1062,7 +1062,7 @@ public:
         EStatisticAggregationMethod AggregationMethod = StaticCast<EStatisticAggregationMethod>(0);
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Player Data Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** unique name of the statistic */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Player Data Management Models")
         FString StatisticName;
@@ -1078,7 +1078,7 @@ struct PLAYFAB_API FAdminCreatePlayerStatisticDefinitionResult : public FPlayFab
 public:
     /** created statistic definition */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Player Data Management Models")
-        UPlayFabJsonObject* Statistic = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Statistic;
 };
 
 /** Deletes custom properties for the specified player. The list of provided property names must be non-empty. */
@@ -1089,7 +1089,7 @@ struct PLAYFAB_API FAdminDeletePlayerCustomPropertiesRequest : public FPlayFabRe
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Player Data Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /**
      * Optional field used for concurrency control. One can ensure that the delete operation will only be performed if the
      * player's properties have not been updated by any other clients since the last version.
@@ -1111,7 +1111,7 @@ struct PLAYFAB_API FAdminDeletePlayerCustomPropertiesResult : public FPlayFabRes
 public:
     /** The list of properties requested to be deleted. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Player Data Management Models")
-        TArray<UPlayFabJsonObject*> DeletedProperties;
+        TArray<TObjectPtr<UPlayFabJsonObject>> DeletedProperties;
     /** PlayFab unique identifier of the user whose properties were deleted. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Player Data Management Models")
         FString PlayFabId;
@@ -1188,7 +1188,7 @@ public:
         int32 PropertiesVersion = 0;
     /** Player specific property and its corresponding value. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Player Data Management Models")
-        UPlayFabJsonObject* Property = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Property;
 };
 
 USTRUCT(BlueprintType)
@@ -1219,7 +1219,7 @@ struct PLAYFAB_API FAdminGetPlayerStatisticDefinitionsResult : public FPlayFabRe
 public:
     /** the player statistic definitions for the title */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Player Data Management Models")
-        TArray<UPlayFabJsonObject*> Statistics;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Statistics;
 };
 
 USTRUCT(BlueprintType)
@@ -1229,7 +1229,7 @@ struct PLAYFAB_API FAdminGetPlayerStatisticVersionsRequest : public FPlayFabRequ
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Player Data Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** unique name of the statistic */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Player Data Management Models")
         FString StatisticName;
@@ -1250,7 +1250,7 @@ struct PLAYFAB_API FAdminGetPlayerStatisticVersionsResult : public FPlayFabResul
 public:
     /** version change history of the statistic */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Player Data Management Models")
-        TArray<UPlayFabJsonObject*> StatisticVersions;
+        TArray<TObjectPtr<UPlayFabJsonObject>> StatisticVersions;
 };
 
 /**
@@ -1283,7 +1283,7 @@ struct PLAYFAB_API FAdminGetUserDataResult : public FPlayFabResultCommon
 public:
     /** User specific data for this title. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Player Data Management Models")
-        UPlayFabJsonObject* Data = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Data;
     /**
      * Indicates the current version of the data that has been set. This is incremented with every set call for that type of
      * data (read-only, internal, etc). This version can be provided in Get calls to find updated data.
@@ -1314,7 +1314,7 @@ struct PLAYFAB_API FAdminIncrementPlayerStatisticVersionRequest : public FPlayFa
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Player Data Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** unique name of the statistic */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Player Data Management Models")
         FString StatisticName;
@@ -1327,7 +1327,7 @@ struct PLAYFAB_API FAdminIncrementPlayerStatisticVersionResult : public FPlayFab
 public:
     /** version change history of the statistic */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Player Data Management Models")
-        UPlayFabJsonObject* StatisticVersion = nullptr;
+        TObjectPtr<UPlayFabJsonObject> StatisticVersion;
 };
 
 USTRUCT(BlueprintType)
@@ -1350,7 +1350,7 @@ public:
         FString PlayFabId;
     /** Player specific properties and their corresponding values for this title. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Player Data Management Models")
-        TArray<UPlayFabJsonObject*> Properties;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Properties;
     /**
      * Indicates the current version of a player's properties that have been set. This is incremented after updates and
      * deletes. This version can be provided in update and delete calls for concurrency control.
@@ -1400,7 +1400,7 @@ struct PLAYFAB_API FAdminResetUserStatisticsRequest : public FPlayFabRequestComm
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Player Data Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Unique PlayFab assigned ID of the user on whom the operation will be performed. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Player Data Management Models")
         FString PlayFabId;
@@ -1461,7 +1461,7 @@ struct PLAYFAB_API FAdminUpdatePlayerCustomPropertiesRequest : public FPlayFabRe
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Player Data Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /**
      * Optional field used for concurrency control. One can ensure that the update operation will only be performed if the
      * player's properties have not been updated by any other clients since last the version.
@@ -1473,7 +1473,7 @@ public:
         FString PlayFabId;
     /** Collection of properties to be set for a player. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Player Data Management Models")
-        TArray<UPlayFabJsonObject*> Properties;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Properties;
 };
 
 USTRUCT(BlueprintType)
@@ -1532,7 +1532,7 @@ struct PLAYFAB_API FAdminUpdatePlayerStatisticDefinitionResult : public FPlayFab
 public:
     /** updated statistic definition */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Player Data Management Models")
-        UPlayFabJsonObject* Statistic = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Statistic;
 };
 
 /**
@@ -1547,13 +1547,13 @@ struct PLAYFAB_API FAdminUpdateUserDataRequest : public FPlayFabRequestCommon
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Player Data Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /**
      * Key-value pairs to be written to the custom data. Note that keys are trimmed of whitespace, are limited in size, and may
      * not begin with a '!' character or be null.
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Player Data Management Models")
-        UPlayFabJsonObject* Data = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Data;
     /**
      * Optional list of Data-keys to remove from UserData. Some SDKs cannot insert null-values into Data due to language
      * constraints. Use this to delete the keys directly.
@@ -1593,13 +1593,13 @@ struct PLAYFAB_API FAdminUpdateUserInternalDataRequest : public FPlayFabRequestC
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Player Data Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /**
      * Key-value pairs to be written to the custom data. Note that keys are trimmed of whitespace, are limited in size, and may
      * not begin with a '!' character or be null.
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Player Data Management Models")
-        UPlayFabJsonObject* Data = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Data;
     /**
      * Optional list of Data-keys to remove from UserData. Some SDKs cannot insert null-values into Data due to language
      * constraints. Use this to delete the keys directly.
@@ -1629,7 +1629,7 @@ public:
         int32 Amount = 0;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Player Item Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** PlayFab unique identifier of the user whose virtual currency balance is to be increased. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Player Item Management Models")
         FString PlayFabId;
@@ -1697,7 +1697,7 @@ struct PLAYFAB_API FAdminGetUserInventoryRequest : public FPlayFabRequestCommon
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Player Item Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Unique PlayFab assigned ID of the user on whom the operation will be performed. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Player Item Management Models")
         FString PlayFabId;
@@ -1710,16 +1710,16 @@ struct PLAYFAB_API FAdminGetUserInventoryResult : public FPlayFabResultCommon
 public:
     /** Array of inventory items belonging to the user. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Player Item Management Models")
-        TArray<UPlayFabJsonObject*> Inventory;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Inventory;
     /** Unique PlayFab assigned ID of the user on whom the operation will be performed. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Player Item Management Models")
         FString PlayFabId;
     /** Array of virtual currency balance(s) belonging to the user. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Player Item Management Models")
-        UPlayFabJsonObject* VirtualCurrency = nullptr;
+        TObjectPtr<UPlayFabJsonObject> VirtualCurrency;
     /** Array of remaining times and timestamps for virtual currencies. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Player Item Management Models")
-        UPlayFabJsonObject* VirtualCurrencyRechargeTimes = nullptr;
+        TObjectPtr<UPlayFabJsonObject> VirtualCurrencyRechargeTimes;
 };
 
 /**
@@ -1738,10 +1738,10 @@ public:
         FString CatalogVersion;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Player Item Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Array of items to grant and the users to whom the items are to be granted. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Player Item Management Models")
-        TArray<UPlayFabJsonObject*> ItemGrants;
+        TArray<TObjectPtr<UPlayFabJsonObject>> ItemGrants;
 };
 
 /** Please note that the order of the items in the response may not match the order of items in the request. */
@@ -1752,7 +1752,7 @@ struct PLAYFAB_API FAdminGrantItemsToUsersResult : public FPlayFabResultCommon
 public:
     /** Array of items granted to users. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Player Item Management Models")
-        TArray<UPlayFabJsonObject*> ItemGrantResults;
+        TArray<TObjectPtr<UPlayFabJsonObject>> ItemGrantResults;
 };
 
 /**
@@ -1772,7 +1772,7 @@ public:
         FString CatalogVersion;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Player Item Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The item which needs more availability. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Player Item Management Models")
         FString ItemId;
@@ -1823,7 +1823,7 @@ struct PLAYFAB_API FAdminRevokeInventoryItemsRequest : public FPlayFabRequestCom
 public:
     /** Array of player items to revoke, between 1 and 25 items. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Player Item Management Models")
-        TArray<UPlayFabJsonObject*> Items;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Items;
 };
 
 USTRUCT(BlueprintType)
@@ -1833,7 +1833,7 @@ struct PLAYFAB_API FAdminRevokeInventoryItemsResult : public FPlayFabResultCommo
 public:
     /** Collection of any errors that occurred during processing. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Player Item Management Models")
-        TArray<UPlayFabJsonObject*> Errors;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Errors;
 };
 
 USTRUCT(BlueprintType)
@@ -1846,7 +1846,7 @@ public:
         int32 Amount = 0;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Player Item Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** PlayFab unique identifier of the user whose virtual currency balance is to be decreased. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Player Item Management Models")
         FString PlayFabId;
@@ -1872,7 +1872,7 @@ struct PLAYFAB_API FAdminAddPlayerTagRequest : public FPlayFabRequestCommon
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | PlayStream Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Unique PlayFab assigned ID of the user on whom the operation will be performed. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | PlayStream Models")
         FString PlayFabId;
@@ -1927,7 +1927,7 @@ struct PLAYFAB_API FAdminGetAllSegmentsResult : public FPlayFabResultCommon
 public:
     /** Array of segments for this title. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | PlayStream Models")
-        TArray<UPlayFabJsonObject*> Segments;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Segments;
 };
 
 USTRUCT(BlueprintType)
@@ -1937,7 +1937,7 @@ struct PLAYFAB_API FAdminGetPlayerSegmentsResult : public FPlayFabResultCommon
 public:
     /** Array of segments the requested player currently belongs to. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | PlayStream Models")
-        TArray<UPlayFabJsonObject*> Segments;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Segments;
 };
 
 USTRUCT(BlueprintType)
@@ -1947,7 +1947,7 @@ struct PLAYFAB_API FAdminGetPlayersSegmentsRequest : public FPlayFabRequestCommo
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | PlayStream Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Unique PlayFab assigned ID of the user on whom the operation will be performed. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | PlayStream Models")
         FString PlayFabId;
@@ -1965,7 +1965,7 @@ struct PLAYFAB_API FAdminGetPlayerTagsRequest : public FPlayFabRequestCommon
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | PlayStream Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Optional namespace to filter results by */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | PlayStream Models")
         FString Namespace;
@@ -2022,7 +2022,7 @@ struct PLAYFAB_API FAdminRemovePlayerTagRequest : public FPlayFabRequestCommon
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | PlayStream Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Unique PlayFab assigned ID of the user on whom the operation will be performed. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | PlayStream Models")
         FString PlayFabId;
@@ -2051,7 +2051,7 @@ struct PLAYFAB_API FAdminAbortTaskInstanceRequest : public FPlayFabRequestCommon
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | ScheduledTask Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** ID of a task instance that is being aborted. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | ScheduledTask Models")
         FString TaskInstanceId;
@@ -2068,7 +2068,7 @@ struct PLAYFAB_API FAdminCreateActionsOnPlayerSegmentTaskRequest : public FPlayF
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | ScheduledTask Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Description the task */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | ScheduledTask Models")
         FString Description;
@@ -2080,7 +2080,7 @@ public:
         FString Name;
     /** Task details related to segment and action */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | ScheduledTask Models")
-        UPlayFabJsonObject* Parameter = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Parameter;
     /** Cron expression for the run schedule of the task. The expression should be in UTC. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | ScheduledTask Models")
         FString Schedule;
@@ -2107,7 +2107,7 @@ struct PLAYFAB_API FAdminCreateCloudScriptTaskRequest : public FPlayFabRequestCo
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | ScheduledTask Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Description the task */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | ScheduledTask Models")
         FString Description;
@@ -2119,7 +2119,7 @@ public:
         FString Name;
     /** Task details related to CloudScript */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | ScheduledTask Models")
-        UPlayFabJsonObject* Parameter = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Parameter;
     /** Cron expression for the run schedule of the task. The expression should be in UTC. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | ScheduledTask Models")
         FString Schedule;
@@ -2136,7 +2136,7 @@ struct PLAYFAB_API FAdminCreateInsightsScheduledScalingTaskRequest : public FPla
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | ScheduledTask Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Description the task */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | ScheduledTask Models")
         FString Description;
@@ -2148,7 +2148,7 @@ public:
         FString Name;
     /** Task details related to Insights Scaling */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | ScheduledTask Models")
-        UPlayFabJsonObject* Parameter = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Parameter;
     /** Cron expression for the run schedule of the task. The expression should be in UTC. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | ScheduledTask Models")
         FString Schedule;
@@ -2166,7 +2166,7 @@ struct PLAYFAB_API FAdminDeleteTaskRequest : public FPlayFabRequestCommon
 public:
     /** Specify either the task ID or the name of task to be deleted. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | ScheduledTask Models")
-        UPlayFabJsonObject* Identifier = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Identifier;
 };
 
 USTRUCT(BlueprintType)
@@ -2176,10 +2176,10 @@ struct PLAYFAB_API FAdminGetActionsOnPlayersInSegmentTaskInstanceResult : public
 public:
     /** Parameter of this task instance */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | ScheduledTask Models")
-        UPlayFabJsonObject* Parameter = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Parameter;
     /** Status summary of the actions-on-players-in-segment task instance */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | ScheduledTask Models")
-        UPlayFabJsonObject* Summary = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Summary;
 };
 
 /**
@@ -2204,10 +2204,10 @@ struct PLAYFAB_API FAdminGetCloudScriptTaskInstanceResult : public FPlayFabResul
 public:
     /** Parameter of this task instance */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | ScheduledTask Models")
-        UPlayFabJsonObject* Parameter = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Parameter;
     /** Status summary of the CloudScript task instance */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | ScheduledTask Models")
-        UPlayFabJsonObject* Summary = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Summary;
 };
 
 /**
@@ -2234,7 +2234,7 @@ public:
      * conditions set by other filters.
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | ScheduledTask Models")
-        UPlayFabJsonObject* TaskIdentifier = nullptr;
+        TObjectPtr<UPlayFabJsonObject> TaskIdentifier;
 };
 
 USTRUCT(BlueprintType)
@@ -2248,7 +2248,7 @@ public:
      * GetActionsOnPlayersInSegmentTaskInstance).
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | ScheduledTask Models")
-        TArray<UPlayFabJsonObject*> Summaries;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Summaries;
 };
 
 USTRUCT(BlueprintType)
@@ -2258,7 +2258,7 @@ struct PLAYFAB_API FAdminGetTasksRequest : public FPlayFabRequestCommon
 public:
     /** Provide either the task ID or the task name to get a specific task. If not specified, return all defined tasks. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | ScheduledTask Models")
-        UPlayFabJsonObject* Identifier = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Identifier;
 };
 
 USTRUCT(BlueprintType)
@@ -2268,7 +2268,7 @@ struct PLAYFAB_API FAdminGetTasksResult : public FPlayFabResultCommon
 public:
     /** Result tasks. Empty if there is no task found. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | ScheduledTask Models")
-        TArray<UPlayFabJsonObject*> Tasks;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Tasks;
 };
 
 /** The returned task instance ID can be used to query for task execution status. */
@@ -2279,10 +2279,10 @@ struct PLAYFAB_API FAdminRunTaskRequest : public FPlayFabRequestCommon
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | ScheduledTask Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Provide either the task ID or the task name to run a task. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | ScheduledTask Models")
-        UPlayFabJsonObject* Identifier = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Identifier;
 };
 
 USTRUCT(BlueprintType)
@@ -2311,13 +2311,13 @@ struct PLAYFAB_API FAdminUpdateTaskRequest : public FPlayFabRequestCommon
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | ScheduledTask Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Description the task */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | ScheduledTask Models")
         FString Description;
     /** Specify either the task ID or the name of the task to be updated. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | ScheduledTask Models")
-        UPlayFabJsonObject* Identifier = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Identifier;
     /** Whether the schedule is active. Inactive schedule will not trigger task execution. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | ScheduledTask Models")
         bool IsActive = false;
@@ -2326,7 +2326,7 @@ public:
         FString Name;
     /** Parameter object specific to the task type. See each task type's create API documentation for details. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | ScheduledTask Models")
-        UPlayFabJsonObject* Parameter = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Parameter;
     /** Cron expression for the run schedule of the task. The expression should be in UTC. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | ScheduledTask Models")
         FString Schedule;
@@ -2348,7 +2348,7 @@ struct PLAYFAB_API FAdminCreateSegmentRequest : public FPlayFabRequestCommon
 public:
     /** Segment model with all of the segment properties data. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Segments Models")
-        UPlayFabJsonObject* SegmentModel = nullptr;
+        TObjectPtr<UPlayFabJsonObject> SegmentModel;
 };
 
 USTRUCT(BlueprintType)
@@ -2406,7 +2406,7 @@ public:
         FString ErrorMessage;
     /** List of title segments. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Segments Models")
-        TArray<UPlayFabJsonObject*> Segments;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Segments;
 };
 
 /** Update segment properties data which are planning to update */
@@ -2417,7 +2417,7 @@ struct PLAYFAB_API FAdminUpdateSegmentRequest : public FPlayFabRequestCommon
 public:
     /** Segment model with all of the segment properties data. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Segments Models")
-        UPlayFabJsonObject* SegmentModel = nullptr;
+        TObjectPtr<UPlayFabJsonObject> SegmentModel;
 };
 
 USTRUCT(BlueprintType)
@@ -2461,7 +2461,7 @@ public:
         FString CreatedAt;
     /** List of Cloud Script files in this revision. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Server-Side Cloud Script Models")
-        TArray<UPlayFabJsonObject*> Files;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Files;
     /** True if this is the currently published revision */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Server-Side Cloud Script Models")
         bool IsPublished = false;
@@ -2487,7 +2487,7 @@ struct PLAYFAB_API FAdminGetCloudScriptVersionsResult : public FPlayFabResultCom
 public:
     /** List of versions */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Server-Side Cloud Script Models")
-        TArray<UPlayFabJsonObject*> Versions;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Versions;
 };
 
 USTRUCT(BlueprintType)
@@ -2497,7 +2497,7 @@ struct PLAYFAB_API FAdminSetPublishedRevisionRequest : public FPlayFabRequestCom
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Server-Side Cloud Script Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Revision to make the current published revision */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Server-Side Cloud Script Models")
         int32 Revision = 0;
@@ -2520,13 +2520,13 @@ struct PLAYFAB_API FAdminUpdateCloudScriptRequest : public FPlayFabRequestCommon
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Server-Side Cloud Script Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** PlayFab user ID of the developer initiating the request. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Server-Side Cloud Script Models")
         FString DeveloperPlayFabId;
     /** List of Cloud Script files to upload to create the new revision. Must have at least one file. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Server-Side Cloud Script Models")
-        TArray<UPlayFabJsonObject*> Files;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Files;
     /** Immediately publish the new revision */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Server-Side Cloud Script Models")
         bool Publish = false;
@@ -2595,7 +2595,7 @@ public:
         FString Body;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Title-Wide Data Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Language of the news item. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Title-Wide Data Management Models")
         FString Language;
@@ -2624,7 +2624,7 @@ public:
         FString Body;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Title-Wide Data Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Time this news was published. If not set, defaults to now. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Title-Wide Data Management Models")
         FString Timestamp;
@@ -2657,7 +2657,7 @@ public:
      * to the title
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Title-Wide Data Management Models")
-        TArray<UPlayFabJsonObject*> VirtualCurrencies;
+        TArray<TObjectPtr<UPlayFabJsonObject>> VirtualCurrencies;
 };
 
 /** This non-reversible operation will permanently delete the requested store. */
@@ -2671,7 +2671,7 @@ public:
         FString CatalogVersion;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Title-Wide Data Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** unqiue identifier for the store which is to be deleted */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Title-Wide Data Management Models")
         FString StoreId;
@@ -2719,7 +2719,7 @@ struct PLAYFAB_API FAdminGetCatalogItemsResult : public FPlayFabResultCommon
 public:
     /** Array of items which can be purchased. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Title-Wide Data Management Models")
-        TArray<UPlayFabJsonObject*> Catalog;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Catalog;
 };
 
 /**
@@ -2745,7 +2745,7 @@ struct PLAYFAB_API FAdminGetPublisherDataResult : public FPlayFabResultCommon
 public:
     /** a dictionary object of key / value pairs */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Title-Wide Data Management Models")
-        UPlayFabJsonObject* Data = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Data;
 };
 
 USTRUCT(BlueprintType)
@@ -2765,7 +2765,7 @@ struct PLAYFAB_API FAdminGetRandomResultTablesResult : public FPlayFabResultComm
 public:
     /** array of random result tables currently available */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Title-Wide Data Management Models")
-        UPlayFabJsonObject* Tables = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Tables;
 };
 
 /**
@@ -2801,13 +2801,13 @@ public:
         FString CatalogVersion;
     /** Additional data about the store. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Title-Wide Data Management Models")
-        UPlayFabJsonObject* MarketingData = nullptr;
+        TObjectPtr<UPlayFabJsonObject> MarketingData;
     /** How the store was last updated (Admin or a third party). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Title-Wide Data Management Models")
         EPfSourceType Source = StaticCast<EPfSourceType>(0);
     /** Array of items which can be purchased from this store. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Title-Wide Data Management Models")
-        TArray<UPlayFabJsonObject*> Store;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Store;
     /** The ID of this store. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Title-Wide Data Management Models")
         FString StoreId;
@@ -2844,7 +2844,7 @@ struct PLAYFAB_API FAdminGetTitleDataResult : public FPlayFabResultCommon
 public:
     /** a dictionary object of key / value pairs */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Title-Wide Data Management Models")
-        UPlayFabJsonObject* Data = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Data;
 };
 
 USTRUCT(BlueprintType)
@@ -2861,7 +2861,7 @@ struct PLAYFAB_API FAdminListVirtualCurrencyTypesResult : public FPlayFabResultC
 public:
     /** List of virtual currency names defined for this title */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Title-Wide Data Management Models")
-        TArray<UPlayFabJsonObject*> VirtualCurrencies;
+        TArray<TObjectPtr<UPlayFabJsonObject>> VirtualCurrencies;
 };
 
 /**
@@ -2876,7 +2876,7 @@ struct PLAYFAB_API FAdminRemoveVirtualCurrencyTypesRequest : public FPlayFabRequ
 public:
     /** List of virtual currencies to delete */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Title-Wide Data Management Models")
-        TArray<UPlayFabJsonObject*> VirtualCurrencies;
+        TArray<TObjectPtr<UPlayFabJsonObject>> VirtualCurrencies;
 };
 
 /**
@@ -2896,13 +2896,13 @@ public:
      * required and ignored in this call.
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Title-Wide Data Management Models")
-        TArray<UPlayFabJsonObject*> Catalog;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Catalog;
     /** Which catalog is being updated. If null, uses the default catalog. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Title-Wide Data Management Models")
         FString CatalogVersion;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Title-Wide Data Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /**
      * Should this catalog be set as the default catalog. Defaults to true. If there is currently no default catalog, this will
      * always set it.
@@ -2943,13 +2943,13 @@ public:
         FString CatalogVersion;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Title-Wide Data Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Additional data about the store */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Title-Wide Data Management Models")
-        UPlayFabJsonObject* MarketingData = nullptr;
+        TObjectPtr<UPlayFabJsonObject> MarketingData;
     /** Array of store items - references to catalog items, with specific pricing - to be added */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Title-Wide Data Management Models")
-        TArray<UPlayFabJsonObject*> Store;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Store;
     /** Unique identifier for the store which is to be updated */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Title-Wide Data Management Models")
         FString StoreId;
@@ -3003,7 +3003,7 @@ public:
      * create/update a key.
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Title-Wide Data Management Models")
-        TArray<UPlayFabJsonObject*> KeyValues;
+        TArray<TObjectPtr<UPlayFabJsonObject>> KeyValues;
     /** Name of the override. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Title-Wide Data Management Models")
         FString OverrideLabel;
@@ -3073,13 +3073,13 @@ public:
         FString CatalogVersion;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Title-Wide Data Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /**
      * array of random result tables to make available (Note: specifying an existing TableId will result in overwriting that
      * table, while any others will be added to the available set)
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Title-Wide Data Management Models")
-        TArray<UPlayFabJsonObject*> Tables;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Tables;
 };
 
 USTRUCT(BlueprintType)

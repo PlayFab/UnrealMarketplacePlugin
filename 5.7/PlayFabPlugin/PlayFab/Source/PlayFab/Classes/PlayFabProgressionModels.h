@@ -40,10 +40,10 @@ public:
      * allowed.
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Leaderboards Models")
-        TArray<UPlayFabJsonObject*> Columns;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Columns;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Leaderboards Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /**
      * The entity type being represented on the leaderboard. If it doesn't correspond to the PlayFab entity types, use
      * 'external' as the type.
@@ -52,7 +52,7 @@ public:
         FString EntityType;
     /** [In Preview]: The configuration for the events emitted by this leaderboard. If not specified, no events will be emitted. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Leaderboards Models")
-        UPlayFabJsonObject* EventEmissionConfig = nullptr;
+        TObjectPtr<UPlayFabJsonObject> EventEmissionConfig;
     /** A name for the leaderboard, unique per title. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Leaderboards Models")
         FString Name;
@@ -61,7 +61,7 @@ public:
         int32 SizeLimit = 0;
     /** The version reset configuration for the leaderboard definition. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Leaderboards Models")
-        UPlayFabJsonObject* VersionConfiguration = nullptr;
+        TObjectPtr<UPlayFabJsonObject> VersionConfiguration;
 };
 
 USTRUCT(BlueprintType)
@@ -78,7 +78,7 @@ struct PLAYFAB_API FProgressionDeleteLeaderboardDefinitionRequest : public FPlay
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Leaderboards Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The name of the leaderboard definition to delete. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Leaderboards Models")
         FString Name;
@@ -91,7 +91,7 @@ struct PLAYFAB_API FProgressionDeleteLeaderboardEntriesRequest : public FPlayFab
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Leaderboards Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The unique Ids of the entries to delete from the leaderboard. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Leaderboards Models")
         FString EntityIds;
@@ -108,7 +108,7 @@ struct PLAYFAB_API FProgressionGetEntityLeaderboardResponse : public FPlayFabRes
 public:
     /** Leaderboard columns describing the sort directions. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Leaderboards Models")
-        TArray<UPlayFabJsonObject*> Columns;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Columns;
     /** The number of entries on the leaderboard. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Leaderboards Models")
         int32 EntryCount = 0;
@@ -117,7 +117,7 @@ public:
         FString NextReset;
     /** Individual entity rankings in the leaderboard, in sorted order by rank. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Leaderboards Models")
-        TArray<UPlayFabJsonObject*> Rankings;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Rankings;
     /** Version of the leaderboard being returned. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Leaderboards Models")
         int32 Version = 0;
@@ -130,10 +130,10 @@ struct PLAYFAB_API FProgressionGetFriendLeaderboardForEntityRequest : public FPl
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Leaderboards Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The optional entity to perform this action on. Defaults to the currently logged in entity. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Leaderboards Models")
-        UPlayFabJsonObject* Entity = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Entity;
     /**
      * Indicates which other platforms' friends should be included in the response. In HTTP, it is represented as a
      * comma-separated list of platforms.
@@ -159,7 +159,7 @@ struct PLAYFAB_API FProgressionGetEntityLeaderboardRequest : public FPlayFabRequ
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Leaderboards Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Name of the leaderboard. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Leaderboards Models")
         FString LeaderboardName;
@@ -182,10 +182,10 @@ struct PLAYFAB_API FProgressionGetLeaderboardAroundEntityRequest : public FPlayF
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Leaderboards Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The optional entity to perform this action on. Defaults to the currently logged in entity. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Leaderboards Models")
-        UPlayFabJsonObject* Entity = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Entity;
     /** Name of the leaderboard. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Leaderboards Models")
         FString LeaderboardName;
@@ -210,7 +210,7 @@ struct PLAYFAB_API FProgressionGetLeaderboardDefinitionRequest : public FPlayFab
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Leaderboards Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The name of the leaderboard to retrieve the definition for. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Leaderboards Models")
         FString Name;
@@ -223,7 +223,7 @@ struct PLAYFAB_API FProgressionGetLeaderboardDefinitionResponse : public FPlayFa
 public:
     /** Sort direction of the leaderboard columns, cannot be changed after creation. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Leaderboards Models")
-        TArray<UPlayFabJsonObject*> Columns;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Columns;
     /** Created time, in UTC */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Leaderboards Models")
         FString Created;
@@ -235,7 +235,7 @@ public:
         FString EntityType;
     /** [In Preview]: The configuration for the events emitted by this leaderboard. If not specified, no events will be emitted. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Leaderboards Models")
-        UPlayFabJsonObject* EventEmissionConfig = nullptr;
+        TObjectPtr<UPlayFabJsonObject> EventEmissionConfig;
     /** Last time, in UTC, leaderboard version was incremented. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Leaderboards Models")
         FString LastResetTime;
@@ -250,7 +250,7 @@ public:
         int32 Version = 0;
     /** The version reset configuration for the leaderboard definition. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Leaderboards Models")
-        UPlayFabJsonObject* VersionConfiguration = nullptr;
+        TObjectPtr<UPlayFabJsonObject> VersionConfiguration;
 };
 
 /** Request a leaderboard limited to a collection of entities. */
@@ -261,7 +261,7 @@ struct PLAYFAB_API FProgressionGetLeaderboardForEntitiesRequest : public FPlayFa
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Leaderboards Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Collection of Entity IDs to include in the leaderboard. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Leaderboards Models")
         FString EntityIds;
@@ -280,7 +280,7 @@ struct PLAYFAB_API FProgressionIncrementLeaderboardVersionRequest : public FPlay
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Leaderboards Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The name of the leaderboard to increment the version for. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Leaderboards Models")
         FString Name;
@@ -303,7 +303,7 @@ struct PLAYFAB_API FProgressionListLeaderboardDefinitionsRequest : public FPlayF
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Leaderboards Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The page size for the request. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Leaderboards Models")
         int32 PageSize = 0;
@@ -319,7 +319,7 @@ struct PLAYFAB_API FProgressionListLeaderboardDefinitionsResponse : public FPlay
 public:
     /** List of leaderboard definitions for the title. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Leaderboards Models")
-        TArray<UPlayFabJsonObject*> LeaderboardDefinitions;
+        TArray<TObjectPtr<UPlayFabJsonObject>> LeaderboardDefinitions;
     /** The page size on the response. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Leaderboards Models")
         int32 PageSize = 0;
@@ -335,7 +335,7 @@ struct PLAYFAB_API FProgressionUnlinkLeaderboardFromStatisticRequest : public FP
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Leaderboards Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The name of the leaderboard definition to unlink. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Leaderboards Models")
         FString Name;
@@ -351,10 +351,10 @@ struct PLAYFAB_API FProgressionUpdateLeaderboardDefinitionRequest : public FPlay
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Leaderboards Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** [In Preview]: The configuration for the events emitted by this leaderboard. If not specified, no events will be emitted. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Leaderboards Models")
-        UPlayFabJsonObject* EventEmissionConfig = nullptr;
+        TObjectPtr<UPlayFabJsonObject> EventEmissionConfig;
     /** The name of the leaderboard to update the definition for. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Leaderboards Models")
         FString Name;
@@ -363,7 +363,7 @@ public:
         int32 SizeLimit = 0;
     /** The version reset configuration for the leaderboard definition. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Leaderboards Models")
-        UPlayFabJsonObject* VersionConfiguration = nullptr;
+        TObjectPtr<UPlayFabJsonObject> VersionConfiguration;
 };
 
 USTRUCT(BlueprintType)
@@ -373,10 +373,10 @@ struct PLAYFAB_API FProgressionUpdateLeaderboardEntriesRequest : public FPlayFab
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Leaderboards Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The entries to add or update on the leaderboard. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Leaderboards Models")
-        TArray<UPlayFabJsonObject*> Entries;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Entries;
     /** The name of the leaderboard. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Leaderboards Models")
         FString LeaderboardName;
@@ -401,22 +401,22 @@ public:
         FString AggregationSources;
     /** The columns for the statistic defining the aggregation method for each column. A maximum of 5 columns are allowed. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
-        TArray<UPlayFabJsonObject*> Columns;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Columns;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The entity type allowed to have score(s) for this statistic. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
         FString EntityType;
     /** [In Preview]: Configurations for different Statistics events that can be emitted by the service. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
-        UPlayFabJsonObject* EventEmissionConfig = nullptr;
+        TObjectPtr<UPlayFabJsonObject> EventEmissionConfig;
     /** Name of the statistic. Must be less than 150 characters. Restricted to a-Z, 0-9, '(', ')', '_', '-' and '.'. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
         FString Name;
     /** The version reset configuration for the statistic definition. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
-        UPlayFabJsonObject* VersionConfiguration = nullptr;
+        TObjectPtr<UPlayFabJsonObject> VersionConfiguration;
 };
 
 USTRUCT(BlueprintType)
@@ -426,7 +426,7 @@ struct PLAYFAB_API FProgressionDeleteStatisticDefinitionRequest : public FPlayFa
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Name of the statistic to delete. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
         FString Name;
@@ -439,13 +439,13 @@ struct PLAYFAB_API FProgressionDeleteStatisticsRequest : public FPlayFabRequestC
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The optional entity to perform this action on. Defaults to the currently logged in entity. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
-        UPlayFabJsonObject* Entity = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Entity;
     /** Collection of statistics to remove from this entity. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
-        TArray<UPlayFabJsonObject*> Statistics;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Statistics;
 };
 
 USTRUCT(BlueprintType)
@@ -455,7 +455,7 @@ struct PLAYFAB_API FProgressionDeleteStatisticsResponse : public FPlayFabResultC
 public:
     /** The entity id and type. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
-        UPlayFabJsonObject* Entity = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Entity;
 };
 
 USTRUCT(BlueprintType)
@@ -465,7 +465,7 @@ struct PLAYFAB_API FProgressionGetStatisticDefinitionRequest : public FPlayFabRe
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Name of the statistic. Must be less than 150 characters. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
         FString Name;
@@ -488,7 +488,7 @@ public:
         FString AggregationSources;
     /** The columns for the statistic defining the aggregation method for each column. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
-        TArray<UPlayFabJsonObject*> Columns;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Columns;
     /** Created time, in UTC */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
         FString Created;
@@ -497,7 +497,7 @@ public:
         FString EntityType;
     /** [In Preview]: Configurations for different Statistics events that can be emitted by the service. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
-        UPlayFabJsonObject* EventEmissionConfig = nullptr;
+        TObjectPtr<UPlayFabJsonObject> EventEmissionConfig;
     /** Last time, in UTC, statistic version was incremented. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
         FString LastResetTime;
@@ -512,7 +512,7 @@ public:
         int32 Version = 0;
     /** The version reset configuration for the leaderboard definition. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
-        UPlayFabJsonObject* VersionConfiguration = nullptr;
+        TObjectPtr<UPlayFabJsonObject> VersionConfiguration;
 };
 
 USTRUCT(BlueprintType)
@@ -522,10 +522,10 @@ struct PLAYFAB_API FProgressionGetStatisticsRequest : public FPlayFabRequestComm
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The optional entity to perform this action on. Defaults to the currently logged in entity. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
-        UPlayFabJsonObject* Entity = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Entity;
     /** The list of statistics to return for the user. If set to null, the current version of all statistics are returned. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
         FString StatisticNames;
@@ -538,13 +538,13 @@ struct PLAYFAB_API FProgressionGetStatisticsResponse : public FPlayFabResultComm
 public:
     /** A mapping of statistic name to the columns defined in the corresponding definition. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
-        UPlayFabJsonObject* ColumnDetails = nullptr;
+        TObjectPtr<UPlayFabJsonObject> ColumnDetails;
     /** The entity id and type. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
-        UPlayFabJsonObject* Entity = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Entity;
     /** List of statistics keyed by Name. Only the latest version of a statistic is returned. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
-        UPlayFabJsonObject* Statistics = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Statistics;
 };
 
 USTRUCT(BlueprintType)
@@ -554,10 +554,10 @@ struct PLAYFAB_API FProgressionGetStatisticsForEntitiesRequest : public FPlayFab
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Collection of Entity IDs to retrieve statistics for. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
-        TArray<UPlayFabJsonObject*> Entities;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Entities;
     /** The list of statistics to return for the user. If set to null, the current version of all statistics are returned. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
         FString StatisticNames;
@@ -570,10 +570,10 @@ struct PLAYFAB_API FProgressionGetStatisticsForEntitiesResponse : public FPlayFa
 public:
     /** A mapping of statistic name to the columns defined in the corresponding definition. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
-        UPlayFabJsonObject* ColumnDetails = nullptr;
+        TObjectPtr<UPlayFabJsonObject> ColumnDetails;
     /** List of entities mapped to their statistics. Only the latest version of a statistic is returned. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
-        TArray<UPlayFabJsonObject*> EntitiesStatistics;
+        TArray<TObjectPtr<UPlayFabJsonObject>> EntitiesStatistics;
 };
 
 USTRUCT(BlueprintType)
@@ -583,7 +583,7 @@ struct PLAYFAB_API FProgressionIncrementStatisticVersionRequest : public FPlayFa
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Name of the statistic to increment the version of. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
         FString Name;
@@ -606,7 +606,7 @@ struct PLAYFAB_API FProgressionListStatisticDefinitionsRequest : public FPlayFab
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The page size for the request. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
         int32 PageSize = 0;
@@ -628,7 +628,7 @@ public:
         FString SkipToken;
     /** List of statistic definitions for the title. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
-        TArray<UPlayFabJsonObject*> StatisticDefinitions;
+        TArray<TObjectPtr<UPlayFabJsonObject>> StatisticDefinitions;
 };
 
 USTRUCT(BlueprintType)
@@ -638,7 +638,7 @@ struct PLAYFAB_API FProgressionUnlinkAggregationSourceFromStatisticRequest : pub
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The name of the statistic to unlink. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
         FString Name;
@@ -654,16 +654,16 @@ struct PLAYFAB_API FProgressionUpdateStatisticDefinitionRequest : public FPlayFa
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** [In Preview]: Configurations for different Statistics events that can be emitted by the service. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
-        UPlayFabJsonObject* EventEmissionConfig = nullptr;
+        TObjectPtr<UPlayFabJsonObject> EventEmissionConfig;
     /** Name of the statistic. Must be less than 150 characters. Restricted to a-Z, 0-9, '(', ')', '_', '-' and '.'. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
         FString Name;
     /** The version reset configuration for the statistic definition. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
-        UPlayFabJsonObject* VersionConfiguration = nullptr;
+        TObjectPtr<UPlayFabJsonObject> VersionConfiguration;
 };
 
 USTRUCT(BlueprintType)
@@ -673,13 +673,13 @@ struct PLAYFAB_API FProgressionUpdateStatisticsRequest : public FPlayFabRequestC
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The optional entity to perform this action on. Defaults to the currently logged in entity. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
-        UPlayFabJsonObject* Entity = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Entity;
     /** Collection of statistics to update, maximum 50. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
-        TArray<UPlayFabJsonObject*> Statistics;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Statistics;
     /** Optional transactionId of this update which can be used to ensure idempotence. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
         FString TransactionId;
@@ -692,12 +692,12 @@ struct PLAYFAB_API FProgressionUpdateStatisticsResponse : public FPlayFabResultC
 public:
     /** A mapping of statistic name to the columns defined in the corresponding definition. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
-        UPlayFabJsonObject* ColumnDetails = nullptr;
+        TObjectPtr<UPlayFabJsonObject> ColumnDetails;
     /** The entity id and type. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
-        UPlayFabJsonObject* Entity = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Entity;
     /** Updated entity profile statistics. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
-        UPlayFabJsonObject* Statistics = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Statistics;
 };
 

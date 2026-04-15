@@ -55,6 +55,6 @@ struct PLAYFAB_API FPlayFabBaseModel
 
     /** Holds the full JSON recieved from playfab. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Error | Models")
-        UPlayFabJsonObject* responseData = nullptr;
+        TObjectPtr<UPlayFabJsonObject> responseData;
 
 };

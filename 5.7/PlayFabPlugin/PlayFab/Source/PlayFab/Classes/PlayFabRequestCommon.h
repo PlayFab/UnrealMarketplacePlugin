@@ -18,5 +18,5 @@ struct PLAYFAB_API FPlayFabRequestCommon
 
     // An optional authentication context (can used in multi-user scenarios)
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Core")
-        UPlayFabAuthenticationContext* AuthenticationContext = nullptr;
+        TObjectPtr<UPlayFabAuthenticationContext> AuthenticationContext;
 };

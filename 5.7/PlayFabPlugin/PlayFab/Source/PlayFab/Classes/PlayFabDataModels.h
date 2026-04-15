@@ -38,10 +38,10 @@ struct PLAYFAB_API FDataAbortFileUploadsRequest : public FPlayFabRequestCommon
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Data | File Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Data | File Models")
-        UPlayFabJsonObject* Entity = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Entity;
     /** Names of the files to have their pending uploads aborted. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Data | File Models")
         FString FileNames;
@@ -60,7 +60,7 @@ struct PLAYFAB_API FDataAbortFileUploadsResponse : public FPlayFabResultCommon
 public:
     /** The entity id and type. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Data | File Models")
-        UPlayFabJsonObject* Entity = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Entity;
     /** The current version of the profile, can be used for concurrency control during updates. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Data | File Models")
         int32 ProfileVersion = 0;
@@ -74,10 +74,10 @@ struct PLAYFAB_API FDataDeleteFilesRequest : public FPlayFabRequestCommon
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Data | File Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Data | File Models")
-        UPlayFabJsonObject* Entity = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Entity;
     /** Names of the files to be deleted. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Data | File Models")
         FString FileNames;
@@ -96,7 +96,7 @@ struct PLAYFAB_API FDataDeleteFilesResponse : public FPlayFabResultCommon
 public:
     /** The entity id and type. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Data | File Models")
-        UPlayFabJsonObject* Entity = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Entity;
     /** The current version of the profile, can be used for concurrency control during updates. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Data | File Models")
         int32 ProfileVersion = 0;
@@ -113,10 +113,10 @@ struct PLAYFAB_API FDataFinalizeFileUploadsRequest : public FPlayFabRequestCommo
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Data | File Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Data | File Models")
-        UPlayFabJsonObject* Entity = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Entity;
     /** Names of the files to be finalized. Restricted to a-Z, 0-9, '(', ')', '_', '-' and '.' */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Data | File Models")
         FString FileNames;
@@ -132,10 +132,10 @@ struct PLAYFAB_API FDataFinalizeFileUploadsResponse : public FPlayFabResultCommo
 public:
     /** The entity id and type. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Data | File Models")
-        UPlayFabJsonObject* Entity = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Entity;
     /** Collection of metadata for the entity's files */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Data | File Models")
-        UPlayFabJsonObject* Metadata = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Metadata;
     /** The current version of the profile, can be used for concurrency control during updates. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Data | File Models")
         int32 ProfileVersion = 0;
@@ -153,10 +153,10 @@ struct PLAYFAB_API FDataGetFilesRequest : public FPlayFabRequestCommon
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Data | File Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Data | File Models")
-        UPlayFabJsonObject* Entity = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Entity;
 };
 
 USTRUCT(BlueprintType)
@@ -166,10 +166,10 @@ struct PLAYFAB_API FDataGetFilesResponse : public FPlayFabResultCommon
 public:
     /** The entity id and type. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Data | File Models")
-        UPlayFabJsonObject* Entity = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Entity;
     /** Collection of metadata for the entity's files */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Data | File Models")
-        UPlayFabJsonObject* Metadata = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Metadata;
     /** The current version of the profile, can be used for concurrency control during updates. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Data | File Models")
         int32 ProfileVersion = 0;
@@ -186,10 +186,10 @@ struct PLAYFAB_API FDataInitiateFileUploadsRequest : public FPlayFabRequestCommo
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Data | File Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Data | File Models")
-        UPlayFabJsonObject* Entity = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Entity;
     /** Names of the files to be set. Restricted to a-Z, 0-9, '(', ')', '_', '-' and '.' */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Data | File Models")
         FString FileNames;
@@ -208,13 +208,13 @@ struct PLAYFAB_API FDataInitiateFileUploadsResponse : public FPlayFabResultCommo
 public:
     /** The entity id and type. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Data | File Models")
-        UPlayFabJsonObject* Entity = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Entity;
     /** The current version of the profile, can be used for concurrency control during updates. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Data | File Models")
         int32 ProfileVersion = 0;
     /** Collection of file names and upload urls */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Data | File Models")
-        TArray<UPlayFabJsonObject*> UploadDetails;
+        TArray<TObjectPtr<UPlayFabJsonObject>> UploadDetails;
 };
 
 
@@ -230,10 +230,10 @@ struct PLAYFAB_API FDataGetObjectsRequest : public FPlayFabRequestCommon
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Data | Object Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Data | Object Models")
-        UPlayFabJsonObject* Entity = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Entity;
     /**
      * Determines whether the object will be returned as an escaped JSON string or as a un-escaped JSON object. Default is JSON
      * object.
@@ -249,10 +249,10 @@ struct PLAYFAB_API FDataGetObjectsResponse : public FPlayFabResultCommon
 public:
     /** The entity id and type. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Data | Object Models")
-        UPlayFabJsonObject* Entity = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Entity;
     /** Requested objects that the calling entity has access to */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Data | Object Models")
-        UPlayFabJsonObject* Objects = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Objects;
     /** The current version of the profile, can be used for concurrency control during updates. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Data | Object Models")
         int32 ProfileVersion = 0;
@@ -272,10 +272,10 @@ struct PLAYFAB_API FDataSetObjectsRequest : public FPlayFabRequestCommon
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Data | Object Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Data | Object Models")
-        UPlayFabJsonObject* Entity = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Entity;
     /**
      * Optional field used for concurrency control. By specifying the previously returned value of ProfileVersion from
      * GetProfile API, you can ensure that the object set will only be performed if the profile has not been updated by any
@@ -285,7 +285,7 @@ public:
         int32 ExpectedProfileVersion = 0;
     /** Collection of objects to set on the profile. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Data | Object Models")
-        TArray<UPlayFabJsonObject*> Objects;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Objects;
 };
 
 USTRUCT(BlueprintType)
@@ -298,6 +298,6 @@ public:
         int32 ProfileVersion = 0;
     /** New version of the entity profile. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Data | Object Models")
-        TArray<UPlayFabJsonObject*> SetResults;
+        TArray<TObjectPtr<UPlayFabJsonObject>> SetResults;
 };
 

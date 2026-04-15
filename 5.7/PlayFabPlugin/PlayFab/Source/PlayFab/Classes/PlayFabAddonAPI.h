@@ -499,7 +499,7 @@ public:
 
 private:
     UPROPERTY()
-        UPlayFabAuthenticationContext* CallAuthenticationContext;
+        TObjectPtr<UPlayFabAuthenticationContext> CallAuthenticationContext;
 
     /** Internal bind function for the IHTTPRequest::OnProcessRequestCompleted() event */
     void OnProcessRequestComplete(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful);
@@ -507,11 +507,11 @@ private:
 protected:
     /** Internal request data stored as JSON */
     UPROPERTY()
-        UPlayFabJsonObject* RequestJsonObj;
+        TObjectPtr<UPlayFabJsonObject> RequestJsonObj;
 
     /** Response data stored as JSON */
     UPROPERTY()
-        UPlayFabJsonObject* ResponseJsonObj;
+        TObjectPtr<UPlayFabJsonObject> ResponseJsonObj;
 
     /** Mapping of header section to values. Used to generate final header string for request */
     TMap<FString, FString> RequestHeaders;

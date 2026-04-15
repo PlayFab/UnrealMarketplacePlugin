@@ -38,10 +38,10 @@ struct PLAYFAB_API FEconomyCreateDraftItemRequest : public FPlayFabRequestCommon
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Metadata describing the new catalog item to be created. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        UPlayFabJsonObject* Item = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Item;
     /** Whether the item should be published immediately. This value is optional, defaults to false. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
         bool Publish = false;
@@ -54,7 +54,7 @@ struct PLAYFAB_API FEconomyCreateDraftItemResponse : public FPlayFabResultCommon
 public:
     /** Updated metadata describing the catalog item just created. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        UPlayFabJsonObject* Item = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Item;
 };
 
 /**
@@ -69,10 +69,10 @@ struct PLAYFAB_API FEconomyCreateUploadUrlsRequest : public FPlayFabRequestCommo
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Description of the files to be uploaded by the client. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        TArray<UPlayFabJsonObject*> Files;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Files;
 };
 
 USTRUCT(BlueprintType)
@@ -82,7 +82,7 @@ struct PLAYFAB_API FEconomyCreateUploadUrlsResponse : public FPlayFabResultCommo
 public:
     /** List of URLs metadata for the files to be uploaded by the client. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        TArray<UPlayFabJsonObject*> UploadUrls;
+        TArray<TObjectPtr<UPlayFabJsonObject>> UploadUrls;
 };
 
 USTRUCT(BlueprintType)
@@ -92,10 +92,10 @@ struct PLAYFAB_API FEconomyDeleteEntityItemReviewsRequest : public FPlayFabReque
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        UPlayFabJsonObject* Entity = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Entity;
 };
 
 USTRUCT(BlueprintType)
@@ -112,13 +112,13 @@ struct PLAYFAB_API FEconomyDeleteItemRequest : public FPlayFabRequestCommon
 public:
     /** An alternate ID associated with this item. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        UPlayFabJsonObject* AlternateId = nullptr;
+        TObjectPtr<UPlayFabJsonObject> AlternateId;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        UPlayFabJsonObject* Entity = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Entity;
     /** The unique ID of the item. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
         FString Id;
@@ -138,7 +138,7 @@ struct PLAYFAB_API FEconomyGetCatalogConfigRequest : public FPlayFabRequestCommo
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
 };
 
 USTRUCT(BlueprintType)
@@ -148,7 +148,7 @@ struct PLAYFAB_API FEconomyGetCatalogConfigResponse : public FPlayFabResultCommo
 public:
     /** The catalog configuration. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        UPlayFabJsonObject* Config = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Config;
 };
 
 USTRUCT(BlueprintType)
@@ -158,13 +158,13 @@ struct PLAYFAB_API FEconomyGetDraftItemRequest : public FPlayFabRequestCommon
 public:
     /** An alternate ID associated with this item. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        UPlayFabJsonObject* AlternateId = nullptr;
+        TObjectPtr<UPlayFabJsonObject> AlternateId;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        UPlayFabJsonObject* Entity = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Entity;
     /** The unique ID of the item. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
         FString Id;
@@ -177,7 +177,7 @@ struct PLAYFAB_API FEconomyGetDraftItemResponse : public FPlayFabResultCommon
 public:
     /** Full metadata of the catalog item requested. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        UPlayFabJsonObject* Item = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Item;
 };
 
 USTRUCT(BlueprintType)
@@ -187,7 +187,7 @@ struct PLAYFAB_API FEconomyGetDraftItemsRequest : public FPlayFabRequestCommon
 public:
     /** List of item alternate IDs. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        TArray<UPlayFabJsonObject*> AlternateIds;
+        TArray<TObjectPtr<UPlayFabJsonObject>> AlternateIds;
     /**
      * An opaque token used to retrieve the next page of items created by the caller, if any are available. Should be null on
      * initial request.
@@ -199,10 +199,10 @@ public:
         int32 Count = 0;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        UPlayFabJsonObject* Entity = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Entity;
     /** List of Item Ids. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
         FString Ids;
@@ -218,7 +218,7 @@ public:
         FString ContinuationToken;
     /** A set of items created by the entity. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        TArray<UPlayFabJsonObject*> Items;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Items;
 };
 
 USTRUCT(BlueprintType)
@@ -237,10 +237,10 @@ public:
         int32 Count = 0;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        UPlayFabJsonObject* Entity = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Entity;
     /**
      * OData Filter to refine the items returned. CatalogItem properties 'type' can be used in the filter. For example: "type
      * eq 'ugc'"
@@ -259,7 +259,7 @@ public:
         FString ContinuationToken;
     /** A set of items created by the entity. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        TArray<UPlayFabJsonObject*> Items;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Items;
 };
 
 USTRUCT(BlueprintType)
@@ -269,13 +269,13 @@ struct PLAYFAB_API FEconomyGetEntityItemReviewRequest : public FPlayFabRequestCo
 public:
     /** An alternate ID associated with this item. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        UPlayFabJsonObject* AlternateId = nullptr;
+        TObjectPtr<UPlayFabJsonObject> AlternateId;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        UPlayFabJsonObject* Entity = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Entity;
     /** The unique ID of the item. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
         FString Id;
@@ -288,7 +288,7 @@ struct PLAYFAB_API FEconomyGetEntityItemReviewResponse : public FPlayFabResultCo
 public:
     /** The review the entity submitted for the requested item. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        UPlayFabJsonObject* Review = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Review;
 };
 
 USTRUCT(BlueprintType)
@@ -298,13 +298,13 @@ struct PLAYFAB_API FEconomyGetItemRequest : public FPlayFabRequestCommon
 public:
     /** An alternate ID associated with this item. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        UPlayFabJsonObject* AlternateId = nullptr;
+        TObjectPtr<UPlayFabJsonObject> AlternateId;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        UPlayFabJsonObject* Entity = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Entity;
     /** The unique ID of the item. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
         FString Id;
@@ -318,7 +318,7 @@ struct PLAYFAB_API FEconomyGetItemResponse : public FPlayFabResultCommon
 public:
     /** The item result. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        UPlayFabJsonObject* Item = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Item;
 };
 
 /** Given an item, return a set of bundles and stores containing the item. */
@@ -329,7 +329,7 @@ struct PLAYFAB_API FEconomyGetItemContainersRequest : public FPlayFabRequestComm
 public:
     /** An alternate ID associated with this item. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        UPlayFabJsonObject* AlternateId = nullptr;
+        TObjectPtr<UPlayFabJsonObject> AlternateId;
     /**
      * An opaque token used to retrieve the next page of items in the inventory, if any are available. Should be null on
      * initial request.
@@ -341,10 +341,10 @@ public:
         int32 Count = 0;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        UPlayFabJsonObject* Entity = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Entity;
     /** The unique ID of the item. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
         FString Id;
@@ -357,7 +357,7 @@ struct PLAYFAB_API FEconomyGetItemContainersResponse : public FPlayFabResultComm
 public:
     /** List of Bundles and Stores containing the requested items. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        TArray<UPlayFabJsonObject*> Containers;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Containers;
     /** An opaque token used to retrieve the next page of items, if any are available. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
         FString ContinuationToken;
@@ -370,10 +370,10 @@ struct PLAYFAB_API FEconomyGetItemModerationStateRequest : public FPlayFabReques
 public:
     /** An alternate ID associated with this item. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        UPlayFabJsonObject* AlternateId = nullptr;
+        TObjectPtr<UPlayFabJsonObject> AlternateId;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The unique ID of the item. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
         FString Id;
@@ -386,7 +386,7 @@ struct PLAYFAB_API FEconomyGetItemModerationStateResponse : public FPlayFabResul
 public:
     /** The current moderation state for the requested item. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        UPlayFabJsonObject* State = nullptr;
+        TObjectPtr<UPlayFabJsonObject> State;
 };
 
 USTRUCT(BlueprintType)
@@ -396,13 +396,13 @@ struct PLAYFAB_API FEconomyGetItemPublishStatusRequest : public FPlayFabRequestC
 public:
     /** An alternate ID associated with this item. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        UPlayFabJsonObject* AlternateId = nullptr;
+        TObjectPtr<UPlayFabJsonObject> AlternateId;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        UPlayFabJsonObject* Entity = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Entity;
     /** The unique ID of the item. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
         FString Id;
@@ -428,7 +428,7 @@ struct PLAYFAB_API FEconomyGetItemReviewsRequest : public FPlayFabRequestCommon
 public:
     /** An alternate ID associated with this item. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        UPlayFabJsonObject* AlternateId = nullptr;
+        TObjectPtr<UPlayFabJsonObject> AlternateId;
     /** An opaque token used to retrieve the next page of items, if any are available. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
         FString ContinuationToken;
@@ -437,7 +437,7 @@ public:
         int32 Count = 0;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The unique ID of the item. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
         FString Id;
@@ -459,7 +459,7 @@ public:
         FString ContinuationToken;
     /** The paginated set of results. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        TArray<UPlayFabJsonObject*> Reviews;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Reviews;
 };
 
 USTRUCT(BlueprintType)
@@ -469,10 +469,10 @@ struct PLAYFAB_API FEconomyGetItemReviewSummaryRequest : public FPlayFabRequestC
 public:
     /** An alternate ID associated with this item. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        UPlayFabJsonObject* AlternateId = nullptr;
+        TObjectPtr<UPlayFabJsonObject> AlternateId;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The unique ID of the item. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
         FString Id;
@@ -485,13 +485,13 @@ struct PLAYFAB_API FEconomyGetItemReviewSummaryResponse : public FPlayFabResultC
 public:
     /** The least favorable review for this item. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        UPlayFabJsonObject* LeastFavorableReview = nullptr;
+        TObjectPtr<UPlayFabJsonObject> LeastFavorableReview;
     /** The most favorable review for this item. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        UPlayFabJsonObject* MostFavorableReview = nullptr;
+        TObjectPtr<UPlayFabJsonObject> MostFavorableReview;
     /** The summary of ratings associated with this item. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        UPlayFabJsonObject* Rating = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Rating;
     /** The total number of reviews associated with this item. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
         int32 ReviewsCount = 0;
@@ -504,13 +504,13 @@ struct PLAYFAB_API FEconomyGetItemsRequest : public FPlayFabRequestCommon
 public:
     /** List of item alternate IDs. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        TArray<UPlayFabJsonObject*> AlternateIds;
+        TArray<TObjectPtr<UPlayFabJsonObject>> AlternateIds;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        UPlayFabJsonObject* Entity = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Entity;
     /** List of Item Ids. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
         FString Ids;
@@ -523,7 +523,7 @@ struct PLAYFAB_API FEconomyGetItemsResponse : public FPlayFabResultCommon
 public:
     /** Metadata of set of items. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        TArray<UPlayFabJsonObject*> Items;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Items;
 };
 
 /**
@@ -537,13 +537,13 @@ struct PLAYFAB_API FEconomyPublishDraftItemRequest : public FPlayFabRequestCommo
 public:
     /** An alternate ID associated with this item. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        UPlayFabJsonObject* AlternateId = nullptr;
+        TObjectPtr<UPlayFabJsonObject> AlternateId;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        UPlayFabJsonObject* Entity = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Entity;
     /**
      * ETag of the catalog item to published from the working catalog to the public catalog. Used for optimistic concurrency.
      * If the provided ETag does not match the ETag in the current working catalog, the request will be rejected. If not
@@ -570,16 +570,16 @@ struct PLAYFAB_API FEconomyReportItemRequest : public FPlayFabRequestCommon
 public:
     /** An alternate ID associated with this item. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        UPlayFabJsonObject* AlternateId = nullptr;
+        TObjectPtr<UPlayFabJsonObject> AlternateId;
     /** Category of concern for this report. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
         EConcernCategory ConcernCategory = StaticCast<EConcernCategory>(0);
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        UPlayFabJsonObject* Entity = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Entity;
     /** The unique ID of the item. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
         FString Id;
@@ -603,16 +603,16 @@ struct PLAYFAB_API FEconomyReportItemReviewRequest : public FPlayFabRequestCommo
 public:
     /** An alternate ID of the item associated with the review. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        UPlayFabJsonObject* AlternateId = nullptr;
+        TObjectPtr<UPlayFabJsonObject> AlternateId;
     /** The reason this review is being reported. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
         EConcernCategory ConcernCategory = StaticCast<EConcernCategory>(0);
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        UPlayFabJsonObject* Entity = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Entity;
     /** The string ID of the item associated with the review. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
         FString ItemId;
@@ -638,19 +638,19 @@ struct PLAYFAB_API FEconomyReviewItemRequest : public FPlayFabRequestCommon
 public:
     /** An alternate ID associated with this item. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        UPlayFabJsonObject* AlternateId = nullptr;
+        TObjectPtr<UPlayFabJsonObject> AlternateId;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        UPlayFabJsonObject* Entity = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Entity;
     /** The unique ID of the item. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
         FString Id;
     /** The review to submit. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        UPlayFabJsonObject* Review = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Review;
 };
 
 USTRUCT(BlueprintType)
@@ -673,10 +673,10 @@ public:
         int32 Count = 0;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        UPlayFabJsonObject* Entity = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Entity;
     /**
      * An OData filter used to refine the search query (For example: "type eq 'ugc'"). More info about Filter Complexity limits
      * can be found here: https://learn.microsoft.com/en-us/gaming/playfab/features/economy-v2/catalog/search#limits
@@ -700,7 +700,7 @@ public:
         FString Select;
     /** The store to restrict the search request to. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        UPlayFabJsonObject* Store = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Store;
 };
 
 USTRUCT(BlueprintType)
@@ -713,7 +713,7 @@ public:
         FString ContinuationToken;
     /** The paginated set of results for the search query. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        TArray<UPlayFabJsonObject*> Items;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Items;
 };
 
 USTRUCT(BlueprintType)
@@ -723,10 +723,10 @@ struct PLAYFAB_API FEconomySetItemModerationStateRequest : public FPlayFabReques
 public:
     /** An alternate ID associated with this item. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        UPlayFabJsonObject* AlternateId = nullptr;
+        TObjectPtr<UPlayFabJsonObject> AlternateId;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The unique ID of the item. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
         FString Id;
@@ -752,13 +752,13 @@ struct PLAYFAB_API FEconomySubmitItemReviewVoteRequest : public FPlayFabRequestC
 public:
     /** An alternate ID of the item associated with the review. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        UPlayFabJsonObject* AlternateId = nullptr;
+        TObjectPtr<UPlayFabJsonObject> AlternateId;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        UPlayFabJsonObject* Entity = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Entity;
     /** The string ID of the item associated with the review. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
         FString ItemId;
@@ -788,10 +788,10 @@ struct PLAYFAB_API FEconomyTakedownItemReviewsRequest : public FPlayFabRequestCo
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The set of reviews to take down. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        TArray<UPlayFabJsonObject*> Reviews;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Reviews;
 };
 
 USTRUCT(BlueprintType)
@@ -808,10 +808,10 @@ struct PLAYFAB_API FEconomyUpdateCatalogConfigRequest : public FPlayFabRequestCo
 public:
     /** The updated catalog configuration. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        UPlayFabJsonObject* Config = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Config;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
 };
 
 USTRUCT(BlueprintType)
@@ -828,10 +828,10 @@ struct PLAYFAB_API FEconomyUpdateDraftItemRequest : public FPlayFabRequestCommon
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** Updated metadata describing the catalog item to be updated. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        UPlayFabJsonObject* Item = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Item;
     /** Whether the item should be published immediately. This value is optional, defaults to false. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
         bool Publish = false;
@@ -844,7 +844,7 @@ struct PLAYFAB_API FEconomyUpdateDraftItemResponse : public FPlayFabResultCommon
 public:
     /** Updated metadata describing the catalog item just updated. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        UPlayFabJsonObject* Item = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Item;
 };
 
 
@@ -869,13 +869,13 @@ public:
         FString CollectionId;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The duration to add to the current item expiration date. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         int32 DurationInSeconds = 0;
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
-        UPlayFabJsonObject* Entity = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Entity;
     /**
      * ETags are used for concurrency checking when updating resources. More information about using ETags can be found here:
      * https://learn.microsoft.com/en-us/gaming/playfab/features/economy-v2/catalog/etags
@@ -890,10 +890,10 @@ public:
         FString IdempotencyId;
     /** The inventory item the request applies to. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
-        UPlayFabJsonObject* Item = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Item;
     /** The values to apply to a stack newly created by this request. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
-        UPlayFabJsonObject* NewStackValues = nullptr;
+        TObjectPtr<UPlayFabJsonObject> NewStackValues;
 };
 
 USTRUCT(BlueprintType)
@@ -926,10 +926,10 @@ public:
         FString CollectionId;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The entity the request is about. Set to the caller by default. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
-        UPlayFabJsonObject* Entity = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Entity;
     /**
      * ETags are used for concurrency checking when updating resources. More information about using ETags can be found here:
      * https://learn.microsoft.com/en-us/gaming/playfab/features/economy-v2/catalog/etags
@@ -959,10 +959,10 @@ public:
         FString CollectionId;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
-        UPlayFabJsonObject* Entity = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Entity;
     /**
      * ETags are used for concurrency checking when updating resources. More information about using ETags can be found here:
      * https://learn.microsoft.com/en-us/gaming/playfab/features/economy-v2/catalog/etags
@@ -977,7 +977,7 @@ public:
         FString IdempotencyId;
     /** The inventory item the request applies to. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
-        UPlayFabJsonObject* Item = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Item;
 };
 
 USTRUCT(BlueprintType)
@@ -1010,10 +1010,10 @@ public:
         FString CollectionId;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
-        UPlayFabJsonObject* Entity = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Entity;
     /**
      * ETags are used for concurrency checking when updating resources. More information about using ETags can be found here:
      * https://learn.microsoft.com/en-us/gaming/playfab/features/economy-v2/catalog/etags
@@ -1031,7 +1031,7 @@ public:
      * a batch. Up to 50 operations can be added.
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
-        TArray<UPlayFabJsonObject*> Operations;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Operations;
 };
 
 USTRUCT(BlueprintType)
@@ -1061,13 +1061,13 @@ struct PLAYFAB_API FEconomyExecuteTransferOperationsRequest : public FPlayFabReq
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The inventory collection id the request is transferring from. (Default="default") */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         FString GivingCollectionId;
     /** The entity the request is transferring from. Set to the caller by default. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
-        UPlayFabJsonObject* GivingEntity = nullptr;
+        TObjectPtr<UPlayFabJsonObject> GivingEntity;
     /**
      * ETags are used for concurrency checking when updating resources. More information about using ETags can be found here:
      * https://learn.microsoft.com/en-us/gaming/playfab/features/economy-v2/catalog/etags
@@ -1082,13 +1082,13 @@ public:
      * or fail as a batch. Up to 50 operations can be added.
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
-        TArray<UPlayFabJsonObject*> Operations;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Operations;
     /** The inventory collection id the request is transferring to. (Default="default") */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         FString ReceivingCollectionId;
     /** The entity the request is transferring to. Set to the caller by default. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
-        UPlayFabJsonObject* ReceivingEntity = nullptr;
+        TObjectPtr<UPlayFabJsonObject> ReceivingEntity;
 };
 
 USTRUCT(BlueprintType)
@@ -1146,10 +1146,10 @@ public:
         int32 Count = 0;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The entity the request is about. Set to the caller by default. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
-        UPlayFabJsonObject* Entity = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Entity;
 };
 
 USTRUCT(BlueprintType)
@@ -1185,10 +1185,10 @@ public:
         int32 Count = 0;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
-        UPlayFabJsonObject* Entity = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Entity;
     /**
      * OData Filter to refine the items returned. InventoryItem properties 'type', 'id', and 'stackId' can be used in the
      * filter. For example: "type eq 'currency'"
@@ -1213,7 +1213,7 @@ public:
         FString ETag;
     /** The requested inventory items. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
-        TArray<UPlayFabJsonObject*> Items;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Items;
 };
 
 /** Get the status of an Inventory Operation using an OperationToken. */
@@ -1227,10 +1227,10 @@ public:
         FString CollectionId;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
-        UPlayFabJsonObject* Entity = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Entity;
     /** The token to get the status of the inventory operation. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         FString OperationToken;
@@ -1263,10 +1263,10 @@ public:
         int32 Count = 0;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
-        UPlayFabJsonObject* Entity = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Entity;
     /**
      * An OData filter used to refine the TransactionHistory. Transaction properties 'timestamp', 'transactionid', 'apiname'
      * and 'operationtype' can be used in the filter. Properties 'transactionid', 'apiname', and 'operationtype' cannot be used
@@ -1294,7 +1294,7 @@ public:
         FString ContinuationToken;
     /** The requested inventory transactions. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
-        TArray<UPlayFabJsonObject*> Transactions;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Transactions;
 };
 
 /** Purchase a single item or bundle, paying the associated price. */
@@ -1314,7 +1314,7 @@ public:
         FString CollectionId;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /**
      * Indicates whether stacks reduced to an amount of 0 during the request should be deleted from the inventory.
      * (Default=false)
@@ -1326,7 +1326,7 @@ public:
         int32 DurationInSeconds = 0;
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
-        UPlayFabJsonObject* Entity = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Entity;
     /**
      * ETags are used for concurrency checking when updating resources. More information about using ETags can be found here:
      * https://learn.microsoft.com/en-us/gaming/playfab/features/economy-v2/catalog/etags
@@ -1341,16 +1341,16 @@ public:
         FString IdempotencyId;
     /** The inventory item the request applies to. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
-        UPlayFabJsonObject* Item = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Item;
     /** The values to apply to a stack newly created by this request. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
-        UPlayFabJsonObject* NewStackValues = nullptr;
+        TObjectPtr<UPlayFabJsonObject> NewStackValues;
     /**
      * The per-item price the item is expected to be purchased at. This must match a value configured in the Catalog or
      * specified Store.
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
-        TArray<UPlayFabJsonObject*> PriceAmounts;
+        TArray<TObjectPtr<UPlayFabJsonObject>> PriceAmounts;
     /** The id of the Store to purchase the item from. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         FString StoreId;
@@ -1386,10 +1386,10 @@ public:
         FString CollectionId;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
-        UPlayFabJsonObject* Entity = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Entity;
     /** The receipt provided by the Apple marketplace upon successful purchase. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         FString Receipt;
@@ -1402,10 +1402,10 @@ struct PLAYFAB_API FEconomyRedeemAppleAppStoreInventoryItemsResponse : public FP
 public:
     /** The list of failed redemptions from the external marketplace. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
-        TArray<UPlayFabJsonObject*> Failed;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Failed;
     /** The list of successful redemptions from the external marketplace. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
-        TArray<UPlayFabJsonObject*> Succeeded;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Succeeded;
     /** The Transaction IDs associated with the inventory modifications */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         FString TransactionIds;
@@ -1422,10 +1422,10 @@ public:
         FString CollectionId;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
-        UPlayFabJsonObject* Entity = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Entity;
     /** The JWS representation of a transaction. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         FString JWSTransactions;
@@ -1439,10 +1439,10 @@ struct PLAYFAB_API FEconomyRedeemAppleAppStoreWithJwsInventoryItemsResponse : pu
 public:
     /** The list of failed redemptions from the external marketplace. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
-        TArray<UPlayFabJsonObject*> Failed;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Failed;
     /** The list of successful redemptions from the external marketplace. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
-        TArray<UPlayFabJsonObject*> Succeeded;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Succeeded;
     /** The Transaction IDs associated with the inventory modifications */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         FString TransactionIds;
@@ -1459,13 +1459,13 @@ public:
         FString CollectionId;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
-        UPlayFabJsonObject* Entity = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Entity;
     /** The list of purchases to redeem */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
-        TArray<UPlayFabJsonObject*> Purchases;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Purchases;
 };
 
 USTRUCT(BlueprintType)
@@ -1475,10 +1475,10 @@ struct PLAYFAB_API FEconomyRedeemGooglePlayInventoryItemsResponse : public FPlay
 public:
     /** The list of failed redemptions from the external marketplace. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
-        TArray<UPlayFabJsonObject*> Failed;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Failed;
     /** The list of successful redemptions from the external marketplace. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
-        TArray<UPlayFabJsonObject*> Succeeded;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Succeeded;
     /** The Transaction IDs associated with the inventory modifications */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         FString TransactionIds;
@@ -1495,10 +1495,10 @@ public:
         FString CollectionId;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
-        UPlayFabJsonObject* Entity = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Entity;
     /**
      * Xbox Token used for delegated business partner authentication. Token provided by the Xbox Live SDK method
      * GetTokenAndSignatureAsync("POST", "https://playfabapi.com/", "").
@@ -1514,10 +1514,10 @@ struct PLAYFAB_API FEconomyRedeemMicrosoftStoreInventoryItemsResponse : public F
 public:
     /** The list of failed redemptions from the external marketplace. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
-        TArray<UPlayFabJsonObject*> Failed;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Failed;
     /** The list of successful redemptions from the external marketplace. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
-        TArray<UPlayFabJsonObject*> Succeeded;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Succeeded;
     /** The Transaction IDs associated with the inventory modifications */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         FString TransactionIds;
@@ -1534,10 +1534,10 @@ public:
         FString CollectionId;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
-        UPlayFabJsonObject* Entity = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Entity;
     /** The Nintendo provided token authorizing redemption */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         FString NintendoServiceAccountIdToken;
@@ -1550,10 +1550,10 @@ struct PLAYFAB_API FEconomyRedeemNintendoEShopInventoryItemsResponse : public FP
 public:
     /** The list of failed redemptions from the external marketplace. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
-        TArray<UPlayFabJsonObject*> Failed;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Failed;
     /** The list of successful redemptions from the external marketplace. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
-        TArray<UPlayFabJsonObject*> Succeeded;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Succeeded;
     /** The Transaction IDs associated with the inventory modifications */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         FString TransactionIds;
@@ -1573,10 +1573,10 @@ public:
         FString CollectionId;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
-        UPlayFabJsonObject* Entity = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Entity;
     /** Redirect URI supplied to PlayStation :tm: Network when requesting an auth code. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         FString RedirectUri;
@@ -1592,10 +1592,10 @@ struct PLAYFAB_API FEconomyRedeemPlayStationStoreInventoryItemsResponse : public
 public:
     /** The list of failed redemptions from the external marketplace. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
-        TArray<UPlayFabJsonObject*> Failed;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Failed;
     /** The list of successful redemptions from the external marketplace. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
-        TArray<UPlayFabJsonObject*> Succeeded;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Succeeded;
     /** The Transaction IDs associated with the inventory modifications */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         FString TransactionIds;
@@ -1612,10 +1612,10 @@ public:
         FString CollectionId;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
-        UPlayFabJsonObject* Entity = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Entity;
 };
 
 USTRUCT(BlueprintType)
@@ -1625,10 +1625,10 @@ struct PLAYFAB_API FEconomyRedeemSteamInventoryItemsResponse : public FPlayFabRe
 public:
     /** The list of failed redemptions from the external marketplace. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
-        TArray<UPlayFabJsonObject*> Failed;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Failed;
     /** The list of successful redemptions from the external marketplace. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
-        TArray<UPlayFabJsonObject*> Succeeded;
+        TArray<TObjectPtr<UPlayFabJsonObject>> Succeeded;
     /** The Transaction IDs associated with the inventory modifications */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         FString TransactionIds;
@@ -1651,7 +1651,7 @@ public:
         FString CollectionId;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /**
      * Indicates whether stacks reduced to an amount of 0 during the request should be deleted from the inventory.
      * (Default=false)
@@ -1663,7 +1663,7 @@ public:
         int32 DurationInSeconds = 0;
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
-        UPlayFabJsonObject* Entity = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Entity;
     /**
      * ETags are used for concurrency checking when updating resources. More information about using ETags can be found here:
      * https://learn.microsoft.com/en-us/gaming/playfab/features/economy-v2/catalog/etags
@@ -1678,7 +1678,7 @@ public:
         FString IdempotencyId;
     /** The inventory item the request applies to. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
-        UPlayFabJsonObject* Item = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Item;
 };
 
 USTRUCT(BlueprintType)
@@ -1711,7 +1711,7 @@ public:
         int32 Amount = 0;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /**
      * Indicates whether stacks reduced to an amount of 0 during the request should be deleted from the inventory. (Default =
      * false)
@@ -1723,7 +1723,7 @@ public:
         FString GivingCollectionId;
     /** The entity the request is transferring from. Set to the caller by default. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
-        UPlayFabJsonObject* GivingEntity = nullptr;
+        TObjectPtr<UPlayFabJsonObject> GivingEntity;
     /**
      * ETags are used for concurrency checking when updating resources (before transferring from). More information about using
      * ETags can be found here: https://learn.microsoft.com/en-us/gaming/playfab/features/economy-v2/catalog/etags
@@ -1732,22 +1732,22 @@ public:
         FString GivingETag;
     /** The inventory item the request is transferring from. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
-        UPlayFabJsonObject* GivingItem = nullptr;
+        TObjectPtr<UPlayFabJsonObject> GivingItem;
     /** The idempotency id for the request. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         FString IdempotencyId;
     /** The values to apply to a stack newly created by this request. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
-        UPlayFabJsonObject* NewStackValues = nullptr;
+        TObjectPtr<UPlayFabJsonObject> NewStackValues;
     /** The inventory collection id the request is transferring to. (Default="default") */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         FString ReceivingCollectionId;
     /** The entity the request is transferring to. Set to the caller by default. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
-        UPlayFabJsonObject* ReceivingEntity = nullptr;
+        TObjectPtr<UPlayFabJsonObject> ReceivingEntity;
     /** The inventory item the request is transferring to. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
-        UPlayFabJsonObject* ReceivingItem = nullptr;
+        TObjectPtr<UPlayFabJsonObject> ReceivingItem;
 };
 
 USTRUCT(BlueprintType)
@@ -1798,10 +1798,10 @@ public:
         FString CollectionId;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
+        TObjectPtr<UPlayFabJsonObject> CustomTags;
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
-        UPlayFabJsonObject* Entity = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Entity;
     /**
      * ETags are used for concurrency checking when updating resources. More information about using ETags can be found here:
      * https://learn.microsoft.com/en-us/gaming/playfab/features/economy-v2/catalog/etags
@@ -1816,7 +1816,7 @@ public:
         FString IdempotencyId;
     /** The inventory item to update with the specified values. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
-        UPlayFabJsonObject* Item = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Item;
 };
 
 USTRUCT(BlueprintType)

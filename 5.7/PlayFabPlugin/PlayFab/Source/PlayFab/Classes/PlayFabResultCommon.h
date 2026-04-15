@@ -15,5 +15,5 @@ struct PLAYFAB_API FPlayFabResultCommon
     GENERATED_BODY()
 
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "PlayFab | Core")
-        UPlayFabJsonObject* Request = nullptr;
+        TObjectPtr<UPlayFabJsonObject> Request;
 };

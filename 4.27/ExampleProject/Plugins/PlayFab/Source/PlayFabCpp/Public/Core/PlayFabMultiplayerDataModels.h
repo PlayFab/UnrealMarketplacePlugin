@@ -720,7 +720,7 @@ namespace MultiplayerModels
     {
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
-        // [optional] The entity key of the player whose tickets should be canceled.
+        // [optional] The optional entity to perform this action on. Defaults to the currently logged in entity.
         TSharedPtr<FEntityKey> Entity;
 
         // The name of the queue from which a player's tickets should be canceled.
@@ -769,7 +769,7 @@ namespace MultiplayerModels
     {
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
-        // The entity key of the player whose backfill tickets should be canceled.
+        // The entity to perform this action on.
         FEntityKey Entity;
 
         // The name of the queue from which a player's backfill tickets should be canceled.
@@ -5519,7 +5519,7 @@ namespace MultiplayerModels
     {
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
-        // [optional] The entity key for which to find the ticket Ids.
+        // [optional] The optional entity to perform this action on. Defaults to the currently logged in entity.
         TSharedPtr<FEntityKey> Entity;
 
         // The name of the queue to find a match for.
@@ -5918,7 +5918,7 @@ namespace MultiplayerModels
     {
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
-        // The entity key for which to find the ticket Ids.
+        // The entity to perform this action on.
         FEntityKey Entity;
 
         // The name of the queue the tickets are in.
@@ -6434,6 +6434,9 @@ namespace MultiplayerModels
         // [optional] The guid string party ID of the party session.
         FString PartyId;
 
+        // [optional] The region the party session is located in.
+        FString Region;
+
         // [optional] A base-64 encoded string containing the serialized network descriptor for this party.
         FString SerializedNetworkDescriptor;
 
@@ -6441,6 +6444,7 @@ namespace MultiplayerModels
             FPlayFabCppResultCommon(),
             InvitationId(),
             PartyId(),
+            Region(),
             SerializedNetworkDescriptor()
             {}
 

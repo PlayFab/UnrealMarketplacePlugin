@@ -726,7 +726,7 @@ public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
         UPlayFabJsonObject* CustomTags = nullptr;
-    /** The entity key of the player whose tickets should be canceled. */
+    /** The optional entity to perform this action on. Defaults to the currently logged in entity. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
         UPlayFabJsonObject* Entity = nullptr;
     /** The name of the queue from which a player's tickets should be canceled. */
@@ -754,7 +754,7 @@ public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
         UPlayFabJsonObject* CustomTags = nullptr;
-    /** The entity key of the player whose backfill tickets should be canceled. */
+    /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
         UPlayFabJsonObject* Entity = nullptr;
     /** The name of the queue from which a player's backfill tickets should be canceled. */
@@ -1184,7 +1184,7 @@ public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
         UPlayFabJsonObject* CustomTags = nullptr;
-    /** The entity key for which to find the ticket Ids. */
+    /** The optional entity to perform this action on. Defaults to the currently logged in entity. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
         UPlayFabJsonObject* Entity = nullptr;
     /** The name of the queue to find a match for. */
@@ -1211,7 +1211,7 @@ public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
         UPlayFabJsonObject* CustomTags = nullptr;
-    /** The entity key for which to find the ticket Ids. */
+    /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
         UPlayFabJsonObject* Entity = nullptr;
     /** The name of the queue the tickets are in. */
@@ -2915,6 +2915,9 @@ public:
     /** The guid string party ID of the party session. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString PartyId;
+    /** The region the party session is located in. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        FString Region;
     /** A base-64 encoded string containing the serialized network descriptor for this party. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString SerializedNetworkDescriptor;

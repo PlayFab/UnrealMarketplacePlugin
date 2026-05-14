@@ -769,6 +769,7 @@ FMultiplayerRequestPartyServiceResponse UPlayFabMultiplayerModelDecoder::decodeR
 
     tempStruct.InvitationId = !(dataObj->HasField("InvitationId")) ? TEXT("") : dataObj->GetStringField("InvitationId");
     tempStruct.PartyId = !(dataObj->HasField("PartyId")) ? TEXT("") : dataObj->GetStringField("PartyId");
+    tempStruct.Region = !(dataObj->HasField("Region")) ? TEXT("") : dataObj->GetStringField("Region");
     tempStruct.SerializedNetworkDescriptor = !(dataObj->HasField("SerializedNetworkDescriptor")) ? TEXT("") : dataObj->GetStringField("SerializedNetworkDescriptor");
 
     return tempStruct;

@@ -13564,6 +13564,12 @@ void PlayFab::MultiplayerModels::FRequestPartyServiceResponse::writeJSON(JsonWri
         writer->WriteValue(PartyId);
     }
 
+    if (Region.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Region"));
+        writer->WriteValue(Region);
+    }
+
     if (SerializedNetworkDescriptor.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("SerializedNetworkDescriptor"));
@@ -13589,6 +13595,13 @@ bool PlayFab::MultiplayerModels::FRequestPartyServiceResponse::readFromValue(con
     {
         FString TmpValue;
         if (PartyIdValue->TryGetString(TmpValue)) { PartyId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> RegionValue = obj->TryGetField(TEXT("Region"));
+    if (RegionValue.IsValid() && !RegionValue->IsNull())
+    {
+        FString TmpValue;
+        if (RegionValue->TryGetString(TmpValue)) { Region = TmpValue; }
     }
 
     const TSharedPtr<FJsonValue> SerializedNetworkDescriptorValue = obj->TryGetField(TEXT("SerializedNetworkDescriptor"));

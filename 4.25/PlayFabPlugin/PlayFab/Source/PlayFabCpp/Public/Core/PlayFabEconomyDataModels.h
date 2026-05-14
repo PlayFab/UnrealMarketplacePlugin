@@ -3442,7 +3442,10 @@ namespace EconomyModels
         // [optional] An opaque token used to retrieve the next page of items, if any are available. Should be null on initial request.
         FString ContinuationToken;
 
-        // Number of items to retrieve. This value is optional. The default value is 10
+        /**
+         * Number of items to retrieve. This value is optional. The default value is 10. The maximum value is 50, or 250 if
+         * response compression is enabled.
+         */
         int32 Count;
 
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).

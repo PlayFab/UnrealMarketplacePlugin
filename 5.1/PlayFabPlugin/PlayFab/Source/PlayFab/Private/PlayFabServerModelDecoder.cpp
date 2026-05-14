@@ -369,6 +369,15 @@ FServerSendPushNotificationResult UPlayFabServerModelDecoder::decodeSendPushNoti
     return tempStruct;
 }
 
+FServerUnlinkAppleResult UPlayFabServerModelDecoder::decodeUnlinkAppleResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FServerUnlinkAppleResult tempStruct;
+
+
+    return tempStruct;
+}
+
 FServerEmptyResponse UPlayFabServerModelDecoder::decodeEmptyResponseResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct
@@ -391,6 +400,15 @@ FServerUnlinkFacebookInstantGamesIdResult UPlayFabServerModelDecoder::decodeUnli
 {
     // Temp ustruct
     FServerUnlinkFacebookInstantGamesIdResult tempStruct;
+
+
+    return tempStruct;
+}
+
+FServerUnlinkGameCenterAccountResult UPlayFabServerModelDecoder::decodeUnlinkGameCenterAccountResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FServerUnlinkGameCenterAccountResult tempStruct;
 
 
     return tempStruct;

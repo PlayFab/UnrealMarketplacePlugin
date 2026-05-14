@@ -10127,6 +10127,51 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FUnlinkAppleRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // Unique PlayFab assigned ID of the user on whom the operation will be performed.
+        FString PlayFabId;
+
+        FUnlinkAppleRequest() :
+            FPlayFabCppRequestCommon(),
+            CustomTags(),
+            PlayFabId()
+            {}
+
+        FUnlinkAppleRequest(const FUnlinkAppleRequest& src) = default;
+
+        FUnlinkAppleRequest(const TSharedPtr<FJsonObject>& obj) : FUnlinkAppleRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FUnlinkAppleRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FUnlinkAppleResult : public PlayFab::FPlayFabCppResultCommon
+    {
+        FUnlinkAppleResult() :
+            FPlayFabCppResultCommon()
+            {}
+
+        FUnlinkAppleResult(const FUnlinkAppleResult& src) = default;
+
+        FUnlinkAppleResult(const TSharedPtr<FJsonObject>& obj) : FUnlinkAppleResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FUnlinkAppleResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FUnlinkBattleNetAccountRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
@@ -10242,6 +10287,51 @@ namespace ServerModels
         }
 
         ~FUnlinkFacebookInstantGamesIdResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FUnlinkGameCenterAccountRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // Unique PlayFab assigned ID of the user on whom the operation will be performed.
+        FString PlayFabId;
+
+        FUnlinkGameCenterAccountRequest() :
+            FPlayFabCppRequestCommon(),
+            CustomTags(),
+            PlayFabId()
+            {}
+
+        FUnlinkGameCenterAccountRequest(const FUnlinkGameCenterAccountRequest& src) = default;
+
+        FUnlinkGameCenterAccountRequest(const TSharedPtr<FJsonObject>& obj) : FUnlinkGameCenterAccountRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FUnlinkGameCenterAccountRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FUnlinkGameCenterAccountResult : public PlayFab::FPlayFabCppResultCommon
+    {
+        FUnlinkGameCenterAccountResult() :
+            FPlayFabCppResultCommon()
+            {}
+
+        FUnlinkGameCenterAccountResult(const FUnlinkGameCenterAccountResult& src) = default;
+
+        FUnlinkGameCenterAccountResult(const TSharedPtr<FJsonObject>& obj) : FUnlinkGameCenterAccountResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FUnlinkGameCenterAccountResult();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;

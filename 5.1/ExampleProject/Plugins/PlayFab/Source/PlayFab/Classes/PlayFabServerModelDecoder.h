@@ -172,6 +172,10 @@ public:
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management Models")
         static FServerSendPushNotificationResult decodeSendPushNotificationResultResponse(UPlayFabJsonObject* response);
 
+    /** Decode the UnlinkAppleResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management Models")
+        static FServerUnlinkAppleResult decodeUnlinkAppleResultResponse(UPlayFabJsonObject* response);
+
     /** Decode the EmptyResponse response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management Models")
         static FServerEmptyResponse decodeEmptyResponseResponse(UPlayFabJsonObject* response);
@@ -183,6 +187,10 @@ public:
     /** Decode the UnlinkFacebookInstantGamesIdResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management Models")
         static FServerUnlinkFacebookInstantGamesIdResult decodeUnlinkFacebookInstantGamesIdResultResponse(UPlayFabJsonObject* response);
+
+    /** Decode the UnlinkGameCenterAccountResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management Models")
+        static FServerUnlinkGameCenterAccountResult decodeUnlinkGameCenterAccountResultResponse(UPlayFabJsonObject* response);
 
     /** Decode the UnlinkNintendoSwitchDeviceIdResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management Models")

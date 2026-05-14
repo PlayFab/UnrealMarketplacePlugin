@@ -2424,6 +2424,59 @@ void UPlayFabServerAPI::HelperSendPushNotificationFromTemplate(FPlayFabBaseModel
     this->RemoveFromRoot();
 }
 
+/** Unlinks the related Apple account from the specified user's PlayFab account. */
+UPlayFabServerAPI* UPlayFabServerAPI::UnlinkApple(FServerUnlinkAppleRequest request,
+    FDelegateOnSuccessUnlinkApple onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabServerAPI* manager = NewObject<UPlayFabServerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessUnlinkApple = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperUnlinkApple);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Server/UnlinkApple";
+    manager->useSecretKey = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.PlayFabId.IsEmpty() || request.PlayFabId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("PlayFabId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("PlayFabId"), request.PlayFabId);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabServerRequestCompleted
+void UPlayFabServerAPI::HelperUnlinkApple(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessUnlinkApple.IsBound())
+    {
+        FServerUnlinkAppleResult ResultStruct = UPlayFabServerModelDecoder::decodeUnlinkAppleResultResponse(response.responseData);
+        OnSuccessUnlinkApple.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 /** Unlinks the related Battle.net account from the user's PlayFab account. */
 UPlayFabServerAPI* UPlayFabServerAPI::UnlinkBattleNetAccount(FServerUnlinkBattleNetAccountRequest request,
     FDelegateOnSuccessUnlinkBattleNetAccount onSuccess,
@@ -2584,6 +2637,59 @@ void UPlayFabServerAPI::HelperUnlinkFacebookInstantGamesId(FPlayFabBaseModel res
     {
         FServerUnlinkFacebookInstantGamesIdResult ResultStruct = UPlayFabServerModelDecoder::decodeUnlinkFacebookInstantGamesIdResultResponse(response.responseData);
         OnSuccessUnlinkFacebookInstantGamesId.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Unlinks the related Game Center account from the specified user's PlayFab account. */
+UPlayFabServerAPI* UPlayFabServerAPI::UnlinkGameCenterAccount(FServerUnlinkGameCenterAccountRequest request,
+    FDelegateOnSuccessUnlinkGameCenterAccount onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabServerAPI* manager = NewObject<UPlayFabServerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessUnlinkGameCenterAccount = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperUnlinkGameCenterAccount);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Server/UnlinkGameCenterAccount";
+    manager->useSecretKey = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.PlayFabId.IsEmpty() || request.PlayFabId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("PlayFabId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("PlayFabId"), request.PlayFabId);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabServerRequestCompleted
+void UPlayFabServerAPI::HelperUnlinkGameCenterAccount(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessUnlinkGameCenterAccount.IsBound())
+    {
+        FServerUnlinkGameCenterAccountResult ResultStruct = UPlayFabServerModelDecoder::decodeUnlinkGameCenterAccountResultResponse(response.responseData);
+        OnSuccessUnlinkGameCenterAccount.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }

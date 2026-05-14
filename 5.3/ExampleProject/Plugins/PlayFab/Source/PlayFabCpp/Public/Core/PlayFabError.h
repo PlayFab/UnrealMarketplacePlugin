@@ -965,6 +965,7 @@ namespace PlayFab
         PlayFabErrorPlayFabErrorEventNotSupportedForEntityType = 23013,
         PlayFabErrorMetadataLengthExceeded = 23014,
         PlayFabErrorMaxQueryableVersionsExceeded = 23015,
+        PlayFabErrorStatisticVersionIncrementNotAllowedWhileLinked = 23016,
         PlayFabErrorStoreMetricsRequestInvalidInput = 23501,
         PlayFabErrorStoreMetricsErrorRetrievingMetrics = 23502
     };

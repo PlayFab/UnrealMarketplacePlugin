@@ -456,6 +456,11 @@ UPlayFabAddonAPI* UPlayFabAddonAPI::CreateOrUpdateNintendo(FAddonCreateOrUpdateN
         OutRestJsonObj->SetObjectArrayField(TEXT("Environments"), request.Environments);
     }
     OutRestJsonObj->SetBoolField(TEXT("ErrorIfExists"), request.ErrorIfExists);
+    if (request.SubscriptionEnvironments.Num() == 0) {
+        OutRestJsonObj->SetFieldNull(TEXT("SubscriptionEnvironments"));
+    } else {
+        OutRestJsonObj->SetObjectArrayField(TEXT("SubscriptionEnvironments"), request.SubscriptionEnvironments);
+    }
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);

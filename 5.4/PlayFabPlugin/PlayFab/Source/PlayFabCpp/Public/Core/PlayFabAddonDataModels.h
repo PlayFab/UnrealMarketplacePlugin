@@ -439,13 +439,16 @@ namespace AddonModels
         // [optional] If an error should be returned if the addon already exists.
         Boxed<bool> ErrorIfExists;
 
+        // [optional] List of Nintendo Subscription Environments, currently supporting up to 4. Needs Catalog enabled.
+        TArray<FNintendoEnvironment> SubscriptionEnvironments;
         FCreateOrUpdateNintendoRequest() :
             FPlayFabCppRequestCommon(),
             ApplicationID(),
             CustomTags(),
             Entity(nullptr),
             Environments(),
-            ErrorIfExists()
+            ErrorIfExists(),
+            SubscriptionEnvironments()
             {}
 
         FCreateOrUpdateNintendoRequest(const FCreateOrUpdateNintendoRequest& src) = default;
@@ -1511,11 +1514,14 @@ namespace AddonModels
 
         // [optional] List of Nintendo Environments, currently supporting up to 4.
         TArray<FNintendoEnvironment> Environments;
+        // [optional] List of Nintendo Subscription Environments, currently supporting up to 4.
+        TArray<FNintendoEnvironment> SubscriptionEnvironments;
         FGetNintendoResponse() :
             FPlayFabCppResultCommon(),
             ApplicationID(),
             Created(false),
-            Environments()
+            Environments(),
+            SubscriptionEnvironments()
             {}
 
         FGetNintendoResponse(const FGetNintendoResponse& src) = default;

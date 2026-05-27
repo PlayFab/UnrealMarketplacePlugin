@@ -1570,6 +1570,46 @@ bool PlayFab::AdminModels::FAddLocalizedNewsResult::readFromValue(const TSharedP
     return HasSucceeded;
 }
 
+void PlayFab::AdminModels::writeNewsStatusEnumJSON(NewsStatus enumVal, JsonWriter& writer)
+{
+    switch (enumVal)
+    {
+
+    case NewsStatusNone: writer->WriteValue(TEXT("None")); break;
+    case NewsStatusUnpublished: writer->WriteValue(TEXT("Unpublished")); break;
+    case NewsStatusPublished: writer->WriteValue(TEXT("Published")); break;
+    case NewsStatusArchived: writer->WriteValue(TEXT("Archived")); break;
+    }
+}
+
+AdminModels::NewsStatus PlayFab::AdminModels::readNewsStatusFromValue(const TSharedPtr<FJsonValue>& value)
+{
+    return readNewsStatusFromValue(value.IsValid() ? value->AsString() : "");
+}
+
+AdminModels::NewsStatus PlayFab::AdminModels::readNewsStatusFromValue(const FString& value)
+{
+    static TMap<FString, NewsStatus> _NewsStatusMap;
+    if (_NewsStatusMap.Num() == 0)
+    {
+        // Auto-generate the map on the first use
+        _NewsStatusMap.Add(TEXT("None"), NewsStatusNone);
+        _NewsStatusMap.Add(TEXT("Unpublished"), NewsStatusUnpublished);
+        _NewsStatusMap.Add(TEXT("Published"), NewsStatusPublished);
+        _NewsStatusMap.Add(TEXT("Archived"), NewsStatusArchived);
+
+    }
+
+    if (!value.IsEmpty())
+    {
+        auto output = _NewsStatusMap.Find(value);
+        if (output != nullptr)
+            return *output;
+    }
+
+    return NewsStatusNone; // Basically critical fail
+}
+
 PlayFab::AdminModels::FAddNewsRequest::~FAddNewsRequest()
 {
 
@@ -1598,6 +1638,12 @@ void PlayFab::AdminModels::FAddNewsRequest::writeJSON(JsonWriter& writer) const
             writer->WriteValue((*It).Value);
         }
         writer->WriteObjectEnd();
+    }
+
+    if (Status.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Status"));
+        writeNewsStatusEnumJSON(Status, writer);
     }
 
     if (Timestamp.notNull())
@@ -1638,6 +1684,8 @@ bool PlayFab::AdminModels::FAddNewsRequest::readFromValue(const TSharedPtr<FJson
             CustomTags.Add(It.Key(), It.Value()->AsString());
         }
     }
+
+    Status = readNewsStatusFromValue(obj->TryGetField(TEXT("Status")));
 
     const TSharedPtr<FJsonValue> TimestampValue = obj->TryGetField(TEXT("Timestamp"));
     if (TimestampValue.IsValid())
@@ -13293,6 +13341,71 @@ bool PlayFab::AdminModels::FGetRandomResultTablesResult::readFromValue(const TSh
         {
             Tables.Add(It.Key(), FRandomResultTableListing(It.Value()->AsObject()));
         }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::AdminModels::FGetSegmentPlayerCountRequest::~FGetSegmentPlayerCountRequest()
+{
+
+}
+
+void PlayFab::AdminModels::FGetSegmentPlayerCountRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (!SegmentId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: GetSegmentPlayerCountRequest::SegmentId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("SegmentId"));
+        writer->WriteValue(SegmentId);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FGetSegmentPlayerCountRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> SegmentIdValue = obj->TryGetField(TEXT("SegmentId"));
+    if (SegmentIdValue.IsValid() && !SegmentIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (SegmentIdValue->TryGetString(TmpValue)) { SegmentId = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::AdminModels::FGetSegmentPlayerCountResult::~FGetSegmentPlayerCountResult()
+{
+
+}
+
+void PlayFab::AdminModels::FGetSegmentPlayerCountResult::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteIdentifierPrefix(TEXT("ProfilesInSegment"));
+    writer->WriteValue(ProfilesInSegment);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FGetSegmentPlayerCountResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> ProfilesInSegmentValue = obj->TryGetField(TEXT("ProfilesInSegment"));
+    if (ProfilesInSegmentValue.IsValid() && !ProfilesInSegmentValue->IsNull())
+    {
+        int32 TmpValue;
+        if (ProfilesInSegmentValue->TryGetNumber(TmpValue)) { ProfilesInSegment = TmpValue; }
     }
 
     return HasSucceeded;

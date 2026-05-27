@@ -12462,6 +12462,71 @@ bool PlayFab::ServerModels::FGetRandomResultTablesResult::readFromValue(const TS
     return HasSucceeded;
 }
 
+PlayFab::ServerModels::FGetSegmentPlayerCountRequest::~FGetSegmentPlayerCountRequest()
+{
+
+}
+
+void PlayFab::ServerModels::FGetSegmentPlayerCountRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (!SegmentId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: GetSegmentPlayerCountRequest::SegmentId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("SegmentId"));
+        writer->WriteValue(SegmentId);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ServerModels::FGetSegmentPlayerCountRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> SegmentIdValue = obj->TryGetField(TEXT("SegmentId"));
+    if (SegmentIdValue.IsValid() && !SegmentIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (SegmentIdValue->TryGetString(TmpValue)) { SegmentId = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::ServerModels::FGetSegmentPlayerCountResult::~FGetSegmentPlayerCountResult()
+{
+
+}
+
+void PlayFab::ServerModels::FGetSegmentPlayerCountResult::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteIdentifierPrefix(TEXT("ProfilesInSegment"));
+    writer->WriteValue(ProfilesInSegment);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ServerModels::FGetSegmentPlayerCountResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> ProfilesInSegmentValue = obj->TryGetField(TEXT("ProfilesInSegment"));
+    if (ProfilesInSegmentValue.IsValid() && !ProfilesInSegmentValue->IsNull())
+    {
+        int32 TmpValue;
+        if (ProfilesInSegmentValue->TryGetNumber(TmpValue)) { ProfilesInSegment = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
 PlayFab::ServerModels::FGetServerCustomIDsFromPlayFabIDsRequest::~FGetServerCustomIDsFromPlayFabIDsRequest()
 {
 

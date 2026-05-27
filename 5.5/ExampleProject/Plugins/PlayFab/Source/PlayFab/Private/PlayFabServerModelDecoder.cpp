@@ -1159,6 +1159,17 @@ FServerGetPlayersInSegmentExportResponse UPlayFabServerModelDecoder::decodeGetPl
     return tempStruct;
 }
 
+FServerGetSegmentPlayerCountResult UPlayFabServerModelDecoder::decodeGetSegmentPlayerCountResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FServerGetSegmentPlayerCountResult tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.ProfilesInSegment = !(dataObj->HasField("ProfilesInSegment")) ? 0 : int(dataObj->GetNumberField("ProfilesInSegment"));
+
+    return tempStruct;
+}
+
 FServerRemovePlayerTagResult UPlayFabServerModelDecoder::decodeRemovePlayerTagResultResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct

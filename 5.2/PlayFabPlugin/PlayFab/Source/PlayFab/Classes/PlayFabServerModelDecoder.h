@@ -498,6 +498,10 @@ public:
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | PlayStream Models")
         static FServerGetPlayersInSegmentExportResponse decodeGetPlayersInSegmentExportResponseResponse(UPlayFabJsonObject* response);
 
+    /** Decode the GetSegmentPlayerCountResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | PlayStream Models")
+        static FServerGetSegmentPlayerCountResult decodeGetSegmentPlayerCountResultResponse(UPlayFabJsonObject* response);
+
     /** Decode the RemovePlayerTagResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | PlayStream Models")
         static FServerRemovePlayerTagResult decodeRemovePlayerTagResultResponse(UPlayFabJsonObject* response);

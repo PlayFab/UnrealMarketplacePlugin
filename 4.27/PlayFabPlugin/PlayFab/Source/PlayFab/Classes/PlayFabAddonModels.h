@@ -250,6 +250,9 @@ public:
     /** If an error should be returned if the addon already exists. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Addon | Addon Models")
         bool ErrorIfExists = false;
+    /** List of Nintendo Subscription Environments, currently supporting up to 4. Needs Catalog enabled. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Addon | Addon Models")
+        TArray<UPlayFabJsonObject*> SubscriptionEnvironments;
 };
 
 USTRUCT(BlueprintType)
@@ -775,6 +778,9 @@ public:
     /** List of Nintendo Environments, currently supporting up to 4. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Addon | Addon Models")
         TArray<UPlayFabJsonObject*> Environments;
+    /** List of Nintendo Subscription Environments, currently supporting up to 4. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Addon | Addon Models")
+        TArray<UPlayFabJsonObject*> SubscriptionEnvironments;
 };
 
 USTRUCT(BlueprintType)

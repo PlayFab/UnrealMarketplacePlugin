@@ -274,6 +274,7 @@ FAddonGetNintendoResponse UPlayFabAddonModelDecoder::decodeGetNintendoResponseRe
     tempStruct.ApplicationID = !(dataObj->HasField("ApplicationID")) ? TEXT("") : dataObj->GetStringField("ApplicationID");
     tempStruct.Created = !(dataObj->HasField("Created")) ? false : dataObj->GetBoolField("Created");
     tempStruct.Environments = !(dataObj->HasField("Environments")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Environments");
+    tempStruct.SubscriptionEnvironments = !(dataObj->HasField("SubscriptionEnvironments")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("SubscriptionEnvironments");
 
     return tempStruct;
 }

@@ -6516,6 +6516,52 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FGetSegmentPlayerCountRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // Unique identifier for the requested segment.
+        FString SegmentId;
+
+        FGetSegmentPlayerCountRequest() :
+            FPlayFabCppRequestCommon(),
+            SegmentId()
+            {}
+
+        FGetSegmentPlayerCountRequest(const FGetSegmentPlayerCountRequest& src) = default;
+
+        FGetSegmentPlayerCountRequest(const TSharedPtr<FJsonObject>& obj) : FGetSegmentPlayerCountRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetSegmentPlayerCountRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FGetSegmentPlayerCountResult : public PlayFab::FPlayFabCppResultCommon
+    {
+        // Count of profiles matching this segment.
+        int32 ProfilesInSegment;
+
+        FGetSegmentPlayerCountResult() :
+            FPlayFabCppResultCommon(),
+            ProfilesInSegment(0)
+            {}
+
+        FGetSegmentPlayerCountResult(const FGetSegmentPlayerCountResult& src) = default;
+
+        FGetSegmentPlayerCountResult(const TSharedPtr<FJsonObject>& obj) : FGetSegmentPlayerCountResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetSegmentPlayerCountResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FGetServerCustomIDsFromPlayFabIDsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         /**

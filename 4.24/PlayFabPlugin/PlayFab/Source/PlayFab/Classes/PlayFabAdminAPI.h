@@ -1062,7 +1062,8 @@ public:
 
     /**
      * Retrieves an array of player segment definitions. Results from this can be used in subsequent API calls such as
-     * GetPlayersInSegment which requires a Segment ID. While segment names can change the ID for that segment will not change.
+     * ExportPlayersInSegment which requires a Segment ID. While segment names can change the ID for that segment will not
+     * change.
      */
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | PlayStream ", meta = (BlueprintInternalUseOnly = "true"))
         static UPlayFabAdminAPI* GetAllSegments(FAdminGetAllSegmentsRequest request,
@@ -1116,6 +1117,19 @@ public:
     // Implements FOnPlayFabAdminRequestCompleted
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | PlayStream ", meta = (BlueprintInternalUseOnly = "true"))
         void HelperGetSegmentExport(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetSegmentPlayerCount, FAdminGetSegmentPlayerCountResult, result, UObject*, customData);
+
+    /** Returns the total number of players in a given segment. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | PlayStream ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabAdminAPI* GetSegmentPlayerCount(FAdminGetSegmentPlayerCountRequest request,
+            FDelegateOnSuccessGetSegmentPlayerCount onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabAdminRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | PlayStream ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperGetSegmentPlayerCount(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessRemovePlayerTag, FAdminRemovePlayerTagResult, result, UObject*, customData);
@@ -1850,6 +1864,7 @@ public:
     FDelegateOnSuccessGetPlayerSegments OnSuccessGetPlayerSegments;
     FDelegateOnSuccessGetPlayerTags OnSuccessGetPlayerTags;
     FDelegateOnSuccessGetSegmentExport OnSuccessGetSegmentExport;
+    FDelegateOnSuccessGetSegmentPlayerCount OnSuccessGetSegmentPlayerCount;
     FDelegateOnSuccessRemovePlayerTag OnSuccessRemovePlayerTag;
     FDelegateOnSuccessAbortTaskInstance OnSuccessAbortTaskInstance;
     FDelegateOnSuccessCreateActionsOnPlayersInSegmentTask OnSuccessCreateActionsOnPlayersInSegmentTask;

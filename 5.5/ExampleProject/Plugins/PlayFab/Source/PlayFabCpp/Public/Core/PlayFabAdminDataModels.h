@@ -772,6 +772,18 @@ namespace AdminModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    enum NewsStatus
+    {
+        NewsStatusNone,
+        NewsStatusUnpublished,
+        NewsStatusPublished,
+        NewsStatusArchived
+    };
+
+    PLAYFABCPP_API void writeNewsStatusEnumJSON(NewsStatus enumVal, JsonWriter& writer);
+    PLAYFABCPP_API NewsStatus readNewsStatusFromValue(const TSharedPtr<FJsonValue>& value);
+    PLAYFABCPP_API NewsStatus readNewsStatusFromValue(const FString& value);
+
     struct PLAYFABCPP_API FAddNewsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // Default body text of the news.
@@ -779,6 +791,9 @@ namespace AdminModels
 
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
+        // [optional] Optional status for the new news item. If not set, defaults to Published.
+        Boxed<NewsStatus> Status;
+
         // [optional] Time this news was published. If not set, defaults to now.
         Boxed<FDateTime> Timestamp;
 
@@ -789,6 +804,7 @@ namespace AdminModels
             FPlayFabCppRequestCommon(),
             Body(),
             CustomTags(),
+            Status(),
             Timestamp(),
             Title()
             {}
@@ -7021,6 +7037,52 @@ namespace AdminModels
         }
 
         ~FGetRandomResultTablesResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FGetSegmentPlayerCountRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // Unique identifier for the requested segment.
+        FString SegmentId;
+
+        FGetSegmentPlayerCountRequest() :
+            FPlayFabCppRequestCommon(),
+            SegmentId()
+            {}
+
+        FGetSegmentPlayerCountRequest(const FGetSegmentPlayerCountRequest& src) = default;
+
+        FGetSegmentPlayerCountRequest(const TSharedPtr<FJsonObject>& obj) : FGetSegmentPlayerCountRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetSegmentPlayerCountRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FGetSegmentPlayerCountResult : public PlayFab::FPlayFabCppResultCommon
+    {
+        // Count of profiles matching this segment.
+        int32 ProfilesInSegment;
+
+        FGetSegmentPlayerCountResult() :
+            FPlayFabCppResultCommon(),
+            ProfilesInSegment(0)
+            {}
+
+        FGetSegmentPlayerCountResult(const FGetSegmentPlayerCountResult& src) = default;
+
+        FGetSegmentPlayerCountResult(const TSharedPtr<FJsonObject>& obj) : FGetSegmentPlayerCountResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetSegmentPlayerCountResult();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;

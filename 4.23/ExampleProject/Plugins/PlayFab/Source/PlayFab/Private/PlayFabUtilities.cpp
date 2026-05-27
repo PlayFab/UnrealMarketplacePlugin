@@ -522,7 +522,6 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 1488: returnText = "InsightsManagementGetOperationStatusInvalidParameter"; break;
     case 1489: returnText = "DuplicatePurchaseTransactionId"; break;
     case 1490: returnText = "EvaluationModePlayerCountExceeded"; break;
-    case 1491: returnText = "GetPlayersInSegmentRateLimitExceeded"; break;
     case 1492: returnText = "CloudScriptFunctionNameSizeExceeded"; break;
     case 1493: returnText = "PaidInsightsFeaturesNotEnabled"; break;
     case 1494: returnText = "CloudScriptAzureFunctionsQueueRequestError"; break;
@@ -781,7 +780,6 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 10012: returnText = "AsyncExportNotFound"; break;
     case 10013: returnText = "AsyncExportRateLimitExceeded"; break;
     case 10014: returnText = "AnalyticsSegmentCountOverLimit"; break;
-    case 10015: returnText = "GetPlayersInSegmentRetired"; break;
     case 10016: returnText = "GetSegmentPlayerCountNotInFlight"; break;
     case 10017: returnText = "GetSegmentPlayerCountRateLimitExceeded"; break;
     case 11000: returnText = "SnapshotNotFound"; break;
@@ -859,8 +857,6 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 19007: returnText = "PlayerCustomPropertiesPropertyDoesNotExist"; break;
     case 19008: returnText = "AddonAlreadyExists"; break;
     case 19009: returnText = "AddonDoesntExist"; break;
-    case 19100: returnText = "CopilotDisabled"; break;
-    case 19101: returnText = "CopilotInvalidRequest"; break;
     case 20000: returnText = "TrueSkillUnauthorized"; break;
     case 20001: returnText = "TrueSkillInvalidTitleId"; break;
     case 20002: returnText = "TrueSkillInvalidScenarioId"; break;

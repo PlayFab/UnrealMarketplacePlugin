@@ -2011,6 +2011,27 @@ public:
         FString State;
 };
 
+/** Request must contain a valid Segment ID. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FAdminGetSegmentPlayerCountRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Unique identifier for the requested segment. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | PlayStream Models")
+        FString SegmentId;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FAdminGetSegmentPlayerCountResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Count of profiles matching this segment. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | PlayStream Models")
+        int32 ProfilesInSegment = 0;
+};
+
 /**
  * This API will trigger a player_tag_removed event and remove a tag with the given TagName and PlayFabID from the
  * corresponding player profile. TagName can be used for segmentation and it is limited to 256 characters
@@ -2625,6 +2646,9 @@ public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Title-Wide Data Management Models")
         UPlayFabJsonObject* CustomTags = nullptr;
+    /** Optional status for the new news item. If not set, defaults to Published. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Title-Wide Data Management Models")
+        ENewsStatus Status = StaticCast<ENewsStatus>(0);
     /** Time this news was published. If not set, defaults to now. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Title-Wide Data Management Models")
         FString Timestamp;

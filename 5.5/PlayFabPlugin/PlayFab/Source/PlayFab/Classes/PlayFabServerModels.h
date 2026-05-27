@@ -3809,6 +3809,27 @@ public:
         FString State;
 };
 
+/** Request must contain a valid Segment ID. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FServerGetSegmentPlayerCountRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Unique identifier for the requested segment. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | PlayStream Models")
+        FString SegmentId;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FServerGetSegmentPlayerCountResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Count of profiles matching this segment. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | PlayStream Models")
+        int32 ProfilesInSegment = 0;
+};
+
 /**
  * This API will trigger a player_tag_removed event and remove a tag with the given TagName and PlayFabID from the
  * corresponding player profile. TagName can be used for segmentation and it is limited to 256 characters

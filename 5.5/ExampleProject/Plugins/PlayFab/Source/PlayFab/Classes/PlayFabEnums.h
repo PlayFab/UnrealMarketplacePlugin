@@ -587,6 +587,17 @@ enum class ELoginIdentityProvider : uint8
     pfenum_BattleNet = 24 UMETA(DisplayName = "BattleNet"),
 };
 
+/** NewsStatus */
+
+UENUM(BlueprintType)
+enum class ENewsStatus : uint8
+{
+    pfenum_None = 0 UMETA(DisplayName = "None"),
+    pfenum_Unpublished = 1 UMETA(DisplayName = "Unpublished"),
+    pfenum_Published = 2 UMETA(DisplayName = "Published"),
+    pfenum_Archived = 3 UMETA(DisplayName = "Archived"),
+};
+
 /** PushNotificationPlatform */
 
 UENUM(BlueprintType)

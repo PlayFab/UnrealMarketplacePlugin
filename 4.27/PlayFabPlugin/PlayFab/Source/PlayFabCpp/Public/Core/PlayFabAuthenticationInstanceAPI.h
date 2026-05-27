@@ -70,7 +70,7 @@ namespace PlayFab
         /**
          * Method to exchange a legacy AuthenticationTicket or title SecretKey for an Entity Token or to refresh a still valid
          * Entity Token.
-         * This API must be called with X-SecretKey, X-Authentication or X-EntityToken headers. An optional EntityKey may be included to attempt to set the resulting EntityToken to a specific entity, however the entity must be a relation of the caller, such as the master_player_account of a character. If sending X-EntityToken the account will be marked as freshly logged in and will issue a new token. If using X-Authentication or X-EntityToken the header must still be valid and cannot be expired or revoked.
+         * This API must be called with X-SecretKey, X-Authentication or X-EntityToken headers. The header must still be valid and cannot be expired or revoked.If successful, it will issue a new entity token and emit the "entity_logged_in" PlayStream event.
          */
         bool GetEntityToken(AuthenticationModels::FGetEntityTokenRequest& request, const FGetEntityTokenDelegate& SuccessDelegate = FGetEntityTokenDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**

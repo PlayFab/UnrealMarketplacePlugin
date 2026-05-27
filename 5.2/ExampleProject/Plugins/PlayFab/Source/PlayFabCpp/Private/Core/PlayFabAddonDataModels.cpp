@@ -900,6 +900,15 @@ void PlayFab::AddonModels::FCreateOrUpdateNintendoRequest::writeJSON(JsonWriter&
         writer->WriteValue(ErrorIfExists);
     }
 
+    if (SubscriptionEnvironments.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("SubscriptionEnvironments"));
+        for (const FNintendoEnvironment& item : SubscriptionEnvironments)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
     writer->WriteObjectEnd();
 }
 
@@ -943,6 +952,14 @@ bool PlayFab::AddonModels::FCreateOrUpdateNintendoRequest::readFromValue(const T
         bool TmpValue;
         if (ErrorIfExistsValue->TryGetBool(TmpValue)) { ErrorIfExists = TmpValue; }
     }
+
+    const TArray<TSharedPtr<FJsonValue>>&SubscriptionEnvironmentsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("SubscriptionEnvironments"));
+    for (int32 Idx = 0; Idx < SubscriptionEnvironmentsArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = SubscriptionEnvironmentsArray[Idx];
+        SubscriptionEnvironments.Add(FNintendoEnvironment(CurrentItem->AsObject()));
+    }
+
 
     return HasSucceeded;
 }
@@ -2795,6 +2812,15 @@ void PlayFab::AddonModels::FGetNintendoResponse::writeJSON(JsonWriter& writer) c
     }
 
 
+    if (SubscriptionEnvironments.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("SubscriptionEnvironments"));
+        for (const FNintendoEnvironment& item : SubscriptionEnvironments)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
     writer->WriteObjectEnd();
 }
 
@@ -2821,6 +2847,14 @@ bool PlayFab::AddonModels::FGetNintendoResponse::readFromValue(const TSharedPtr<
     {
         TSharedPtr<FJsonValue> CurrentItem = EnvironmentsArray[Idx];
         Environments.Add(FNintendoEnvironment(CurrentItem->AsObject()));
+    }
+
+
+    const TArray<TSharedPtr<FJsonValue>>&SubscriptionEnvironmentsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("SubscriptionEnvironments"));
+    for (int32 Idx = 0; Idx < SubscriptionEnvironmentsArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = SubscriptionEnvironmentsArray[Idx];
+        SubscriptionEnvironments.Add(FNintendoEnvironment(CurrentItem->AsObject()));
     }
 
 

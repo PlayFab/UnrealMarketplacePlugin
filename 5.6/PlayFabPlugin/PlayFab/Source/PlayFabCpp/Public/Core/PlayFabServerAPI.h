@@ -77,6 +77,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FGetPublisherDataDelegate, const ServerModels::FGetPublisherDataResult&);
         DECLARE_DELEGATE_OneParam(FGetRandomResultTablesDelegate, const ServerModels::FGetRandomResultTablesResult&);
         DECLARE_DELEGATE_OneParam(FGetSegmentExportDelegate, const ServerModels::FGetPlayersInSegmentExportResponse&);
+        DECLARE_DELEGATE_OneParam(FGetSegmentPlayerCountDelegate, const ServerModels::FGetSegmentPlayerCountResult&);
         DECLARE_DELEGATE_OneParam(FGetServerCustomIDsFromPlayFabIDsDelegate, const ServerModels::FGetServerCustomIDsFromPlayFabIDsResult&);
         DECLARE_DELEGATE_OneParam(FGetSharedGroupDataDelegate, const ServerModels::FGetSharedGroupDataResult&);
         DECLARE_DELEGATE_OneParam(FGetStoreItemsDelegate, const ServerModels::FGetStoreItemsResult&);
@@ -294,14 +295,16 @@ namespace PlayFab
         bool ExportPlayersInSegment(ServerModels::FExportPlayersInSegmentRequest& request, const FExportPlayersInSegmentDelegate& SuccessDelegate = FExportPlayersInSegmentDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Retrieves an array of player segment definitions. Results from this can be used in subsequent API calls such as
-         * GetPlayersInSegment which requires a Segment ID. While segment names can change the ID for that segment will not change.
+         * ExportPlayersInSegment which requires a Segment ID. While segment names can change the ID for that segment will not
+         * change.
          * Request has no paramaters.
          */
 
         bool GetAllSegments(const FGetAllSegmentsDelegate& SuccessDelegate = FGetAllSegmentsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Retrieves an array of player segment definitions. Results from this can be used in subsequent API calls such as
-         * GetPlayersInSegment which requires a Segment ID. While segment names can change the ID for that segment will not change.
+         * ExportPlayersInSegment which requires a Segment ID. While segment names can change the ID for that segment will not
+         * change.
          * Request has no paramaters.
          */
         bool GetAllSegments(ServerModels::FGetAllSegmentsRequest& request, const FGetAllSegmentsDelegate& SuccessDelegate = FGetAllSegmentsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
@@ -457,6 +460,11 @@ namespace PlayFab
          * Request must contain the ExportId
          */
         bool GetSegmentExport(ServerModels::FGetPlayersInSegmentExportRequest& request, const FGetSegmentExportDelegate& SuccessDelegate = FGetSegmentExportDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
+         * Returns the total number of players in a given segment.
+         * Request must contain a valid Segment ID.
+         */
+        bool GetSegmentPlayerCount(ServerModels::FGetSegmentPlayerCountRequest& request, const FGetSegmentPlayerCountDelegate& SuccessDelegate = FGetSegmentPlayerCountDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Retrieves the associated PlayFab account identifiers for the given set of server custom identifiers.
         bool GetServerCustomIDsFromPlayFabIDs(ServerModels::FGetServerCustomIDsFromPlayFabIDsRequest& request, const FGetServerCustomIDsFromPlayFabIDsDelegate& SuccessDelegate = FGetServerCustomIDsFromPlayFabIDsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
@@ -978,6 +986,7 @@ namespace PlayFab
         void OnGetPublisherDataResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPublisherDataDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetRandomResultTablesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetRandomResultTablesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetSegmentExportResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetSegmentExportDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnGetSegmentPlayerCountResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetSegmentPlayerCountDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetServerCustomIDsFromPlayFabIDsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetServerCustomIDsFromPlayFabIDsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetSharedGroupDataResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetSharedGroupDataDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetStoreItemsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetStoreItemsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);

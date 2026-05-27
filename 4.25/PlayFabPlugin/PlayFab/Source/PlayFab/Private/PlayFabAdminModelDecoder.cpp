@@ -738,6 +738,17 @@ FAdminGetPlayersInSegmentExportResponse UPlayFabAdminModelDecoder::decodeGetPlay
     return tempStruct;
 }
 
+FAdminGetSegmentPlayerCountResult UPlayFabAdminModelDecoder::decodeGetSegmentPlayerCountResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FAdminGetSegmentPlayerCountResult tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.ProfilesInSegment = !(dataObj->HasField("ProfilesInSegment")) ? 0 : int(dataObj->GetNumberField("ProfilesInSegment"));
+
+    return tempStruct;
+}
+
 FAdminRemovePlayerTagResult UPlayFabAdminModelDecoder::decodeRemovePlayerTagResultResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct

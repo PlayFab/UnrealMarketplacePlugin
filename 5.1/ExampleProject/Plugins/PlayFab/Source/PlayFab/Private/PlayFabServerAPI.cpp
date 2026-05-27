@@ -8373,7 +8373,7 @@ void UPlayFabServerAPI::HelperExportPlayersInSegment(FPlayFabBaseModel response,
     this->RemoveFromRoot();
 }
 
-/** Retrieves an array of player segment definitions. Results from this can be used in subsequent API calls such as GetPlayersInSegment which requires a Segment ID. While segment names can change the ID for that segment will not change. */
+/** Retrieves an array of player segment definitions. Results from this can be used in subsequent API calls such as ExportPlayersInSegment which requires a Segment ID. While segment names can change the ID for that segment will not change. */
 UPlayFabServerAPI* UPlayFabServerAPI::GetAllSegments(FServerGetAllSegmentsRequest request,
     FDelegateOnSuccessGetAllSegments onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -8579,6 +8579,58 @@ void UPlayFabServerAPI::HelperGetSegmentExport(FPlayFabBaseModel response, UObje
     {
         FServerGetPlayersInSegmentExportResponse ResultStruct = UPlayFabServerModelDecoder::decodeGetPlayersInSegmentExportResponseResponse(response.responseData);
         OnSuccessGetSegmentExport.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Returns the total number of players in a given segment. */
+UPlayFabServerAPI* UPlayFabServerAPI::GetSegmentPlayerCount(FServerGetSegmentPlayerCountRequest request,
+    FDelegateOnSuccessGetSegmentPlayerCount onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabServerAPI* manager = NewObject<UPlayFabServerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessGetSegmentPlayerCount = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperGetSegmentPlayerCount);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Server/GetSegmentPlayerCount";
+    manager->useSecretKey = true;
+
+
+    // Serialize all the request properties to json
+    if (request.SegmentId.IsEmpty() || request.SegmentId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("SegmentId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("SegmentId"), request.SegmentId);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabServerRequestCompleted
+void UPlayFabServerAPI::HelperGetSegmentPlayerCount(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessGetSegmentPlayerCount.IsBound())
+    {
+        FServerGetSegmentPlayerCountResult ResultStruct = UPlayFabServerModelDecoder::decodeGetSegmentPlayerCountResultResponse(response.responseData);
+        OnSuccessGetSegmentPlayerCount.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }

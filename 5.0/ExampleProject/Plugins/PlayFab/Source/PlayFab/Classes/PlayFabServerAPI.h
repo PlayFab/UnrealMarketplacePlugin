@@ -266,6 +266,19 @@ public:
         void HelperGetPlayFabIDsFromPSNOnlineIDs(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetPlayFabIDsFromServerCustomIDs, FServerGetPlayFabIDsFromServerCustomIDsResult, result, UObject*, customData);
+
+    /** Retrieves the associated PlayFab account identifiers for the given set of server custom player identifiers. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabServerAPI* GetPlayFabIDsFromServerCustomIDs(FServerGetPlayFabIDsFromServerCustomIDsRequest request,
+            FDelegateOnSuccessGetPlayFabIDsFromServerCustomIDs onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabServerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperGetPlayFabIDsFromServerCustomIDs(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetPlayFabIDsFromSteamIDs, FServerGetPlayFabIDsFromSteamIDsResult, result, UObject*, customData);
 
     /**
@@ -2456,6 +2469,7 @@ public:
     FDelegateOnSuccessGetPlayFabIDsFromOpenIdSubjectIdentifiers OnSuccessGetPlayFabIDsFromOpenIdSubjectIdentifiers;
     FDelegateOnSuccessGetPlayFabIDsFromPSNAccountIDs OnSuccessGetPlayFabIDsFromPSNAccountIDs;
     FDelegateOnSuccessGetPlayFabIDsFromPSNOnlineIDs OnSuccessGetPlayFabIDsFromPSNOnlineIDs;
+    FDelegateOnSuccessGetPlayFabIDsFromServerCustomIDs OnSuccessGetPlayFabIDsFromServerCustomIDs;
     FDelegateOnSuccessGetPlayFabIDsFromSteamIDs OnSuccessGetPlayFabIDsFromSteamIDs;
     FDelegateOnSuccessGetPlayFabIDsFromSteamNames OnSuccessGetPlayFabIDsFromSteamNames;
     FDelegateOnSuccessGetPlayFabIDsFromTwitchIDs OnSuccessGetPlayFabIDsFromTwitchIDs;

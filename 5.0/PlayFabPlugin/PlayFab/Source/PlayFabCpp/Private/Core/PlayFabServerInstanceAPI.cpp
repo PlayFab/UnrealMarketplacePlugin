@@ -1645,6 +1645,36 @@ void UPlayFabServerInstanceAPI::OnGetPlayFabIDsFromPSNOnlineIDsResult(FHttpReque
     }
 }
 
+bool UPlayFabServerInstanceAPI::GetPlayFabIDsFromServerCustomIDs(
+    ServerModels::FGetPlayFabIDsFromServerCustomIDsRequest& request,
+    const FGetPlayFabIDsFromServerCustomIDsDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if(context->GetDeveloperSecretKey().Len() == 0) {
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
+    }
+
+
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Server/GetPlayFabIDsFromServerCustomIDs"), request.toJSONString(), TEXT("X-SecretKey"), context->GetDeveloperSecretKey());
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabServerInstanceAPI::OnGetPlayFabIDsFromServerCustomIDsResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabServerInstanceAPI::OnGetPlayFabIDsFromServerCustomIDsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayFabIDsFromServerCustomIDsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    ServerModels::FGetPlayFabIDsFromServerCustomIDsResult outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
 bool UPlayFabServerInstanceAPI::GetPlayFabIDsFromSteamIDs(
     ServerModels::FGetPlayFabIDsFromSteamIDsRequest& request,
     const FGetPlayFabIDsFromSteamIDsDelegate& SuccessDelegate,

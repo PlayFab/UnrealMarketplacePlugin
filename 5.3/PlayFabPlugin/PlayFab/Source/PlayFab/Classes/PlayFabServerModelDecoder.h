@@ -96,6 +96,10 @@ public:
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management Models")
         static FServerGetPlayFabIDsFromPSNOnlineIDsResult decodeGetPlayFabIDsFromPSNOnlineIDsResultResponse(UPlayFabJsonObject* response);
 
+    /** Decode the GetPlayFabIDsFromServerCustomIDsResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management Models")
+        static FServerGetPlayFabIDsFromServerCustomIDsResult decodeGetPlayFabIDsFromServerCustomIDsResultResponse(UPlayFabJsonObject* response);
+
     /** Decode the GetPlayFabIDsFromSteamIDsResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management Models")
         static FServerGetPlayFabIDsFromSteamIDsResult decodeGetPlayFabIDsFromSteamIDsResultResponse(UPlayFabJsonObject* response);

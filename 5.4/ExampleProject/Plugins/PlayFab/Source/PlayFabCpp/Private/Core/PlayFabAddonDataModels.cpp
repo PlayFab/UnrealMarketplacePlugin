@@ -2812,6 +2812,15 @@ void PlayFab::AddonModels::FGetNintendoResponse::writeJSON(JsonWriter& writer) c
     }
 
 
+    if (SecondarySubscriptionEnvironments.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("SecondarySubscriptionEnvironments"));
+        for (const FNintendoEnvironment& item : SecondarySubscriptionEnvironments)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
     if (SubscriptionEnvironments.Num() != 0)
     {
         writer->WriteArrayStart(TEXT("SubscriptionEnvironments"));
@@ -2847,6 +2856,14 @@ bool PlayFab::AddonModels::FGetNintendoResponse::readFromValue(const TSharedPtr<
     {
         TSharedPtr<FJsonValue> CurrentItem = EnvironmentsArray[Idx];
         Environments.Add(FNintendoEnvironment(CurrentItem->AsObject()));
+    }
+
+
+    const TArray<TSharedPtr<FJsonValue>>&SecondarySubscriptionEnvironmentsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("SecondarySubscriptionEnvironments"));
+    for (int32 Idx = 0; Idx < SecondarySubscriptionEnvironmentsArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = SecondarySubscriptionEnvironmentsArray[Idx];
+        SecondarySubscriptionEnvironments.Add(FNintendoEnvironment(CurrentItem->AsObject()));
     }
 
 

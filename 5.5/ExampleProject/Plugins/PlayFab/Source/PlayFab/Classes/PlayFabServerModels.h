@@ -411,6 +411,30 @@ public:
 };
 
 USTRUCT(BlueprintType)
+struct PLAYFAB_API FServerGetPlayFabIDsFromServerCustomIDsRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /**
+     * Array of unique server custom player identifiers for which the title needs to get PlayFab identifiers. Cannot contain
+     * more than 25 identifiers.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        FString ServerCustomIds;
+};
+
+/** For a server player that is not linked to a PlayFab account the PlayFabId will be returned null. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FServerGetPlayFabIDsFromServerCustomIDsResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Mapping of server custom identifiers to PlayFab identifiers. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        TArray<UPlayFabJsonObject*> Data;
+};
+
+USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerGetPlayFabIDsFromSteamIDsRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
@@ -1672,7 +1696,7 @@ public:
     /** Flags for which pieces of info to return for the user. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Authentication Models")
         UPlayFabJsonObject* InfoRequestParameters = nullptr;
-    /** Player secret that is used to verify API request signatures (Enterprise Only). */
+    /** Player secret that is used to verify API request signatures. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Authentication Models")
         FString PlayerSecret;
     /** The backend server identifier for this player. */
@@ -1807,7 +1831,7 @@ struct PLAYFAB_API FServerSetPlayerSecretRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** Player secret that is used to verify API request signatures (Enterprise Only). */
+    /** Player secret that is used to verify API request signatures. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Authentication Models")
         FString PlayerSecret;
     /** Unique PlayFab assigned ID of the user on whom the operation will be performed. */

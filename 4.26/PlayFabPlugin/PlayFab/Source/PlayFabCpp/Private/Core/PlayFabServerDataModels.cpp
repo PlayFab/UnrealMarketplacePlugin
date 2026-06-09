@@ -11719,6 +11719,114 @@ bool PlayFab::ServerModels::FGetPlayFabIDsFromPSNOnlineIDsResult::readFromValue(
     return HasSucceeded;
 }
 
+PlayFab::ServerModels::FGetPlayFabIDsFromServerCustomIDsRequest::~FGetPlayFabIDsFromServerCustomIDsRequest()
+{
+
+}
+
+void PlayFab::ServerModels::FGetPlayFabIDsFromServerCustomIDsRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteArrayStart(TEXT("ServerCustomIds"));
+    for (const FString& item : ServerCustomIds)
+        writer->WriteValue(item);
+    writer->WriteArrayEnd();
+
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ServerModels::FGetPlayFabIDsFromServerCustomIDsRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    obj->TryGetStringArrayField(TEXT("ServerCustomIds"), ServerCustomIds);
+
+    return HasSucceeded;
+}
+
+PlayFab::ServerModels::FServerCustomIDPlayFabIDPair::~FServerCustomIDPlayFabIDPair()
+{
+
+}
+
+void PlayFab::ServerModels::FServerCustomIDPlayFabIDPair::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (PlayFabId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayFabId"));
+        writer->WriteValue(PlayFabId);
+    }
+
+    if (ServerCustomId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ServerCustomId"));
+        writer->WriteValue(ServerCustomId);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ServerModels::FServerCustomIDPlayFabIDPair::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> PlayFabIdValue = obj->TryGetField(TEXT("PlayFabId"));
+    if (PlayFabIdValue.IsValid() && !PlayFabIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (PlayFabIdValue->TryGetString(TmpValue)) { PlayFabId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> ServerCustomIdValue = obj->TryGetField(TEXT("ServerCustomId"));
+    if (ServerCustomIdValue.IsValid() && !ServerCustomIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (ServerCustomIdValue->TryGetString(TmpValue)) { ServerCustomId = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::ServerModels::FGetPlayFabIDsFromServerCustomIDsResult::~FGetPlayFabIDsFromServerCustomIDsResult()
+{
+
+}
+
+void PlayFab::ServerModels::FGetPlayFabIDsFromServerCustomIDsResult::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (Data.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("Data"));
+        for (const FServerCustomIDPlayFabIDPair& item : Data)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ServerModels::FGetPlayFabIDsFromServerCustomIDsResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TArray<TSharedPtr<FJsonValue>>&DataArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Data"));
+    for (int32 Idx = 0; Idx < DataArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = DataArray[Idx];
+        Data.Add(FServerCustomIDPlayFabIDPair(CurrentItem->AsObject()));
+    }
+
+
+    return HasSucceeded;
+}
+
 PlayFab::ServerModels::FGetPlayFabIDsFromSteamIDsRequest::~FGetPlayFabIDsFromSteamIDsRequest()
 {
 
@@ -12550,51 +12658,6 @@ bool PlayFab::ServerModels::FGetServerCustomIDsFromPlayFabIDsRequest::readFromVa
     bool HasSucceeded = true;
 
     obj->TryGetStringArrayField(TEXT("PlayFabIDs"), PlayFabIDs);
-
-    return HasSucceeded;
-}
-
-PlayFab::ServerModels::FServerCustomIDPlayFabIDPair::~FServerCustomIDPlayFabIDPair()
-{
-
-}
-
-void PlayFab::ServerModels::FServerCustomIDPlayFabIDPair::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    if (PlayFabId.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("PlayFabId"));
-        writer->WriteValue(PlayFabId);
-    }
-
-    if (ServerCustomId.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("ServerCustomId"));
-        writer->WriteValue(ServerCustomId);
-    }
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::ServerModels::FServerCustomIDPlayFabIDPair::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonValue> PlayFabIdValue = obj->TryGetField(TEXT("PlayFabId"));
-    if (PlayFabIdValue.IsValid() && !PlayFabIdValue->IsNull())
-    {
-        FString TmpValue;
-        if (PlayFabIdValue->TryGetString(TmpValue)) { PlayFabId = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> ServerCustomIdValue = obj->TryGetField(TEXT("ServerCustomId"));
-    if (ServerCustomIdValue.IsValid() && !ServerCustomIdValue->IsNull())
-    {
-        FString TmpValue;
-        if (ServerCustomIdValue->TryGetString(TmpValue)) { ServerCustomId = TmpValue; }
-    }
 
     return HasSucceeded;
 }

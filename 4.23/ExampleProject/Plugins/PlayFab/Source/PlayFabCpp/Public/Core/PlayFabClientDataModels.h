@@ -9051,7 +9051,7 @@ namespace ClientModels
 
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
-        // [optional] Base64 encoded body that is encrypted with the Title's public RSA key (Enterprise Only).
+        // [optional] Base64 encoded body that is encrypted with the Title's public RSA key.
         FString EncryptedRequest;
 
         // [optional] Flags for which pieces of info to return for the user.
@@ -9060,7 +9060,7 @@ namespace ClientModels
         // [optional] Specific Operating System version for the user's device.
         FString OS;
 
-        // [optional] Player secret that is used to verify API request signatures (Enterprise Only).
+        // [optional] Player secret that is used to verify API request signatures.
         FString PlayerSecret;
 
         /**
@@ -9102,7 +9102,7 @@ namespace ClientModels
 
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
-        // [optional] Base64 encoded body that is encrypted with the Title's public RSA key (Enterprise Only).
+        // [optional] Base64 encoded body that is encrypted with the Title's public RSA key.
         FString EncryptedRequest;
 
         /**
@@ -9115,7 +9115,7 @@ namespace ClientModels
         // [optional] Flags for which pieces of info to return for the user.
         TSharedPtr<FGetPlayerCombinedInfoRequestParams> InfoRequestParameters;
 
-        // [optional] Player secret that is used to verify API request signatures (Enterprise Only).
+        // [optional] Player secret that is used to verify API request signatures.
         FString PlayerSecret;
 
         /**
@@ -9155,7 +9155,7 @@ namespace ClientModels
 
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
-        // [optional] Base64 encoded body that is encrypted with the Title's public RSA key (Enterprise Only).
+        // [optional] Base64 encoded body that is encrypted with the Title's public RSA key.
         FString EncryptedRequest;
 
         // The JSON Web Token (JWT) returned by Battle.net after login
@@ -9164,7 +9164,7 @@ namespace ClientModels
         // [optional] Flags for which pieces of info to return for the user.
         TSharedPtr<FGetPlayerCombinedInfoRequestParams> InfoRequestParameters;
 
-        // [optional] Player secret that is used to verify API request signatures (Enterprise Only).
+        // [optional] Player secret that is used to verify API request signatures.
         FString PlayerSecret;
 
         /**
@@ -9207,13 +9207,13 @@ namespace ClientModels
 
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
-        // [optional] Base64 encoded body that is encrypted with the Title's public RSA key (Enterprise Only).
+        // [optional] Base64 encoded body that is encrypted with the Title's public RSA key.
         FString EncryptedRequest;
 
         // [optional] Flags for which pieces of info to return for the user.
         TSharedPtr<FGetPlayerCombinedInfoRequestParams> InfoRequestParameters;
 
-        // [optional] Player secret that is used to verify API request signatures (Enterprise Only).
+        // [optional] Player secret that is used to verify API request signatures.
         FString PlayerSecret;
 
         /**
@@ -9294,7 +9294,7 @@ namespace ClientModels
 
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
-        // [optional] Base64 encoded body that is encrypted with the Title's public RSA key (Enterprise Only).
+        // [optional] Base64 encoded body that is encrypted with the Title's public RSA key.
         FString EncryptedRequest;
 
         // Facebook Instant Games signature for the user.
@@ -9303,7 +9303,7 @@ namespace ClientModels
         // [optional] Flags for which pieces of info to return for the user.
         TSharedPtr<FGetPlayerCombinedInfoRequestParams> InfoRequestParameters;
 
-        // [optional] Player secret that is used to verify API request signatures (Enterprise Only).
+        // [optional] Player secret that is used to verify API request signatures.
         FString PlayerSecret;
 
         /**
@@ -9349,13 +9349,13 @@ namespace ClientModels
 
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
-        // [optional] Base64 encoded body that is encrypted with the Title's public RSA key (Enterprise Only).
+        // [optional] Base64 encoded body that is encrypted with the Title's public RSA key.
         FString EncryptedRequest;
 
         // [optional] Flags for which pieces of info to return for the user.
         TSharedPtr<FGetPlayerCombinedInfoRequestParams> InfoRequestParameters;
 
-        // [optional] Player secret that is used to verify API request signatures (Enterprise Only).
+        // [optional] Player secret that is used to verify API request signatures.
         FString PlayerSecret;
 
         /**
@@ -9396,7 +9396,7 @@ namespace ClientModels
 
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
-        // [optional] Base64 encoded body that is encrypted with the Title's public RSA key (Enterprise Only).
+        // [optional] Base64 encoded body that is encrypted with the Title's public RSA key.
         FString EncryptedRequest;
 
         // [optional] Flags for which pieces of info to return for the user.
@@ -9405,7 +9405,7 @@ namespace ClientModels
         // [optional] Unique Game Center player id.
         FString PlayerId;
 
-        // [optional] Player secret that is used to verify API request signatures (Enterprise Only).
+        // [optional] Player secret that is used to verify API request signatures.
         FString PlayerSecret;
 
         // [optional] The URL for the public encryption key that will be used to verify the signature.
@@ -9464,13 +9464,13 @@ namespace ClientModels
 
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
-        // [optional] Base64 encoded body that is encrypted with the Title's public RSA key (Enterprise Only).
+        // [optional] Base64 encoded body that is encrypted with the Title's public RSA key.
         FString EncryptedRequest;
 
         // [optional] Flags for which pieces of info to return for the user.
         TSharedPtr<FGetPlayerCombinedInfoRequestParams> InfoRequestParameters;
 
-        // [optional] Player secret that is used to verify API request signatures (Enterprise Only).
+        // [optional] Player secret that is used to verify API request signatures.
         FString PlayerSecret;
 
         /**
@@ -9520,13 +9520,13 @@ namespace ClientModels
 
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
-        // [optional] Base64 encoded body that is encrypted with the Title's public RSA key (Enterprise Only).
+        // [optional] Base64 encoded body that is encrypted with the Title's public RSA key.
         FString EncryptedRequest;
 
         // [optional] Flags for which pieces of info to return for the user.
         TSharedPtr<FGetPlayerCombinedInfoRequestParams> InfoRequestParameters;
 
-        // [optional] Player secret that is used to verify API request signatures (Enterprise Only).
+        // [optional] Player secret that is used to verify API request signatures.
         FString PlayerSecret;
 
         /**
@@ -9578,7 +9578,7 @@ namespace ClientModels
         // [optional] Specific model of the user's device.
         FString DeviceModel;
 
-        // [optional] Base64 encoded body that is encrypted with the Title's public RSA key (Enterprise Only).
+        // [optional] Base64 encoded body that is encrypted with the Title's public RSA key.
         FString EncryptedRequest;
 
         // [optional] Flags for which pieces of info to return for the user.
@@ -9587,7 +9587,7 @@ namespace ClientModels
         // [optional] Specific Operating System version for the user's device.
         FString OS;
 
-        // [optional] Player secret that is used to verify API request signatures (Enterprise Only).
+        // [optional] Player secret that is used to verify API request signatures.
         FString PlayerSecret;
 
         /**
@@ -9632,7 +9632,7 @@ namespace ClientModels
 
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
-        // [optional] Base64 encoded body that is encrypted with the Title's public RSA key (Enterprise Only).
+        // [optional] Base64 encoded body that is encrypted with the Title's public RSA key.
         FString EncryptedRequest;
 
         // [optional] Flags for which pieces of info to return for the user.
@@ -9641,7 +9641,7 @@ namespace ClientModels
         // [optional] Numeric user ID assigned by Kongregate
         FString KongregateId;
 
-        // [optional] Player secret that is used to verify API request signatures (Enterprise Only).
+        // [optional] Player secret that is used to verify API request signatures.
         FString PlayerSecret;
 
         /**
@@ -9682,7 +9682,7 @@ namespace ClientModels
 
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
-        // [optional] Base64 encoded body that is encrypted with the Title's public RSA key (Enterprise Only).
+        // [optional] Base64 encoded body that is encrypted with the Title's public RSA key.
         FString EncryptedRequest;
 
         // The JSON Web token (JWT) returned by Nintendo after login.
@@ -9691,7 +9691,7 @@ namespace ClientModels
         // [optional] Flags for which pieces of info to return for the user.
         TSharedPtr<FGetPlayerCombinedInfoRequestParams> InfoRequestParameters;
 
-        // [optional] Player secret that is used to verify API request signatures (Enterprise Only).
+        // [optional] Player secret that is used to verify API request signatures.
         FString PlayerSecret;
 
         /**
@@ -9731,7 +9731,7 @@ namespace ClientModels
 
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
-        // [optional] Base64 encoded body that is encrypted with the Title's public RSA key (Enterprise Only).
+        // [optional] Base64 encoded body that is encrypted with the Title's public RSA key.
         FString EncryptedRequest;
 
         // [optional] Flags for which pieces of info to return for the user.
@@ -9740,7 +9740,7 @@ namespace ClientModels
         // [optional] Nintendo Switch unique identifier for the user's device.
         FString NintendoSwitchDeviceId;
 
-        // [optional] Player secret that is used to verify API request signatures (Enterprise Only).
+        // [optional] Player secret that is used to verify API request signatures.
         FString PlayerSecret;
 
         /**
@@ -9783,7 +9783,7 @@ namespace ClientModels
 
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
-        // [optional] Base64 encoded body that is encrypted with the Title's public RSA key (Enterprise Only).
+        // [optional] Base64 encoded body that is encrypted with the Title's public RSA key.
         FString EncryptedRequest;
 
         /**
@@ -9795,7 +9795,7 @@ namespace ClientModels
         // [optional] Flags for which pieces of info to return for the user.
         TSharedPtr<FGetPlayerCombinedInfoRequestParams> InfoRequestParameters;
 
-        // [optional] Player secret that is used to verify API request signatures (Enterprise Only).
+        // [optional] Player secret that is used to verify API request signatures.
         FString PlayerSecret;
 
         /**
@@ -9880,7 +9880,7 @@ namespace ClientModels
 
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
-        // [optional] Base64 encoded body that is encrypted with the Title's public RSA key (Enterprise Only).
+        // [optional] Base64 encoded body that is encrypted with the Title's public RSA key.
         FString EncryptedRequest;
 
         // [optional] Flags for which pieces of info to return for the user.
@@ -9889,7 +9889,7 @@ namespace ClientModels
         // [optional] Id of the PlayStation :tm: Network issuer environment. If null, defaults to production environment.
         Boxed<int32> IssuerId;
 
-        // [optional] Player secret that is used to verify API request signatures (Enterprise Only).
+        // [optional] Player secret that is used to verify API request signatures.
         FString PlayerSecret;
 
         // [optional] Redirect URI supplied to PlayStation :tm: Network when requesting an auth code
@@ -9934,13 +9934,13 @@ namespace ClientModels
 
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
-        // [optional] Base64 encoded body that is encrypted with the Title's public RSA key (Enterprise Only).
+        // [optional] Base64 encoded body that is encrypted with the Title's public RSA key.
         FString EncryptedRequest;
 
         // [optional] Flags for which pieces of info to return for the user.
         TSharedPtr<FGetPlayerCombinedInfoRequestParams> InfoRequestParameters;
 
-        // [optional] Player secret that is used to verify API request signatures (Enterprise Only).
+        // [optional] Player secret that is used to verify API request signatures.
         FString PlayerSecret;
 
         /**
@@ -9996,13 +9996,13 @@ namespace ClientModels
 
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
-        // [optional] Base64 encoded body that is encrypted with the Title's public RSA key (Enterprise Only).
+        // [optional] Base64 encoded body that is encrypted with the Title's public RSA key.
         FString EncryptedRequest;
 
         // [optional] Flags for which pieces of info to return for the user.
         TSharedPtr<FGetPlayerCombinedInfoRequestParams> InfoRequestParameters;
 
-        // [optional] Player secret that is used to verify API request signatures (Enterprise Only).
+        // [optional] Player secret that is used to verify API request signatures.
         FString PlayerSecret;
 
         /**
@@ -10042,13 +10042,13 @@ namespace ClientModels
 
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
-        // [optional] Base64 encoded body that is encrypted with the Title's public RSA key (Enterprise Only).
+        // [optional] Base64 encoded body that is encrypted with the Title's public RSA key.
         FString EncryptedRequest;
 
         // [optional] Flags for which pieces of info to return for the user.
         TSharedPtr<FGetPlayerCombinedInfoRequestParams> InfoRequestParameters;
 
-        // [optional] Player secret that is used to verify API request signatures (Enterprise Only).
+        // [optional] Player secret that is used to verify API request signatures.
         FString PlayerSecret;
 
         /**
@@ -10588,7 +10588,7 @@ namespace ClientModels
         // [optional] User email address attached to their account
         FString Email;
 
-        // [optional] Base64 encoded body that is encrypted with the Title's public RSA key (Enterprise Only).
+        // [optional] Base64 encoded body that is encrypted with the Title's public RSA key.
         FString EncryptedRequest;
 
         // [optional] Flags for which pieces of info to return for the user.
@@ -10597,7 +10597,7 @@ namespace ClientModels
         // [optional] Password for the PlayFab account (6-100 characters)
         FString Password;
 
-        // [optional] Player secret that is used to verify API request signatures (Enterprise Only).
+        // [optional] Player secret that is used to verify API request signatures.
         FString PlayerSecret;
 
         /**
@@ -11192,10 +11192,10 @@ namespace ClientModels
 
     struct PLAYFABCPP_API FSetPlayerSecretRequest : public PlayFab::FPlayFabCppRequestCommon
     {
-        // [optional] Base64 encoded body that is encrypted with the Title's public RSA key (Enterprise Only).
+        // [optional] Base64 encoded body that is encrypted with the Title's public RSA key.
         FString EncryptedRequest;
 
-        // [optional] Player secret that is used to verify API request signatures (Enterprise Only).
+        // [optional] Player secret that is used to verify API request signatures.
         FString PlayerSecret;
 
         FSetPlayerSecretRequest() :

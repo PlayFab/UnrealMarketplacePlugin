@@ -1514,6 +1514,8 @@ namespace AddonModels
 
         // [optional] List of Nintendo Environments, currently supporting up to 4.
         TArray<FNintendoEnvironment> Environments;
+        // [optional] List of Nintendo Subscription Environments associated to a secondary AppId, currently supporting up to 4.
+        TArray<FNintendoEnvironment> SecondarySubscriptionEnvironments;
         // [optional] List of Nintendo Subscription Environments, currently supporting up to 4.
         TArray<FNintendoEnvironment> SubscriptionEnvironments;
         FGetNintendoResponse() :
@@ -1521,6 +1523,7 @@ namespace AddonModels
             ApplicationID(),
             Created(false),
             Environments(),
+            SecondarySubscriptionEnvironments(),
             SubscriptionEnvironments()
             {}
 

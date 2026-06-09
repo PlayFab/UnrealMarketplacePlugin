@@ -778,6 +778,9 @@ public:
     /** List of Nintendo Environments, currently supporting up to 4. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Addon | Addon Models")
         TArray<UPlayFabJsonObject*> Environments;
+    /** List of Nintendo Subscription Environments associated to a secondary AppId, currently supporting up to 4. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Addon | Addon Models")
+        TArray<UPlayFabJsonObject*> SecondarySubscriptionEnvironments;
     /** List of Nintendo Subscription Environments, currently supporting up to 4. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Addon | Addon Models")
         TArray<UPlayFabJsonObject*> SubscriptionEnvironments;

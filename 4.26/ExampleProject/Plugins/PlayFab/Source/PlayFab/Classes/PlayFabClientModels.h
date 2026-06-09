@@ -1939,7 +1939,7 @@ public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         UPlayFabJsonObject* CustomTags = nullptr;
-    /** Base64 encoded body that is encrypted with the Title's public RSA key (Enterprise Only). */
+    /** Base64 encoded body that is encrypted with the Title's public RSA key. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString EncryptedRequest;
     /** Flags for which pieces of info to return for the user. */
@@ -1948,7 +1948,7 @@ public:
     /** Specific Operating System version for the user's device. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString OS;
-    /** Player secret that is used to verify API request signatures (Enterprise Only). */
+    /** Player secret that is used to verify API request signatures. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString PlayerSecret;
 };
@@ -1964,7 +1964,7 @@ public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         UPlayFabJsonObject* CustomTags = nullptr;
-    /** Base64 encoded body that is encrypted with the Title's public RSA key (Enterprise Only). */
+    /** Base64 encoded body that is encrypted with the Title's public RSA key. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString EncryptedRequest;
     /**
@@ -1977,7 +1977,7 @@ public:
     /** Flags for which pieces of info to return for the user. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         UPlayFabJsonObject* InfoRequestParameters = nullptr;
-    /** Player secret that is used to verify API request signatures (Enterprise Only). */
+    /** Player secret that is used to verify API request signatures. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString PlayerSecret;
 };
@@ -1993,7 +1993,7 @@ public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         UPlayFabJsonObject* CustomTags = nullptr;
-    /** Base64 encoded body that is encrypted with the Title's public RSA key (Enterprise Only). */
+    /** Base64 encoded body that is encrypted with the Title's public RSA key. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString EncryptedRequest;
     /** The JSON Web Token (JWT) returned by Battle.net after login */
@@ -2002,7 +2002,7 @@ public:
     /** Flags for which pieces of info to return for the user. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         UPlayFabJsonObject* InfoRequestParameters = nullptr;
-    /** Player secret that is used to verify API request signatures (Enterprise Only). */
+    /** Player secret that is used to verify API request signatures. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString PlayerSecret;
 };
@@ -2028,13 +2028,13 @@ public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         UPlayFabJsonObject* CustomTags = nullptr;
-    /** Base64 encoded body that is encrypted with the Title's public RSA key (Enterprise Only). */
+    /** Base64 encoded body that is encrypted with the Title's public RSA key. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString EncryptedRequest;
     /** Flags for which pieces of info to return for the user. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         UPlayFabJsonObject* InfoRequestParameters = nullptr;
-    /** Player secret that is used to verify API request signatures (Enterprise Only). */
+    /** Player secret that is used to verify API request signatures. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString PlayerSecret;
 };
@@ -2094,13 +2094,13 @@ public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         UPlayFabJsonObject* CustomTags = nullptr;
-    /** Base64 encoded body that is encrypted with the Title's public RSA key (Enterprise Only). */
+    /** Base64 encoded body that is encrypted with the Title's public RSA key. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString EncryptedRequest;
     /** Flags for which pieces of info to return for the user. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         UPlayFabJsonObject* InfoRequestParameters = nullptr;
-    /** Player secret that is used to verify API request signatures (Enterprise Only). */
+    /** Player secret that is used to verify API request signatures. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString PlayerSecret;
 };
@@ -2116,7 +2116,7 @@ public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         UPlayFabJsonObject* CustomTags = nullptr;
-    /** Base64 encoded body that is encrypted with the Title's public RSA key (Enterprise Only). */
+    /** Base64 encoded body that is encrypted with the Title's public RSA key. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString EncryptedRequest;
     /** Facebook Instant Games signature for the user. */
@@ -2125,7 +2125,7 @@ public:
     /** Flags for which pieces of info to return for the user. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         UPlayFabJsonObject* InfoRequestParameters = nullptr;
-    /** Player secret that is used to verify API request signatures (Enterprise Only). */
+    /** Player secret that is used to verify API request signatures. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString PlayerSecret;
 };
@@ -2152,7 +2152,7 @@ public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         UPlayFabJsonObject* CustomTags = nullptr;
-    /** Base64 encoded body that is encrypted with the Title's public RSA key (Enterprise Only). */
+    /** Base64 encoded body that is encrypted with the Title's public RSA key. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString EncryptedRequest;
     /** Flags for which pieces of info to return for the user. */
@@ -2161,7 +2161,7 @@ public:
     /** Unique Game Center player id. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString PlayerId;
-    /** Player secret that is used to verify API request signatures (Enterprise Only). */
+    /** Player secret that is used to verify API request signatures. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString PlayerSecret;
     /** The URL for the public encryption key that will be used to verify the signature. */
@@ -2208,13 +2208,13 @@ public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         UPlayFabJsonObject* CustomTags = nullptr;
-    /** Base64 encoded body that is encrypted with the Title's public RSA key (Enterprise Only). */
+    /** Base64 encoded body that is encrypted with the Title's public RSA key. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString EncryptedRequest;
     /** Flags for which pieces of info to return for the user. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         UPlayFabJsonObject* InfoRequestParameters = nullptr;
-    /** Player secret that is used to verify API request signatures (Enterprise Only). */
+    /** Player secret that is used to verify API request signatures. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString PlayerSecret;
     /**
@@ -2252,13 +2252,13 @@ public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         UPlayFabJsonObject* CustomTags = nullptr;
-    /** Base64 encoded body that is encrypted with the Title's public RSA key (Enterprise Only). */
+    /** Base64 encoded body that is encrypted with the Title's public RSA key. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString EncryptedRequest;
     /** Flags for which pieces of info to return for the user. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         UPlayFabJsonObject* InfoRequestParameters = nullptr;
-    /** Player secret that is used to verify API request signatures (Enterprise Only). */
+    /** Player secret that is used to verify API request signatures. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString PlayerSecret;
     /**
@@ -2298,7 +2298,7 @@ public:
     /** Specific model of the user's device. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString DeviceModel;
-    /** Base64 encoded body that is encrypted with the Title's public RSA key (Enterprise Only). */
+    /** Base64 encoded body that is encrypted with the Title's public RSA key. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString EncryptedRequest;
     /** Flags for which pieces of info to return for the user. */
@@ -2307,7 +2307,7 @@ public:
     /** Specific Operating System version for the user's device. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString OS;
-    /** Player secret that is used to verify API request signatures (Enterprise Only). */
+    /** Player secret that is used to verify API request signatures. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString PlayerSecret;
 };
@@ -2335,7 +2335,7 @@ public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         UPlayFabJsonObject* CustomTags = nullptr;
-    /** Base64 encoded body that is encrypted with the Title's public RSA key (Enterprise Only). */
+    /** Base64 encoded body that is encrypted with the Title's public RSA key. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString EncryptedRequest;
     /** Flags for which pieces of info to return for the user. */
@@ -2344,7 +2344,7 @@ public:
     /** Numeric user ID assigned by Kongregate */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString KongregateId;
-    /** Player secret that is used to verify API request signatures (Enterprise Only). */
+    /** Player secret that is used to verify API request signatures. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString PlayerSecret;
 };
@@ -2360,7 +2360,7 @@ public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         UPlayFabJsonObject* CustomTags = nullptr;
-    /** Base64 encoded body that is encrypted with the Title's public RSA key (Enterprise Only). */
+    /** Base64 encoded body that is encrypted with the Title's public RSA key. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString EncryptedRequest;
     /** The JSON Web token (JWT) returned by Nintendo after login. */
@@ -2369,7 +2369,7 @@ public:
     /** Flags for which pieces of info to return for the user. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         UPlayFabJsonObject* InfoRequestParameters = nullptr;
-    /** Player secret that is used to verify API request signatures (Enterprise Only). */
+    /** Player secret that is used to verify API request signatures. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString PlayerSecret;
 };
@@ -2385,7 +2385,7 @@ public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         UPlayFabJsonObject* CustomTags = nullptr;
-    /** Base64 encoded body that is encrypted with the Title's public RSA key (Enterprise Only). */
+    /** Base64 encoded body that is encrypted with the Title's public RSA key. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString EncryptedRequest;
     /** Flags for which pieces of info to return for the user. */
@@ -2394,7 +2394,7 @@ public:
     /** Nintendo Switch unique identifier for the user's device. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString NintendoSwitchDeviceId;
-    /** Player secret that is used to verify API request signatures (Enterprise Only). */
+    /** Player secret that is used to verify API request signatures. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString PlayerSecret;
 };
@@ -2413,7 +2413,7 @@ public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         UPlayFabJsonObject* CustomTags = nullptr;
-    /** Base64 encoded body that is encrypted with the Title's public RSA key (Enterprise Only). */
+    /** Base64 encoded body that is encrypted with the Title's public RSA key. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString EncryptedRequest;
     /**
@@ -2425,7 +2425,7 @@ public:
     /** Flags for which pieces of info to return for the user. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         UPlayFabJsonObject* InfoRequestParameters = nullptr;
-    /** Player secret that is used to verify API request signatures (Enterprise Only). */
+    /** Player secret that is used to verify API request signatures. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString PlayerSecret;
 };
@@ -2475,7 +2475,7 @@ public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         UPlayFabJsonObject* CustomTags = nullptr;
-    /** Base64 encoded body that is encrypted with the Title's public RSA key (Enterprise Only). */
+    /** Base64 encoded body that is encrypted with the Title's public RSA key. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString EncryptedRequest;
     /** Flags for which pieces of info to return for the user. */
@@ -2484,7 +2484,7 @@ public:
     /** Id of the PlayStation :tm: Network issuer environment. If null, defaults to production environment. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         int32 IssuerId = 0;
-    /** Player secret that is used to verify API request signatures (Enterprise Only). */
+    /** Player secret that is used to verify API request signatures. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString PlayerSecret;
     /** Redirect URI supplied to PlayStation :tm: Network when requesting an auth code */
@@ -2513,13 +2513,13 @@ public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         UPlayFabJsonObject* CustomTags = nullptr;
-    /** Base64 encoded body that is encrypted with the Title's public RSA key (Enterprise Only). */
+    /** Base64 encoded body that is encrypted with the Title's public RSA key. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString EncryptedRequest;
     /** Flags for which pieces of info to return for the user. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         UPlayFabJsonObject* InfoRequestParameters = nullptr;
-    /** Player secret that is used to verify API request signatures (Enterprise Only). */
+    /** Player secret that is used to verify API request signatures. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString PlayerSecret;
     /**
@@ -2559,13 +2559,13 @@ public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         UPlayFabJsonObject* CustomTags = nullptr;
-    /** Base64 encoded body that is encrypted with the Title's public RSA key (Enterprise Only). */
+    /** Base64 encoded body that is encrypted with the Title's public RSA key. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString EncryptedRequest;
     /** Flags for which pieces of info to return for the user. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         UPlayFabJsonObject* InfoRequestParameters = nullptr;
-    /** Player secret that is used to verify API request signatures (Enterprise Only). */
+    /** Player secret that is used to verify API request signatures. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString PlayerSecret;
 };
@@ -2587,13 +2587,13 @@ public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         UPlayFabJsonObject* CustomTags = nullptr;
-    /** Base64 encoded body that is encrypted with the Title's public RSA key (Enterprise Only). */
+    /** Base64 encoded body that is encrypted with the Title's public RSA key. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString EncryptedRequest;
     /** Flags for which pieces of info to return for the user. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         UPlayFabJsonObject* InfoRequestParameters = nullptr;
-    /** Player secret that is used to verify API request signatures (Enterprise Only). */
+    /** Player secret that is used to verify API request signatures. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString PlayerSecret;
     /** Token provided by the Xbox Live SDK/XDK method GetTokenAndSignatureAsync("POST", "https://playfabapi.com/", ""). */
@@ -2615,7 +2615,7 @@ public:
     /** User email address attached to their account */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString Email;
-    /** Base64 encoded body that is encrypted with the Title's public RSA key (Enterprise Only). */
+    /** Base64 encoded body that is encrypted with the Title's public RSA key. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString EncryptedRequest;
     /** Flags for which pieces of info to return for the user. */
@@ -2624,7 +2624,7 @@ public:
     /** Password for the PlayFab account (6-100 characters) */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString Password;
-    /** Player secret that is used to verify API request signatures (Enterprise Only). */
+    /** Player secret that is used to verify API request signatures. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString PlayerSecret;
     /**
@@ -2682,10 +2682,10 @@ struct PLAYFAB_API FClientSetPlayerSecretRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** Base64 encoded body that is encrypted with the Title's public RSA key (Enterprise Only). */
+    /** Base64 encoded body that is encrypted with the Title's public RSA key. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString EncryptedRequest;
-    /** Player secret that is used to verify API request signatures (Enterprise Only). */
+    /** Player secret that is used to verify API request signatures. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString PlayerSecret;
 };

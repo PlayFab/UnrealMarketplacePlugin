@@ -737,7 +737,7 @@ struct PLAYFAB_API FAdminSetPlayerSecretRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** Player secret that is used to verify API request signatures (Enterprise Only). */
+    /** Player secret that is used to verify API request signatures. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Authentication Models")
         FString PlayerSecret;
     /** Unique PlayFab assigned ID of the user on whom the operation will be performed. */

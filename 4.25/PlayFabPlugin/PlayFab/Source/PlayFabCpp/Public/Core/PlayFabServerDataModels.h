@@ -6050,6 +6050,80 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FGetPlayFabIDsFromServerCustomIDsRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        /**
+         * Array of unique server custom player identifiers for which the title needs to get PlayFab identifiers. Cannot contain
+         * more than 25 identifiers.
+         */
+        TArray<FString> ServerCustomIds;
+        FGetPlayFabIDsFromServerCustomIDsRequest() :
+            FPlayFabCppRequestCommon(),
+            ServerCustomIds()
+            {}
+
+        FGetPlayFabIDsFromServerCustomIDsRequest(const FGetPlayFabIDsFromServerCustomIDsRequest& src) = default;
+
+        FGetPlayFabIDsFromServerCustomIDsRequest(const TSharedPtr<FJsonObject>& obj) : FGetPlayFabIDsFromServerCustomIDsRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetPlayFabIDsFromServerCustomIDsRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FServerCustomIDPlayFabIDPair : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Unique PlayFab identifier.
+        FString PlayFabId;
+
+        // [optional] Unique server custom identifier for this player.
+        FString ServerCustomId;
+
+        FServerCustomIDPlayFabIDPair() :
+            FPlayFabCppBaseModel(),
+            PlayFabId(),
+            ServerCustomId()
+            {}
+
+        FServerCustomIDPlayFabIDPair(const FServerCustomIDPlayFabIDPair& src) = default;
+
+        FServerCustomIDPlayFabIDPair(const TSharedPtr<FJsonObject>& obj) : FServerCustomIDPlayFabIDPair()
+        {
+            readFromValue(obj);
+        }
+
+        ~FServerCustomIDPlayFabIDPair();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FGetPlayFabIDsFromServerCustomIDsResult : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] Mapping of server custom identifiers to PlayFab identifiers.
+        TArray<FServerCustomIDPlayFabIDPair> Data;
+        FGetPlayFabIDsFromServerCustomIDsResult() :
+            FPlayFabCppResultCommon(),
+            Data()
+            {}
+
+        FGetPlayFabIDsFromServerCustomIDsResult(const FGetPlayFabIDsFromServerCustomIDsResult& src) = default;
+
+        FGetPlayFabIDsFromServerCustomIDsResult(const TSharedPtr<FJsonObject>& obj) : FGetPlayFabIDsFromServerCustomIDsResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetPlayFabIDsFromServerCustomIDsResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FGetPlayFabIDsFromSteamIDsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         /**
@@ -6582,33 +6656,6 @@ namespace ServerModels
         }
 
         ~FGetServerCustomIDsFromPlayFabIDsRequest();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
-    struct PLAYFABCPP_API FServerCustomIDPlayFabIDPair : public PlayFab::FPlayFabCppBaseModel
-    {
-        // [optional] Unique PlayFab identifier.
-        FString PlayFabId;
-
-        // [optional] Unique server custom identifier for this player.
-        FString ServerCustomId;
-
-        FServerCustomIDPlayFabIDPair() :
-            FPlayFabCppBaseModel(),
-            PlayFabId(),
-            ServerCustomId()
-            {}
-
-        FServerCustomIDPlayFabIDPair(const FServerCustomIDPlayFabIDPair& src) = default;
-
-        FServerCustomIDPlayFabIDPair(const TSharedPtr<FJsonObject>& obj) : FServerCustomIDPlayFabIDPair()
-        {
-            readFromValue(obj);
-        }
-
-        ~FServerCustomIDPlayFabIDPair();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -8489,7 +8536,7 @@ namespace ServerModels
         // [optional] Flags for which pieces of info to return for the user.
         TSharedPtr<FGetPlayerCombinedInfoRequestParams> InfoRequestParameters;
 
-        // [optional] Player secret that is used to verify API request signatures (Enterprise Only).
+        // [optional] Player secret that is used to verify API request signatures.
         FString PlayerSecret;
 
         // The backend server identifier for this player.
@@ -9925,7 +9972,7 @@ namespace ServerModels
 
     struct PLAYFABCPP_API FSetPlayerSecretRequest : public PlayFab::FPlayFabCppRequestCommon
     {
-        // [optional] Player secret that is used to verify API request signatures (Enterprise Only).
+        // [optional] Player secret that is used to verify API request signatures.
         FString PlayerSecret;
 
         // Unique PlayFab assigned ID of the user on whom the operation will be performed.

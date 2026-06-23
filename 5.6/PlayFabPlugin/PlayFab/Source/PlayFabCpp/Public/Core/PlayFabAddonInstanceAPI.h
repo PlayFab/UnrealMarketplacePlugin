@@ -22,6 +22,7 @@ namespace PlayFab
     class PLAYFABCPP_API UPlayFabAddonInstanceAPI
     {
     public:
+        DECLARE_DELEGATE_OneParam(FConfigurePSNEventStreamsDelegate, const AddonModels::FConfigurePSNEventStreamsResponse&);
         DECLARE_DELEGATE_OneParam(FCreateOrUpdateAppleDelegate, const AddonModels::FCreateOrUpdateAppleResponse&);
         DECLARE_DELEGATE_OneParam(FCreateOrUpdateFacebookDelegate, const AddonModels::FCreateOrUpdateFacebookResponse&);
         DECLARE_DELEGATE_OneParam(FCreateOrUpdateFacebookInstantGamesDelegate, const AddonModels::FCreateOrUpdateFacebookInstantGamesResponse&);
@@ -83,6 +84,8 @@ namespace PlayFab
 
 
         // ------------ Generated API calls
+        // Configures PSN event streams for an existing PSN addon on a title, without requiring a full addon upsert.
+        bool ConfigurePSNEventStreams(AddonModels::FConfigurePSNEventStreamsRequest& request, const FConfigurePSNEventStreamsDelegate& SuccessDelegate = FConfigurePSNEventStreamsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Creates the Apple addon on a title, or updates it if it already exists.
         bool CreateOrUpdateApple(AddonModels::FCreateOrUpdateAppleRequest& request, const FCreateOrUpdateAppleDelegate& SuccessDelegate = FCreateOrUpdateAppleDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Creates the Facebook addon on a title, or updates it if it already exists.
@@ -146,6 +149,7 @@ namespace PlayFab
 
     private:
         // ------------ Generated result handlers
+        void OnConfigurePSNEventStreamsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FConfigurePSNEventStreamsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnCreateOrUpdateAppleResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateOrUpdateAppleDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnCreateOrUpdateFacebookResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateOrUpdateFacebookDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnCreateOrUpdateFacebookInstantGamesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateOrUpdateFacebookInstantGamesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);

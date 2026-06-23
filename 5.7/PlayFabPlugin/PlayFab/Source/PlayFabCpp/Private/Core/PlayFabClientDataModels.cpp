@@ -9495,6 +9495,12 @@ void PlayFab::ClientModels::FGetFriendsListRequest::writeJSON(JsonWriter& writer
         writeExternalFriendSourcesEnumJSON(ExternalPlatformFriends, writer);
     }
 
+    if (NamespaceWide.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("NamespaceWide"));
+        writer->WriteValue(NamespaceWide);
+    }
+
     if (ProfileConstraints.IsValid())
     {
         writer->WriteIdentifierPrefix(TEXT("ProfileConstraints"));
@@ -9524,6 +9530,13 @@ bool PlayFab::ClientModels::FGetFriendsListRequest::readFromValue(const TSharedP
     }
 
     ExternalPlatformFriends = readExternalFriendSourcesFromValue(obj->TryGetField(TEXT("ExternalPlatformFriends")));
+
+    const TSharedPtr<FJsonValue> NamespaceWideValue = obj->TryGetField(TEXT("NamespaceWide"));
+    if (NamespaceWideValue.IsValid() && !NamespaceWideValue->IsNull())
+    {
+        bool TmpValue;
+        if (NamespaceWideValue->TryGetBool(TmpValue)) { NamespaceWide = TmpValue; }
+    }
 
     const TSharedPtr<FJsonValue> ProfileConstraintsValue = obj->TryGetField(TEXT("ProfileConstraints"));
     if (ProfileConstraintsValue.IsValid() && !ProfileConstraintsValue->IsNull())

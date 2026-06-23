@@ -36,6 +36,10 @@ public:
     // Addon
     //////////////////////////////////////////////////////
 
+    /** Decode the ConfigurePSNEventStreamsResponse response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Addon | Addon Models")
+        static FAddonConfigurePSNEventStreamsResponse decodeConfigurePSNEventStreamsResponseResponse(UPlayFabJsonObject* response);
+
     /** Decode the CreateOrUpdateAppleResponse response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Addon | Addon Models")
         static FAddonCreateOrUpdateAppleResponse decodeCreateOrUpdateAppleResponseResponse(UPlayFabJsonObject* response);

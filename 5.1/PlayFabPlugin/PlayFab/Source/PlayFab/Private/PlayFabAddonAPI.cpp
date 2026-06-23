@@ -75,6 +75,60 @@ FString UPlayFabAddonAPI::PercentEncode(const FString& Text)
 ///////////////////////////////////////////////////////
 // Addon
 //////////////////////////////////////////////////////
+/** Configures PSN event streams for an existing PSN addon on a title, without requiring a full addon upsert. */
+UPlayFabAddonAPI* UPlayFabAddonAPI::ConfigurePSNEventStreams(FAddonConfigurePSNEventStreamsRequest request,
+    FDelegateOnSuccessConfigurePSNEventStreams onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabAddonAPI* manager = NewObject<UPlayFabAddonAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessConfigurePSNEventStreams = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAddonAPI::HelperConfigurePSNEventStreams);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Addon/ConfigurePSNEventStreams";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
+    if (request.TitleName.IsEmpty() || request.TitleName == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("TitleName"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("TitleName"), request.TitleName);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabAddonRequestCompleted
+void UPlayFabAddonAPI::HelperConfigurePSNEventStreams(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessConfigurePSNEventStreams.IsBound())
+    {
+        FAddonConfigurePSNEventStreamsResponse ResultStruct = UPlayFabAddonModelDecoder::decodeConfigurePSNEventStreamsResponseResponse(response.responseData);
+        OnSuccessConfigurePSNEventStreams.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 /** Creates the Apple addon on a title, or updates it if it already exists. */
 UPlayFabAddonAPI* UPlayFabAddonAPI::CreateOrUpdateApple(FAddonCreateOrUpdateAppleRequest request,
     FDelegateOnSuccessCreateOrUpdateApple onSuccess,

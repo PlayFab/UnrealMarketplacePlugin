@@ -4398,6 +4398,12 @@ namespace ServerModels
          */
         Boxed<ExternalFriendSources> ExternalPlatformFriends;
 
+        /**
+         * [optional] If true, include friends from the same namespace even if they have not logged in to the current title. Defaults to
+         * false.
+         */
+        Boxed<bool> NamespaceWide;
+
         // PlayFab identifier of the player whose friend list to get.
         FString PlayFabId;
 
@@ -4418,6 +4424,7 @@ namespace ServerModels
             FPlayFabCppRequestCommon(),
             CustomTags(),
             ExternalPlatformFriends(),
+            NamespaceWide(),
             PlayFabId(),
             ProfileConstraints(nullptr),
             XboxToken()

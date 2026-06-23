@@ -21,6 +21,15 @@
 // Addon
 //////////////////////////////////////////////////////
 
+FAddonConfigurePSNEventStreamsResponse UPlayFabAddonModelDecoder::decodeConfigurePSNEventStreamsResponseResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FAddonConfigurePSNEventStreamsResponse tempStruct;
+
+
+    return tempStruct;
+}
+
 FAddonCreateOrUpdateAppleResponse UPlayFabAddonModelDecoder::decodeCreateOrUpdateAppleResponseResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct

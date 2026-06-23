@@ -59,6 +59,19 @@ public:
     // Addon
     //////////////////////////////////////////////////////
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessConfigurePSNEventStreams, FAddonConfigurePSNEventStreamsResponse, result, UObject*, customData);
+
+    /** Configures PSN event streams for an existing PSN addon on a title, without requiring a full addon upsert. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Addon | Addon ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabAddonAPI* ConfigurePSNEventStreams(FAddonConfigurePSNEventStreamsRequest request,
+            FDelegateOnSuccessConfigurePSNEventStreams onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabAddonRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Addon | Addon ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperConfigurePSNEventStreams(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessCreateOrUpdateApple, FAddonCreateOrUpdateAppleResponse, result, UObject*, customData);
 
     /** Creates the Apple addon on a title, or updates it if it already exists. */
@@ -466,6 +479,7 @@ public:
     UObject* mCustomData;
 
     FDelegateOnFailurePlayFabError OnFailure;
+    FDelegateOnSuccessConfigurePSNEventStreams OnSuccessConfigurePSNEventStreams;
     FDelegateOnSuccessCreateOrUpdateApple OnSuccessCreateOrUpdateApple;
     FDelegateOnSuccessCreateOrUpdateFacebook OnSuccessCreateOrUpdateFacebook;
     FDelegateOnSuccessCreateOrUpdateFacebookInstantGames OnSuccessCreateOrUpdateFacebookInstantGames;

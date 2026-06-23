@@ -380,7 +380,6 @@ bool PlayFab::AuthenticationModels::FEntityLineage::readFromValue(const TSharedP
 
 PlayFab::AuthenticationModels::FGetEntityTokenRequest::~FGetEntityTokenRequest()
 {
-    //if (Entity != nullptr) delete Entity;
 
 }
 
@@ -399,12 +398,6 @@ void PlayFab::AuthenticationModels::FGetEntityTokenRequest::writeJSON(JsonWriter
         writer->WriteObjectEnd();
     }
 
-    if (Entity.IsValid())
-    {
-        writer->WriteIdentifierPrefix(TEXT("Entity"));
-        Entity->writeJSON(writer);
-    }
-
     writer->WriteObjectEnd();
 }
 
@@ -419,12 +412,6 @@ bool PlayFab::AuthenticationModels::FGetEntityTokenRequest::readFromValue(const 
         {
             CustomTags.Add(It.Key(), It.Value()->AsString());
         }
-    }
-
-    const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
-    if (EntityValue.IsValid() && !EntityValue->IsNull())
-    {
-        Entity = MakeShareable(new FEntityKey(EntityValue->AsObject()));
     }
 
     return HasSucceeded;

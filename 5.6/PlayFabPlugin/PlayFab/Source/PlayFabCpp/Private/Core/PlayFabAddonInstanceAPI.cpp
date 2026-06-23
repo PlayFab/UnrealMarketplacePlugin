@@ -77,6 +77,36 @@ TSharedPtr<UPlayFabAuthenticationContext> UPlayFabAddonInstanceAPI::GetOrCreateA
     return this->authContext;
 }
 
+bool UPlayFabAddonInstanceAPI::ConfigurePSNEventStreams(
+    AddonModels::FConfigurePSNEventStreamsRequest& request,
+    const FConfigurePSNEventStreamsDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetEntityToken().Len() == 0) {
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
+    }
+
+
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Addon/ConfigurePSNEventStreams"), request.toJSONString(), TEXT("X-EntityToken"), context->GetEntityToken());
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAddonInstanceAPI::OnConfigurePSNEventStreamsResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabAddonInstanceAPI::OnConfigurePSNEventStreamsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FConfigurePSNEventStreamsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    AddonModels::FConfigurePSNEventStreamsResponse outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
 bool UPlayFabAddonInstanceAPI::CreateOrUpdateApple(
     AddonModels::FCreateOrUpdateAppleRequest& request,
     const FCreateOrUpdateAppleDelegate& SuccessDelegate,

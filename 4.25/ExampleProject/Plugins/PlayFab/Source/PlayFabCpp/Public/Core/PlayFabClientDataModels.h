@@ -4799,6 +4799,12 @@ namespace ClientModels
         Boxed<ExternalFriendSources> ExternalPlatformFriends;
 
         /**
+         * [optional] If true, include friends from the same namespace even if they have not logged in to the current title. Defaults to
+         * false.
+         */
+        Boxed<bool> NamespaceWide;
+
+        /**
          * [optional] If non-null, this determines which properties of the resulting player profiles to return. For API calls from the client,
          * only the allowed client profile properties for the title may be requested. These allowed properties are configured in
          * the Game Manager "Client Profile Options" tab in the "Settings" section.
@@ -4815,6 +4821,7 @@ namespace ClientModels
             FPlayFabCppRequestCommon(),
             CustomTags(),
             ExternalPlatformFriends(),
+            NamespaceWide(),
             ProfileConstraints(nullptr),
             XboxToken()
             {}

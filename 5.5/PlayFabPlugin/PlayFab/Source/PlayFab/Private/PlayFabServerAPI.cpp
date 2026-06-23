@@ -5214,6 +5214,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetFriendsList(FServerGetFriendsListReques
     FString temp_ExternalPlatformFriends;
     if (GetEnumValueToString<EExternalFriendSources>(TEXT("EExternalFriendSources"), request.ExternalPlatformFriends, temp_ExternalPlatformFriends))
         OutRestJsonObj->SetStringField(TEXT("ExternalPlatformFriends"), temp_ExternalPlatformFriends);
+    OutRestJsonObj->SetBoolField(TEXT("NamespaceWide"), request.NamespaceWide);
     if (request.PlayFabId.IsEmpty() || request.PlayFabId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("PlayFabId"));
     } else {

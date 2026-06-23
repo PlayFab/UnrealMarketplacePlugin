@@ -41,6 +41,55 @@ namespace AddonModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FConfigurePSNEventStreamsRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // [optional] The optional entity to perform this action on. Defaults to the currently logged in entity.
+        TSharedPtr<FEntityKey> Entity;
+
+        // [optional] Title name obtained after setting a back server for PS5. Used for clawback event listeners.
+        FString TitleName;
+
+        FConfigurePSNEventStreamsRequest() :
+            FPlayFabCppRequestCommon(),
+            CustomTags(),
+            Entity(nullptr),
+            TitleName()
+            {}
+
+        FConfigurePSNEventStreamsRequest(const FConfigurePSNEventStreamsRequest& src) = default;
+
+        FConfigurePSNEventStreamsRequest(const TSharedPtr<FJsonObject>& obj) : FConfigurePSNEventStreamsRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FConfigurePSNEventStreamsRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FConfigurePSNEventStreamsResponse : public PlayFab::FPlayFabCppResultCommon
+    {
+        FConfigurePSNEventStreamsResponse() :
+            FPlayFabCppResultCommon()
+            {}
+
+        FConfigurePSNEventStreamsResponse(const FConfigurePSNEventStreamsResponse& src) = default;
+
+        FConfigurePSNEventStreamsResponse(const TSharedPtr<FJsonObject>& obj) : FConfigurePSNEventStreamsResponse()
+        {
+            readFromValue(obj);
+        }
+
+        ~FConfigurePSNEventStreamsResponse();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FCreateOrUpdateAppleRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] Allow validation of receipts from the Apple production environment. Required for app releases.

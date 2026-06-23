@@ -60,6 +60,90 @@ bool PlayFab::AddonModels::FEntityKey::readFromValue(const TSharedPtr<FJsonObjec
     return HasSucceeded;
 }
 
+PlayFab::AddonModels::FConfigurePSNEventStreamsRequest::~FConfigurePSNEventStreamsRequest()
+{
+    //if (Entity != nullptr) delete Entity;
+
+}
+
+void PlayFab::AddonModels::FConfigurePSNEventStreamsRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    if (Entity.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Entity"));
+        Entity->writeJSON(writer);
+    }
+
+    if (TitleName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("TitleName"));
+        writer->WriteValue(TitleName);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AddonModels::FConfigurePSNEventStreamsRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
+    if (EntityValue.IsValid() && !EntityValue->IsNull())
+    {
+        Entity = MakeShareable(new FEntityKey(EntityValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> TitleNameValue = obj->TryGetField(TEXT("TitleName"));
+    if (TitleNameValue.IsValid() && !TitleNameValue->IsNull())
+    {
+        FString TmpValue;
+        if (TitleNameValue->TryGetString(TmpValue)) { TitleName = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::AddonModels::FConfigurePSNEventStreamsResponse::~FConfigurePSNEventStreamsResponse()
+{
+
+}
+
+void PlayFab::AddonModels::FConfigurePSNEventStreamsResponse::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AddonModels::FConfigurePSNEventStreamsResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    return HasSucceeded;
+}
+
 PlayFab::AddonModels::FCreateOrUpdateAppleRequest::~FCreateOrUpdateAppleRequest()
 {
     //if (Entity != nullptr) delete Entity;

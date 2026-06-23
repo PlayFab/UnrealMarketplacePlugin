@@ -31,6 +31,29 @@ class UPlayFabJsonObject;
 //////////////////////////////////////////////////////
 
 USTRUCT(BlueprintType)
+struct PLAYFAB_API FAddonConfigurePSNEventStreamsRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Addon | Addon Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /** The optional entity to perform this action on. Defaults to the currently logged in entity. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Addon | Addon Models")
+        UPlayFabJsonObject* Entity = nullptr;
+    /** Title name obtained after setting a back server for PS5. Used for clawback event listeners. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Addon | Addon Models")
+        FString TitleName;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FAddonConfigurePSNEventStreamsResponse : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+};
+
+USTRUCT(BlueprintType)
 struct PLAYFAB_API FAddonCreateOrUpdateAppleRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()

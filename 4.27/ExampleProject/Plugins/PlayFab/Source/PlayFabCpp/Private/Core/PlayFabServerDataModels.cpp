@@ -8686,6 +8686,12 @@ void PlayFab::ServerModels::FGetFriendsListRequest::writeJSON(JsonWriter& writer
         writeExternalFriendSourcesEnumJSON(ExternalPlatformFriends, writer);
     }
 
+    if (NamespaceWide.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("NamespaceWide"));
+        writer->WriteValue(NamespaceWide);
+    }
+
     if (!PlayFabId.IsEmpty() == false)
     {
         UE_LOG(LogTemp, Error, TEXT("This field is required: GetFriendsListRequest::PlayFabId, PlayFab calls may not work if it remains empty."));
@@ -8725,6 +8731,13 @@ bool PlayFab::ServerModels::FGetFriendsListRequest::readFromValue(const TSharedP
     }
 
     ExternalPlatformFriends = readExternalFriendSourcesFromValue(obj->TryGetField(TEXT("ExternalPlatformFriends")));
+
+    const TSharedPtr<FJsonValue> NamespaceWideValue = obj->TryGetField(TEXT("NamespaceWide"));
+    if (NamespaceWideValue.IsValid() && !NamespaceWideValue->IsNull())
+    {
+        bool TmpValue;
+        if (NamespaceWideValue->TryGetBool(TmpValue)) { NamespaceWide = TmpValue; }
+    }
 
     const TSharedPtr<FJsonValue> PlayFabIdValue = obj->TryGetField(TEXT("PlayFabId"));
     if (PlayFabIdValue.IsValid() && !PlayFabIdValue->IsNull())

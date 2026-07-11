@@ -58,9 +58,9 @@ bool PlayFab::AuthenticationModels::FAuthenticateCustomIdRequest::readFromValue(
     const TSharedPtr<FJsonObject>* CustomTagsObject;
     if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
     {
-        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        for (auto It = (*CustomTagsObject)->Values.CreateConstIterator(); It; ++It)
         {
-            CustomTags.Add(It.Key(), It.Value()->AsString());
+            CustomTags.Add(FString(It.Key().ToView()), It.Value()->AsString());
         }
     }
 
@@ -247,9 +247,9 @@ bool PlayFab::AuthenticationModels::FDeleteRequest::readFromValue(const TSharedP
     const TSharedPtr<FJsonObject>* CustomTagsObject;
     if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
     {
-        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        for (auto It = (*CustomTagsObject)->Values.CreateConstIterator(); It; ++It)
         {
-            CustomTags.Add(It.Key(), It.Value()->AsString());
+            CustomTags.Add(FString(It.Key().ToView()), It.Value()->AsString());
         }
     }
 
@@ -408,9 +408,9 @@ bool PlayFab::AuthenticationModels::FGetEntityTokenRequest::readFromValue(const 
     const TSharedPtr<FJsonObject>* CustomTagsObject;
     if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
     {
-        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        for (auto It = (*CustomTagsObject)->Values.CreateConstIterator(); It; ++It)
         {
-            CustomTags.Add(It.Key(), It.Value()->AsString());
+            CustomTags.Add(FString(It.Key().ToView()), It.Value()->AsString());
         }
     }
 
@@ -647,9 +647,9 @@ bool PlayFab::AuthenticationModels::FValidateEntityTokenRequest::readFromValue(c
     const TSharedPtr<FJsonObject>* CustomTagsObject;
     if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
     {
-        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        for (auto It = (*CustomTagsObject)->Values.CreateConstIterator(); It; ++It)
         {
-            CustomTags.Add(It.Key(), It.Value()->AsString());
+            CustomTags.Add(FString(It.Key().ToView()), It.Value()->AsString());
         }
     }
 

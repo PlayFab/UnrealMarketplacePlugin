@@ -118,12 +118,12 @@ bool PlayFabRequestHandler::DecodeError(TSharedPtr<FJsonObject> JsonObject, Play
                 {
                     for(const auto& item : val.Value->AsArray())
                     {
-                        OutError.ErrorDetails.Add(val.Key, item->AsString());
+                        OutError.ErrorDetails.Add(FString(val.Key.ToView()), item->AsString());
                     }
                 }
                 else
                 {
-                    OutError.ErrorDetails.Add(val.Key, val.Value->AsString());
+                    OutError.ErrorDetails.Add(FString(val.Key.ToView()), val.Value->AsString());
                 }
             }
         }

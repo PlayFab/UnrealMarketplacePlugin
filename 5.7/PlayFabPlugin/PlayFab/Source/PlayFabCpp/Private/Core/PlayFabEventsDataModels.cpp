@@ -107,9 +107,9 @@ bool PlayFab::EventsModels::FCreateTelemetryKeyRequest::readFromValue(const TSha
     const TSharedPtr<FJsonObject>* CustomTagsObject;
     if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
     {
-        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        for (auto It = (*CustomTagsObject)->Values.CreateConstIterator(); It; ++It)
         {
-            CustomTags.Add(It.Key(), It.Value()->AsString());
+            CustomTags.Add(FString(It.Key().ToView()), It.Value()->AsString());
         }
     }
 
@@ -715,9 +715,9 @@ bool PlayFab::EventsModels::FDeleteDataConnectionRequest::readFromValue(const TS
     const TSharedPtr<FJsonObject>* CustomTagsObject;
     if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
     {
-        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        for (auto It = (*CustomTagsObject)->Values.CreateConstIterator(); It; ++It)
         {
-            CustomTags.Add(It.Key(), It.Value()->AsString());
+            CustomTags.Add(FString(It.Key().ToView()), It.Value()->AsString());
         }
     }
 
@@ -807,9 +807,9 @@ bool PlayFab::EventsModels::FDeleteTelemetryKeyRequest::readFromValue(const TSha
     const TSharedPtr<FJsonObject>* CustomTagsObject;
     if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
     {
-        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        for (auto It = (*CustomTagsObject)->Values.CreateConstIterator(); It; ++It)
         {
-            CustomTags.Add(It.Key(), It.Value()->AsString());
+            CustomTags.Add(FString(It.Key().ToView()), It.Value()->AsString());
         }
     }
 
@@ -939,9 +939,9 @@ bool PlayFab::EventsModels::FEventContents::readFromValue(const TSharedPtr<FJson
     const TSharedPtr<FJsonObject>* CustomTagsObject;
     if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
     {
-        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        for (auto It = (*CustomTagsObject)->Values.CreateConstIterator(); It; ++It)
         {
-            CustomTags.Add(It.Key(), It.Value()->AsString());
+            CustomTags.Add(FString(It.Key().ToView()), It.Value()->AsString());
         }
     }
 
@@ -1033,9 +1033,9 @@ bool PlayFab::EventsModels::FGetDataConnectionRequest::readFromValue(const TShar
     const TSharedPtr<FJsonObject>* CustomTagsObject;
     if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
     {
-        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        for (auto It = (*CustomTagsObject)->Values.CreateConstIterator(); It; ++It)
         {
-            CustomTags.Add(It.Key(), It.Value()->AsString());
+            CustomTags.Add(FString(It.Key().ToView()), It.Value()->AsString());
         }
     }
 
@@ -1128,9 +1128,9 @@ bool PlayFab::EventsModels::FGetTelemetryKeyRequest::readFromValue(const TShared
     const TSharedPtr<FJsonObject>* CustomTagsObject;
     if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
     {
-        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        for (auto It = (*CustomTagsObject)->Values.CreateConstIterator(); It; ++It)
         {
-            CustomTags.Add(It.Key(), It.Value()->AsString());
+            CustomTags.Add(FString(It.Key().ToView()), It.Value()->AsString());
         }
     }
 
@@ -1212,9 +1212,9 @@ bool PlayFab::EventsModels::FListDataConnectionsRequest::readFromValue(const TSh
     const TSharedPtr<FJsonObject>* CustomTagsObject;
     if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
     {
-        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        for (auto It = (*CustomTagsObject)->Values.CreateConstIterator(); It; ++It)
         {
-            CustomTags.Add(It.Key(), It.Value()->AsString());
+            CustomTags.Add(FString(It.Key().ToView()), It.Value()->AsString());
         }
     }
 
@@ -1294,9 +1294,9 @@ bool PlayFab::EventsModels::FListTelemetryKeysRequest::readFromValue(const TShar
     const TSharedPtr<FJsonObject>* CustomTagsObject;
     if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
     {
-        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        for (auto It = (*CustomTagsObject)->Values.CreateConstIterator(); It; ++It)
         {
-            CustomTags.Add(It.Key(), It.Value()->AsString());
+            CustomTags.Add(FString(It.Key().ToView()), It.Value()->AsString());
         }
     }
 
@@ -1395,9 +1395,9 @@ bool PlayFab::EventsModels::FSetDataConnectionActiveRequest::readFromValue(const
     const TSharedPtr<FJsonObject>* CustomTagsObject;
     if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
     {
-        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        for (auto It = (*CustomTagsObject)->Values.CreateConstIterator(); It; ++It)
         {
-            CustomTags.Add(It.Key(), It.Value()->AsString());
+            CustomTags.Add(FString(It.Key().ToView()), It.Value()->AsString());
         }
     }
 
@@ -1508,9 +1508,9 @@ bool PlayFab::EventsModels::FSetDataConnectionRequest::readFromValue(const TShar
     const TSharedPtr<FJsonObject>* CustomTagsObject;
     if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
     {
-        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        for (auto It = (*CustomTagsObject)->Values.CreateConstIterator(); It; ++It)
         {
-            CustomTags.Add(It.Key(), It.Value()->AsString());
+            CustomTags.Add(FString(It.Key().ToView()), It.Value()->AsString());
         }
     }
 
@@ -1622,9 +1622,9 @@ bool PlayFab::EventsModels::FSetTelemetryKeyActiveRequest::readFromValue(const T
     const TSharedPtr<FJsonObject>* CustomTagsObject;
     if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
     {
-        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        for (auto It = (*CustomTagsObject)->Values.CreateConstIterator(); It; ++It)
         {
-            CustomTags.Add(It.Key(), It.Value()->AsString());
+            CustomTags.Add(FString(It.Key().ToView()), It.Value()->AsString());
         }
     }
 
@@ -1722,9 +1722,9 @@ bool PlayFab::EventsModels::FWriteEventsRequest::readFromValue(const TSharedPtr<
     const TSharedPtr<FJsonObject>* CustomTagsObject;
     if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
     {
-        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        for (auto It = (*CustomTagsObject)->Values.CreateConstIterator(); It; ++It)
         {
-            CustomTags.Add(It.Key(), It.Value()->AsString());
+            CustomTags.Add(FString(It.Key().ToView()), It.Value()->AsString());
         }
     }
 

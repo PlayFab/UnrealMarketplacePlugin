@@ -11116,6 +11116,12 @@ void PlayFab::ServerModels::FGetPlayFabIDsFromNintendoServiceAccountIdsRequest::
 {
     writer->WriteObjectStart();
 
+    if (Issuer.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Issuer"));
+        writer->WriteValue(Issuer);
+    }
+
     writer->WriteArrayStart(TEXT("NintendoAccountIds"));
     for (const FString& item : NintendoAccountIds)
         writer->WriteValue(item);
@@ -11128,6 +11134,13 @@ void PlayFab::ServerModels::FGetPlayFabIDsFromNintendoServiceAccountIdsRequest::
 bool PlayFab::ServerModels::FGetPlayFabIDsFromNintendoServiceAccountIdsRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> IssuerValue = obj->TryGetField(TEXT("Issuer"));
+    if (IssuerValue.IsValid() && !IssuerValue->IsNull())
+    {
+        FString TmpValue;
+        if (IssuerValue->TryGetString(TmpValue)) { Issuer = TmpValue; }
+    }
 
     obj->TryGetStringArrayField(TEXT("NintendoAccountIds"), NintendoAccountIds);
 
@@ -11511,6 +11524,12 @@ void PlayFab::ServerModels::FGetPlayFabIDsFromPSNAccountIDsRequest::writeJSON(Js
     writer->WriteArrayEnd();
 
 
+    if (SandboxId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("SandboxId"));
+        writer->WriteValue(SandboxId);
+    }
+
     writer->WriteObjectEnd();
 }
 
@@ -11526,6 +11545,13 @@ bool PlayFab::ServerModels::FGetPlayFabIDsFromPSNAccountIDsRequest::readFromValu
     }
 
     obj->TryGetStringArrayField(TEXT("PSNAccountIDs"), PSNAccountIDs);
+
+    const TSharedPtr<FJsonValue> SandboxIdValue = obj->TryGetField(TEXT("SandboxId"));
+    if (SandboxIdValue.IsValid() && !SandboxIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (SandboxIdValue->TryGetString(TmpValue)) { SandboxId = TmpValue; }
+    }
 
     return HasSucceeded;
 }
@@ -11632,6 +11658,12 @@ void PlayFab::ServerModels::FGetPlayFabIDsFromPSNOnlineIDsRequest::writeJSON(Jso
     writer->WriteArrayEnd();
 
 
+    if (SandboxId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("SandboxId"));
+        writer->WriteValue(SandboxId);
+    }
+
     writer->WriteObjectEnd();
 }
 
@@ -11647,6 +11679,13 @@ bool PlayFab::ServerModels::FGetPlayFabIDsFromPSNOnlineIDsRequest::readFromValue
     }
 
     obj->TryGetStringArrayField(TEXT("PSNOnlineIDs"), PSNOnlineIDs);
+
+    const TSharedPtr<FJsonValue> SandboxIdValue = obj->TryGetField(TEXT("SandboxId"));
+    if (SandboxIdValue.IsValid() && !SandboxIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (SandboxIdValue->TryGetString(TmpValue)) { SandboxId = TmpValue; }
+    }
 
     return HasSucceeded;
 }
@@ -15159,6 +15198,12 @@ void PlayFab::ServerModels::FLinkPSNAccountRequest::writeJSON(JsonWriter& writer
         writer->WriteValue(AuthCode);
     }
 
+    if (AuthVersion.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("AuthVersion"));
+        writer->WriteValue(AuthVersion);
+    }
+
     if (CustomTags.Num() != 0)
     {
         writer->WriteObjectStart(TEXT("CustomTags"));
@@ -15214,6 +15259,13 @@ bool PlayFab::ServerModels::FLinkPSNAccountRequest::readFromValue(const TSharedP
     {
         FString TmpValue;
         if (AuthCodeValue->TryGetString(TmpValue)) { AuthCode = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> AuthVersionValue = obj->TryGetField(TEXT("AuthVersion"));
+    if (AuthVersionValue.IsValid() && !AuthVersionValue->IsNull())
+    {
+        FString TmpValue;
+        if (AuthVersionValue->TryGetString(TmpValue)) { AuthVersion = TmpValue; }
     }
 
     const TSharedPtr<FJsonObject>* CustomTagsObject;
@@ -15327,6 +15379,12 @@ void PlayFab::ServerModels::FLinkPSNIdRequest::writeJSON(JsonWriter& writer) con
         writer->WriteValue(PSNUserId);
     }
 
+    if (SandboxId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("SandboxId"));
+        writer->WriteValue(SandboxId);
+    }
+
     writer->WriteObjectEnd();
 }
 
@@ -15369,6 +15427,13 @@ bool PlayFab::ServerModels::FLinkPSNIdRequest::readFromValue(const TSharedPtr<FJ
     {
         FString TmpValue;
         if (PSNUserIdValue->TryGetString(TmpValue)) { PSNUserId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> SandboxIdValue = obj->TryGetField(TEXT("SandboxId"));
+    if (SandboxIdValue.IsValid() && !SandboxIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (SandboxIdValue->TryGetString(TmpValue)) { SandboxId = TmpValue; }
     }
 
     return HasSucceeded;
@@ -16509,6 +16574,12 @@ void PlayFab::ServerModels::FLoginWithPSNRequest::writeJSON(JsonWriter& writer) 
         writer->WriteValue(AuthCode);
     }
 
+    if (AuthVersion.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("AuthVersion"));
+        writer->WriteValue(AuthVersion);
+    }
+
     if (CreateAccount.notNull())
     {
         writer->WriteIdentifierPrefix(TEXT("CreateAccount"));
@@ -16560,6 +16631,13 @@ bool PlayFab::ServerModels::FLoginWithPSNRequest::readFromValue(const TSharedPtr
     {
         FString TmpValue;
         if (AuthCodeValue->TryGetString(TmpValue)) { AuthCode = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> AuthVersionValue = obj->TryGetField(TEXT("AuthVersion"));
+    if (AuthVersionValue.IsValid() && !AuthVersionValue->IsNull())
+    {
+        FString TmpValue;
+        if (AuthVersionValue->TryGetString(TmpValue)) { AuthVersion = TmpValue; }
     }
 
     const TSharedPtr<FJsonValue> CreateAccountValue = obj->TryGetField(TEXT("CreateAccount"));

@@ -644,6 +644,9 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 1613: returnText = "AccountLinkedToABannedPlayer"; break;
     case 1614: returnText = "AzureSubscriptionNotEligibleForLinking"; break;
     case 1615: returnText = "EntityIsNotAMember"; break;
+    case 1616: returnText = "IPAddressNotFound"; break;
+    case 1617: returnText = "PSNNextGenNotConfiguredForTitle"; break;
+    case 1618: returnText = "InvalidNintendoIssuer"; break;
     case 2001: returnText = "MatchmakingEntityInvalid"; break;
     case 2002: returnText = "MatchmakingPlayerAttributesInvalid"; break;
     case 2016: returnText = "MatchmakingQueueNotFound"; break;
@@ -961,6 +964,7 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 20330: returnText = "GameSaveTitleClientAnonymousAccountCreationNotDisabled"; break;
     case 20331: returnText = "GameSaveTitleConfigNoUpdatesRequested"; break;
     case 20332: returnText = "GameSavePlayerNotEligibleForTransfer"; break;
+    case 20333: returnText = "GameSaveAlreadyAutoRolledBack"; break;
     case 21000: returnText = "StateShareForbidden"; break;
     case 21001: returnText = "StateShareTitleNotInFlight"; break;
     case 21002: returnText = "StateShareStateNotFound"; break;

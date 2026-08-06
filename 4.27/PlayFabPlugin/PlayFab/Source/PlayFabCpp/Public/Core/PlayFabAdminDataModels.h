@@ -2333,6 +2333,109 @@ namespace AdminModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FCreateIPBanRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        /**
+         * [optional] The UTC date and time when the IP ban expires. Leave this blank for a permanent ban. Must be later than the current time
+         * and no more than 100 years in the future.
+         */
+        Boxed<FDateTime> Expires;
+
+        // The IP address to be banned.
+        FString IPAddress;
+
+        // [optional] The reason for the IP ban. Maximum 140 characters.
+        FString Reason;
+
+        FCreateIPBanRequest() :
+            FPlayFabCppRequestCommon(),
+            CustomTags(),
+            Expires(),
+            IPAddress(),
+            Reason()
+            {}
+
+        FCreateIPBanRequest(const FCreateIPBanRequest& src) = default;
+
+        FCreateIPBanRequest(const TSharedPtr<FJsonObject>& obj) : FCreateIPBanRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FCreateIPBanRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FIPBanInfo : public PlayFab::FPlayFabCppBaseModel
+    {
+        // The active state of this ban.
+        bool Active;
+
+        // [optional] PlayFab Developer ID of who issued the ban. Null if ban issued via Title Secret Key.
+        FString BannedByDeveloperId;
+
+        // [optional] The time when this IP ban was applied.
+        Boxed<FDateTime> Created;
+
+        // [optional] The time when this ban expires. Permanent bans do not have expiration date.
+        Boxed<FDateTime> Expires;
+
+        // [optional] The IP address on which the ban was applied.
+        FString IPAddress;
+
+        // [optional] The reason why this IP ban was applied.
+        FString Reason;
+
+        FIPBanInfo() :
+            FPlayFabCppBaseModel(),
+            Active(false),
+            BannedByDeveloperId(),
+            Created(),
+            Expires(),
+            IPAddress(),
+            Reason()
+            {}
+
+        FIPBanInfo(const FIPBanInfo& src) = default;
+
+        FIPBanInfo(const TSharedPtr<FJsonObject>& obj) : FIPBanInfo()
+        {
+            readFromValue(obj);
+        }
+
+        ~FIPBanInfo();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FCreateIPBanResult : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] Information on the ban that was created
+        TSharedPtr<FIPBanInfo> IPBanData;
+
+        FCreateIPBanResult() :
+            FPlayFabCppResultCommon(),
+            IPBanData(nullptr)
+            {}
+
+        FCreateIPBanResult(const FCreateIPBanResult& src) = default;
+
+        FCreateIPBanResult(const TSharedPtr<FJsonObject>& obj) : FCreateIPBanResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FCreateIPBanResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FOpenIdIssuerInformation : public PlayFab::FPlayFabCppBaseModel
     {
         // Authorization endpoint URL to direct users to for signin.
@@ -5229,6 +5332,47 @@ namespace AdminModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FGetAllIPBansRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        FGetAllIPBansRequest() :
+            FPlayFabCppRequestCommon()
+            {}
+
+        FGetAllIPBansRequest(const FGetAllIPBansRequest& src) = default;
+
+        FGetAllIPBansRequest(const TSharedPtr<FJsonObject>& obj) : FGetAllIPBansRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetAllIPBansRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FGetAllIPBansResult : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] Information on all IP bans
+        TArray<FIPBanInfo> IPBanData;
+        FGetAllIPBansResult() :
+            FPlayFabCppResultCommon(),
+            IPBanData()
+            {}
+
+        FGetAllIPBansResult(const FGetAllIPBansResult& src) = default;
+
+        FGetAllIPBansResult(const TSharedPtr<FJsonObject>& obj) : FGetAllIPBansResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetAllIPBansResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FGetAllSegmentsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         FGetAllSegmentsRequest() :
@@ -5647,6 +5791,51 @@ namespace AdminModels
         }
 
         ~FGetDataReportResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FGetIPBanRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // The IP address of the ban to retrieve information on.
+        FString IPAddress;
+
+        FGetIPBanRequest() :
+            FPlayFabCppRequestCommon(),
+            IPAddress()
+            {}
+
+        FGetIPBanRequest(const FGetIPBanRequest& src) = default;
+
+        FGetIPBanRequest(const TSharedPtr<FJsonObject>& obj) : FGetIPBanRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetIPBanRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FGetIPBanResult : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] Information on the ban
+        TArray<FIPBanInfo> IPBanData;
+        FGetIPBanResult() :
+            FPlayFabCppResultCommon(),
+            IPBanData()
+            {}
+
+        FGetIPBanResult(const FGetIPBanResult& src) = default;
+
+        FGetIPBanResult(const TSharedPtr<FJsonObject>& obj) : FGetIPBanResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetIPBanResult();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -9925,6 +10114,52 @@ namespace AdminModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FRevokeIPBanRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // The IP address of the ban to be revoked.
+        FString IPAddress;
+
+        FRevokeIPBanRequest() :
+            FPlayFabCppRequestCommon(),
+            IPAddress()
+            {}
+
+        FRevokeIPBanRequest(const FRevokeIPBanRequest& src) = default;
+
+        FRevokeIPBanRequest(const TSharedPtr<FJsonObject>& obj) : FRevokeIPBanRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FRevokeIPBanRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FRevokeIPBanResult : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] Information on the ban that was revoked
+        TSharedPtr<FIPBanInfo> IPBanData;
+
+        FRevokeIPBanResult() :
+            FPlayFabCppResultCommon(),
+            IPBanData(nullptr)
+            {}
+
+        FRevokeIPBanResult(const FRevokeIPBanResult& src) = default;
+
+        FRevokeIPBanResult(const TSharedPtr<FJsonObject>& obj) : FRevokeIPBanResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FRevokeIPBanResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FRunTaskRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
@@ -10669,6 +10904,71 @@ namespace AdminModels
         }
 
         ~FUpdateCloudScriptResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FUpdateIPBanRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The updated active state for the IP ban. Null for no change.
+        Boxed<bool> Active;
+
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // [optional] The updated expiration date for the IP ban. Null for no change.
+        Boxed<FDateTime> Expires;
+
+        // The IP address of the ban to be updated.
+        FString IPAddress;
+
+        // [optional] Whether to make this IP ban permanent. Set to true to make this IP ban permanent. This will not modify Active state.
+        Boxed<bool> Permanent;
+
+        // [optional] The updated reason for the IP ban. Maximum 140 characters. Null for no change.
+        FString Reason;
+
+        FUpdateIPBanRequest() :
+            FPlayFabCppRequestCommon(),
+            Active(),
+            CustomTags(),
+            Expires(),
+            IPAddress(),
+            Permanent(),
+            Reason()
+            {}
+
+        FUpdateIPBanRequest(const FUpdateIPBanRequest& src) = default;
+
+        FUpdateIPBanRequest(const TSharedPtr<FJsonObject>& obj) : FUpdateIPBanRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FUpdateIPBanRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FUpdateIPBanResult : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] Information on the ban that was created
+        TSharedPtr<FIPBanInfo> IPBanData;
+
+        FUpdateIPBanResult() :
+            FPlayFabCppResultCommon(),
+            IPBanData(nullptr)
+            {}
+
+        FUpdateIPBanResult(const FUpdateIPBanResult& src) = default;
+
+        FUpdateIPBanResult(const TSharedPtr<FJsonObject>& obj) : FUpdateIPBanResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FUpdateIPBanResult();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;

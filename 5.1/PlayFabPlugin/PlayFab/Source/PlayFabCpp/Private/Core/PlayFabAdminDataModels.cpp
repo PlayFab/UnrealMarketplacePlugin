@@ -4740,6 +4740,208 @@ bool PlayFab::AdminModels::FCreateInsightsScheduledScalingTaskRequest::readFromV
     return HasSucceeded;
 }
 
+PlayFab::AdminModels::FCreateIPBanRequest::~FCreateIPBanRequest()
+{
+
+}
+
+void PlayFab::AdminModels::FCreateIPBanRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    if (Expires.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Expires"));
+        writeDatetime(Expires, writer);
+    }
+
+    if (!IPAddress.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: CreateIPBanRequest::IPAddress, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("IPAddress"));
+        writer->WriteValue(IPAddress);
+    }
+
+    if (Reason.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Reason"));
+        writer->WriteValue(Reason);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FCreateIPBanRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    const TSharedPtr<FJsonValue> ExpiresValue = obj->TryGetField(TEXT("Expires"));
+    if (ExpiresValue.IsValid())
+        Expires = readDatetime(ExpiresValue);
+
+
+    const TSharedPtr<FJsonValue> IPAddressValue = obj->TryGetField(TEXT("IPAddress"));
+    if (IPAddressValue.IsValid() && !IPAddressValue->IsNull())
+    {
+        FString TmpValue;
+        if (IPAddressValue->TryGetString(TmpValue)) { IPAddress = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> ReasonValue = obj->TryGetField(TEXT("Reason"));
+    if (ReasonValue.IsValid() && !ReasonValue->IsNull())
+    {
+        FString TmpValue;
+        if (ReasonValue->TryGetString(TmpValue)) { Reason = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::AdminModels::FIPBanInfo::~FIPBanInfo()
+{
+
+}
+
+void PlayFab::AdminModels::FIPBanInfo::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteIdentifierPrefix(TEXT("Active"));
+    writer->WriteValue(Active);
+
+    if (BannedByDeveloperId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("BannedByDeveloperId"));
+        writer->WriteValue(BannedByDeveloperId);
+    }
+
+    if (Created.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Created"));
+        writeDatetime(Created, writer);
+    }
+
+    if (Expires.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Expires"));
+        writeDatetime(Expires, writer);
+    }
+
+    if (IPAddress.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("IPAddress"));
+        writer->WriteValue(IPAddress);
+    }
+
+    if (Reason.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Reason"));
+        writer->WriteValue(Reason);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FIPBanInfo::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> ActiveValue = obj->TryGetField(TEXT("Active"));
+    if (ActiveValue.IsValid() && !ActiveValue->IsNull())
+    {
+        bool TmpValue;
+        if (ActiveValue->TryGetBool(TmpValue)) { Active = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> BannedByDeveloperIdValue = obj->TryGetField(TEXT("BannedByDeveloperId"));
+    if (BannedByDeveloperIdValue.IsValid() && !BannedByDeveloperIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (BannedByDeveloperIdValue->TryGetString(TmpValue)) { BannedByDeveloperId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> CreatedValue = obj->TryGetField(TEXT("Created"));
+    if (CreatedValue.IsValid())
+        Created = readDatetime(CreatedValue);
+
+
+    const TSharedPtr<FJsonValue> ExpiresValue = obj->TryGetField(TEXT("Expires"));
+    if (ExpiresValue.IsValid())
+        Expires = readDatetime(ExpiresValue);
+
+
+    const TSharedPtr<FJsonValue> IPAddressValue = obj->TryGetField(TEXT("IPAddress"));
+    if (IPAddressValue.IsValid() && !IPAddressValue->IsNull())
+    {
+        FString TmpValue;
+        if (IPAddressValue->TryGetString(TmpValue)) { IPAddress = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> ReasonValue = obj->TryGetField(TEXT("Reason"));
+    if (ReasonValue.IsValid() && !ReasonValue->IsNull())
+    {
+        FString TmpValue;
+        if (ReasonValue->TryGetString(TmpValue)) { Reason = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::AdminModels::FCreateIPBanResult::~FCreateIPBanResult()
+{
+    //if (IPBanData != nullptr) delete IPBanData;
+
+}
+
+void PlayFab::AdminModels::FCreateIPBanResult::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (IPBanData.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("IPBanData"));
+        IPBanData->writeJSON(writer);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FCreateIPBanResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> IPBanDataValue = obj->TryGetField(TEXT("IPBanData"));
+    if (IPBanDataValue.IsValid() && !IPBanDataValue->IsNull())
+    {
+        IPBanData = MakeShareable(new FIPBanInfo(IPBanDataValue->AsObject()));
+    }
+
+    return HasSucceeded;
+}
+
 PlayFab::AdminModels::FOpenIdIssuerInformation::~FOpenIdIssuerInformation()
 {
 
@@ -9997,6 +10199,61 @@ bool PlayFab::AdminModels::FGetActionsOnPlayersInSegmentTaskInstanceResult::read
     return HasSucceeded;
 }
 
+PlayFab::AdminModels::FGetAllIPBansRequest::~FGetAllIPBansRequest()
+{
+
+}
+
+void PlayFab::AdminModels::FGetAllIPBansRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FGetAllIPBansRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    return HasSucceeded;
+}
+
+PlayFab::AdminModels::FGetAllIPBansResult::~FGetAllIPBansResult()
+{
+
+}
+
+void PlayFab::AdminModels::FGetAllIPBansResult::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (IPBanData.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("IPBanData"));
+        for (const FIPBanInfo& item : IPBanData)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FGetAllIPBansResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TArray<TSharedPtr<FJsonValue>>&IPBanDataArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("IPBanData"));
+    for (int32 Idx = 0; Idx < IPBanDataArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = IPBanDataArray[Idx];
+        IPBanData.Add(FIPBanInfo(CurrentItem->AsObject()));
+    }
+
+
+    return HasSucceeded;
+}
+
 PlayFab::AdminModels::FGetAllSegmentsRequest::~FGetAllSegmentsRequest()
 {
 
@@ -10664,6 +10921,78 @@ bool PlayFab::AdminModels::FGetDataReportResult::readFromValue(const TSharedPtr<
         FString TmpValue;
         if (DownloadUrlValue->TryGetString(TmpValue)) { DownloadUrl = TmpValue; }
     }
+
+    return HasSucceeded;
+}
+
+PlayFab::AdminModels::FGetIPBanRequest::~FGetIPBanRequest()
+{
+
+}
+
+void PlayFab::AdminModels::FGetIPBanRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (!IPAddress.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: GetIPBanRequest::IPAddress, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("IPAddress"));
+        writer->WriteValue(IPAddress);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FGetIPBanRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> IPAddressValue = obj->TryGetField(TEXT("IPAddress"));
+    if (IPAddressValue.IsValid() && !IPAddressValue->IsNull())
+    {
+        FString TmpValue;
+        if (IPAddressValue->TryGetString(TmpValue)) { IPAddress = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::AdminModels::FGetIPBanResult::~FGetIPBanResult()
+{
+
+}
+
+void PlayFab::AdminModels::FGetIPBanResult::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (IPBanData.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("IPBanData"));
+        for (const FIPBanInfo& item : IPBanData)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FGetIPBanResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TArray<TSharedPtr<FJsonValue>>&IPBanDataArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("IPBanData"));
+    for (int32 Idx = 0; Idx < IPBanDataArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = IPBanDataArray[Idx];
+        IPBanData.Add(FIPBanInfo(CurrentItem->AsObject()));
+    }
+
 
     return HasSucceeded;
 }
@@ -18824,6 +19153,74 @@ bool PlayFab::AdminModels::FRevokeInventoryResult::readFromValue(const TSharedPt
     return HasSucceeded;
 }
 
+PlayFab::AdminModels::FRevokeIPBanRequest::~FRevokeIPBanRequest()
+{
+
+}
+
+void PlayFab::AdminModels::FRevokeIPBanRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (!IPAddress.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: RevokeIPBanRequest::IPAddress, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("IPAddress"));
+        writer->WriteValue(IPAddress);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FRevokeIPBanRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> IPAddressValue = obj->TryGetField(TEXT("IPAddress"));
+    if (IPAddressValue.IsValid() && !IPAddressValue->IsNull())
+    {
+        FString TmpValue;
+        if (IPAddressValue->TryGetString(TmpValue)) { IPAddress = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::AdminModels::FRevokeIPBanResult::~FRevokeIPBanResult()
+{
+    //if (IPBanData != nullptr) delete IPBanData;
+
+}
+
+void PlayFab::AdminModels::FRevokeIPBanResult::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (IPBanData.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("IPBanData"));
+        IPBanData->writeJSON(writer);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FRevokeIPBanResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> IPBanDataValue = obj->TryGetField(TEXT("IPBanData"));
+    if (IPBanDataValue.IsValid() && !IPBanDataValue->IsNull())
+    {
+        IPBanData = MakeShareable(new FIPBanInfo(IPBanDataValue->AsObject()));
+    }
+
+    return HasSucceeded;
+}
+
 PlayFab::AdminModels::FRunTaskRequest::~FRunTaskRequest()
 {
     //if (Identifier != nullptr) delete Identifier;
@@ -20109,6 +20506,144 @@ bool PlayFab::AdminModels::FUpdateCloudScriptResult::readFromValue(const TShared
     {
         int32 TmpValue;
         if (VersionValue->TryGetNumber(TmpValue)) { Version = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::AdminModels::FUpdateIPBanRequest::~FUpdateIPBanRequest()
+{
+
+}
+
+void PlayFab::AdminModels::FUpdateIPBanRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (Active.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Active"));
+        writer->WriteValue(Active);
+    }
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    if (Expires.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Expires"));
+        writeDatetime(Expires, writer);
+    }
+
+    if (!IPAddress.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: UpdateIPBanRequest::IPAddress, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("IPAddress"));
+        writer->WriteValue(IPAddress);
+    }
+
+    if (Permanent.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Permanent"));
+        writer->WriteValue(Permanent);
+    }
+
+    if (Reason.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Reason"));
+        writer->WriteValue(Reason);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FUpdateIPBanRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> ActiveValue = obj->TryGetField(TEXT("Active"));
+    if (ActiveValue.IsValid() && !ActiveValue->IsNull())
+    {
+        bool TmpValue;
+        if (ActiveValue->TryGetBool(TmpValue)) { Active = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    const TSharedPtr<FJsonValue> ExpiresValue = obj->TryGetField(TEXT("Expires"));
+    if (ExpiresValue.IsValid())
+        Expires = readDatetime(ExpiresValue);
+
+
+    const TSharedPtr<FJsonValue> IPAddressValue = obj->TryGetField(TEXT("IPAddress"));
+    if (IPAddressValue.IsValid() && !IPAddressValue->IsNull())
+    {
+        FString TmpValue;
+        if (IPAddressValue->TryGetString(TmpValue)) { IPAddress = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> PermanentValue = obj->TryGetField(TEXT("Permanent"));
+    if (PermanentValue.IsValid() && !PermanentValue->IsNull())
+    {
+        bool TmpValue;
+        if (PermanentValue->TryGetBool(TmpValue)) { Permanent = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> ReasonValue = obj->TryGetField(TEXT("Reason"));
+    if (ReasonValue.IsValid() && !ReasonValue->IsNull())
+    {
+        FString TmpValue;
+        if (ReasonValue->TryGetString(TmpValue)) { Reason = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::AdminModels::FUpdateIPBanResult::~FUpdateIPBanResult()
+{
+    //if (IPBanData != nullptr) delete IPBanData;
+
+}
+
+void PlayFab::AdminModels::FUpdateIPBanResult::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (IPBanData.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("IPBanData"));
+        IPBanData->writeJSON(writer);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FUpdateIPBanResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> IPBanDataValue = obj->TryGetField(TEXT("IPBanData"));
+    if (IPBanDataValue.IsValid() && !IPBanDataValue->IsNull())
+    {
+        IPBanData = MakeShareable(new FIPBanInfo(IPBanDataValue->AsObject()));
     }
 
     return HasSucceeded;

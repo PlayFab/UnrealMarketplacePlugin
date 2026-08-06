@@ -32,6 +32,17 @@ FAdminBanUsersResult UPlayFabAdminModelDecoder::decodeBanUsersResultResponse(UPl
     return tempStruct;
 }
 
+FAdminCreateIPBanResult UPlayFabAdminModelDecoder::decodeCreateIPBanResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FAdminCreateIPBanResult tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.IPBanData = !(dataObj->HasField("IPBanData")) ? nullptr : dataObj->GetObjectField("IPBanData");
+
+    return tempStruct;
+}
+
 FAdminDeleteMasterPlayerAccountResult UPlayFabAdminModelDecoder::decodeDeleteMasterPlayerAccountResultResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct
@@ -87,6 +98,28 @@ FAdminExportMasterPlayerDataResult UPlayFabAdminModelDecoder::decodeExportMaster
     UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
 
     tempStruct.JobReceiptId = !(dataObj->HasField("JobReceiptId")) ? TEXT("") : dataObj->GetStringField("JobReceiptId");
+
+    return tempStruct;
+}
+
+FAdminGetIPBanResult UPlayFabAdminModelDecoder::decodeGetIPBanResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FAdminGetIPBanResult tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.IPBanData = !(dataObj->HasField("IPBanData")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("IPBanData");
+
+    return tempStruct;
+}
+
+FAdminGetAllIPBansResult UPlayFabAdminModelDecoder::decodeGetAllIPBansResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FAdminGetAllIPBansResult tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.IPBanData = !(dataObj->HasField("IPBanData")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("IPBanData");
 
     return tempStruct;
 }
@@ -177,6 +210,17 @@ FAdminRevokeBansResult UPlayFabAdminModelDecoder::decodeRevokeBansResultResponse
     return tempStruct;
 }
 
+FAdminRevokeIPBanResult UPlayFabAdminModelDecoder::decodeRevokeIPBanResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FAdminRevokeIPBanResult tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.IPBanData = !(dataObj->HasField("IPBanData")) ? nullptr : dataObj->GetObjectField("IPBanData");
+
+    return tempStruct;
+}
+
 FAdminSendAccountRecoveryEmailResult UPlayFabAdminModelDecoder::decodeSendAccountRecoveryEmailResultResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct
@@ -202,6 +246,17 @@ FAdminUpdateBansResult UPlayFabAdminModelDecoder::decodeUpdateBansResultResponse
     UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
 
     tempStruct.BanData = !(dataObj->HasField("BanData")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("BanData");
+
+    return tempStruct;
+}
+
+FAdminUpdateIPBanResult UPlayFabAdminModelDecoder::decodeUpdateIPBanResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FAdminUpdateIPBanResult tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.IPBanData = !(dataObj->HasField("IPBanData")) ? nullptr : dataObj->GetObjectField("IPBanData");
 
     return tempStruct;
 }

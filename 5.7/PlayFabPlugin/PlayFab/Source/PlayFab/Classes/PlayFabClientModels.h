@@ -419,6 +419,12 @@ struct PLAYFAB_API FClientGetPlayFabIDsFromNintendoServiceAccountIdsRequest : pu
     GENERATED_USTRUCT_BODY()
 public:
     /**
+     * Nintendo NSA issuer URL identifying the environment. When provided, only accounts registered in that environment are
+     * returned. If null or empty, falls back to the default environment.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
+        FString Issuer;
+    /**
      * Array of unique Nintendo Switch Account identifiers for which the title needs to get PlayFab identifiers. The array
      * cannot exceed 25 in length.
      */
@@ -499,6 +505,9 @@ public:
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         FString PSNAccountIDs;
+    /** Optional sandbox id. When provided, resolves players that logged in from that PlayStation :tm: Network sandbox. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
+        FString SandboxId;
 };
 
 /** For PlayStation :tm: Network identifiers which have not been linked to PlayFab accounts, null will be returned. */
@@ -526,6 +535,9 @@ public:
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         FString PSNOnlineIDs;
+    /** Optional sandbox id. When provided, resolves players that logged in from that PlayStation :tm: Network sandbox. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
+        FString SandboxId;
 };
 
 /** For PlayStation :tm: Network identifiers which have not been linked to PlayFab accounts, null will be returned. */
@@ -1034,6 +1046,12 @@ public:
     /** Authentication code provided by the PlayStation :tm: Network. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         FString AuthCode;
+    /**
+     * Optional PlayStation :tm: Network auth version. Controls which PlayStation :tm: Network auth version is used. Accepted
+     * values are "v2" and "v3".
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
+        FString AuthVersion;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         UPlayFabJsonObject* CustomTags = nullptr;
@@ -2469,6 +2487,12 @@ public:
     /** Auth code provided by the PlayStation :tm: Network OAuth provider. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString AuthCode;
+    /**
+     * Optional PlayStation :tm: Network auth version. Controls which PlayStation :tm: Network auth version is used. Accepted
+     * values are "v2" and "v3".
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
+        FString AuthVersion;
     /** Automatically create a PlayFab account if one is not currently linked to this ID. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         bool CreateAccount = false;

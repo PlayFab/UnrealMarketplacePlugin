@@ -357,6 +357,36 @@ void UPlayFabAdminAPI::OnCreateInsightsScheduledScalingTaskResult(FHttpRequestPt
     }
 }
 
+bool UPlayFabAdminAPI::CreateIPBan(
+    AdminModels::FCreateIPBanRequest& request,
+    const FCreateIPBanDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : GetDefault<UPlayFabRuntimeSettings>()->DeveloperSecretKey;
+    if (devSecretKey.Len() == 0) {
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
+    }
+
+
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/CreateIPBan"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnCreateIPBanResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabAdminAPI::OnCreateIPBanResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateIPBanDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    AdminModels::FCreateIPBanResult outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
 bool UPlayFabAdminAPI::CreateOpenIdConnection(
     AdminModels::FCreateOpenIdConnectionRequest& request,
     const FCreateOpenIdConnectionDelegate& SuccessDelegate,
@@ -1210,6 +1240,74 @@ bool UPlayFabAdminAPI::GetDataReport(
 void UPlayFabAdminAPI::OnGetDataReportResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetDataReportDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
 {
     AdminModels::FGetDataReportResult outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
+bool UPlayFabAdminAPI::GetIPBansForIP(
+    AdminModels::FGetIPBanRequest& request,
+    const FGetIPBansForIPDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : GetDefault<UPlayFabRuntimeSettings>()->DeveloperSecretKey;
+    if (devSecretKey.Len() == 0) {
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
+    }
+
+
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/GetIPBansForIP"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnGetIPBansForIPResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabAdminAPI::OnGetIPBansForIPResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetIPBansForIPDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    AdminModels::FGetIPBanResult outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
+bool UPlayFabAdminAPI::GetIPBansForTitle(
+    const FGetIPBansForTitleDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    AdminModels::FGetAllIPBansRequest emptyRequest = AdminModels::FGetAllIPBansRequest();
+    return UPlayFabAdminAPI::GetIPBansForTitle(emptyRequest, SuccessDelegate, ErrorDelegate);
+}
+
+bool UPlayFabAdminAPI::GetIPBansForTitle(
+    AdminModels::FGetAllIPBansRequest& request,
+    const FGetIPBansForTitleDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : GetDefault<UPlayFabRuntimeSettings>()->DeveloperSecretKey;
+    if (devSecretKey.Len() == 0) {
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
+    }
+
+
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/GetIPBansForTitle"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnGetIPBansForTitleResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabAdminAPI::OnGetIPBansForTitleResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetIPBansForTitleDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    AdminModels::FGetAllIPBansResult outResult;
     FPlayFabCppError errorResult;
     if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
     {
@@ -2633,6 +2731,36 @@ void UPlayFabAdminAPI::OnRevokeInventoryItemsResult(FHttpRequestPtr HttpRequest,
     }
 }
 
+bool UPlayFabAdminAPI::RevokeIPBan(
+    AdminModels::FRevokeIPBanRequest& request,
+    const FRevokeIPBanDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : GetDefault<UPlayFabRuntimeSettings>()->DeveloperSecretKey;
+    if (devSecretKey.Len() == 0) {
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
+    }
+
+
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/RevokeIPBan"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnRevokeIPBanResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabAdminAPI::OnRevokeIPBanResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRevokeIPBanDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    AdminModels::FRevokeIPBanResult outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
 bool UPlayFabAdminAPI::RunTask(
     AdminModels::FRunTaskRequest& request,
     const FRunTaskDelegate& SuccessDelegate,
@@ -3102,6 +3230,36 @@ bool UPlayFabAdminAPI::UpdateCloudScript(
 void UPlayFabAdminAPI::OnUpdateCloudScriptResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateCloudScriptDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
 {
     AdminModels::FUpdateCloudScriptResult outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
+bool UPlayFabAdminAPI::UpdateIPBan(
+    AdminModels::FUpdateIPBanRequest& request,
+    const FUpdateIPBanDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : GetDefault<UPlayFabRuntimeSettings>()->DeveloperSecretKey;
+    if (devSecretKey.Len() == 0) {
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
+    }
+
+
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/UpdateIPBan"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnUpdateIPBanResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabAdminAPI::OnUpdateIPBanResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateIPBanDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    AdminModels::FUpdateIPBanResult outResult;
     FPlayFabCppError errorResult;
     if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
     {

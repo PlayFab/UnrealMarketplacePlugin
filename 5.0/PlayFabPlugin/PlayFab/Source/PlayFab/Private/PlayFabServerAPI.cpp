@@ -638,6 +638,11 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetPlayFabIDsFromNintendoServiceAccountIds
 
 
     // Serialize all the request properties to json
+    if (request.Issuer.IsEmpty() || request.Issuer == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("Issuer"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("Issuer"), request.Issuer);
+    }
     // Check to see if string is empty
     if (request.NintendoAccountIds.IsEmpty() || request.NintendoAccountIds == "") {
         OutRestJsonObj->SetFieldNull(TEXT("NintendoAccountIds"));
@@ -809,6 +814,11 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetPlayFabIDsFromPSNAccountIDs(FServerGetP
         FString(request.PSNAccountIDs).ParseIntoArray(PSNAccountIDsArray, TEXT(","), false);
         OutRestJsonObj->SetStringArrayField(TEXT("PSNAccountIDs"), PSNAccountIDsArray);
     }
+    if (request.SandboxId.IsEmpty() || request.SandboxId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("SandboxId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("SandboxId"), request.SandboxId);
+    }
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -864,6 +874,11 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetPlayFabIDsFromPSNOnlineIDs(FServerGetPl
         TArray<FString> PSNOnlineIDsArray;
         FString(request.PSNOnlineIDs).ParseIntoArray(PSNOnlineIDsArray, TEXT(","), false);
         OutRestJsonObj->SetStringArrayField(TEXT("PSNOnlineIDs"), PSNOnlineIDsArray);
+    }
+    if (request.SandboxId.IsEmpty() || request.SandboxId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("SandboxId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("SandboxId"), request.SandboxId);
     }
 
     // Add Request to manager
@@ -1595,6 +1610,11 @@ UPlayFabServerAPI* UPlayFabServerAPI::LinkPSNAccount(FServerLinkPSNAccountReques
     } else {
         OutRestJsonObj->SetStringField(TEXT("AuthCode"), request.AuthCode);
     }
+    if (request.AuthVersion.IsEmpty() || request.AuthVersion == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("AuthVersion"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("AuthVersion"), request.AuthVersion);
+    }
     if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     OutRestJsonObj->SetBoolField(TEXT("ForceLink"), request.ForceLink);
     OutRestJsonObj->SetNumberField(TEXT("IssuerId"), request.IssuerId);
@@ -1667,6 +1687,11 @@ UPlayFabServerAPI* UPlayFabServerAPI::LinkPSNId(FServerLinkPSNIdRequest request,
         OutRestJsonObj->SetFieldNull(TEXT("PSNUserId"));
     } else {
         OutRestJsonObj->SetStringField(TEXT("PSNUserId"), request.PSNUserId);
+    }
+    if (request.SandboxId.IsEmpty() || request.SandboxId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("SandboxId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("SandboxId"), request.SandboxId);
     }
 
     // Add Request to manager
@@ -3772,6 +3797,11 @@ UPlayFabServerAPI* UPlayFabServerAPI::LoginWithPSN(FServerLoginWithPSNRequest re
         OutRestJsonObj->SetFieldNull(TEXT("AuthCode"));
     } else {
         OutRestJsonObj->SetStringField(TEXT("AuthCode"), request.AuthCode);
+    }
+    if (request.AuthVersion.IsEmpty() || request.AuthVersion == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("AuthVersion"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("AuthVersion"), request.AuthVersion);
     }
     OutRestJsonObj->SetBoolField(TEXT("CreateAccount"), request.CreateAccount);
     if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);

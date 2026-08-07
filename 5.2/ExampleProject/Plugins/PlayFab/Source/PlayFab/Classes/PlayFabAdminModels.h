@@ -57,6 +57,40 @@ public:
         TArray<UPlayFabJsonObject*> BanData;
 };
 
+/** Request to create an IP ban for a title. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FAdminCreateIPBanRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Account Management Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /**
+     * The UTC date and time when the IP ban expires. Leave this blank for a permanent ban. Must be later than the current time
+     * and no more than 100 years in the future.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Account Management Models")
+        FString Expires;
+    /** The IP address to be banned. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Account Management Models")
+        FString IPAddress;
+    /** The reason for the IP ban. Maximum 140 characters. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Account Management Models")
+        FString Reason;
+};
+
+/** Result of creating an IP ban. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FAdminCreateIPBanResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Information on the ban that was created */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Account Management Models")
+        UPlayFabJsonObject* IPBanData = nullptr;
+};
+
 /**
  * Deletes all data associated with the master player account, including data from all titles the player has played, such
  * as statistics, custom data, inventory, purchases, virtual currency balances, characters, group memberships, publisher
@@ -223,6 +257,47 @@ public:
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Account Management Models")
         FString JobReceiptId;
+};
+
+/** Request to retrieve IP bans matching a specific IP address. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FAdminGetIPBanRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The IP address of the ban to retrieve information on. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Account Management Models")
+        FString IPAddress;
+};
+
+/** Result containing IP bans that match the requested IP address. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FAdminGetIPBanResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Information on the ban */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Account Management Models")
+        TArray<UPlayFabJsonObject*> IPBanData;
+};
+
+/** Request to retrieve all IP bans for a title. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FAdminGetAllIPBansRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+};
+
+/** Result containing all IP bans for a title. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FAdminGetAllIPBansResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Information on all IP bans */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Account Management Models")
+        TArray<UPlayFabJsonObject*> IPBanData;
 };
 
 /** Useful for identifying titles of which the player's data will be deleted by DeleteMasterPlayer. */
@@ -443,6 +518,28 @@ public:
         TArray<UPlayFabJsonObject*> BanData;
 };
 
+/** Request to revoke an existing IP ban. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FAdminRevokeIPBanRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The IP address of the ban to be revoked. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Account Management Models")
+        FString IPAddress;
+};
+
+/** Result of revoking an IP ban. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FAdminRevokeIPBanResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Information on the ban that was revoked */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Account Management Models")
+        UPlayFabJsonObject* IPBanData = nullptr;
+};
+
 /**
  * If the account in question is a "temporary" account (for example, one that was created via a call to
  * LoginFromIOSDeviceID), thisfunction will have no effect. Only PlayFab accounts which have valid email addresses will be
@@ -520,6 +617,43 @@ public:
     /** Information on the bans that were updated */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Account Management Models")
         TArray<UPlayFabJsonObject*> BanData;
+};
+
+/** Request to update an existing IP ban. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FAdminUpdateIPBanRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The updated active state for the IP ban. Null for no change. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Account Management Models")
+        bool Active = false;
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Account Management Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /** The updated expiration date for the IP ban. Null for no change. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Account Management Models")
+        FString Expires;
+    /** The IP address of the ban to be updated. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Account Management Models")
+        FString IPAddress;
+    /** Whether to make this IP ban permanent. Set to true to make this IP ban permanent. This will not modify Active state. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Account Management Models")
+        bool Permanent = false;
+    /** The updated reason for the IP ban. Maximum 140 characters. Null for no change. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Account Management Models")
+        FString Reason;
+};
+
+/** Result of updating an IP ban. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FAdminUpdateIPBanResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Information on the ban that was created */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Account Management Models")
+        UPlayFabJsonObject* IPBanData = nullptr;
 };
 
 /**

@@ -72,6 +72,19 @@ public:
         void HelperBanUsers(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessCreateIPBan, FAdminCreateIPBanResult, result, UObject*, customData);
+
+    /** Bans an IP address or CIDR range for a title. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabAdminAPI* CreateIPBan(FAdminCreateIPBanRequest request,
+            FDelegateOnSuccessCreateIPBan onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabAdminRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperCreateIPBan(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessDeleteMasterPlayerAccount, FAdminDeleteMasterPlayerAccountResult, result, UObject*, customData);
 
     /** Removes a master player account entirely from all titles and deletes all associated data */
@@ -148,6 +161,32 @@ public:
     // Implements FOnPlayFabAdminRequestCompleted
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
         void HelperExportMasterPlayerData(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetIPBansForIP, FAdminGetIPBanResult, result, UObject*, customData);
+
+    /** Gets all IP bans that apply to a specific IP address. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabAdminAPI* GetIPBansForIP(FAdminGetIPBanRequest request,
+            FDelegateOnSuccessGetIPBansForIP onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabAdminRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperGetIPBansForIP(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetIPBansForTitle, FAdminGetAllIPBansResult, result, UObject*, customData);
+
+    /** Gets all IP bans for a title. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabAdminAPI* GetIPBansForTitle(FAdminGetAllIPBansRequest request,
+            FDelegateOnSuccessGetIPBansForTitle onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabAdminRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperGetIPBansForTitle(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetPlayedTitleList, FAdminGetPlayedTitleListResult, result, UObject*, customData);
@@ -254,6 +293,19 @@ public:
         void HelperRevokeBans(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessRevokeIPBan, FAdminRevokeIPBanResult, result, UObject*, customData);
+
+    /** Revokes an active IP ban. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabAdminAPI* RevokeIPBan(FAdminRevokeIPBanRequest request,
+            FDelegateOnSuccessRevokeIPBan onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabAdminRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperRevokeIPBan(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessSendAccountRecoveryEmail, FAdminSendAccountRecoveryEmailResult, result, UObject*, customData);
 
     /**
@@ -295,6 +347,19 @@ public:
     // Implements FOnPlayFabAdminRequestCompleted
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
         void HelperUpdateBans(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessUpdateIPBan, FAdminUpdateIPBanResult, result, UObject*, customData);
+
+    /** Updates an existing IP ban. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabAdminAPI* UpdateIPBan(FAdminUpdateIPBanRequest request,
+            FDelegateOnSuccessUpdateIPBan onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabAdminRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperUpdateIPBan(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessUpdateUserTitleDisplayName, FAdminUpdateUserTitleDisplayNameResult, result, UObject*, customData);
@@ -1791,12 +1856,15 @@ public:
 
     FDelegateOnFailurePlayFabError OnFailure;
     FDelegateOnSuccessBanUsers OnSuccessBanUsers;
+    FDelegateOnSuccessCreateIPBan OnSuccessCreateIPBan;
     FDelegateOnSuccessDeleteMasterPlayerAccount OnSuccessDeleteMasterPlayerAccount;
     FDelegateOnSuccessDeleteMasterPlayerEventData OnSuccessDeleteMasterPlayerEventData;
     FDelegateOnSuccessDeleteMembershipSubscription OnSuccessDeleteMembershipSubscription;
     FDelegateOnSuccessDeletePlayer OnSuccessDeletePlayer;
     FDelegateOnSuccessDeleteTitle OnSuccessDeleteTitle;
     FDelegateOnSuccessExportMasterPlayerData OnSuccessExportMasterPlayerData;
+    FDelegateOnSuccessGetIPBansForIP OnSuccessGetIPBansForIP;
+    FDelegateOnSuccessGetIPBansForTitle OnSuccessGetIPBansForTitle;
     FDelegateOnSuccessGetPlayedTitleList OnSuccessGetPlayedTitleList;
     FDelegateOnSuccessGetPlayerIdFromAuthToken OnSuccessGetPlayerIdFromAuthToken;
     FDelegateOnSuccessGetPlayerProfile OnSuccessGetPlayerProfile;
@@ -1805,9 +1873,11 @@ public:
     FDelegateOnSuccessResetPassword OnSuccessResetPassword;
     FDelegateOnSuccessRevokeAllBansForUser OnSuccessRevokeAllBansForUser;
     FDelegateOnSuccessRevokeBans OnSuccessRevokeBans;
+    FDelegateOnSuccessRevokeIPBan OnSuccessRevokeIPBan;
     FDelegateOnSuccessSendAccountRecoveryEmail OnSuccessSendAccountRecoveryEmail;
     FDelegateOnSuccessSetMembershipOverride OnSuccessSetMembershipOverride;
     FDelegateOnSuccessUpdateBans OnSuccessUpdateBans;
+    FDelegateOnSuccessUpdateIPBan OnSuccessUpdateIPBan;
     FDelegateOnSuccessUpdateUserTitleDisplayName OnSuccessUpdateUserTitleDisplayName;
     FDelegateOnSuccessCreateOpenIdConnection OnSuccessCreateOpenIdConnection;
     FDelegateOnSuccessCreatePlayerSharedSecret OnSuccessCreatePlayerSharedSecret;

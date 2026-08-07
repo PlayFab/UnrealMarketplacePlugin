@@ -128,6 +128,69 @@ void UPlayFabAdminAPI::HelperBanUsers(FPlayFabBaseModel response, UObject* custo
     this->RemoveFromRoot();
 }
 
+/** Bans an IP address or CIDR range for a title. */
+UPlayFabAdminAPI* UPlayFabAdminAPI::CreateIPBan(FAdminCreateIPBanRequest request,
+    FDelegateOnSuccessCreateIPBan onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabAdminAPI* manager = NewObject<UPlayFabAdminAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessCreateIPBan = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperCreateIPBan);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Admin/CreateIPBan";
+    manager->useSecretKey = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.Expires.IsEmpty() || request.Expires == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("Expires"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("Expires"), request.Expires);
+    }
+    if (request.IPAddress.IsEmpty() || request.IPAddress == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("IPAddress"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("IPAddress"), request.IPAddress);
+    }
+    if (request.Reason.IsEmpty() || request.Reason == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("Reason"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("Reason"), request.Reason);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabAdminRequestCompleted
+void UPlayFabAdminAPI::HelperCreateIPBan(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessCreateIPBan.IsBound())
+    {
+        FAdminCreateIPBanResult ResultStruct = UPlayFabAdminModelDecoder::decodeCreateIPBanResultResponse(response.responseData);
+        OnSuccessCreateIPBan.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 /** Removes a master player account entirely from all titles and deletes all associated data */
 UPlayFabAdminAPI* UPlayFabAdminAPI::DeleteMasterPlayerAccount(FAdminDeleteMasterPlayerAccountRequest request,
     FDelegateOnSuccessDeleteMasterPlayerAccount onSuccess,
@@ -447,6 +510,105 @@ void UPlayFabAdminAPI::HelperExportMasterPlayerData(FPlayFabBaseModel response, 
     {
         FAdminExportMasterPlayerDataResult ResultStruct = UPlayFabAdminModelDecoder::decodeExportMasterPlayerDataResultResponse(response.responseData);
         OnSuccessExportMasterPlayerData.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Gets all IP bans that apply to a specific IP address. */
+UPlayFabAdminAPI* UPlayFabAdminAPI::GetIPBansForIP(FAdminGetIPBanRequest request,
+    FDelegateOnSuccessGetIPBansForIP onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabAdminAPI* manager = NewObject<UPlayFabAdminAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessGetIPBansForIP = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperGetIPBansForIP);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Admin/GetIPBansForIP";
+    manager->useSecretKey = true;
+
+
+    // Serialize all the request properties to json
+    if (request.IPAddress.IsEmpty() || request.IPAddress == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("IPAddress"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("IPAddress"), request.IPAddress);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabAdminRequestCompleted
+void UPlayFabAdminAPI::HelperGetIPBansForIP(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessGetIPBansForIP.IsBound())
+    {
+        FAdminGetIPBanResult ResultStruct = UPlayFabAdminModelDecoder::decodeGetIPBanResultResponse(response.responseData);
+        OnSuccessGetIPBansForIP.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Gets all IP bans for a title. */
+UPlayFabAdminAPI* UPlayFabAdminAPI::GetIPBansForTitle(FAdminGetAllIPBansRequest request,
+    FDelegateOnSuccessGetIPBansForTitle onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabAdminAPI* manager = NewObject<UPlayFabAdminAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessGetIPBansForTitle = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperGetIPBansForTitle);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Admin/GetIPBansForTitle";
+    manager->useSecretKey = true;
+
+
+    // Serialize all the request properties to json
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabAdminRequestCompleted
+void UPlayFabAdminAPI::HelperGetIPBansForTitle(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessGetIPBansForTitle.IsBound())
+    {
+        FAdminGetAllIPBansResult ResultStruct = UPlayFabAdminModelDecoder::decodeGetAllIPBansResultResponse(response.responseData);
+        OnSuccessGetIPBansForTitle.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -896,6 +1058,58 @@ void UPlayFabAdminAPI::HelperRevokeBans(FPlayFabBaseModel response, UObject* cus
     this->RemoveFromRoot();
 }
 
+/** Revokes an active IP ban. */
+UPlayFabAdminAPI* UPlayFabAdminAPI::RevokeIPBan(FAdminRevokeIPBanRequest request,
+    FDelegateOnSuccessRevokeIPBan onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabAdminAPI* manager = NewObject<UPlayFabAdminAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessRevokeIPBan = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperRevokeIPBan);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Admin/RevokeIPBan";
+    manager->useSecretKey = true;
+
+
+    // Serialize all the request properties to json
+    if (request.IPAddress.IsEmpty() || request.IPAddress == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("IPAddress"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("IPAddress"), request.IPAddress);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabAdminRequestCompleted
+void UPlayFabAdminAPI::HelperRevokeIPBan(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessRevokeIPBan.IsBound())
+    {
+        FAdminRevokeIPBanResult ResultStruct = UPlayFabAdminModelDecoder::decodeRevokeIPBanResultResponse(response.responseData);
+        OnSuccessRevokeIPBan.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 /** Forces an email to be sent to the registered email address for the user's account, with a link allowing the user to change the password.If an account recovery email template ID is provided, an email using the custom email template will be used. */
 UPlayFabAdminAPI* UPlayFabAdminAPI::SendAccountRecoveryEmail(FAdminSendAccountRecoveryEmailRequest request,
     FDelegateOnSuccessSendAccountRecoveryEmail onSuccess,
@@ -1065,6 +1279,71 @@ void UPlayFabAdminAPI::HelperUpdateBans(FPlayFabBaseModel response, UObject* cus
     {
         FAdminUpdateBansResult ResultStruct = UPlayFabAdminModelDecoder::decodeUpdateBansResultResponse(response.responseData);
         OnSuccessUpdateBans.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Updates an existing IP ban. */
+UPlayFabAdminAPI* UPlayFabAdminAPI::UpdateIPBan(FAdminUpdateIPBanRequest request,
+    FDelegateOnSuccessUpdateIPBan onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabAdminAPI* manager = NewObject<UPlayFabAdminAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessUpdateIPBan = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperUpdateIPBan);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Admin/UpdateIPBan";
+    manager->useSecretKey = true;
+
+
+    // Serialize all the request properties to json
+    OutRestJsonObj->SetBoolField(TEXT("Active"), request.Active);
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.Expires.IsEmpty() || request.Expires == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("Expires"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("Expires"), request.Expires);
+    }
+    if (request.IPAddress.IsEmpty() || request.IPAddress == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("IPAddress"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("IPAddress"), request.IPAddress);
+    }
+    OutRestJsonObj->SetBoolField(TEXT("Permanent"), request.Permanent);
+    if (request.Reason.IsEmpty() || request.Reason == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("Reason"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("Reason"), request.Reason);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabAdminRequestCompleted
+void UPlayFabAdminAPI::HelperUpdateIPBan(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessUpdateIPBan.IsBound())
+    {
+        FAdminUpdateIPBanResult ResultStruct = UPlayFabAdminModelDecoder::decodeUpdateIPBanResultResponse(response.responseData);
+        OnSuccessUpdateIPBan.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }

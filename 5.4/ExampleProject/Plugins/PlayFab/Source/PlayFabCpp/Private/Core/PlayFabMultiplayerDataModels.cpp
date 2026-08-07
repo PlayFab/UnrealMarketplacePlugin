@@ -227,6 +227,33 @@ void PlayFab::MultiplayerModels::writeAzureRegionEnumJSON(AzureRegion enumVal, J
     case AzureRegionCanadaCentral: writer->WriteValue(TEXT("CanadaCentral")); break;
     case AzureRegionMexicoCentral: writer->WriteValue(TEXT("MexicoCentral")); break;
     case AzureRegionWestUs3: writer->WriteValue(TEXT("WestUs3")); break;
+    case AzureRegionCanadaEast: writer->WriteValue(TEXT("CanadaEast")); break;
+    case AzureRegionUkWest: writer->WriteValue(TEXT("UkWest")); break;
+    case AzureRegionFranceSouth: writer->WriteValue(TEXT("FranceSouth")); break;
+    case AzureRegionSouthIndia: writer->WriteValue(TEXT("SouthIndia")); break;
+    case AzureRegionSpainCentral: writer->WriteValue(TEXT("SpainCentral")); break;
+    case AzureRegionGermanyWestCentral: writer->WriteValue(TEXT("GermanyWestCentral")); break;
+    case AzureRegionItalyNorth: writer->WriteValue(TEXT("ItalyNorth")); break;
+    case AzureRegionIndonesiaCentral: writer->WriteValue(TEXT("IndonesiaCentral")); break;
+    case AzureRegionChileCentral: writer->WriteValue(TEXT("ChileCentral")); break;
+    case AzureRegionPolandCentral: writer->WriteValue(TEXT("PolandCentral")); break;
+    case AzureRegionNewZealandNorth: writer->WriteValue(TEXT("NewZealandNorth")); break;
+    case AzureRegionBrazilSoutheast: writer->WriteValue(TEXT("BrazilSoutheast")); break;
+    case AzureRegionNorwayEast: writer->WriteValue(TEXT("NorwayEast")); break;
+    case AzureRegionSwitzerlandNorth: writer->WriteValue(TEXT("SwitzerlandNorth")); break;
+    case AzureRegionMalaysiaWest: writer->WriteValue(TEXT("MalaysiaWest")); break;
+    case AzureRegionIsraelCentral: writer->WriteValue(TEXT("IsraelCentral")); break;
+    case AzureRegionQatarCentral: writer->WriteValue(TEXT("QatarCentral")); break;
+    case AzureRegionUaeCentral: writer->WriteValue(TEXT("UaeCentral")); break;
+    case AzureRegionGermanyNorth: writer->WriteValue(TEXT("GermanyNorth")); break;
+    case AzureRegionAustriaEast: writer->WriteValue(TEXT("AustriaEast")); break;
+    case AzureRegionBelgiumCentral: writer->WriteValue(TEXT("BelgiumCentral")); break;
+    case AzureRegionDenmarkEast: writer->WriteValue(TEXT("DenmarkEast")); break;
+    case AzureRegionSwitzerlandWest: writer->WriteValue(TEXT("SwitzerlandWest")); break;
+    case AzureRegionSwedenSouth: writer->WriteValue(TEXT("SwedenSouth")); break;
+    case AzureRegionNorwayWest: writer->WriteValue(TEXT("NorwayWest")); break;
+    case AzureRegionSouthAfricaWest: writer->WriteValue(TEXT("SouthAfricaWest")); break;
+    case AzureRegionMalaysiaSouth: writer->WriteValue(TEXT("MalaysiaSouth")); break;
     }
 }
 
@@ -268,6 +295,33 @@ MultiplayerModels::AzureRegion PlayFab::MultiplayerModels::readAzureRegionFromVa
         _AzureRegionMap.Add(TEXT("CanadaCentral"), AzureRegionCanadaCentral);
         _AzureRegionMap.Add(TEXT("MexicoCentral"), AzureRegionMexicoCentral);
         _AzureRegionMap.Add(TEXT("WestUs3"), AzureRegionWestUs3);
+        _AzureRegionMap.Add(TEXT("CanadaEast"), AzureRegionCanadaEast);
+        _AzureRegionMap.Add(TEXT("UkWest"), AzureRegionUkWest);
+        _AzureRegionMap.Add(TEXT("FranceSouth"), AzureRegionFranceSouth);
+        _AzureRegionMap.Add(TEXT("SouthIndia"), AzureRegionSouthIndia);
+        _AzureRegionMap.Add(TEXT("SpainCentral"), AzureRegionSpainCentral);
+        _AzureRegionMap.Add(TEXT("GermanyWestCentral"), AzureRegionGermanyWestCentral);
+        _AzureRegionMap.Add(TEXT("ItalyNorth"), AzureRegionItalyNorth);
+        _AzureRegionMap.Add(TEXT("IndonesiaCentral"), AzureRegionIndonesiaCentral);
+        _AzureRegionMap.Add(TEXT("ChileCentral"), AzureRegionChileCentral);
+        _AzureRegionMap.Add(TEXT("PolandCentral"), AzureRegionPolandCentral);
+        _AzureRegionMap.Add(TEXT("NewZealandNorth"), AzureRegionNewZealandNorth);
+        _AzureRegionMap.Add(TEXT("BrazilSoutheast"), AzureRegionBrazilSoutheast);
+        _AzureRegionMap.Add(TEXT("NorwayEast"), AzureRegionNorwayEast);
+        _AzureRegionMap.Add(TEXT("SwitzerlandNorth"), AzureRegionSwitzerlandNorth);
+        _AzureRegionMap.Add(TEXT("MalaysiaWest"), AzureRegionMalaysiaWest);
+        _AzureRegionMap.Add(TEXT("IsraelCentral"), AzureRegionIsraelCentral);
+        _AzureRegionMap.Add(TEXT("QatarCentral"), AzureRegionQatarCentral);
+        _AzureRegionMap.Add(TEXT("UaeCentral"), AzureRegionUaeCentral);
+        _AzureRegionMap.Add(TEXT("GermanyNorth"), AzureRegionGermanyNorth);
+        _AzureRegionMap.Add(TEXT("AustriaEast"), AzureRegionAustriaEast);
+        _AzureRegionMap.Add(TEXT("BelgiumCentral"), AzureRegionBelgiumCentral);
+        _AzureRegionMap.Add(TEXT("DenmarkEast"), AzureRegionDenmarkEast);
+        _AzureRegionMap.Add(TEXT("SwitzerlandWest"), AzureRegionSwitzerlandWest);
+        _AzureRegionMap.Add(TEXT("SwedenSouth"), AzureRegionSwedenSouth);
+        _AzureRegionMap.Add(TEXT("NorwayWest"), AzureRegionNorwayWest);
+        _AzureRegionMap.Add(TEXT("SouthAfricaWest"), AzureRegionSouthAfricaWest);
+        _AzureRegionMap.Add(TEXT("MalaysiaSouth"), AzureRegionMalaysiaSouth);
 
     }
 

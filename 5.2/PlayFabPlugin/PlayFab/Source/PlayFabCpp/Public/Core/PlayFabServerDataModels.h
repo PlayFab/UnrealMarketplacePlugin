@@ -5646,12 +5646,19 @@ namespace ServerModels
     struct PLAYFABCPP_API FGetPlayFabIDsFromNintendoServiceAccountIdsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         /**
+         * [optional] Nintendo NSA issuer URL identifying the environment. When provided, only accounts registered in that environment are
+         * returned. If null or empty, falls back to the default environment.
+         */
+        FString Issuer;
+
+        /**
          * Array of unique Nintendo Switch Account identifiers for which the title needs to get PlayFab identifiers. The array
          * cannot exceed 25 in length.
          */
         TArray<FString> NintendoAccountIds;
         FGetPlayFabIDsFromNintendoServiceAccountIdsRequest() :
             FPlayFabCppRequestCommon(),
+            Issuer(),
             NintendoAccountIds()
             {}
 
@@ -5905,10 +5912,14 @@ namespace ServerModels
          * cannot exceed 25 in length.
          */
         TArray<FString> PSNAccountIDs;
+        // [optional] Optional sandbox id. When provided, resolves players that logged in from that PlayStation :tm: Network sandbox.
+        FString SandboxId;
+
         FGetPlayFabIDsFromPSNAccountIDsRequest() :
             FPlayFabCppRequestCommon(),
             IssuerId(),
-            PSNAccountIDs()
+            PSNAccountIDs(),
+            SandboxId()
             {}
 
         FGetPlayFabIDsFromPSNAccountIDsRequest(const FGetPlayFabIDsFromPSNAccountIDsRequest& src) = default;
@@ -5986,10 +5997,14 @@ namespace ServerModels
          * cannot exceed 25 in length.
          */
         TArray<FString> PSNOnlineIDs;
+        // [optional] Optional sandbox id. When provided, resolves players that logged in from that PlayStation :tm: Network sandbox.
+        FString SandboxId;
+
         FGetPlayFabIDsFromPSNOnlineIDsRequest() :
             FPlayFabCppRequestCommon(),
             IssuerId(),
-            PSNOnlineIDs()
+            PSNOnlineIDs(),
+            SandboxId()
             {}
 
         FGetPlayFabIDsFromPSNOnlineIDsRequest(const FGetPlayFabIDsFromPSNOnlineIDsRequest& src) = default;
@@ -7867,6 +7882,12 @@ namespace ServerModels
         // Authentication code provided by the PlayStation :tm: Network.
         FString AuthCode;
 
+        /**
+         * [optional] Optional PlayStation :tm: Network auth version. Controls which PlayStation :tm: Network auth version is used. Accepted
+         * values are "v2" and "v3".
+         */
+        FString AuthVersion;
+
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
         // [optional] If another user is already linked to the account, unlink the other user and re-link.
@@ -7884,6 +7905,7 @@ namespace ServerModels
         FLinkPSNAccountRequest() :
             FPlayFabCppRequestCommon(),
             AuthCode(),
+            AuthVersion(),
             CustomTags(),
             ForceLink(),
             IssuerId(),
@@ -7939,13 +7961,17 @@ namespace ServerModels
         // Id of the PlayStation :tm: Network user. Also known as the PSN Account Id.
         FString PSNUserId;
 
+        // [optional] Optional sandbox id. When provided, resolves and links the player on that PlayStation :tm: Network sandbox.
+        FString SandboxId;
+
         FLinkPSNIdRequest() :
             FPlayFabCppRequestCommon(),
             CustomTags(),
             ForceLink(),
             IssuerId(),
             PlayFabId(),
-            PSNUserId()
+            PSNUserId(),
+            SandboxId()
             {}
 
         FLinkPSNIdRequest(const FLinkPSNIdRequest& src) = default;
@@ -8496,6 +8522,12 @@ namespace ServerModels
         // Auth code provided by the PlayStation :tm: Network OAuth provider.
         FString AuthCode;
 
+        /**
+         * [optional] Optional PlayStation :tm: Network auth version. Controls which PlayStation :tm: Network auth version is used. Accepted
+         * values are "v2" and "v3".
+         */
+        FString AuthVersion;
+
         // [optional] Automatically create a PlayFab account if one is not currently linked to this ID.
         Boxed<bool> CreateAccount;
 
@@ -8513,6 +8545,7 @@ namespace ServerModels
         FLoginWithPSNRequest() :
             FPlayFabCppRequestCommon(),
             AuthCode(),
+            AuthVersion(),
             CreateAccount(),
             CustomTags(),
             InfoRequestParameters(nullptr),

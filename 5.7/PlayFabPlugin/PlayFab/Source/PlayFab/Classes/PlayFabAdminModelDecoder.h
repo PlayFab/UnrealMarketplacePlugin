@@ -40,6 +40,10 @@ public:
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Account Management Models")
         static FAdminBanUsersResult decodeBanUsersResultResponse(UPlayFabJsonObject* response);
 
+    /** Decode the CreateIPBanResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Account Management Models")
+        static FAdminCreateIPBanResult decodeCreateIPBanResultResponse(UPlayFabJsonObject* response);
+
     /** Decode the DeleteMasterPlayerAccountResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Account Management Models")
         static FAdminDeleteMasterPlayerAccountResult decodeDeleteMasterPlayerAccountResultResponse(UPlayFabJsonObject* response);
@@ -63,6 +67,14 @@ public:
     /** Decode the ExportMasterPlayerDataResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Account Management Models")
         static FAdminExportMasterPlayerDataResult decodeExportMasterPlayerDataResultResponse(UPlayFabJsonObject* response);
+
+    /** Decode the GetIPBanResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Account Management Models")
+        static FAdminGetIPBanResult decodeGetIPBanResultResponse(UPlayFabJsonObject* response);
+
+    /** Decode the GetAllIPBansResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Account Management Models")
+        static FAdminGetAllIPBansResult decodeGetAllIPBansResultResponse(UPlayFabJsonObject* response);
 
     /** Decode the GetPlayedTitleListResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Account Management Models")
@@ -96,6 +108,10 @@ public:
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Account Management Models")
         static FAdminRevokeBansResult decodeRevokeBansResultResponse(UPlayFabJsonObject* response);
 
+    /** Decode the RevokeIPBanResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Account Management Models")
+        static FAdminRevokeIPBanResult decodeRevokeIPBanResultResponse(UPlayFabJsonObject* response);
+
     /** Decode the SendAccountRecoveryEmailResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Account Management Models")
         static FAdminSendAccountRecoveryEmailResult decodeSendAccountRecoveryEmailResultResponse(UPlayFabJsonObject* response);
@@ -107,6 +123,10 @@ public:
     /** Decode the UpdateBansResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Account Management Models")
         static FAdminUpdateBansResult decodeUpdateBansResultResponse(UPlayFabJsonObject* response);
+
+    /** Decode the UpdateIPBanResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Account Management Models")
+        static FAdminUpdateIPBanResult decodeUpdateIPBanResultResponse(UPlayFabJsonObject* response);
 
     /** Decode the UpdateUserTitleDisplayNameResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Account Management Models")

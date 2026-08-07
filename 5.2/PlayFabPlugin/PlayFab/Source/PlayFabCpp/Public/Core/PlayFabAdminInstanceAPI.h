@@ -33,6 +33,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FCreateActionsOnPlayersInSegmentTaskDelegate, const AdminModels::FCreateTaskResult&);
         DECLARE_DELEGATE_OneParam(FCreateCloudScriptTaskDelegate, const AdminModels::FCreateTaskResult&);
         DECLARE_DELEGATE_OneParam(FCreateInsightsScheduledScalingTaskDelegate, const AdminModels::FCreateTaskResult&);
+        DECLARE_DELEGATE_OneParam(FCreateIPBanDelegate, const AdminModels::FCreateIPBanResult&);
         DECLARE_DELEGATE_OneParam(FCreateOpenIdConnectionDelegate, const AdminModels::FEmptyResponse&);
         DECLARE_DELEGATE_OneParam(FCreatePlayerSharedSecretDelegate, const AdminModels::FCreatePlayerSharedSecretResult&);
         DECLARE_DELEGATE_OneParam(FCreatePlayerStatisticDefinitionDelegate, const AdminModels::FCreatePlayerStatisticDefinitionResult&);
@@ -61,6 +62,8 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FGetContentListDelegate, const AdminModels::FGetContentListResult&);
         DECLARE_DELEGATE_OneParam(FGetContentUploadUrlDelegate, const AdminModels::FGetContentUploadUrlResult&);
         DECLARE_DELEGATE_OneParam(FGetDataReportDelegate, const AdminModels::FGetDataReportResult&);
+        DECLARE_DELEGATE_OneParam(FGetIPBansForIPDelegate, const AdminModels::FGetIPBanResult&);
+        DECLARE_DELEGATE_OneParam(FGetIPBansForTitleDelegate, const AdminModels::FGetAllIPBansResult&);
         DECLARE_DELEGATE_OneParam(FGetPlayedTitleListDelegate, const AdminModels::FGetPlayedTitleListResult&);
         DECLARE_DELEGATE_OneParam(FGetPlayerCustomPropertyDelegate, const AdminModels::FGetPlayerCustomPropertyResult&);
         DECLARE_DELEGATE_OneParam(FGetPlayerIdFromAuthTokenDelegate, const AdminModels::FGetPlayerIdFromAuthTokenResult&);
@@ -107,6 +110,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FRevokeBansDelegate, const AdminModels::FRevokeBansResult&);
         DECLARE_DELEGATE_OneParam(FRevokeInventoryItemDelegate, const AdminModels::FRevokeInventoryResult&);
         DECLARE_DELEGATE_OneParam(FRevokeInventoryItemsDelegate, const AdminModels::FRevokeInventoryItemsResult&);
+        DECLARE_DELEGATE_OneParam(FRevokeIPBanDelegate, const AdminModels::FRevokeIPBanResult&);
         DECLARE_DELEGATE_OneParam(FRunTaskDelegate, const AdminModels::FRunTaskResult&);
         DECLARE_DELEGATE_OneParam(FSendAccountRecoveryEmailDelegate, const AdminModels::FSendAccountRecoveryEmailResult&);
         DECLARE_DELEGATE_OneParam(FSetCatalogItemsDelegate, const AdminModels::FUpdateCatalogItemsResult&);
@@ -123,6 +127,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FUpdateBansDelegate, const AdminModels::FUpdateBansResult&);
         DECLARE_DELEGATE_OneParam(FUpdateCatalogItemsDelegate, const AdminModels::FUpdateCatalogItemsResult&);
         DECLARE_DELEGATE_OneParam(FUpdateCloudScriptDelegate, const AdminModels::FUpdateCloudScriptResult&);
+        DECLARE_DELEGATE_OneParam(FUpdateIPBanDelegate, const AdminModels::FUpdateIPBanResult&);
         DECLARE_DELEGATE_OneParam(FUpdateOpenIdConnectionDelegate, const AdminModels::FEmptyResponse&);
         DECLARE_DELEGATE_OneParam(FUpdatePlayerCustomPropertiesDelegate, const AdminModels::FUpdatePlayerCustomPropertiesResult&);
         DECLARE_DELEGATE_OneParam(FUpdatePlayerSharedSecretDelegate, const AdminModels::FUpdatePlayerSharedSecretResult&);
@@ -223,6 +228,11 @@ namespace PlayFab
          * Task name is unique within a title. Using a task name that's already taken will cause a name conflict error. Too many create-task requests within a short time will cause a create conflict error.
          */
         bool CreateInsightsScheduledScalingTask(AdminModels::FCreateInsightsScheduledScalingTaskRequest& request, const FCreateInsightsScheduledScalingTaskDelegate& SuccessDelegate = FCreateInsightsScheduledScalingTaskDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
+         * Bans an IP address or CIDR range for a title.
+         * Creates an IP ban for a single IP address or a CIDR range. An IP address may be covered by multiple bans when it falls within one or more banned ranges. Specify Expires as a future UTC date and time for a temporary ban, or leave it null for a permanent ban. Expires cannot be more than 100 years in the future.
+         */
+        bool CreateIPBan(AdminModels::FCreateIPBanRequest& request, const FCreateIPBanDelegate& SuccessDelegate = FCreateIPBanDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Registers a relationship between a title and an Open ID Connect provider.
         bool CreateOpenIdConnection(AdminModels::FCreateOpenIdConnectionRequest& request, const FCreateOpenIdConnectionDelegate& SuccessDelegate = FCreateOpenIdConnectionDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
@@ -378,6 +388,22 @@ namespace PlayFab
          * Gets the download URL for the requested report data (in CSV form). The reports available through this API call are those available in the Game Manager, in the Analytics->Reports tab.
          */
         bool GetDataReport(AdminModels::FGetDataReportRequest& request, const FGetDataReportDelegate& SuccessDelegate = FGetDataReportDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
+         * Gets all IP bans that apply to a specific IP address.
+         * Returns every active or inactive IP ban that covers the supplied IP address, including bans defined as CIDR ranges that contain the address. A single IP address may match multiple bans.
+         */
+        bool GetIPBansForIP(AdminModels::FGetIPBanRequest& request, const FGetIPBansForIPDelegate& SuccessDelegate = FGetIPBansForIPDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
+         * Gets all IP bans for a title.
+         * Returns every IP ban configured for the title, including single IP address bans and CIDR range bans, regardless of whether they are active, inactive, or expired.
+         */
+
+        bool GetIPBansForTitle(const FGetIPBansForTitleDelegate& SuccessDelegate = FGetIPBansForTitleDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
+         * Gets all IP bans for a title.
+         * Returns every IP ban configured for the title, including single IP address bans and CIDR range bans, regardless of whether they are active, inactive, or expired.
+         */
+        bool GetIPBansForTitle(AdminModels::FGetAllIPBansRequest& request, const FGetIPBansForTitleDelegate& SuccessDelegate = FGetIPBansForTitleDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Get the list of titles that the player has played
          * Useful for identifying titles of which the player's data will be deleted by DeleteMasterPlayer.
@@ -622,6 +648,11 @@ namespace PlayFab
          */
         bool RevokeInventoryItems(AdminModels::FRevokeInventoryItemsRequest& request, const FRevokeInventoryItemsDelegate& SuccessDelegate = FRevokeInventoryItemsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
+         * Revokes an active IP ban.
+         * Sets the active state of the IP ban to inactive. The ban record is retained for history and is still returned by lookups, but it no longer applies. The IP address string must match the stored (normalized) form.
+         */
+        bool RevokeIPBan(AdminModels::FRevokeIPBanRequest& request, const FRevokeIPBanDelegate& SuccessDelegate = FRevokeIPBanDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
          * Run a task immediately regardless of its schedule.
          * The returned task instance ID can be used to query for task execution status.
          */
@@ -709,6 +740,11 @@ namespace PlayFab
          * submitted in the revision.
          */
         bool UpdateCloudScript(AdminModels::FUpdateCloudScriptRequest& request, const FUpdateCloudScriptDelegate& SuccessDelegate = FUpdateCloudScriptDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
+         * Updates an existing IP ban.
+         * Updates the mutable fields of an existing IP ban. Only the values that are set are changed. Set Permanent to true to clear the expiration, or supply Expires to change it. Set Active to false to revoke the ban.
+         */
+        bool UpdateIPBan(AdminModels::FUpdateIPBanRequest& request, const FUpdateIPBanDelegate& SuccessDelegate = FUpdateIPBanDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Modifies data and credentials for an existing relationship between a title and an Open ID Connect provider
         bool UpdateOpenIdConnection(AdminModels::FUpdateOpenIdConnectionRequest& request, const FUpdateOpenIdConnectionDelegate& SuccessDelegate = FUpdateOpenIdConnectionDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
@@ -808,6 +844,7 @@ namespace PlayFab
         void OnCreateActionsOnPlayersInSegmentTaskResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateActionsOnPlayersInSegmentTaskDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnCreateCloudScriptTaskResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateCloudScriptTaskDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnCreateInsightsScheduledScalingTaskResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateInsightsScheduledScalingTaskDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnCreateIPBanResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateIPBanDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnCreateOpenIdConnectionResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateOpenIdConnectionDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnCreatePlayerSharedSecretResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreatePlayerSharedSecretDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnCreatePlayerStatisticDefinitionResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreatePlayerStatisticDefinitionDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
@@ -836,6 +873,8 @@ namespace PlayFab
         void OnGetContentListResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetContentListDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetContentUploadUrlResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetContentUploadUrlDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetDataReportResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetDataReportDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnGetIPBansForIPResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetIPBansForIPDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnGetIPBansForTitleResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetIPBansForTitleDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetPlayedTitleListResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayedTitleListDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetPlayerCustomPropertyResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayerCustomPropertyDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetPlayerIdFromAuthTokenResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayerIdFromAuthTokenDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
@@ -882,6 +921,7 @@ namespace PlayFab
         void OnRevokeBansResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRevokeBansDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnRevokeInventoryItemResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRevokeInventoryItemDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnRevokeInventoryItemsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRevokeInventoryItemsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnRevokeIPBanResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRevokeIPBanDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnRunTaskResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRunTaskDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnSendAccountRecoveryEmailResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSendAccountRecoveryEmailDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnSetCatalogItemsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSetCatalogItemsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
@@ -898,6 +938,7 @@ namespace PlayFab
         void OnUpdateBansResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateBansDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUpdateCatalogItemsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateCatalogItemsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUpdateCloudScriptResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateCloudScriptDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnUpdateIPBanResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateIPBanDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUpdateOpenIdConnectionResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateOpenIdConnectionDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUpdatePlayerCustomPropertiesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdatePlayerCustomPropertiesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUpdatePlayerSharedSecretResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdatePlayerSharedSecretDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);

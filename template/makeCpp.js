@@ -553,19 +553,19 @@ function getMapPropertyDeserializer(tabbing, api, datatype, property) {
         return tabbing + "const TSharedPtr<FJsonObject>* " + propertyObjectName + ";\n"
             + tabbing + "if (obj->TryGetObjectField(TEXT(\"" + property.name + "\"), " + propertyObjectName + "))\n"
             + tabbing + "{\n"
-            + tabbing + "    for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*" + propertyObjectName + ")->Values); It; ++It)\n"
+            + tabbing + "    for (auto It = (*" + propertyObjectName + ")->Values.CreateConstIterator(); It; ++It)\n"
             + tabbing + "    {\n"
             + tabbing + "        " + temporary + "\n"
-            + tabbing + "        " + property.name + ".Add(It.Key(), " + getter + ");\n"
+            + tabbing + "        " + property.name + ".Add(FString(It.Key().ToView()), " + getter + ");\n"
             + tabbing + "    }\n"
             + tabbing + "}";
     // else if (!temporary)
     return tabbing + "const TSharedPtr<FJsonObject>* " + propertyObjectName + ";\n"
         + tabbing + "if (obj->TryGetObjectField(TEXT(\"" + property.name + "\"), " + propertyObjectName + "))\n"
         + tabbing + "{\n"
-        + tabbing + "    for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*" + propertyObjectName + ")->Values); It; ++It)\n"
+        + tabbing + "    for (auto It = (*" + propertyObjectName + ")->Values.CreateConstIterator(); It; ++It)\n"
         + tabbing + "    {\n"
-        + tabbing + "        " + property.name + ".Add(It.Key(), " + getter + ");\n"
+        + tabbing + "        " + property.name + ".Add(FString(It.Key().ToView()), " + getter + ");\n"
         + tabbing + "    }\n"
         + tabbing + "}";
 }

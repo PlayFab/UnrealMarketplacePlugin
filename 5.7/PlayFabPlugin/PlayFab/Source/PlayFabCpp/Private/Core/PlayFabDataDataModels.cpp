@@ -105,9 +105,9 @@ bool PlayFab::DataModels::FAbortFileUploadsRequest::readFromValue(const TSharedP
     const TSharedPtr<FJsonObject>* CustomTagsObject;
     if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
     {
-        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        for (auto It = (*CustomTagsObject)->Values.CreateConstIterator(); It; ++It)
         {
-            CustomTags.Add(It.Key(), It.Value()->AsString());
+            CustomTags.Add(FString(It.Key().ToView()), It.Value()->AsString());
         }
     }
 
@@ -216,9 +216,9 @@ bool PlayFab::DataModels::FDeleteFilesRequest::readFromValue(const TSharedPtr<FJ
     const TSharedPtr<FJsonObject>* CustomTagsObject;
     if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
     {
-        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        for (auto It = (*CustomTagsObject)->Values.CreateConstIterator(); It; ++It)
         {
-            CustomTags.Add(It.Key(), It.Value()->AsString());
+            CustomTags.Add(FString(It.Key().ToView()), It.Value()->AsString());
         }
     }
 
@@ -324,9 +324,9 @@ bool PlayFab::DataModels::FFinalizeFileUploadsRequest::readFromValue(const TShar
     const TSharedPtr<FJsonObject>* CustomTagsObject;
     if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
     {
-        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        for (auto It = (*CustomTagsObject)->Values.CreateConstIterator(); It; ++It)
         {
-            CustomTags.Add(It.Key(), It.Value()->AsString());
+            CustomTags.Add(FString(It.Key().ToView()), It.Value()->AsString());
         }
     }
 
@@ -470,9 +470,9 @@ bool PlayFab::DataModels::FFinalizeFileUploadsResponse::readFromValue(const TSha
     const TSharedPtr<FJsonObject>* MetadataObject;
     if (obj->TryGetObjectField(TEXT("Metadata"), MetadataObject))
     {
-        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*MetadataObject)->Values); It; ++It)
+        for (auto It = (*MetadataObject)->Values.CreateConstIterator(); It; ++It)
         {
-            Metadata.Add(It.Key(), FGetFileMetadata(It.Value()->AsObject()));
+            Metadata.Add(FString(It.Key().ToView()), FGetFileMetadata(It.Value()->AsObject()));
         }
     }
 
@@ -519,9 +519,9 @@ bool PlayFab::DataModels::FGetFilesRequest::readFromValue(const TSharedPtr<FJson
     const TSharedPtr<FJsonObject>* CustomTagsObject;
     if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
     {
-        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        for (auto It = (*CustomTagsObject)->Values.CreateConstIterator(); It; ++It)
         {
-            CustomTags.Add(It.Key(), It.Value()->AsString());
+            CustomTags.Add(FString(It.Key().ToView()), It.Value()->AsString());
         }
     }
 
@@ -580,9 +580,9 @@ bool PlayFab::DataModels::FGetFilesResponse::readFromValue(const TSharedPtr<FJso
     const TSharedPtr<FJsonObject>* MetadataObject;
     if (obj->TryGetObjectField(TEXT("Metadata"), MetadataObject))
     {
-        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*MetadataObject)->Values); It; ++It)
+        for (auto It = (*MetadataObject)->Values.CreateConstIterator(); It; ++It)
         {
-            Metadata.Add(It.Key(), FGetFileMetadata(It.Value()->AsObject()));
+            Metadata.Add(FString(It.Key().ToView()), FGetFileMetadata(It.Value()->AsObject()));
         }
     }
 
@@ -635,9 +635,9 @@ bool PlayFab::DataModels::FGetObjectsRequest::readFromValue(const TSharedPtr<FJs
     const TSharedPtr<FJsonObject>* CustomTagsObject;
     if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
     {
-        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        for (auto It = (*CustomTagsObject)->Values.CreateConstIterator(); It; ++It)
         {
-            CustomTags.Add(It.Key(), It.Value()->AsString());
+            CustomTags.Add(FString(It.Key().ToView()), It.Value()->AsString());
         }
     }
 
@@ -760,9 +760,9 @@ bool PlayFab::DataModels::FGetObjectsResponse::readFromValue(const TSharedPtr<FJ
     const TSharedPtr<FJsonObject>* ObjectsObject;
     if (obj->TryGetObjectField(TEXT("Objects"), ObjectsObject))
     {
-        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*ObjectsObject)->Values); It; ++It)
+        for (auto It = (*ObjectsObject)->Values.CreateConstIterator(); It; ++It)
         {
-            Objects.Add(It.Key(), FObjectResult(It.Value()->AsObject()));
+            Objects.Add(FString(It.Key().ToView()), FObjectResult(It.Value()->AsObject()));
         }
     }
 
@@ -866,9 +866,9 @@ bool PlayFab::DataModels::FInitiateFileUploadsRequest::readFromValue(const TShar
     const TSharedPtr<FJsonObject>* CustomTagsObject;
     if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
     {
-        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        for (auto It = (*CustomTagsObject)->Values.CreateConstIterator(); It; ++It)
         {
-            CustomTags.Add(It.Key(), It.Value()->AsString());
+            CustomTags.Add(FString(It.Key().ToView()), It.Value()->AsString());
         }
     }
 
@@ -1161,9 +1161,9 @@ bool PlayFab::DataModels::FSetObjectsRequest::readFromValue(const TSharedPtr<FJs
     const TSharedPtr<FJsonObject>* CustomTagsObject;
     if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
     {
-        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        for (auto It = (*CustomTagsObject)->Values.CreateConstIterator(); It; ++It)
         {
-            CustomTags.Add(It.Key(), It.Value()->AsString());
+            CustomTags.Add(FString(It.Key().ToView()), It.Value()->AsString());
         }
     }
 

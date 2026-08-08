@@ -95,7 +95,11 @@ TArray<FString> UPlayFabJsonObject::GetFieldNames()
         return Result;
     }
 
-    JsonObj->Values.GetKeys(Result);
+    Result.Reserve(JsonObj->Values.Num());
+    for (const auto& Field : JsonObj->Values)
+    {
+        Result.Add(FString(Field.Key.ToView()));
+    }
 
     return Result;
 }

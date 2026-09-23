@@ -17077,6 +17077,12 @@ void PlayFab::AdminModels::FUserPsnInfo::writeJSON(JsonWriter& writer) const
 {
     writer->WriteObjectStart();
 
+    if (IssuerId.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("IssuerId"));
+        writer->WriteValue(IssuerId);
+    }
+
     if (PsnAccountId.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("PsnAccountId"));
@@ -17089,12 +17095,25 @@ void PlayFab::AdminModels::FUserPsnInfo::writeJSON(JsonWriter& writer) const
         writer->WriteValue(PsnOnlineId);
     }
 
+    if (PsnSandboxId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PsnSandboxId"));
+        writer->WriteValue(PsnSandboxId);
+    }
+
     writer->WriteObjectEnd();
 }
 
 bool PlayFab::AdminModels::FUserPsnInfo::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> IssuerIdValue = obj->TryGetField(TEXT("IssuerId"));
+    if (IssuerIdValue.IsValid() && !IssuerIdValue->IsNull())
+    {
+        int32 TmpValue;
+        if (IssuerIdValue->TryGetNumber(TmpValue)) { IssuerId = TmpValue; }
+    }
 
     const TSharedPtr<FJsonValue> PsnAccountIdValue = obj->TryGetField(TEXT("PsnAccountId"));
     if (PsnAccountIdValue.IsValid() && !PsnAccountIdValue->IsNull())
@@ -17108,6 +17127,13 @@ bool PlayFab::AdminModels::FUserPsnInfo::readFromValue(const TSharedPtr<FJsonObj
     {
         FString TmpValue;
         if (PsnOnlineIdValue->TryGetString(TmpValue)) { PsnOnlineId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> PsnSandboxIdValue = obj->TryGetField(TEXT("PsnSandboxId"));
+    if (PsnSandboxIdValue.IsValid() && !PsnSandboxIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (PsnSandboxIdValue->TryGetString(TmpValue)) { PsnSandboxId = TmpValue; }
     }
 
     return HasSucceeded;

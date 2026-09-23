@@ -38,7 +38,7 @@ namespace InsightsModels
 
     struct PLAYFABCPP_API FInsightsPerformanceLevel : public PlayFab::FPlayFabCppBaseModel
     {
-        // Number of allowed active event exports.
+        // Number of allowed active event exports. This value is always zero.
         int32 ActiveEventExports;
 
         // Maximum cache size.

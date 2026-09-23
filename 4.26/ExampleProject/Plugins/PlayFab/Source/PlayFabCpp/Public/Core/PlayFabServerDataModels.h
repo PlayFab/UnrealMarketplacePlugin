@@ -817,16 +817,27 @@ namespace ServerModels
 
     struct PLAYFABCPP_API FUserPsnInfo : public PlayFab::FPlayFabCppBaseModel
     {
+        /**
+         * [optional] Id of the PlayStation :tm: Network issuer environment this account is keyed under. Supply this value as IssuerId when
+         * looking the account up.
+         */
+        Boxed<int32> IssuerId;
+
         // [optional] PlayStation :tm: Network account ID
         FString PsnAccountId;
 
         // [optional] PlayStation :tm: Network online ID
         FString PsnOnlineId;
 
+        // [optional] PlayStation :tm: Network sandbox ID
+        FString PsnSandboxId;
+
         FUserPsnInfo() :
             FPlayFabCppBaseModel(),
+            IssuerId(),
             PsnAccountId(),
-            PsnOnlineId()
+            PsnOnlineId(),
+            PsnSandboxId()
             {}
 
         FUserPsnInfo(const FUserPsnInfo& src) = default;
@@ -5904,7 +5915,10 @@ namespace ServerModels
 
     struct PLAYFABCPP_API FGetPlayFabIDsFromPSNAccountIDsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
-        // [optional] Id of the PlayStation :tm: Network issuer environment. If null, defaults to production environment.
+        /**
+         * [optional] Id of the PlayStation :tm: Network issuer environment. If null, defaults to the production environment. This must match
+         * the issuer the account signed in under, otherwise the lookup returns a null PlayFabId rather than an error.
+         */
         Boxed<int32> IssuerId;
 
         /**
@@ -5912,7 +5926,12 @@ namespace ServerModels
          * cannot exceed 25 in length.
          */
         TArray<FString> PSNAccountIDs;
-        // [optional] Optional sandbox id. When provided, resolves players that logged in from that PlayStation :tm: Network sandbox.
+        /**
+         * [optional] The PlayStation :tm: Network sandbox the account is keyed under. Sandbox membership is per account, not per title:
+         * supply this only for accounts that sign in from a sandbox, and omit it for accounts that do not, including all retail
+         * accounts. Supplying a sandbox id that an account is not keyed under, or omitting one that it is, returns a null
+         * PlayFabId rather than an error.
+         */
         FString SandboxId;
 
         FGetPlayFabIDsFromPSNAccountIDsRequest() :
@@ -5989,7 +6008,10 @@ namespace ServerModels
 
     struct PLAYFABCPP_API FGetPlayFabIDsFromPSNOnlineIDsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
-        // [optional] Id of the PlayStation :tm: Network issuer environment. If null, defaults to production environment.
+        /**
+         * [optional] Id of the PlayStation :tm: Network issuer environment. If null, defaults to the production environment. This must match
+         * the issuer the account signed in under, otherwise the lookup returns a null PlayFabId rather than an error.
+         */
         Boxed<int32> IssuerId;
 
         /**
@@ -5997,7 +6019,12 @@ namespace ServerModels
          * cannot exceed 25 in length.
          */
         TArray<FString> PSNOnlineIDs;
-        // [optional] Optional sandbox id. When provided, resolves players that logged in from that PlayStation :tm: Network sandbox.
+        /**
+         * [optional] The PlayStation :tm: Network sandbox the account is keyed under. Sandbox membership is per account, not per title:
+         * supply this only for accounts that sign in from a sandbox, and omit it for accounts that do not, including all retail
+         * accounts. Supplying a sandbox id that an account is not keyed under, or omitting one that it is, returns a null
+         * PlayFabId rather than an error.
+         */
         FString SandboxId;
 
         FGetPlayFabIDsFromPSNOnlineIDsRequest() :
@@ -7952,7 +7979,10 @@ namespace ServerModels
         // [optional] If another user is already linked to the account, unlink the other user and re-link.
         Boxed<bool> ForceLink;
 
-        // [optional] Id of the PlayStation :tm: Network issuer environment. If null, defaults to production environment.
+        /**
+         * [optional] Id of the PlayStation :tm: Network issuer environment. If null, defaults to the production environment. This must match
+         * the issuer the account signs in under, otherwise the link will not be resolved by that sign in.
+         */
         Boxed<int32> IssuerId;
 
         // Unique PlayFab assigned ID of the user on whom the operation will be performed.
@@ -7961,7 +7991,11 @@ namespace ServerModels
         // Id of the PlayStation :tm: Network user. Also known as the PSN Account Id.
         FString PSNUserId;
 
-        // [optional] Optional sandbox id. When provided, resolves and links the player on that PlayStation :tm: Network sandbox.
+        /**
+         * [optional] The PlayStation :tm: Network sandbox to key the link under. Sandbox membership is per account, not per title: supply
+         * this only when the account signs in from a sandbox, and omit it otherwise, including for all retail accounts. This must
+         * match the sandbox the account signs in from, otherwise the link will not be resolved by that sign in.
+         */
         FString SandboxId;
 
         FLinkPSNIdRequest() :

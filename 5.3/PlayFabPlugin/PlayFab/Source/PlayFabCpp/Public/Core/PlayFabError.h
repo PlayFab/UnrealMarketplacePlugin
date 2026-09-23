@@ -939,6 +939,8 @@ namespace PlayFab
         PlayFabErrorGameSaveTitleConfigNoUpdatesRequested = 20331,
         PlayFabErrorGameSavePlayerNotEligibleForTransfer = 20332,
         PlayFabErrorGameSaveAlreadyAutoRolledBack = 20333,
+        PlayFabErrorGameSaveManifestNotEligibleForRestore = 20334,
+        PlayFabErrorGameSaveManifestArchived = 20335,
         PlayFabErrorStateShareForbidden = 21000,
         PlayFabErrorStateShareTitleNotInFlight = 21001,
         PlayFabErrorStateShareStateNotFound = 21002,

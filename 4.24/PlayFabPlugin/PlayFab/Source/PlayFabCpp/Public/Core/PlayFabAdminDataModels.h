@@ -9025,16 +9025,27 @@ namespace AdminModels
 
     struct PLAYFABCPP_API FUserPsnInfo : public PlayFab::FPlayFabCppBaseModel
     {
+        /**
+         * [optional] Id of the PlayStation :tm: Network issuer environment this account is keyed under. Supply this value as IssuerId when
+         * looking the account up.
+         */
+        Boxed<int32> IssuerId;
+
         // [optional] PlayStation :tm: Network account ID
         FString PsnAccountId;
 
         // [optional] PlayStation :tm: Network online ID
         FString PsnOnlineId;
 
+        // [optional] PlayStation :tm: Network sandbox ID
+        FString PsnSandboxId;
+
         FUserPsnInfo() :
             FPlayFabCppBaseModel(),
+            IssuerId(),
             PsnAccountId(),
-            PsnOnlineId()
+            PsnOnlineId(),
+            PsnSandboxId()
             {}
 
         FUserPsnInfo(const FUserPsnInfo& src) = default;

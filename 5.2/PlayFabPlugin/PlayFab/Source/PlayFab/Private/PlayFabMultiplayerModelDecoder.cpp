@@ -315,14 +315,12 @@ FMultiplayerCreateBuildWithCustomContainerResponse UPlayFabMultiplayerModelDecod
     tempStruct.GameSecretReferences = !(dataObj->HasField("GameSecretReferences")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("GameSecretReferences");
     tempStruct.LinuxInstrumentationConfiguration = !(dataObj->HasField("LinuxInstrumentationConfiguration")) ? nullptr : dataObj->GetObjectField("LinuxInstrumentationConfiguration");
     tempStruct.Metadata = !(dataObj->HasField("Metadata")) ? nullptr : dataObj->GetObjectField("Metadata");
-    tempStruct.MonitoringApplicationConfiguration = !(dataObj->HasField("MonitoringApplicationConfiguration")) ? nullptr : dataObj->GetObjectField("MonitoringApplicationConfiguration");
     tempStruct.MultiplayerServerCountPerVm = !(dataObj->HasField("MultiplayerServerCountPerVm")) ? 0 : int(dataObj->GetNumberField("MultiplayerServerCountPerVm"));
     tempStruct.OsPlatform = !(dataObj->HasField("OsPlatform")) ? TEXT("") : dataObj->GetStringField("OsPlatform");
     tempStruct.Ports = !(dataObj->HasField("Ports")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Ports");
     tempStruct.RegionConfigurations = !(dataObj->HasField("RegionConfigurations")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("RegionConfigurations");
     tempStruct.ServerResourceConstraints = !(dataObj->HasField("ServerResourceConstraints")) ? nullptr : dataObj->GetObjectField("ServerResourceConstraints");
     tempStruct.ServerType = !(dataObj->HasField("ServerType")) ? TEXT("") : dataObj->GetStringField("ServerType");
-    tempStruct.UseStreamingForAssetDownloads = !(dataObj->HasField("UseStreamingForAssetDownloads")) ? false : dataObj->GetBoolField("UseStreamingForAssetDownloads");
     GetEnumValueFromString<EAzureVmSize>(TEXT("EAzureVmSize"), dataObj->GetStringField("VmSize"), tempStruct.VmSize);
     tempStruct.VmStartupScriptConfiguration = !(dataObj->HasField("VmStartupScriptConfiguration")) ? nullptr : dataObj->GetObjectField("VmStartupScriptConfiguration");
 
@@ -346,7 +344,6 @@ FMultiplayerCreateBuildWithManagedContainerResponse UPlayFabMultiplayerModelDeco
     tempStruct.GameWorkingDirectory = !(dataObj->HasField("GameWorkingDirectory")) ? TEXT("") : dataObj->GetStringField("GameWorkingDirectory");
     tempStruct.InstrumentationConfiguration = !(dataObj->HasField("InstrumentationConfiguration")) ? nullptr : dataObj->GetObjectField("InstrumentationConfiguration");
     tempStruct.Metadata = !(dataObj->HasField("Metadata")) ? nullptr : dataObj->GetObjectField("Metadata");
-    tempStruct.MonitoringApplicationConfiguration = !(dataObj->HasField("MonitoringApplicationConfiguration")) ? nullptr : dataObj->GetObjectField("MonitoringApplicationConfiguration");
     tempStruct.MultiplayerServerCountPerVm = !(dataObj->HasField("MultiplayerServerCountPerVm")) ? 0 : int(dataObj->GetNumberField("MultiplayerServerCountPerVm"));
     tempStruct.OsPlatform = !(dataObj->HasField("OsPlatform")) ? TEXT("") : dataObj->GetStringField("OsPlatform");
     tempStruct.Ports = !(dataObj->HasField("Ports")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Ports");
@@ -354,7 +351,6 @@ FMultiplayerCreateBuildWithManagedContainerResponse UPlayFabMultiplayerModelDeco
     tempStruct.ServerResourceConstraints = !(dataObj->HasField("ServerResourceConstraints")) ? nullptr : dataObj->GetObjectField("ServerResourceConstraints");
     tempStruct.ServerType = !(dataObj->HasField("ServerType")) ? TEXT("") : dataObj->GetStringField("ServerType");
     tempStruct.StartMultiplayerServerCommand = !(dataObj->HasField("StartMultiplayerServerCommand")) ? TEXT("") : dataObj->GetStringField("StartMultiplayerServerCommand");
-    tempStruct.UseStreamingForAssetDownloads = !(dataObj->HasField("UseStreamingForAssetDownloads")) ? false : dataObj->GetBoolField("UseStreamingForAssetDownloads");
     GetEnumValueFromString<EAzureVmSize>(TEXT("EAzureVmSize"), dataObj->GetStringField("VmSize"), tempStruct.VmSize);
     tempStruct.VmStartupScriptConfiguration = !(dataObj->HasField("VmStartupScriptConfiguration")) ? nullptr : dataObj->GetObjectField("VmStartupScriptConfiguration");
 
@@ -380,14 +376,12 @@ FMultiplayerCreateBuildWithProcessBasedServerResponse UPlayFabMultiplayerModelDe
     tempStruct.IsOSPreview = !(dataObj->HasField("IsOSPreview")) ? false : dataObj->GetBoolField("IsOSPreview");
     tempStruct.LinuxInstrumentationConfiguration = !(dataObj->HasField("LinuxInstrumentationConfiguration")) ? nullptr : dataObj->GetObjectField("LinuxInstrumentationConfiguration");
     tempStruct.Metadata = !(dataObj->HasField("Metadata")) ? nullptr : dataObj->GetObjectField("Metadata");
-    tempStruct.MonitoringApplicationConfiguration = !(dataObj->HasField("MonitoringApplicationConfiguration")) ? nullptr : dataObj->GetObjectField("MonitoringApplicationConfiguration");
     tempStruct.MultiplayerServerCountPerVm = !(dataObj->HasField("MultiplayerServerCountPerVm")) ? 0 : int(dataObj->GetNumberField("MultiplayerServerCountPerVm"));
     tempStruct.OsPlatform = !(dataObj->HasField("OsPlatform")) ? TEXT("") : dataObj->GetStringField("OsPlatform");
     tempStruct.Ports = !(dataObj->HasField("Ports")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Ports");
     tempStruct.RegionConfigurations = !(dataObj->HasField("RegionConfigurations")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("RegionConfigurations");
     tempStruct.ServerType = !(dataObj->HasField("ServerType")) ? TEXT("") : dataObj->GetStringField("ServerType");
     tempStruct.StartMultiplayerServerCommand = !(dataObj->HasField("StartMultiplayerServerCommand")) ? TEXT("") : dataObj->GetStringField("StartMultiplayerServerCommand");
-    tempStruct.UseStreamingForAssetDownloads = !(dataObj->HasField("UseStreamingForAssetDownloads")) ? false : dataObj->GetBoolField("UseStreamingForAssetDownloads");
     GetEnumValueFromString<EAzureVmSize>(TEXT("EAzureVmSize"), dataObj->GetStringField("VmSize"), tempStruct.VmSize);
     tempStruct.VmStartupScriptConfiguration = !(dataObj->HasField("VmStartupScriptConfiguration")) ? nullptr : dataObj->GetObjectField("VmStartupScriptConfiguration");
 
@@ -479,6 +473,7 @@ FMultiplayerGetBuildResponse UPlayFabMultiplayerModelDecoder::decodeGetBuildResp
     tempStruct.CustomGameContainerImage = !(dataObj->HasField("CustomGameContainerImage")) ? nullptr : dataObj->GetObjectField("CustomGameContainerImage");
     tempStruct.GameAssetReferences = !(dataObj->HasField("GameAssetReferences")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("GameAssetReferences");
     tempStruct.GameCertificateReferences = !(dataObj->HasField("GameCertificateReferences")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("GameCertificateReferences");
+    tempStruct.GameSecretReferences = !(dataObj->HasField("GameSecretReferences")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("GameSecretReferences");
     tempStruct.InstrumentationConfiguration = !(dataObj->HasField("InstrumentationConfiguration")) ? nullptr : dataObj->GetObjectField("InstrumentationConfiguration");
     tempStruct.Metadata = !(dataObj->HasField("Metadata")) ? nullptr : dataObj->GetObjectField("Metadata");
     tempStruct.MultiplayerServerCountPerVm = !(dataObj->HasField("MultiplayerServerCountPerVm")) ? 0 : int(dataObj->GetNumberField("MultiplayerServerCountPerVm"));

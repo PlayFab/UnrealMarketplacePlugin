@@ -1268,41 +1268,6 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FMonitoringApplicationConfigurationParams : public PlayFab::FPlayFabCppBaseModel
-    {
-        // Asset which contains the monitoring application files and scripts.
-        FAssetReferenceParams AssetReference;
-
-        // Execution script name, this will be the main executable for the monitoring application.
-        FString ExecutionScriptName;
-
-        // [optional] Installation script name, this will be run before the ExecutionScript.
-        FString InstallationScriptName;
-
-        // [optional] Timespan the monitoring application will be kept alive when running from the start of the VM
-        Boxed<double> OnStartRuntimeInMinutes;
-
-        FMonitoringApplicationConfigurationParams() :
-            FPlayFabCppBaseModel(),
-            AssetReference(),
-            ExecutionScriptName(),
-            InstallationScriptName(),
-            OnStartRuntimeInMinutes()
-            {}
-
-        FMonitoringApplicationConfigurationParams(const FMonitoringApplicationConfigurationParams& src) = default;
-
-        FMonitoringApplicationConfigurationParams(const TSharedPtr<FJsonObject>& obj) : FMonitoringApplicationConfigurationParams()
-        {
-            readFromValue(obj);
-        }
-
-        ~FMonitoringApplicationConfigurationParams();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
     enum ProtocolType
     {
         ProtocolTypeTCP,
@@ -1463,9 +1428,6 @@ namespace MultiplayerModels
          * Game Server SDK (GSDK).Constraints: Maximum number of keys: 30, Maximum key length: 50, Maximum value length: 100
          */
         TMap<FString, FString> Metadata;
-        // [optional] The configuration for the monitoring application on the build
-        TSharedPtr<FMonitoringApplicationConfigurationParams> MonitoringApplicationConfiguration;
-
         // The number of multiplayer servers to host on a single VM.
         int32 MultiplayerServerCountPerVm;
 
@@ -1495,7 +1457,6 @@ namespace MultiplayerModels
             GameSecretReferences(),
             pfLinuxInstrumentationConfiguration(nullptr),
             Metadata(),
-            MonitoringApplicationConfiguration(nullptr),
             MultiplayerServerCountPerVm(0),
             Ports(),
             RegionConfigurations(),
@@ -1569,41 +1530,6 @@ namespace MultiplayerModels
         }
 
         ~FGameSecretReference();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
-    struct PLAYFABCPP_API FMonitoringApplicationConfiguration : public PlayFab::FPlayFabCppBaseModel
-    {
-        // Asset which contains the monitoring application files and scripts.
-        FAssetReference pfAssetReference;
-
-        // Execution script name, this will be the main executable for the monitoring application.
-        FString ExecutionScriptName;
-
-        // [optional] Installation script name, this will be run before the ExecutionScript.
-        FString InstallationScriptName;
-
-        // [optional] Timespan the monitoring application will be kept alive when running from the start of the VM
-        Boxed<double> OnStartRuntimeInMinutes;
-
-        FMonitoringApplicationConfiguration() :
-            FPlayFabCppBaseModel(),
-            pfAssetReference(),
-            ExecutionScriptName(),
-            InstallationScriptName(),
-            OnStartRuntimeInMinutes()
-            {}
-
-        FMonitoringApplicationConfiguration(const FMonitoringApplicationConfiguration& src) = default;
-
-        FMonitoringApplicationConfiguration(const TSharedPtr<FJsonObject>& obj) : FMonitoringApplicationConfiguration()
-        {
-            readFromValue(obj);
-        }
-
-        ~FMonitoringApplicationConfiguration();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -1699,9 +1625,6 @@ namespace MultiplayerModels
 
         // [optional] The metadata of the build.
         TMap<FString, FString> Metadata;
-        // [optional] The configuration for the monitoring application for the build
-        TSharedPtr<FMonitoringApplicationConfiguration> pfMonitoringApplicationConfiguration;
-
         // The number of multiplayer servers to host on a single VM of the build.
         int32 MultiplayerServerCountPerVm;
 
@@ -1717,12 +1640,6 @@ namespace MultiplayerModels
 
         // [optional] The type of game server being hosted.
         FString ServerType;
-
-        /**
-         * [optional] When true, assets will be downloaded and uncompressed in memory, without the compressedversion being written first to
-         * disc.
-         */
-        Boxed<bool> UseStreamingForAssetDownloads;
 
         // [optional] The VM size the build was created on.
         Boxed<AzureVmSize> VmSize;
@@ -1744,14 +1661,12 @@ namespace MultiplayerModels
             GameSecretReferences(),
             pfLinuxInstrumentationConfiguration(nullptr),
             Metadata(),
-            pfMonitoringApplicationConfiguration(nullptr),
             MultiplayerServerCountPerVm(0),
             OsPlatform(),
             Ports(),
             RegionConfigurations(),
             ServerResourceConstraints(nullptr),
             ServerType(),
-            UseStreamingForAssetDownloads(),
             VmSize(),
             pfVmStartupScriptConfiguration(nullptr)
             {}
@@ -1866,9 +1781,6 @@ namespace MultiplayerModels
          * Game Server SDK (GSDK).Constraints: Maximum number of keys: 30, Maximum key length: 50, Maximum value length: 100
          */
         TMap<FString, FString> Metadata;
-        // [optional] The configuration for the monitoring application on the build
-        TSharedPtr<FMonitoringApplicationConfigurationParams> MonitoringApplicationConfiguration;
-
         // The number of multiplayer servers to host on a single VM.
         int32 MultiplayerServerCountPerVm;
 
@@ -1903,7 +1815,6 @@ namespace MultiplayerModels
             GameWorkingDirectory(),
             pfInstrumentationConfiguration(nullptr),
             Metadata(),
-            MonitoringApplicationConfiguration(nullptr),
             MultiplayerServerCountPerVm(0),
             Ports(),
             RegionConfigurations(),
@@ -1964,9 +1875,6 @@ namespace MultiplayerModels
 
         // [optional] The metadata of the build.
         TMap<FString, FString> Metadata;
-        // [optional] The configuration for the monitoring application for the build
-        TSharedPtr<FMonitoringApplicationConfiguration> pfMonitoringApplicationConfiguration;
-
         // The number of multiplayer servers to host on a single VM of the build.
         int32 MultiplayerServerCountPerVm;
 
@@ -1985,12 +1893,6 @@ namespace MultiplayerModels
 
         // [optional] The command to run when the multiplayer server has been allocated, including any arguments.
         FString StartMultiplayerServerCommand;
-
-        /**
-         * [optional] When true, assets will be downloaded and uncompressed in memory, without the compressedversion being written first to
-         * disc.
-         */
-        Boxed<bool> UseStreamingForAssetDownloads;
 
         // [optional] The VM size the build was created on.
         Boxed<AzureVmSize> VmSize;
@@ -2011,7 +1913,6 @@ namespace MultiplayerModels
             GameWorkingDirectory(),
             pfInstrumentationConfiguration(nullptr),
             Metadata(),
-            pfMonitoringApplicationConfiguration(nullptr),
             MultiplayerServerCountPerVm(0),
             OsPlatform(),
             Ports(),
@@ -2019,7 +1920,6 @@ namespace MultiplayerModels
             ServerResourceConstraints(nullptr),
             ServerType(),
             StartMultiplayerServerCommand(),
-            UseStreamingForAssetDownloads(),
             VmSize(),
             pfVmStartupScriptConfiguration(nullptr)
             {}
@@ -2079,9 +1979,6 @@ namespace MultiplayerModels
          * Game Server SDK (GSDK).Constraints: Maximum number of keys: 30, Maximum key length: 50, Maximum value length: 100
          */
         TMap<FString, FString> Metadata;
-        // [optional] The configuration for the monitoring application on the build
-        TSharedPtr<FMonitoringApplicationConfigurationParams> MonitoringApplicationConfiguration;
-
         // The number of multiplayer servers to host on a single VM.
         int32 MultiplayerServerCountPerVm;
 
@@ -2117,7 +2014,6 @@ namespace MultiplayerModels
             IsOSPreview(),
             pfLinuxInstrumentationConfiguration(nullptr),
             Metadata(),
-            MonitoringApplicationConfiguration(nullptr),
             MultiplayerServerCountPerVm(0),
             OsPlatform(),
             Ports(),
@@ -2186,9 +2082,6 @@ namespace MultiplayerModels
 
         // [optional] The metadata of the build.
         TMap<FString, FString> Metadata;
-        // [optional] The configuration for the monitoring application for the build
-        TSharedPtr<FMonitoringApplicationConfiguration> pfMonitoringApplicationConfiguration;
-
         // The number of multiplayer servers to host on a single VM of the build.
         int32 MultiplayerServerCountPerVm;
 
@@ -2207,12 +2100,6 @@ namespace MultiplayerModels
          * relative to the root asset folder when unzipped.
          */
         FString StartMultiplayerServerCommand;
-
-        /**
-         * [optional] When true, assets will be downloaded and uncompressed in memory, without the compressedversion being written first to
-         * disc.
-         */
-        Boxed<bool> UseStreamingForAssetDownloads;
 
         // [optional] The VM size the build was created on.
         Boxed<AzureVmSize> VmSize;
@@ -2235,14 +2122,12 @@ namespace MultiplayerModels
             IsOSPreview(),
             pfLinuxInstrumentationConfiguration(nullptr),
             Metadata(),
-            pfMonitoringApplicationConfiguration(nullptr),
             MultiplayerServerCountPerVm(0),
             OsPlatform(),
             Ports(),
             RegionConfigurations(),
             ServerType(),
             StartMultiplayerServerCommand(),
-            UseStreamingForAssetDownloads(),
             VmSize(),
             pfVmStartupScriptConfiguration(nullptr)
             {}
@@ -3715,6 +3600,8 @@ namespace MultiplayerModels
         TArray<FAssetReference> GameAssetReferences;
         // [optional] The game certificates for the build.
         TArray<FGameCertificateReference> GameCertificateReferences;
+        // [optional] The game secrets for the build.
+        TArray<FGameSecretReference> GameSecretReferences;
         // [optional] The instrumentation configuration of the build.
         TSharedPtr<FInstrumentationConfiguration> pfInstrumentationConfiguration;
 
@@ -3763,6 +3650,7 @@ namespace MultiplayerModels
             CustomGameContainerImage(nullptr),
             GameAssetReferences(),
             GameCertificateReferences(),
+            GameSecretReferences(),
             pfInstrumentationConfiguration(nullptr),
             Metadata(),
             MultiplayerServerCountPerVm(0),

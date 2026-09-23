@@ -965,6 +965,8 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 20331: returnText = "GameSaveTitleConfigNoUpdatesRequested"; break;
     case 20332: returnText = "GameSavePlayerNotEligibleForTransfer"; break;
     case 20333: returnText = "GameSaveAlreadyAutoRolledBack"; break;
+    case 20334: returnText = "GameSaveManifestNotEligibleForRestore"; break;
+    case 20335: returnText = "GameSaveManifestArchived"; break;
     case 21000: returnText = "StateShareForbidden"; break;
     case 21001: returnText = "StateShareTitleNotInFlight"; break;
     case 21002: returnText = "StateShareStateNotFound"; break;

@@ -1317,9 +1317,6 @@ public:
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         UPlayFabJsonObject* Metadata = nullptr;
-    /** The configuration for the monitoring application on the build */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        UPlayFabJsonObject* MonitoringApplicationConfiguration = nullptr;
     /** The number of multiplayer servers to host on a single VM. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         int32 MultiplayerServerCountPerVm = 0;
@@ -1384,9 +1381,6 @@ public:
     /** The metadata of the build. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         UPlayFabJsonObject* Metadata = nullptr;
-    /** The configuration for the monitoring application for the build */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        UPlayFabJsonObject* MonitoringApplicationConfiguration = nullptr;
     /** The number of multiplayer servers to host on a single VM of the build. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         int32 MultiplayerServerCountPerVm = 0;
@@ -1405,12 +1399,6 @@ public:
     /** The type of game server being hosted. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString ServerType;
-    /**
-     * When true, assets will be downloaded and uncompressed in memory, without the compressedversion being written first to
-     * disc.
-     */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        bool UseStreamingForAssetDownloads = false;
     /** The VM size the build was created on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         EAzureVmSize VmSize = StaticCast<EAzureVmSize>(0);
@@ -1464,9 +1452,6 @@ public:
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         UPlayFabJsonObject* Metadata = nullptr;
-    /** The configuration for the monitoring application on the build */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        UPlayFabJsonObject* MonitoringApplicationConfiguration = nullptr;
     /** The number of multiplayer servers to host on a single VM. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         int32 MultiplayerServerCountPerVm = 0;
@@ -1537,9 +1522,6 @@ public:
     /** The metadata of the build. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         UPlayFabJsonObject* Metadata = nullptr;
-    /** The configuration for the monitoring application for the build */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        UPlayFabJsonObject* MonitoringApplicationConfiguration = nullptr;
     /** The number of multiplayer servers to host on a single VM of the build. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         int32 MultiplayerServerCountPerVm = 0;
@@ -1561,12 +1543,6 @@ public:
     /** The command to run when the multiplayer server has been allocated, including any arguments. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString StartMultiplayerServerCommand;
-    /**
-     * When true, assets will be downloaded and uncompressed in memory, without the compressedversion being written first to
-     * disc.
-     */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        bool UseStreamingForAssetDownloads = false;
     /** The VM size the build was created on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         EAzureVmSize VmSize = StaticCast<EAzureVmSize>(0);
@@ -1629,9 +1605,6 @@ public:
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         UPlayFabJsonObject* Metadata = nullptr;
-    /** The configuration for the monitoring application on the build */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        UPlayFabJsonObject* MonitoringApplicationConfiguration = nullptr;
     /** The number of multiplayer servers to host on a single VM. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         int32 MultiplayerServerCountPerVm = 0;
@@ -1711,9 +1684,6 @@ public:
     /** The metadata of the build. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         UPlayFabJsonObject* Metadata = nullptr;
-    /** The configuration for the monitoring application for the build */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        UPlayFabJsonObject* MonitoringApplicationConfiguration = nullptr;
     /** The number of multiplayer servers to host on a single VM of the build. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         int32 MultiplayerServerCountPerVm = 0;
@@ -1735,12 +1705,6 @@ public:
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString StartMultiplayerServerCommand;
-    /**
-     * When true, assets will be downloaded and uncompressed in memory, without the compressedversion being written first to
-     * disc.
-     */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        bool UseStreamingForAssetDownloads = false;
     /** The VM size the build was created on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         EAzureVmSize VmSize = StaticCast<EAzureVmSize>(0);
@@ -2104,6 +2068,9 @@ public:
     /** The game certificates for the build. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         TArray<UPlayFabJsonObject*> GameCertificateReferences;
+    /** The game secrets for the build. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        TArray<UPlayFabJsonObject*> GameSecretReferences;
     /** The instrumentation configuration of the build. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         UPlayFabJsonObject* InstrumentationConfiguration = nullptr;

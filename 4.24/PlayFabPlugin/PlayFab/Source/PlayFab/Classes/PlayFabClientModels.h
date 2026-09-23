@@ -496,7 +496,10 @@ struct PLAYFAB_API FClientGetPlayFabIDsFromPSNAccountIDsRequest : public FPlayFa
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** Id of the PlayStation :tm: Network issuer environment. If null, defaults to production environment. */
+    /**
+     * Id of the PlayStation :tm: Network issuer environment. If null, defaults to the production environment. This must match
+     * the issuer the account signed in under, otherwise the lookup returns a null PlayFabId rather than an error.
+     */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         int32 IssuerId = 0;
     /**
@@ -505,7 +508,12 @@ public:
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         FString PSNAccountIDs;
-    /** Optional sandbox id. When provided, resolves players that logged in from that PlayStation :tm: Network sandbox. */
+    /**
+     * The PlayStation :tm: Network sandbox the account is keyed under. Sandbox membership is per account, not per title:
+     * supply this only for accounts that sign in from a sandbox, and omit it for accounts that do not, including all retail
+     * accounts. Supplying a sandbox id that an account is not keyed under, or omitting one that it is, returns a null
+     * PlayFabId rather than an error.
+     */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         FString SandboxId;
 };
@@ -526,7 +534,10 @@ struct PLAYFAB_API FClientGetPlayFabIDsFromPSNOnlineIDsRequest : public FPlayFab
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** Id of the PlayStation :tm: Network issuer environment. If null, defaults to production environment. */
+    /**
+     * Id of the PlayStation :tm: Network issuer environment. If null, defaults to the production environment. This must match
+     * the issuer the account signed in under, otherwise the lookup returns a null PlayFabId rather than an error.
+     */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         int32 IssuerId = 0;
     /**
@@ -535,7 +546,12 @@ public:
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         FString PSNOnlineIDs;
-    /** Optional sandbox id. When provided, resolves players that logged in from that PlayStation :tm: Network sandbox. */
+    /**
+     * The PlayStation :tm: Network sandbox the account is keyed under. Sandbox membership is per account, not per title:
+     * supply this only for accounts that sign in from a sandbox, and omit it for accounts that do not, including all retail
+     * accounts. Supplying a sandbox id that an account is not keyed under, or omitting one that it is, returns a null
+     * PlayFabId rather than an error.
+     */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         FString SandboxId;
 };

@@ -50,7 +50,7 @@ void FJsonKeeper::writeJSON(JsonWriter& writer) const
         writer->WriteObjectStart();
         for (auto Elem : JsonValue->AsObject()->Values)
         {
-            writer->WriteIdentifierPrefix(Elem.Key);
+            writer->WriteIdentifierPrefix(Elem.Key.ToView());
             FJsonKeeper(Elem.Value).writeJSON(writer);
         }
         writer->WriteObjectEnd();

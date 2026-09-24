@@ -58,7 +58,7 @@ static FORCEINLINE bool GetEnumValueToString(const FString& enumTypeName, const 
     output = enumPtr->GetNameStringByIndex((int32)input);
 #endif
     if (output.StartsWith(*prefix))
-        output.RemoveAt(0, 7, false);
+        output.RemoveAt(0, 7, EAllowShrinking::No);
     return true;
 }
 

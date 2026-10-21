@@ -62,7 +62,7 @@ bool PlayFab::<%- api.name %>Models::F<%- datatype.name %>::readFromValue(const 
 {
     bool HasSucceeded = true;
 <% for(var p in datatype.properties) { var property = datatype.properties[p]; %>
-<%- getPropertyDeserializer("    ", api, datatype, property) %>
+<%- getPropertyDeserializer("    ", api, datatype, property, ueTargetVersion) %>
 <% } %>
     return HasSucceeded;
 }

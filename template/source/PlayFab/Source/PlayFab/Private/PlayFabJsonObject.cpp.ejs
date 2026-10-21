@@ -92,7 +92,14 @@ TArray<FString> UPlayFabJsonObject::GetFieldNames()
         return Result;
     }
 
+<% if ( ueTargetVersionMajor > 5 || (ueTargetVersionMajor == 5 && ueTargetVersionMinor >= 8) ) { -%>
+    for (const auto& Field : JsonObj->Values)
+    {
+        Result.Add(*Field.Key);
+    }
+<% } else { -%>
     JsonObj->Values.GetKeys(Result);
+<% } -%>
 
     return Result;
 }

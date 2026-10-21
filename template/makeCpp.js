@@ -28,7 +28,7 @@ exports.makeCppCombinedAPI = function (apis, copyright, sourceDir, baseApiOutput
 
         for (var a = 0; a < apis.length; a++)
             makeApi(apis[a], copyright, sourceDir, outputCodeDir, "Core/", ueTargetVersion);
-        generateModels(apis, copyright, sourceDir, outputCodeDir, "All", "Core/");
+        generateModels(apis, copyright, sourceDir, outputCodeDir, "All", "Core/", ueTargetVersion);
     }
 }
 
@@ -63,7 +63,7 @@ function makeApi(api, copyright, sourceDir, apiOutputDir, subdir, ueTargetVersio
     writeFile(path.resolve(apiOutputDir, "Private/" + subdir + "PlayFab" + api.name + "InstanceAPI.cpp"), instanceApiBodyTemplate(apiLocals));
 }
 
-function generateModels(apis, copyright, sourceDir, apiOutputDir, libraryName, subdir) {
+function generateModels(apis, copyright, sourceDir, apiOutputDir, libraryName, subdir, ueTargetVersion) {
     for (var a = 0; a < apis.length; a++) {
         var api = apis[a];
 
@@ -85,7 +85,8 @@ function generateModels(apis, copyright, sourceDir, apiOutputDir, libraryName, s
             getPropertyDeserializer: getPropertyDeserializer,
             getPropertySerializer: getPropertySerializer,
             getPropertySafeName: getPropertySafeName,
-            libraryName: libraryName
+            libraryName: libraryName,
+            ueTargetVersion: ueTargetVersion
         };
 
         var modelHeaderTemplate = getCompiledTemplate(path.resolve(sourceDir, "template/templates/PlayFabCpp/core/PlayFab_DataModels.h.ejs"));
@@ -363,13 +364,13 @@ function getDateTimeDeserializer(tabbing, property) {
     return result;
 }
 
-function getPropertyDeserializer(tabbing, api, datatype, property) {
+function getPropertyDeserializer(tabbing, api, datatype, property, ueTargetVersion) {
     var safePropName = getPropertySafeName(property);
 
     if (property.collection === "array")
         return getArrayPropertyDeserializer(tabbing, api, datatype, property);
     else if (property.collection === "map")
-        return getMapPropertyDeserializer(tabbing, api, datatype, property);
+        return getMapPropertyDeserializer(tabbing, api, datatype, property, ueTargetVersion);
 
     var getter = null;
     var temporary = "";
@@ -504,7 +505,7 @@ function getArrayPropertyDeserializer(tabbing, api, datatype, property) {
         + tabbing + "}\n";
 }
 
-function getMapPropertyDeserializer(tabbing, api, datatype, property) {
+function getMapPropertyDeserializer(tabbing, api, datatype, property, ueTargetVersion) {
     var getter = null;
     var temporary = "";
 
@@ -549,23 +550,30 @@ function getMapPropertyDeserializer(tabbing, api, datatype, property) {
 
     var propertyObjectName = property.name + "Object";
 
+    // UE 5.8 keys FJsonObject::Values by UE::FSharedString instead of FString
+    var hasSharedStringKeys = ueTargetVersion.major > 5 || (ueTargetVersion.major === 5 && ueTargetVersion.minor >= 8);
+    var valuesIterator = hasSharedStringKeys
+        ? "auto It = (*" + propertyObjectName + ")->Values.CreateConstIterator()"
+        : "TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*" + propertyObjectName + ")->Values)";
+    var valuesKey = hasSharedStringKeys ? "*It.Key()" : "It.Key()";
+
     if (temporary)
         return tabbing + "const TSharedPtr<FJsonObject>* " + propertyObjectName + ";\n"
             + tabbing + "if (obj->TryGetObjectField(TEXT(\"" + property.name + "\"), " + propertyObjectName + "))\n"
             + tabbing + "{\n"
-            + tabbing + "    for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*" + propertyObjectName + ")->Values); It; ++It)\n"
+            + tabbing + "    for (" + valuesIterator + "; It; ++It)\n"
             + tabbing + "    {\n"
             + tabbing + "        " + temporary + "\n"
-            + tabbing + "        " + property.name + ".Add(It.Key(), " + getter + ");\n"
+            + tabbing + "        " + property.name + ".Add(" + valuesKey + ", " + getter + ");\n"
             + tabbing + "    }\n"
             + tabbing + "}";
     // else if (!temporary)
     return tabbing + "const TSharedPtr<FJsonObject>* " + propertyObjectName + ";\n"
         + tabbing + "if (obj->TryGetObjectField(TEXT(\"" + property.name + "\"), " + propertyObjectName + "))\n"
         + tabbing + "{\n"
-        + tabbing + "    for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*" + propertyObjectName + ")->Values); It; ++It)\n"
+        + tabbing + "    for (" + valuesIterator + "; It; ++It)\n"
         + tabbing + "    {\n"
-        + tabbing + "        " + property.name + ".Add(It.Key(), " + getter + ");\n"
+        + tabbing + "        " + property.name + ".Add(" + valuesKey + ", " + getter + ");\n"
         + tabbing + "    }\n"
         + tabbing + "}";
 }

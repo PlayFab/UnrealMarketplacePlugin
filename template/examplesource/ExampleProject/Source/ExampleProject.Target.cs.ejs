@@ -11,7 +11,10 @@ public class ExampleProjectTarget : TargetRules
     {
         Type = TargetType.Game;
         ExtraModuleNames.AddRange(new string[] { "ExampleProject" });
-<% if (ueTargetVersionMajor == 5 && ueTargetVersionMinor >= 7) { %>
+<% if (ueTargetVersionMajor == 5 && ueTargetVersionMinor >= 8) { %>
+        bOverrideBuildEnvironment = true;
+        DefaultBuildSettings = BuildSettingsVersion.V7;
+<% } else if (ueTargetVersionMajor == 5 && ueTargetVersionMinor >= 7) { %>
         bOverrideBuildEnvironment = true;
         DefaultBuildSettings = BuildSettingsVersion.V6;
 <% } else if (ueTargetVersionMajor == 5 && ueTargetVersionMinor >= 4) { %>

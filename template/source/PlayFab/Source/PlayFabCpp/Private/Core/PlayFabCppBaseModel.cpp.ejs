@@ -47,7 +47,11 @@ void FJsonKeeper::writeJSON(JsonWriter& writer) const
         writer->WriteObjectStart();
         for (auto Elem : JsonValue->AsObject()->Values)
         {
+<% if ( ueTargetVersionMajor > 5 || (ueTargetVersionMajor == 5 && ueTargetVersionMinor >= 8) ) { -%>
+            writer->WriteIdentifierPrefix(*Elem.Key);
+<% } else { -%>
             writer->WriteIdentifierPrefix(Elem.Key);
+<% } -%>
             FJsonKeeper(Elem.Value).writeJSON(writer);
         }
         writer->WriteObjectEnd();

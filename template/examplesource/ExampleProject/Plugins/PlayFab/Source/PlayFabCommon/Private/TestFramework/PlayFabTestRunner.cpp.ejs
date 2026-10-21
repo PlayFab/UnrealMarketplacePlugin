@@ -72,9 +72,9 @@ bool UTestTitleDataLoader::LoadFromFile()
     TSharedPtr<FJsonObject> ttdJson;
     TSharedRef<TJsonReader<>> Reader = TJsonReaderFactory<>::Create(titleDataJson);
     FJsonSerializer::Deserialize(Reader, ttdJson);
-    success &= ttdJson->TryGetStringField("titleId", titleId) && titleId.Len() > 0;
-    success &= ttdJson->TryGetStringField("developerSecretKey", developerSecretKey) && developerSecretKey.Len() > 0;
-    success &= ttdJson->TryGetStringField("userEmail", userEmail) && userEmail.Len() > 0;
+    success &= ttdJson->TryGetStringField(TEXT("titleId"), titleId) && titleId.Len() > 0;
+    success &= ttdJson->TryGetStringField(TEXT("developerSecretKey"), developerSecretKey) && developerSecretKey.Len() > 0;
+    success &= ttdJson->TryGetStringField(TEXT("userEmail"), userEmail) && userEmail.Len() > 0;
 
     return success;
 }
